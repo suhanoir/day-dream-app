@@ -1,0 +1,387 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import confetti from "canvas-confetti";
+import { Modal } from "@/components/ui/Modal";
+import { Button } from "@/components/ui/Button";
+import { Textarea } from "@/components/ui/Textarea";
+import { CategoryBadge } from "@/components/ui/CategoryBadge";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { BucketListItemData } from "./BucketListItemCard";
+import { useToast } from "@/components/providers/ToastProvider";
+import {
+  Calendar,
+  CheckCircle2,
+  Circle,
+  Quote,
+  Pencil,
+  Trash2,
+  Sparkles,
+  Save,
+} from "lucide-react";
+import { cn } from "@/lib/utils/cn";
+
+export interface BucketListItemDetailModalProps {
+  item: BucketListItemData | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onUpdate: (updatedItem: BucketListItemData) => void;
+  onDelete: (itemId: string) => void;
+  onEditClick: (item: BucketListItemData) => void;
+}
+
+export function BucketListItemDetailModal({
+  item,
+  isOpen,
+  onClose,
+  onUpdate,
+  onDelete,
+  onEditClick,
+}: BucketListItemDetailModalProps) {
+  const { success, error: toastError } = useToast();
+
+  const [reflectionText, setReflectionText] = useState("");
+  const [isEditingReflection, setIsEditingReflection] = useState(false);
+  const [isSavingReflection, setIsSavingReflection] = useState(false);
+  const [isTogglingComplete, setIsTogglingComplete] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // Sync reflection text when item changes
+  useEffect(() => {
+    if (item) {
+      setReflectionText(item.reflection || "");
+      setIsEditingReflection(!item.reflection && item.completed);
+    }
+  }, [item]);
+
+  if (!item) return null;
+
+  const triggerCelebration = () => {
+    confetti({
+      particleCount: 80,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ["#10b981", "#3b82f6", "#f59e0b", "#ec4899", "#8b5cf6"],
+    });
+  };
+
+  const handleToggleComplete = async () => {
+    setIsTogglingComplete(true);
+    const newCompleted = !item.completed;
+
+    try {
+      const res = await fetch(`/api/bucket-list/${item.id}/complete`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ completed: newCompleted }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toastError(data.error || "Failed to update status.");
+        return;
+      }
+
+      onUpdate(data.item);
+
+      if (newCompleted) {
+        triggerCelebration();
+        success("Goal completed! 🎉 Take a moment to capture the memory.");
+        setIsEditingReflection(true);
+      } else {
+        success("Goal moved back to active.");
+      }
+    } catch {
+      toastError("Failed to update completion status.");
+    } finally {
+      setIsTogglingComplete(false);
+    }
+  };
+
+  const handleSaveReflection = async () => {
+    setIsSavingReflection(true);
+
+    try {
+      const res = await fetch(`/api/bucket-list/${item.id}/reflection`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reflection: reflectionText }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toastError(data.error || "Failed to save reflection.");
+        return;
+      }
+
+      onUpdate(data.item);
+      setIsEditingReflection(false);
+      success("Memory reflection saved permanently.");
+    } catch {
+      toastError("Failed to save reflection.");
+    } finally {
+      setIsSavingReflection(false);
+    }
+  };
+
+  const handleDeleteItem = async () => {
+    setIsDeleting(true);
+
+    try {
+      const res = await fetch(`/api/bucket-list/${item.id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toastError(data.error || "Failed to delete item.");
+        return;
+      }
+
+      setShowDeleteConfirm(false);
+      onDelete(item.id);
+      onClose();
+      success("Goal removed from your bucket list.");
+    } catch {
+      toastError("Failed to delete goal.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const formattedCreatedDate = new Date(item.createdAt).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const formattedCompletedDate = item.completedAt
+    ? new Date(item.completedAt).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : null;
+
+  return (
+    <>
+      <Modal isOpen={isOpen} onClose={onClose} maxWidth="lg" showCloseButton={true}>
+        <div className="space-y-6">
+          {/* Top metadata & Action bar */}
+          <div className="flex items-center justify-between gap-2 border-b border-stone-100 pb-3">
+            <div className="flex items-center gap-2 flex-wrap">
+              {item.category && (
+                <CategoryBadge
+                  name={item.category.name}
+                  color={item.category.color}
+                  size="md"
+                />
+              )}
+              <span className="text-xs text-stone-400 font-normal">
+                Added {formattedCreatedDate}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => {
+                  onClose();
+                  onEditClick(item);
+                }}
+                className="p-1.5 text-stone-400 hover:text-stone-700 rounded-lg hover:bg-stone-100 transition-colors"
+                title="Edit Goal"
+              >
+                <Pencil className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirm(true)}
+                className="p-1.5 text-stone-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors"
+                title="Delete Goal"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Goal Title */}
+          <div>
+            <h2
+              className={cn(
+                "text-2xl font-bold tracking-tight text-stone-900",
+                item.completed && "text-stone-800"
+              )}
+            >
+              {item.title}
+              {item.completed && (
+                <span className="text-emerald-600 ml-2 font-normal text-xl">✓</span>
+              )}
+            </h2>
+
+            {/* Optional Description */}
+            {item.description && (
+              <p className="text-sm text-stone-600 mt-2 leading-relaxed whitespace-pre-wrap">
+                {item.description}
+              </p>
+            )}
+
+            {/* Target Date if present */}
+            {item.targetDate && (
+              <div className="flex items-center gap-1.5 mt-3 text-xs text-stone-500 font-medium">
+                <Calendar className="w-3.5 h-3.5 text-stone-400" />
+                <span>Target: {new Date(item.targetDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Completion Section */}
+          <div
+            className={cn(
+              "p-4 rounded-2xl border transition-all duration-200",
+              item.completed
+                ? "bg-emerald-50/70 border-emerald-200/80 text-emerald-950"
+                : "bg-stone-50/80 border-stone-200/80"
+            )}
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-wider text-stone-500 block mb-0.5">
+                  Have you completed this?
+                </span>
+                {item.completed ? (
+                  <p className="text-sm font-medium text-emerald-900 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    Completed on {formattedCompletedDate || "Recently"}
+                  </p>
+                ) : (
+                  <p className="text-xs text-stone-600">
+                    Mark this milestone as achieved when you accomplish it.
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type="button"
+                onClick={handleToggleComplete}
+                isLoading={isTogglingComplete}
+                variant={item.completed ? "outline" : "primary"}
+                size="sm"
+                className={cn(
+                  "shrink-0",
+                  item.completed && "border-emerald-300 text-emerald-800 hover:bg-emerald-100 hover:text-emerald-900"
+                )}
+              >
+                {item.completed ? (
+                  <>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mr-1.5" />
+                    Mark as Incomplete
+                  </>
+                ) : (
+                  <>
+                    <Circle className="w-3.5 h-3.5 mr-1.5" />
+                    Mark as Complete
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+
+          {/* Reflection / Memory Section */}
+          <div className="pt-2">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-1.5">
+                <Quote className="w-4 h-4 text-stone-400" />
+                <h4 className="text-sm font-semibold text-stone-900">
+                  {item.completed ? "My Experience & Memory" : "Reflection / Vision"}
+                </h4>
+              </div>
+
+              {!isEditingReflection && item.reflection && (
+                <button
+                  onClick={() => setIsEditingReflection(true)}
+                  className="text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors flex items-center gap-1"
+                >
+                  <Pencil className="w-3 h-3" />
+                  Edit Reflection
+                </button>
+              )}
+            </div>
+
+            {/* Display Saved Memory */}
+            {!isEditingReflection && item.reflection ? (
+              <div className="relative p-5 rounded-2xl bg-stone-50 border border-stone-200/80 text-stone-800">
+                <Quote className="w-8 h-8 text-stone-200 absolute top-3 right-3 pointer-events-none" />
+                <p className="text-sm leading-relaxed whitespace-pre-wrap italic font-serif text-stone-700">
+                  &ldquo;{item.reflection}&rdquo;
+                </p>
+                {formattedCompletedDate && (
+                  <div className="mt-3 pt-3 border-t border-stone-200/60 flex items-center justify-between text-[11px] text-stone-400">
+                    <span>Captured milestone</span>
+                    <span>{formattedCompletedDate}</span>
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Reflection Form */
+              <div className="space-y-3">
+                <Textarea
+                  rows={4}
+                  placeholder={
+                    item.completed
+                      ? "Tell your future self about this experience... How did it go? Who were you with? What made it unforgettable?"
+                      : "Write what you hope to experience, why this goal matters to you, or your thoughts so far..."
+                  }
+                  value={reflectionText}
+                  onChange={(e) => setReflectionText(e.target.value)}
+                  className="text-sm leading-relaxed"
+                />
+
+                <div className="flex items-center justify-end gap-2">
+                  {item.reflection && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setReflectionText(item.reflection || "");
+                        setIsEditingReflection(false);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="sm"
+                    onClick={handleSaveReflection}
+                    isLoading={isSavingReflection}
+                  >
+                    <Save className="w-3.5 h-3.5 mr-1.5" />
+                    Save Reflection
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </Modal>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        onClose={() => setShowDeleteConfirm(false)}
+        onConfirm={handleDeleteItem}
+        title="Delete Bucket List Goal?"
+        message={`Are you sure you want to remove "${item.title}"? This action cannot be undone.`}
+        confirmText="Delete Goal"
+        isDestructive={true}
+        isLoading={isDeleting}
+      />
+    </>
+  );
+}
+
