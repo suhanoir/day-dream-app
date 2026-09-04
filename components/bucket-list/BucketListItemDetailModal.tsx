@@ -16,7 +16,6 @@ import {
   Quote,
   Pencil,
   Trash2,
-  Sparkles,
   Save,
   CalendarPlus,
 } from "lucide-react";
@@ -191,19 +190,23 @@ export function BucketListItemDetailModal({
 
             <div className="flex items-center gap-1.5">
               <button
+                type="button"
                 onClick={() => {
                   onClose();
                   onEditClick(item);
                 }}
                 className="p-1.5 text-stone-400 hover:text-stone-700 rounded-lg hover:bg-stone-100 transition-colors"
                 title="Edit Goal"
+                aria-label="Edit Goal"
               >
                 <Pencil className="w-4 h-4" />
               </button>
               <button
+                type="button"
                 onClick={() => setShowDeleteConfirm(true)}
                 className="p-1.5 text-stone-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors"
                 title="Delete Goal"
+                aria-label="Delete Goal"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -314,8 +317,9 @@ export function BucketListItemDetailModal({
 
               {!isEditingReflection && item.reflection && (
                 <button
+                  type="button"
                   onClick={() => setIsEditingReflection(true)}
-                  className="text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors flex items-center gap-1"
+                  className="text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   <Pencil className="w-3 h-3" />
                   Edit Reflection
@@ -383,14 +387,19 @@ export function BucketListItemDetailModal({
         </div>
       </Modal>
 
+      {/* Schedule on Calendar Modal */}
       <AddEventModal
         isOpen={isScheduleCalendarOpen}
         onClose={() => setIsScheduleCalendarOpen(false)}
         onEventAdded={() => {
           setIsScheduleCalendarOpen(false);
-          success("Event added to your calendar.");
+          success("Milestone scheduled on your calendar!");
         }}
-        initialBucketListItem={item}
+        initialDate={item.targetDate ? new Date(item.targetDate) : new Date()}
+        initialBucketListItem={{
+          id: item.id,
+          title: item.title,
+        }}
       />
 
       {/* Delete Confirmation Dialog */}
