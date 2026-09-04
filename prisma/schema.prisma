@@ -17,6 +17,7 @@ model User {
   categories   Category[]
   bucketItems  BucketListItem[]
   events       Event[]
+  todos        TodoTask[]
 
   @@map("users")
 }
@@ -80,6 +81,26 @@ model Event {
   @@index([date])
   @@index([bucketListItemId])
   @@map("events")
+}
+
+model TodoTask {
+  id          String    @id @default(cuid())
+  userId      String
+  title       String
+  description String?
+  date        DateTime
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  dueTime     String?
+  priority    String    @default("Medium")
+  category    String?   @default("Personal")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("todo_tasks")
 }
 
 

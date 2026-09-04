@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { CategoryBadge } from "@/components/ui/CategoryBadge";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
@@ -18,6 +19,7 @@ import {
   Trash2,
   Save,
   CalendarPlus,
+  ListTodo,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { AddEventModal } from "@/components/calendar/AddEventModal";
@@ -48,6 +50,10 @@ export function BucketListItemDetailModal({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isScheduleCalendarOpen, setIsScheduleCalendarOpen] = useState(false);
+  const [isAddToTodoOpen, setIsAddToTodoOpen] = useState(false);
+  const [todoTaskTitle, setTodoTaskTitle] = useState("");
+  const [todoTaskDate, setTodoTaskDate] = useState("");
+  const [isAddingToTodo, setIsAddingToTodo] = useState(false);
 
   // Sync reflection text when item changes
   useEffect(() => {
@@ -58,6 +64,37 @@ export function BucketListItemDetailModal({
   }, [item]);
 
   if (!item) return null;
+
+  const handleCreateTodoFromGoal = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!todoTaskTitle.trim() || isAddingToTodo) return;
+    try {
+      setIsAddingToTodo(true);
+      const res = await fetch("/api/todos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: todoTaskTitle.trim(),
+          date: todoTaskDate ? `${todoTaskDate}T00:00:00.000Z` : new Date().toISOString(),
+          category: item.category?.name || "Personal",
+          priority: "Medium",
+          description: `Linked to goal: ${item.title}${item.description ? `\n\n${item.description}` : ""}`,
+        }),
+      });
+
+      if (!res.ok) {
+        toastError("Failed to add task to To-Do List.");
+        return;
+      }
+
+      success("Goal added to your To-Do List!");
+      setIsAddToTodoOpen(false);
+    } catch {
+      toastError("Network error adding task.");
+    } finally {
+      setIsAddingToTodo(false);
+    }
+  };
 
   const triggerCelebration = () => {
     confetti({
@@ -250,6 +287,23 @@ export function BucketListItemDetailModal({
                 <CalendarPlus className="w-3.5 h-3.5 text-stone-500" />
                 Schedule on Calendar
               </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setTodoTaskTitle(`Work on: ${item.title}`);
+                  setTodoTaskDate(
+                    item.targetDate
+                      ? item.targetDate.split("T")[0]
+                      : new Date().toISOString().split("T")[0]
+                  );
+                  setIsAddToTodoOpen(true);
+                }}
+                className="inline-flex items-center gap-1 text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200/80 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+              >
+                <ListTodo className="w-3.5 h-3.5 text-stone-500" />
+                Add to To-Do List
+              </button>
             </div>
           </div>
 
@@ -413,6 +467,61 @@ export function BucketListItemDetailModal({
         isDestructive={true}
         isLoading={isDeleting}
       />
+
+      {/* Add Goal to To-Do List Modal */}
+      <Modal
+        isOpen={isAddToTodoOpen}
+        onClose={() => setIsAddToTodoOpen(false)}
+        title="Add to To-Do List"
+        subtitle="Create an actionable daily task from this bucket-list goal"
+        maxWidth="sm"
+      >
+        <form onSubmit={handleCreateTodoFromGoal} className="space-y-4">
+          <div>
+            <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
+              Task Name <span className="text-rose-500">*</span>
+            </label>
+            <Input
+              type="text"
+              required
+              value={todoTaskTitle}
+              onChange={(e) => setTodoTaskTitle(e.target.value)}
+              placeholder="e.g. Study Java for 1 hour"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
+              Scheduled Date
+            </label>
+            <Input
+              type="date"
+              required
+              value={todoTaskDate}
+              onChange={(e) => setTodoTaskDate(e.target.value)}
+            />
+          </div>
+
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-stone-100">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsAddToTodoOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              size="sm"
+              isLoading={isAddingToTodo}
+            >
+              Add Task
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </>
   );
 }

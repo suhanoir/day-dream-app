@@ -18,11 +18,24 @@ A production-quality, responsive Full-Stack Bucket List web application designed
   - Built-in categories (Travel, Experiences, Life, Skills, Career, Fitness, Money, Personal) + Full custom category CRUD.
   - Visual category sections on a unified dashboard with individual category progress bars (`3 / 8 completed`).
 
-- **✨ Clean Task View & Completion Flow (Core Interaction)**:
+- **✨ Clean Task View & Completion Flow (Dashboard)**:
   - **Default Dashboard State**: Items display **only** the goal name without initial checkboxes.
-  - **Clicking an Item**: Opens the rich detail modal with completion controls, milestone timestamps, and reflection notes.
+  - **Clicking an Item**: Opens the rich detail modal with completion controls, milestone timestamps, reflection notes, and options to Schedule on Calendar or Add to To-Do List.
   - **Celebration & Reflection**: Completing a goal triggers a celebratory confetti effect and unlocks a permanent reflection journal.
   - **Reflections & Memories**: Saved reflections are permanently preserved and editable at any time.
+
+- **📅 Upcoming Events Calendar (Section 2)**:
+  - Dedicated `/calendar` section for scheduling events, milestone target dates, and plans.
+  - Month, Week, and Agenda views with date navigation, event filtering, and color-coded categories.
+  - Displays "Today's Schedule" and upcoming events.
+
+- **✅ To-Do List (Section 3)**:
+  - Dedicated `/todo` (and `/to-do-list`) daily task management section.
+  - Always-visible checkboxes, inline rapid task creation (`+ Add a task...` -> `Enter`), and strike-through styling.
+  - Daily date navigation (`← Previous Day`, `Today`, `Next Day →`) with strict date isolation.
+  - Daily progress tracking with confetti celebration when all tasks are complete.
+  - Task priority (`Low`, `Medium`, `High`), categories, due times, and overdue task helper ("Move to Today").
+  - Seamless integration: view today's calendar events at a glance and add bucket-list goals as daily to-do tasks.
 
 - **📊 Dashboard Statistics**:
   - Live counts: **Total Goals**, **Completed**, **Remaining**, and **Overall Progress %** with an animated progress bar.
@@ -112,16 +125,22 @@ BucketList/
 │   │   ├── auth/                    # Register, Login, Logout, Session check
 │   │   ├── categories/              # Category CRUD endpoints
 │   │   ├── bucket-list/             # Item CRUD, complete status, reflection
+│   │   ├── events/                  # Calendar event CRUD endpoints
+│   │   ├── todos/                   # To-Do task CRUD & complete endpoints
 │   │   └── stats/                   # Real-time statistics endpoint
-│   ├── dashboard/page.tsx           # Main unified dashboard
+│   ├── calendar/page.tsx            # Section 2: Upcoming Events Calendar
+│   ├── dashboard/page.tsx           # Section 1: Bucket List Dashboard
+│   ├── todo/page.tsx                # Section 3: Daily To-Do List (/todo, /to-do-list)
 │   ├── globals.css                  # Tailwind styles & animations
 │   ├── layout.tsx                   # App Root Layout with providers
 │   └── page.tsx                     # Landing page
 ├── components/
 │   ├── auth/                        # LoginForm, RegisterForm
 │   ├── bucket-list/                 # BucketListItemCard, DetailModal, Add/EditModals
+│   ├── calendar/                    # MonthView, WeekView, AgendaView, Event Modals
 │   ├── categories/                  # CategorySection, Add/EditCategoryModals
 │   ├── dashboard/                   # DashboardHeader, StatsOverview, FilterBar, EmptyState
+│   ├── todo/                        # QuickAddTaskInput, TodoTaskItem, DetailModal, DateNavigator
 │   ├── providers/                   # AuthProvider, ToastProvider
 │   └── ui/                          # Button, Input, Textarea, Modal, ConfirmDialog, ProgressBar
 ├── lib/
@@ -130,7 +149,7 @@ BucketList/
 │   ├── default-categories.ts        # Starter category templates
 │   └── utils/                       # cn helper
 ├── prisma/
-│   └── schema.prisma                # Prisma schema for User, Category, BucketListItem
+│   └── schema.prisma                # Prisma schema for User, Category, BucketListItem, Event, TodoTask
 ├── scripts/
 │   ├── seed-demo.mjs                # Demo dataset seed script
 │   └── verify-api.mjs               # Verification script for database & isolation

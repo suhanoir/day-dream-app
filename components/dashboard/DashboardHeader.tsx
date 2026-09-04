@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { Compass, Calendar as CalendarIcon, Target, User, LogOut } from "lucide-react";
+import { Compass, Calendar as CalendarIcon, Target, User, LogOut, ListTodo } from "lucide-react";
 import { ProfileModal } from "@/components/profile/ProfileModal";
 import { cn } from "@/lib/utils/cn";
 
@@ -16,6 +16,7 @@ export function DashboardHeader() {
 
   const isDashboard = pathname === "/dashboard";
   const isCalendar = pathname === "/calendar";
+  const isTodo = pathname === "/todo" || pathname === "/to-do-list";
 
   return (
     <>
@@ -32,7 +33,7 @@ export function DashboardHeader() {
                   BucketList
                 </span>
                 <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-500 border border-stone-200/80">
-                  v0.2.0
+                  v2.0.2
                 </span>
               </div>
             </Link>
@@ -63,6 +64,19 @@ export function DashboardHeader() {
               >
                 <CalendarIcon className="w-3.5 h-3.5" />
                 Calendar
+              </Link>
+
+              <Link
+                href="/todo"
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all",
+                  isTodo
+                    ? "bg-white text-stone-900 shadow-2xs font-semibold"
+                    : "text-stone-600 hover:text-stone-900"
+                )}
+              >
+                <ListTodo className="w-3.5 h-3.5" />
+                To-Do List
               </Link>
             </nav>
           </div>
@@ -149,6 +163,16 @@ export function DashboardHeader() {
           >
             <CalendarIcon className="w-3.5 h-3.5" />
             Calendar
+          </Link>
+          <Link
+            href="/todo"
+            className={cn(
+              "flex items-center gap-1.5 px-3 py-1 rounded-lg transition-colors font-medium",
+              isTodo ? "text-stone-900 font-semibold bg-stone-200/60" : "text-stone-500"
+            )}
+          >
+            <ListTodo className="w-3.5 h-3.5" />
+            To-Do List
           </Link>
           <button
             onClick={() => setShowProfileModal(true)}
