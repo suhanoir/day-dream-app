@@ -27,9 +27,14 @@ export function DashboardHeader() {
               <div className="w-9 h-9 rounded-xl bg-stone-900 text-stone-50 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
                 <Compass className="w-5 h-5" />
               </div>
-              <span className="text-base font-bold tracking-tight text-stone-900">
-                BucketList
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-base font-bold tracking-tight text-stone-900">
+                  BucketList
+                </span>
+                <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-500 border border-stone-200/80">
+                  v0.2.0
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Navigation Links */}

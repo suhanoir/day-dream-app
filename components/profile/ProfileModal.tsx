@@ -119,6 +119,10 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
             <LogOut className="w-4 h-4 mr-2" />
             Sign Out
           </Button>
+
+          <p className="text-[10px] text-stone-400 font-medium pt-1">
+            BucketList v0.2.0
+          </p>
         </div>
       </div>
     </Modal>

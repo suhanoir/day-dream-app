@@ -128,7 +128,7 @@ export default function HomePage() {
 
       {/* Minimal Footer */}
       <footer className="border-t border-stone-200/70 py-6 text-center text-xs text-stone-400">
-        <p>BucketList — Designed for meaningful life experiences.</p>
+        <p>BucketList v0.2.0 — Designed for meaningful life experiences.</p>
       </footer>
     </div>
   );
