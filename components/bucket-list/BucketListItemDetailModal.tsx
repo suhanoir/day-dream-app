@@ -18,8 +18,10 @@ import {
   Trash2,
   Sparkles,
   Save,
+  CalendarPlus,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { AddEventModal } from "@/components/calendar/AddEventModal";
 
 export interface BucketListItemDetailModalProps {
   item: BucketListItemData | null;
@@ -46,6 +48,7 @@ export function BucketListItemDetailModal({
   const [isTogglingComplete, setIsTogglingComplete] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isScheduleCalendarOpen, setIsScheduleCalendarOpen] = useState(false);
 
   // Sync reflection text when item changes
   useEffect(() => {
@@ -228,13 +231,23 @@ export function BucketListItemDetailModal({
               </p>
             )}
 
-            {/* Target Date if present */}
-            {item.targetDate && (
-              <div className="flex items-center gap-1.5 mt-3 text-xs text-stone-500 font-medium">
-                <Calendar className="w-3.5 h-3.5 text-stone-400" />
-                <span>Target: {new Date(item.targetDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
-              </div>
-            )}
+            {/* Target Date & Calendar Scheduling */}
+            <div className="flex items-center gap-3 mt-3 flex-wrap">
+              {item.targetDate && (
+                <div className="flex items-center gap-1.5 text-xs text-stone-500 font-medium">
+                  <Calendar className="w-3.5 h-3.5 text-stone-400" />
+                  <span>Target: {new Date(item.targetDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => setIsScheduleCalendarOpen(true)}
+                className="inline-flex items-center gap-1 text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200/80 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+              >
+                <CalendarPlus className="w-3.5 h-3.5 text-stone-500" />
+                Schedule on Calendar
+              </button>
+            </div>
           </div>
 
           {/* Completion Section */}
@@ -370,6 +383,16 @@ export function BucketListItemDetailModal({
         </div>
       </Modal>
 
+      <AddEventModal
+        isOpen={isScheduleCalendarOpen}
+        onClose={() => setIsScheduleCalendarOpen(false)}
+        onEventAdded={() => {
+          setIsScheduleCalendarOpen(false);
+          success("Event added to your calendar.");
+        }}
+        initialBucketListItem={item}
+      />
+
       {/* Delete Confirmation Dialog */}
       <ConfirmDialog
         isOpen={showDeleteConfirm}
@@ -384,4 +407,3 @@ export function BucketListItemDetailModal({
     </>
   );
 }
-
