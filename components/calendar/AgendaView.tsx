@@ -151,3 +151,4 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
     </div>
   );
 }
+

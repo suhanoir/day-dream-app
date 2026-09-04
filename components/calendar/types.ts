@@ -116,3 +116,4 @@ export function formatEventTime(startTime?: string | null, endTime?: string | nu
   if (!startTime && endTime) return `Until ${endTime}`;
   return `${startTime} – ${endTime}`;
 }
+
