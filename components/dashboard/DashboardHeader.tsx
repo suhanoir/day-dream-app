@@ -33,7 +33,7 @@ export function DashboardHeader() {
                   BucketList
                 </span>
                 <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-500 border border-stone-200/80">
-                  v2.0.2
+                  v1.3.2
                 </span>
               </div>
             </Link>
