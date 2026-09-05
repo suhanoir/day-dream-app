@@ -7,6 +7,7 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { Sparkles, CheckCircle2, ArrowRight, Heart, Globe, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
+import { APP_VERSION } from "@/lib/config/version";
 
 export default function HomePage() {
   const { user, isLoading } = useAuth();
@@ -127,7 +128,7 @@ export default function HomePage() {
 
       {/* Minimal Footer */}
       <footer className="border-t border-stone-200/70 py-6 text-center text-xs text-stone-400">
-        <p>DayDream v1.3.2 — Designed for meaningful life experiences.</p>
+        <p>DayDream {APP_VERSION} — Designed for meaningful life experiences.</p>
       </footer>
     </div>
   );

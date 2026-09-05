@@ -7,6 +7,7 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { Calendar as CalendarIcon, ListCheck, User, LogOut, ListTodo } from "lucide-react";
 import { ProfileModal } from "@/components/profile/ProfileModal";
 import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
+import { APP_VERSION } from "@/lib/config/version";
 import { cn } from "@/lib/utils/cn";
 
 export function DashboardHeader() {
@@ -34,7 +35,7 @@ export function DashboardHeader() {
                   DayDream
                 </span>
                 <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-500 border border-stone-200/80">
-                  v1.3.2
+                  {APP_VERSION}
                 </span>
               </div>
             </Link>

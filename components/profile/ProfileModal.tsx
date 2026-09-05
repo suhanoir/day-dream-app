@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/components/providers/AuthProvider";
+import { APP_VERSION } from "@/lib/config/version";
 import {
   User,
   Mail,
@@ -121,7 +122,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
           </Button>
 
           <p className="text-[10px] text-stone-400 font-medium pt-1">
-            DayDream v1.3.2
+            DayDream {APP_VERSION}
           </p>
         </div>
       </div>
