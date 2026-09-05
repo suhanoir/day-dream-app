@@ -4,13 +4,13 @@ import { AuthProvider } from "@/components/providers/AuthProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BucketList — Make memories worth remembering",
+  title: "DayDream — Make memories worth remembering",
   description:
-    "A calm, modern, and personal bucket list application to track your life dreams, milestones, reflections, and achievements.",
+    "A calm, modern, and personal application to track your life dreams, milestones, reflections, and achievements.",
   manifest: "/manifest.json",
   icons: {
-    icon: "/icon.svg",
-    apple: "/icon.svg",
+    icon: "/daydream-logo.png",
+    apple: "/daydream-logo.png",
   },
 };
 

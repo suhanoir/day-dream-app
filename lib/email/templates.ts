@@ -141,14 +141,14 @@ function baseLayout({
     <div class="container">
       <div class="header">
         <div class="logo-badge">✦</div>
-        <span class="logo-text">BucketList</span>
+        <span class="logo-text">DayDream</span>
       </div>
       <div class="content">
         ${contentHtml}
       </div>
       <div class="footer">
         <div class="footer-quote">Dream it. Plan it. Do it. Remember it.</div>
-        <div>BucketList · Designed for meaningful life experiences.</div>
+        <div>DayDream · Designed for meaningful life experiences.</div>
       </div>
     </div>
   </div>
@@ -166,11 +166,11 @@ export function renderVerificationEmail({
   name: string;
   verificationUrl: string;
 }): { subject: string; html: string } {
-  const subject = "🌱 Welcome to BucketList — Verify your email";
+  const subject = "🌱 Welcome to DayDream — Verify your email";
   const previewText = "Your next adventure starts here. Verify your email to get started.";
 
   const contentHtml = `
-    <h1 class="title">Welcome to BucketList, ${name} 🌱</h1>
+    <h1 class="title">Welcome to DayDream, ${name} 🌱</h1>
     <p class="subtitle">
       Your next adventure starts here. Click below to verify your email address and start building your list of things worth remembering.
     </p>

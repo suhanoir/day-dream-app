@@ -7,12 +7,12 @@ import {
   CheckCircle2,
   AlertTriangle,
   Clock,
-  Compass,
   ArrowRight,
   Mail,
   RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
 
 function VerifyContent() {
   const searchParams = useSearchParams();
@@ -81,11 +81,9 @@ function VerifyContent() {
     <div className="min-h-screen bg-stone-50 flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 py-12">
       {/* Brand logo */}
       <Link href="/" className="flex items-center gap-2.5 mb-8 group">
-        <div className="w-10 h-10 rounded-2xl bg-stone-900 text-stone-50 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
-          <Compass className="w-6 h-6" />
-        </div>
+        <DayDreamLogo size={40} className="w-10 h-10 shadow-xs group-hover:scale-105 transition-transform" />
         <span className="text-xl font-bold tracking-tight text-stone-900">
-          BucketList
+          DayDream
         </span>
       </Link>
 

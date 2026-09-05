@@ -4,8 +4,9 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { Compass, Sparkles, CheckCircle2, ArrowRight, Heart, Globe, BookOpen } from "lucide-react";
+import { Sparkles, CheckCircle2, ArrowRight, Heart, Globe, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
 
 export default function HomePage() {
   const { user, isLoading } = useAuth();
@@ -23,11 +24,9 @@ export default function HomePage() {
       {/* Navigation Header */}
       <header className="max-w-6xl mx-auto w-full px-6 py-6 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-stone-900 text-stone-50 flex items-center justify-center shadow-xs">
-            <Compass className="w-4 h-4" />
-          </div>
+          <DayDreamLogo size={32} className="w-8 h-8 shadow-xs" />
           <span className="text-lg font-bold tracking-tight text-stone-900">
-            BucketList
+            DayDream
           </span>
         </div>
 
@@ -128,7 +127,7 @@ export default function HomePage() {
 
       {/* Minimal Footer */}
       <footer className="border-t border-stone-200/70 py-6 text-center text-xs text-stone-400">
-        <p>BucketList v1.3.2 — Designed for meaningful life experiences.</p>
+        <p>DayDream v1.3.2 — Designed for meaningful life experiences.</p>
       </footer>
     </div>
   );

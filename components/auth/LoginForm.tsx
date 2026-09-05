@@ -7,7 +7,8 @@ import { useAuth } from "@/components/providers/AuthProvider";
 import { useToast } from "@/components/providers/ToastProvider";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { Compass, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
 
 export function LoginForm() {
   const router = useRouter();
@@ -101,8 +102,8 @@ export function LoginForm() {
     <div className="w-full max-w-md mx-auto bg-white border border-stone-200/90 rounded-3xl p-8 sm:p-10 shadow-xl shadow-stone-900/5">
       {/* Brand icon & title */}
       <div className="flex flex-col items-center text-center mb-8">
-        <div className="w-12 h-12 rounded-2xl bg-stone-900 text-stone-50 flex items-center justify-center mb-4 shadow-sm">
-          <Compass className="w-6 h-6" />
+        <div className="mb-4">
+          <DayDreamLogo size={48} className="w-12 h-12 shadow-sm" />
         </div>
         <h2 className="text-2xl font-bold text-stone-900 tracking-tight">
           Welcome back

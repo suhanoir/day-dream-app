@@ -1,16 +1,16 @@
 @echo off
-title BucketList Local Server
+title DayDream Local Server
 cd /d "%~dp0"
 
 echo ========================================================
-echo   Starting BucketList App Locally...
+echo   Starting DayDream App Locally...
 echo ========================================================
 
 :: Check if port 3000 is listening
 netstat -ano | find "LISTENING" | find ":3000" >nul 2>nul
 if %errorlevel% neq 0 (
     echo Starting development server...
-    start "BucketList Server" cmd /c "npm run dev"
+    start "DayDream Server" cmd /c "npm run dev"
     timeout /t 4 /nobreak >nul
 )
 

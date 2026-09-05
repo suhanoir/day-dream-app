@@ -121,7 +121,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
           </Button>
 
           <p className="text-[10px] text-stone-400 font-medium pt-1">
-            BucketList v1.3.2
+            DayDream v1.3.2
           </p>
         </div>
       </div>

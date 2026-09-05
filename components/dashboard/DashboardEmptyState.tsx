@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { Sparkles, Compass, Plus, SearchX } from "lucide-react";
+import { Sparkles, Plus, SearchX } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
 
 export interface DashboardEmptyStateProps {
   isSearchOrFilter?: boolean;
@@ -43,8 +44,8 @@ export function DashboardEmptyState({
 
   return (
     <div className="text-center py-16 px-6 bg-white border border-stone-200/80 rounded-3xl my-8 shadow-xs">
-      <div className="w-14 h-14 rounded-2xl bg-stone-900 text-stone-50 flex items-center justify-center mx-auto mb-5 shadow-sm">
-        <Compass className="w-7 h-7" />
+      <div className="mb-5">
+        <DayDreamLogo size={56} className="w-14 h-14 mx-auto shadow-sm" />
       </div>
       <h3 className="text-xl font-bold text-stone-900 mb-2 tracking-tight">
         Your bucket list is empty.
