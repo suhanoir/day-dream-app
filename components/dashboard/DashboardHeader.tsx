@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { Calendar as CalendarIcon, Target, User, LogOut, ListTodo } from "lucide-react";
+import { Calendar as CalendarIcon, ListCheck, User, LogOut, ListTodo } from "lucide-react";
 import { ProfileModal } from "@/components/profile/ProfileModal";
 import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
 import { cn } from "@/lib/utils/cn";
@@ -50,8 +50,8 @@ export function DashboardHeader() {
                     : "text-stone-600 hover:text-stone-900"
                 )}
               >
-                <Target className="w-3.5 h-3.5" />
-                Dashboard
+                <ListCheck className="w-3.5 h-3.5" />
+                BucketList
               </Link>
 
               <Link
@@ -152,8 +152,8 @@ export function DashboardHeader() {
               isDashboard ? "text-stone-900 font-semibold bg-stone-200/60" : "text-stone-500"
             )}
           >
-            <Target className="w-3.5 h-3.5" />
-            Dashboard
+            <ListCheck className="w-3.5 h-3.5" />
+            BucketList
           </Link>
           <Link
             href="/calendar"
