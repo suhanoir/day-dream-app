@@ -124,7 +124,7 @@ export function RegisterForm() {
           className="w-full mt-2 font-medium"
         >
           <Sparkles className="w-4 h-4 mr-1.5" />
-          Create DayDream Account
+          Create Bucket List
         </Button>
       </form>
 
