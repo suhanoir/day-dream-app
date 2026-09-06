@@ -8,16 +8,25 @@ datasource db {
 }
 
 model User {
-  id           String           @id @default(cuid())
-  name         String
-  email        String           @unique
-  passwordHash String
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-  categories   Category[]
-  bucketItems  BucketListItem[]
-  events       Event[]
-  todos        TodoTask[]
+  id                  String                @id @default(cuid())
+  name                String
+  email               String                @unique
+  passwordHash        String
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  emailVerified       Boolean               @default(false)
+  notifyCalendar      Boolean               @default(true)
+  notifyEmail         Boolean               @default(true)
+  notifyOverdue       Boolean               @default(true)
+  notifyTodo          Boolean               @default(true)
+  timezone            String?               @default("UTC")
+  bucketItems         BucketListItem[]
+  categories          Category[]
+  events              Event[]
+  notifications       notifications[]
+  todos               TodoTask[]
+  verification_tokens verification_tokens[]
+  expenses            Expense[]
 
   @@map("users")
 }
@@ -31,8 +40,8 @@ model Category {
   icon        String?          @default("compass")
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
-  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   items       BucketListItem[]
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, name])
   @@index([userId])
@@ -51,8 +60,8 @@ model BucketListItem {
   targetDate  DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   events      Event[]
 
   @@index([userId])
@@ -74,8 +83,9 @@ model Event {
   reminder         String?         @default("none")
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
+  bucketListItem   BucketListItem? @relation(fields: [bucketListItemId], references: [id])
   user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bucketListItem   BucketListItem? @relation(fields: [bucketListItemId], references: [id], onDelete: SetNull)
+  notifications    notifications[]
 
   @@index([userId])
   @@index([date])
@@ -84,23 +94,77 @@ model Event {
 }
 
 model TodoTask {
-  id          String    @id @default(cuid())
-  userId      String
-  title       String
-  description String?
-  date        DateTime
-  completed   Boolean   @default(false)
-  completedAt DateTime?
-  dueTime     String?
-  priority    String    @default("Medium")
-  category    String?   @default("Personal")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String          @id @default(cuid())
+  userId        String
+  title         String
+  description   String?
+  date          DateTime
+  completed     Boolean         @default(false)
+  completedAt   DateTime?
+  dueTime       String?
+  priority      String          @default("Medium")
+  category      String?         @default("Personal")
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  reminder      String?         @default("none")
+  notifications notifications[]
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([date])
   @@map("todo_tasks")
 }
 
+model notifications {
+  id           String    @id @default(cuid())
+  userId       String
+  type         String
+  title        String
+  message      String
+  scheduledFor DateTime
+  sentAt       DateTime?
+  status       String    @default("PENDING")
+  todoTaskId   String?
+  eventId      String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  events       Event?    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  todo_tasks   TodoTask? @relation(fields: [todoTaskId], references: [id], onDelete: Cascade)
+  users        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([eventId])
+  @@index([scheduledFor, status])
+  @@index([todoTaskId])
+  @@index([userId])
+  @@map("notifications")
+}
+
+model verification_tokens {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("verification_tokens")
+}
+
+model Expense {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  amount    Float
+  category  String   @default("Other")
+  date      DateTime
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("expenses")
+}

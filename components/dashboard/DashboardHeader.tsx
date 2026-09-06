@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { Calendar as CalendarIcon, User, LogOut, ListTodo } from "lucide-react";
+import { Calendar as CalendarIcon, User, LogOut, ListTodo, Receipt } from "lucide-react";
 import { ProfileModal } from "@/components/profile/ProfileModal";
 import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
 import { BucketIcon } from "@/components/ui/BucketIcon";
@@ -20,6 +20,7 @@ export function DashboardHeader() {
   const isDashboard = pathname === "/dashboard";
   const isCalendar = pathname === "/calendar";
   const isTodo = pathname === "/todo" || pathname === "/to-do-list";
+  const isExpenses = pathname === "/expenses";
 
   return (
     <>
@@ -42,44 +43,61 @@ export function DashboardHeader() {
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden sm:flex items-center gap-1.5 p-1 bg-stone-100/80 rounded-xl border border-stone-200/60 text-xs font-medium">
+            <nav className="hidden sm:flex items-center gap-1 p-1 bg-stone-100/80 rounded-xl border border-stone-200/60 text-xs font-medium">
               <Link
                 href="/dashboard"
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all",
+                  "flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg transition-all",
                   isDashboard
                     ? "bg-white text-stone-900 shadow-2xs font-semibold"
                     : "text-stone-600 hover:text-stone-900"
                 )}
+                title="BucketList"
               >
-                <BucketIcon className="w-3.5 h-3.5" />
-                BucketList
+                <BucketIcon className="w-3.5 h-3.5 shrink-0" />
+                <span className="hidden md:inline">BucketList</span>
               </Link>
 
               <Link
                 href="/calendar"
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all",
+                  "flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg transition-all",
                   isCalendar
                     ? "bg-white text-stone-900 shadow-2xs font-semibold"
                     : "text-stone-600 hover:text-stone-900"
                 )}
+                title="Calendar"
               >
-                <CalendarIcon className="w-3.5 h-3.5" />
-                Calendar
+                <CalendarIcon className="w-3.5 h-3.5 shrink-0" />
+                <span className="hidden md:inline">Calendar</span>
               </Link>
 
               <Link
                 href="/todo"
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all",
+                  "flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg transition-all",
                   isTodo
                     ? "bg-white text-stone-900 shadow-2xs font-semibold"
                     : "text-stone-600 hover:text-stone-900"
                 )}
+                title="To-Do List"
               >
-                <ListTodo className="w-3.5 h-3.5" />
-                To-Do List
+                <ListTodo className="w-3.5 h-3.5 shrink-0" />
+                <span className="hidden md:inline">To-Do List</span>
+              </Link>
+
+              <Link
+                href="/expenses"
+                className={cn(
+                  "flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg transition-all",
+                  isExpenses
+                    ? "bg-white text-stone-900 shadow-2xs font-semibold"
+                    : "text-stone-600 hover:text-stone-900"
+                )}
+                title="Expenses"
+              >
+                <Receipt className="w-3.5 h-3.5 shrink-0" />
+                <span className="hidden md:inline">Expenses</span>
               </Link>
             </nav>
           </div>
@@ -145,45 +163,103 @@ export function DashboardHeader() {
           </div>
         </div>
 
-        {/* Mobile Sub-Navigation Bar */}
-        <div className="sm:hidden border-t border-stone-100 px-4 py-2 flex items-center justify-around bg-stone-50/60 text-xs">
-          <Link
-            href="/dashboard"
-            className={cn(
-              "flex items-center gap-1.5 px-3 py-1 rounded-lg transition-colors font-medium",
-              isDashboard ? "text-stone-900 font-semibold bg-stone-200/60" : "text-stone-500"
-            )}
-          >
-            <BucketIcon className="w-3.5 h-3.5" />
-            BucketList
-          </Link>
-          <Link
-            href="/calendar"
-            className={cn(
-              "flex items-center gap-1.5 px-3 py-1 rounded-lg transition-colors font-medium",
-              isCalendar ? "text-stone-900 font-semibold bg-stone-200/60" : "text-stone-500"
-            )}
-          >
-            <CalendarIcon className="w-3.5 h-3.5" />
-            Calendar
-          </Link>
-          <Link
-            href="/todo"
-            className={cn(
-              "flex items-center gap-1.5 px-3 py-1 rounded-lg transition-colors font-medium",
-              isTodo ? "text-stone-900 font-semibold bg-stone-200/60" : "text-stone-500"
-            )}
-          >
-            <ListTodo className="w-3.5 h-3.5" />
-            To-Do List
-          </Link>
-          <button
-            onClick={() => setShowProfileModal(true)}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-lg transition-colors font-medium text-stone-500 hover:text-stone-900"
-          >
-            <User className="w-3.5 h-3.5" />
-            Profile
-          </button>
+        {/* Mobile Sub-Navigation Bar — Compact Icon-Only with Hover Tooltips */}
+        <div className="sm:hidden border-t border-stone-100 px-3 py-1.5 flex items-center justify-around bg-stone-50/90 backdrop-blur-md">
+          {/* BucketList */}
+          <div className="relative group">
+            <Link
+              href="/dashboard"
+              aria-label="BucketList"
+              title="BucketList"
+              className={cn(
+                "flex items-center justify-center w-10 h-10 rounded-xl transition-all",
+                isDashboard
+                  ? "bg-white text-stone-900 shadow-2xs border border-stone-200/90"
+                  : "text-stone-500 hover:text-stone-900 hover:bg-stone-200/50"
+              )}
+            >
+              <BucketIcon className="w-4.5 h-4.5" />
+            </Link>
+            <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-stone-900 text-white text-[10px] font-medium whitespace-nowrap shadow-md z-50">
+              BucketList
+            </div>
+          </div>
+
+          {/* Calendar */}
+          <div className="relative group">
+            <Link
+              href="/calendar"
+              aria-label="Calendar"
+              title="Calendar"
+              className={cn(
+                "flex items-center justify-center w-10 h-10 rounded-xl transition-all",
+                isCalendar
+                  ? "bg-white text-stone-900 shadow-2xs border border-stone-200/90"
+                  : "text-stone-500 hover:text-stone-900 hover:bg-stone-200/50"
+              )}
+            >
+              <CalendarIcon className="w-4.5 h-4.5" />
+            </Link>
+            <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-stone-900 text-white text-[10px] font-medium whitespace-nowrap shadow-md z-50">
+              Calendar
+            </div>
+          </div>
+
+          {/* To-Do List */}
+          <div className="relative group">
+            <Link
+              href="/todo"
+              aria-label="To-Do List"
+              title="To-Do List"
+              className={cn(
+                "flex items-center justify-center w-10 h-10 rounded-xl transition-all",
+                isTodo
+                  ? "bg-white text-stone-900 shadow-2xs border border-stone-200/90"
+                  : "text-stone-500 hover:text-stone-900 hover:bg-stone-200/50"
+              )}
+            >
+              <ListTodo className="w-4.5 h-4.5" />
+            </Link>
+            <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-stone-900 text-white text-[10px] font-medium whitespace-nowrap shadow-md z-50">
+              To-Do List
+            </div>
+          </div>
+
+          {/* Expenses */}
+          <div className="relative group">
+            <Link
+              href="/expenses"
+              aria-label="Expenses"
+              title="Expenses"
+              className={cn(
+                "flex items-center justify-center w-10 h-10 rounded-xl transition-all",
+                isExpenses
+                  ? "bg-white text-stone-900 shadow-2xs border border-stone-200/90"
+                  : "text-stone-500 hover:text-stone-900 hover:bg-stone-200/50"
+              )}
+            >
+              <Receipt className="w-4.5 h-4.5" />
+            </Link>
+            <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-stone-900 text-white text-[10px] font-medium whitespace-nowrap shadow-md z-50">
+              Expenses
+            </div>
+          </div>
+
+          {/* Profile */}
+          <div className="relative group">
+            <button
+              type="button"
+              onClick={() => setShowProfileModal(true)}
+              aria-label="Profile"
+              title="Profile"
+              className="flex items-center justify-center w-10 h-10 rounded-xl transition-all text-stone-500 hover:text-stone-900 hover:bg-stone-200/50 cursor-pointer"
+            >
+              <User className="w-4.5 h-4.5" />
+            </button>
+            <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-stone-900 text-white text-[10px] font-medium whitespace-nowrap shadow-md z-50">
+              Profile
+            </div>
+          </div>
         </div>
       </header>
 
