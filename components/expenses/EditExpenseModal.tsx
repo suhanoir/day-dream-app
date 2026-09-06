@@ -14,7 +14,7 @@ import {
   formatToDateKey,
   ExpenseData,
 } from "./types";
-import { DollarSign, Calendar, Tag, FileText, Trash2 } from "lucide-react";
+import { IndianRupee, Calendar, Tag, FileText, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 interface EditExpenseModalProps {
@@ -170,12 +170,12 @@ export function EditExpenseModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
-                <DollarSign className="w-3.5 h-3.5 text-stone-400" />
+                <IndianRupee className="w-3.5 h-3.5 text-stone-400" />
                 Total Price <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm font-medium">
-                  $
+                  ₹
                 </span>
                 <Input
                   type="number"

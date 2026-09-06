@@ -81,7 +81,7 @@ export function ExpenseFilterBar({
                     isSelected ? "bg-stone-800 text-stone-200" : "bg-stone-100 text-stone-500"
                   )}
                 >
-                  ${Math.round(categoryBreakdown[cat])}
+                  ₹{Math.round(categoryBreakdown[cat])}
                 </span>
               )}
             </button>

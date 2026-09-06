@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { DollarSign, Tag, TrendingUp, Receipt } from "lucide-react";
+import { IndianRupee, Tag, TrendingUp, Receipt } from "lucide-react";
 import { formatCurrency, formatMonthYear, EXPENSE_CATEGORY_CONFIG } from "./types";
 
 interface MonthlyTotalCardProps {
@@ -47,7 +47,7 @@ export function MonthlyTotalCard({
             Total Spent ({formatMonthYear(currentDate)})
           </span>
           <div className="w-7 h-7 rounded-lg bg-stone-100 flex items-center justify-center text-stone-600">
-            <DollarSign className="w-4 h-4" />
+            <IndianRupee className="w-4 h-4" />
           </div>
         </div>
         <div className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
