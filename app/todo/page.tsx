@@ -4,7 +4,6 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { Button } from "@/components/ui/Button";
-import { QuickAddTaskInput } from "@/components/todo/QuickAddTaskInput";
 import { TodoTaskItem } from "@/components/todo/TodoTaskItem";
 import { TodoTaskDetailModal } from "@/components/todo/TodoTaskDetailModal";
 import { AddTodoTaskModal } from "@/components/todo/AddTodoTaskModal";
@@ -92,34 +91,6 @@ export default function TodoPage() {
     () => tasks.filter((t) => t.completed),
     [tasks]
   );
-
-  // Add Task handler
-  const handleAddTask = async (title: string): Promise<boolean> => {
-    try {
-      const res = await fetch("/api/todos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          date: `${selectedDateKey}T00:00:00.000Z`,
-          category: categoryFilter !== "all" ? categoryFilter : "Personal",
-          priority: priorityFilter !== "all" ? priorityFilter : "Medium",
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        toastError(data.error || "Failed to add task");
-        return false;
-      }
-
-      setTasks((prev) => [...prev, data.task]);
-      return true;
-    } catch {
-      toastError("Failed to create task");
-      return false;
-    }
-  };
 
   // Toggle completion handler
   const handleToggleComplete = async (task: TodoTaskData) => {
@@ -290,11 +261,6 @@ export default function TodoPage() {
 
         {/* Scheduled Calendar Events for this date */}
         <TodayEventsSnippet selectedDate={selectedDate} />
-
-        {/* Quick Add Task Input */}
-        <div className="pt-1">
-          <QuickAddTaskInput onAddTask={handleAddTask} />
-        </div>
 
         {/* Optional Filter Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
