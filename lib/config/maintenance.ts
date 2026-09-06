@@ -16,7 +16,7 @@
  * ============================================================================
  */
 
-export const MAINTENANCE_MODE: boolean = false;
+export const MAINTENANCE_MODE: boolean = true;
 
 /**
  * Checks if Maintenance Mode is active (either via code constant or env var).
