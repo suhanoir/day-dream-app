@@ -8,12 +8,6 @@
   "theme_color": "#1c1917",
   "icons": [
     {
-      "src": "/daydream-logo.png",
-      "sizes": "157x168",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
       "src": "/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",

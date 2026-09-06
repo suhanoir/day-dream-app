@@ -9,8 +9,8 @@ export const metadata: Metadata = {
     "A calm, modern, and personal application to track your life dreams, milestones, reflections, and achievements.",
   manifest: "/manifest.json",
   icons: {
-    icon: "/daydream-logo.png",
-    apple: "/daydream-logo.png",
+    icon: "/icon.svg",
+    apple: "/icon.svg",
   },
 };
 
