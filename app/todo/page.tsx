@@ -3,9 +3,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { Button } from "@/components/ui/Button";
 import { QuickAddTaskInput } from "@/components/todo/QuickAddTaskInput";
 import { TodoTaskItem } from "@/components/todo/TodoTaskItem";
 import { TodoTaskDetailModal } from "@/components/todo/TodoTaskDetailModal";
+import { AddTodoTaskModal } from "@/components/todo/AddTodoTaskModal";
 import { DateNavigator } from "@/components/todo/DateNavigator";
 import { TodoProgressWidget } from "@/components/todo/TodoProgressWidget";
 import { TodayEventsSnippet } from "@/components/todo/TodayEventsSnippet";
@@ -24,6 +26,7 @@ import {
   Inbox,
   Loader2,
   Filter,
+  Plus,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -43,6 +46,7 @@ export default function TodoPage() {
   // Modal State
   const [selectedTaskForDetail, setSelectedTaskForDetail] =
     useState<TodoTaskData | null>(null);
+  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
   const selectedDateKey = formatToDateKey(selectedDate);
   const todayKey = formatToDateKey(new Date());
@@ -244,19 +248,32 @@ export default function TodoPage() {
       <DashboardHeader />
 
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* Page Top Title */}
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
-              To-Do List
-            </h1>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200">
-              Daily Tasks
-            </span>
+        {/* Page Top Title & Actions */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
+                To-Do List
+              </h1>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200">
+                Daily Tasks
+              </span>
+            </div>
+            <p className="text-sm text-stone-500">
+              Keep track of the things you need to get done.
+            </p>
           </div>
-          <p className="text-sm text-stone-500">
-            Keep track of the things you need to get done.
-          </p>
+
+          <Button
+            type="button"
+            variant="primary"
+            size="md"
+            onClick={() => setIsAddTaskModalOpen(true)}
+            className="font-semibold shadow-sm self-start sm:self-auto shrink-0"
+          >
+            <Plus className="w-4 h-4 mr-1.5" />
+            Add Task
+          </Button>
         </div>
 
         {/* Date Navigator */}
@@ -419,6 +436,21 @@ export default function TodoPage() {
           </div>
         )}
       </main>
+
+      {/* Add Task Modal */}
+      <AddTodoTaskModal
+        isOpen={isAddTaskModalOpen}
+        onClose={() => setIsAddTaskModalOpen(false)}
+        onTaskAdded={(newTask) => {
+          const taskDateKey = formatToDateKey(new Date(newTask.date));
+          if (taskDateKey === selectedDateKey) {
+            setTasks((prev) => [...prev, newTask]);
+          } else {
+            setSelectedDate(new Date(newTask.date));
+          }
+        }}
+        initialDate={selectedDate}
+      />
 
       {/* Task Detail Modal */}
       <TodoTaskDetailModal
