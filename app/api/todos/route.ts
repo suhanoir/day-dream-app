@@ -61,7 +61,18 @@ export async function GET(req: NextRequest) {
       ],
     });
 
-    return NextResponse.json({ tasks });
+    const now = new Date();
+    const startOfToday = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0));
+
+    const overdueCount = await (prisma as any).todoTask.count({
+      where: {
+        userId: session.userId,
+        completed: false,
+        date: { lt: startOfToday },
+      },
+    });
+
+    return NextResponse.json({ tasks, overdueCount });
   } catch (error) {
     console.error("Failed to fetch todo tasks:", error);
     return NextResponse.json(
