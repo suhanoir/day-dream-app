@@ -85,50 +85,6 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 
 ---
 
-## 🚀 Quick Start Guide
-
-### 1. Prerequisites
-- **Node.js** >= 18.x (tested on Node v24)
-- **npm**, **pnpm**, or **yarn**
-
-### 2. Installation & Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/suhanoir/day-dream-app.git
-cd day-dream-app
-
-# Install dependencies
-npm install
-
-# Push database schema to PostgreSQL
-npx prisma db push
-
-# Generate Prisma Client
-npx prisma generate
-```
-
-### 3. Environment Configuration
-
-Create a `.env` file in the root directory:
-
-```env
-DATABASE_URL="postgresql://user:password@endpoint.neon.tech/neondb?sslmode=require"
-JWT_SECRET="your_secure_jwt_secret_key_here"
-NODE_ENV="development"
-MAINTENANCE_MODE=false
-```
-
-### 4. Run Development Server
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
 ## 📂 Project Structure
 
 ```text
