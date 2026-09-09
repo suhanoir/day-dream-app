@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 
-export type ThemeId = "indigo" | "slate" | "aurora";
+export type ThemeId = "indigo" | "slate" | "aurora" | "forest" | "ocean" | "crimson";
 
 export interface ThemeMeta {
   id: ThemeId;
@@ -86,6 +86,75 @@ export const THEMES: ThemeMeta[] = [
     },
     previewSwatches: ["#F8F7FC", "#7567D9", "#5FA7B5", "#E7A85C"],
   },
+  {
+    id: "forest",
+    name: "Forest Noir",
+    description: "Elegant green workspace",
+    palette: {
+      background: "#F6F7F4",
+      surface: "#FFFFFF",
+      primary: "#2F6B57",
+      primarySoft: "#E7F1EC",
+      secondary: "#557A6B",
+      accent: "#A3B18A",
+      text: "#1E2A24",
+      mutedText: "#6F7C75",
+      border: "#DDE5DF",
+      success: "#3FA76F",
+      warning: "#C89B3C",
+      danger: "#C85C5C",
+    },
+    previewSwatches: ["#F6F7F4", "#2F6B57", "#557A6B", "#A3B18A"],
+  },
+  {
+    id: "ocean",
+    name: "Ocean Mist",
+    description: "Refreshing modern blue",
+    palette: {
+      background: "#F4F8FA",
+      surface: "#FFFFFF",
+      primary: "#2F7F95",
+      primarySoft: "#E5F3F7",
+      secondary: "#5FA8B8",
+      accent: "#8CCAD8",
+      text: "#1F2D33",
+      mutedText: "#708087",
+      border: "#D9E5E8",
+      success: "#4DAA88",
+      warning: "#D6A84A",
+      danger: "#CF6B6B",
+    },
+    previewSwatches: ["#F4F8FA", "#2F7F95", "#5FA8B8", "#8CCAD8"],
+  },
+  {
+    id: "crimson",
+    name: "Crimson Red",
+    description: "Bold luxury productivity",
+    palette: {
+      background: "#FAF7F7",
+      surface: "#FFFFFF",
+      primary: "#B23A48",
+      primarySoft: "#F8E8EB",
+      secondary: "#8E2F3A",
+      accent: "#D77A86",
+      text: "#2A2022",
+      mutedText: "#7C6B6F",
+      border: "#E8DCDD",
+      success: "#4C9A74",
+      warning: "#D6A23A",
+      danger: "#C0394B",
+    },
+    previewSwatches: ["#FAF7F7", "#B23A48", "#8E2F3A", "#D77A86"],
+  },
+];
+
+const VALID_THEME_IDS: ThemeId[] = [
+  "indigo",
+  "slate",
+  "aurora",
+  "forest",
+  "ocean",
+  "crimson",
 ];
 
 interface ThemeContextType {
@@ -107,7 +176,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(THEME_STORAGE_KEY) as ThemeId | null;
-      if (stored && (stored === "indigo" || stored === "slate" || stored === "aurora")) {
+      if (stored && VALID_THEME_IDS.includes(stored)) {
         setThemeState(stored);
         document.documentElement.setAttribute("data-theme", stored);
       } else {
@@ -153,4 +222,3 @@ export function useTheme() {
   }
   return context;
 }
-

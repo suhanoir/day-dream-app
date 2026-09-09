@@ -126,6 +126,126 @@
   --color-rose-600: #C25660;
 }
 
+/* Forest Noir (Theme 4) */
+[data-theme="forest"] {
+  --theme-bg: #F6F7F4;
+  --theme-surface: #FFFFFF;
+  --theme-surface-secondary: #EEF1EC;
+  --theme-primary: #2F6B57;
+  --theme-primary-hover: #265746;
+  --theme-primary-soft: #E7F1EC;
+  --theme-primary-soft-border: #C8DCD2;
+  --theme-secondary: #557A6B;
+  --theme-accent: #A3B18A;
+  --theme-text: #1E2A24;
+  --theme-text-muted: #6F7C75;
+  --theme-border: #DDE5DF;
+  --theme-border-subtle: #E8EFEA;
+  --theme-success: #3FA76F;
+  --theme-warning: #C89B3C;
+  --theme-danger: #C85C5C;
+
+  /* Tailwind Stone Bridge */
+  --color-stone-50: #F3F5F2;
+  --color-stone-100: #EAEFE9;
+  --color-stone-200: #DDE5DF;
+  --color-stone-300: #CAD4CD;
+  --color-stone-400: #9AA8A0;
+  --color-stone-500: #6F7C75;
+  --color-stone-600: #515E57;
+  --color-stone-700: #3B4640;
+  --color-stone-800: #29332D;
+  --color-stone-900: #1E2A24;
+
+  /* Semantic Overrides */
+  --color-emerald-500: #3FA76F;
+  --color-emerald-600: #348E5D;
+  --color-amber-500: #C89B3C;
+  --color-amber-600: #AF852E;
+  --color-rose-500: #C85C5C;
+  --color-rose-600: #B14B4B;
+}
+
+/* Ocean Mist (Theme 5) */
+[data-theme="ocean"] {
+  --theme-bg: #F4F8FA;
+  --theme-surface: #FFFFFF;
+  --theme-surface-secondary: #EAF2F5;
+  --theme-primary: #2F7F95;
+  --theme-primary-hover: #266A7D;
+  --theme-primary-soft: #E5F3F7;
+  --theme-primary-soft-border: #C5E3EB;
+  --theme-secondary: #5FA8B8;
+  --theme-accent: #8CCAD8;
+  --theme-text: #1F2D33;
+  --theme-text-muted: #708087;
+  --theme-border: #D9E5E8;
+  --theme-border-subtle: #E5EFF2;
+  --theme-success: #4DAA88;
+  --theme-warning: #D6A84A;
+  --theme-danger: #CF6B6B;
+
+  /* Tailwind Stone Bridge */
+  --color-stone-50: #F1F6F8;
+  --color-stone-100: #E6EFF2;
+  --color-stone-200: #D9E5E8;
+  --color-stone-300: #C5D5D9;
+  --color-stone-400: #98ABB3;
+  --color-stone-500: #708087;
+  --color-stone-600: #526168;
+  --color-stone-700: #3B474D;
+  --color-stone-800: #293439;
+  --color-stone-900: #1F2D33;
+
+  /* Semantic Overrides */
+  --color-emerald-500: #4DAA88;
+  --color-emerald-600: #3E9072;
+  --color-amber-500: #D6A84A;
+  --color-amber-600: #BB9038;
+  --color-rose-500: #CF6B6B;
+  --color-rose-600: #B75656;
+}
+
+/* Crimson Red (Theme 6) */
+[data-theme="crimson"] {
+  --theme-bg: #FAF7F7;
+  --theme-surface: #FFFFFF;
+  --theme-surface-secondary: #F4ECEE;
+  --theme-primary: #B23A48;
+  --theme-primary-hover: #9B2D3B;
+  --theme-primary-soft: #F8E8EB;
+  --theme-primary-soft-border: #EFC8CE;
+  --theme-secondary: #8E2F3A;
+  --theme-accent: #D77A86;
+  --theme-text: #2A2022;
+  --theme-text-muted: #7C6B6F;
+  --theme-border: #E8DCDD;
+  --theme-border-subtle: #F2E8E9;
+  --theme-success: #4C9A74;
+  --theme-warning: #D6A23A;
+  --theme-danger: #C0394B;
+
+  /* Tailwind Stone Bridge */
+  --color-stone-50: #F8F4F5;
+  --color-stone-100: #F0E8EA;
+  --color-stone-200: #E8DCDD;
+  --color-stone-300: #D9C8CA;
+  --color-stone-400: #A89598;
+  --color-stone-500: #7C6B6F;
+  --color-stone-600: #5F4F53;
+  --color-stone-700: #46393C;
+  --color-stone-800: #332729;
+  --color-stone-900: #2A2022;
+
+  /* Semantic Overrides */
+  --color-emerald-500: #4C9A74;
+  --color-emerald-600: #3E8261;
+  --color-amber-500: #D6A23A;
+  --color-amber-600: #BC8B2B;
+  --color-rose-500: #C0394B;
+  --color-rose-600: #A72D3D;
+}
+
 @layer base {
   body {
     background-color: var(--theme-bg, #FAFAF8);

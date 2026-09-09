@@ -284,7 +284,7 @@ export function ProfileModal({
           </div>
 
           {/* Theme Selection Cards */}
-          <div className="space-y-2.5 pt-1">
+          <div className="space-y-2.5 pt-1 max-h-[60vh] overflow-y-auto pr-1 scrollbar-thin">
             {themes.map((t) => {
               const isSelected = theme === t.id;
 
