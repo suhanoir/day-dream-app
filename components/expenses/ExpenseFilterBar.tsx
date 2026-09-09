@@ -49,7 +49,7 @@ export function ExpenseFilterBar({
           className={cn(
             "px-3 py-1.5 rounded-xl border transition-colors cursor-pointer shrink-0 font-medium",
             selectedCategory === "all"
-              ? "bg-stone-900 text-white border-stone-900 shadow-2xs"
+              ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs"
               : "bg-white text-stone-600 border-stone-200/80 hover:bg-stone-50"
           )}
         >
@@ -68,7 +68,7 @@ export function ExpenseFilterBar({
               className={cn(
                 "px-2.5 py-1.5 rounded-xl border transition-colors cursor-pointer shrink-0 font-medium flex items-center gap-1.5",
                 isSelected
-                  ? "bg-stone-900 text-white border-stone-900 shadow-2xs"
+                  ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs"
                   : "bg-white text-stone-600 border-stone-200/80 hover:bg-stone-50"
               )}
             >

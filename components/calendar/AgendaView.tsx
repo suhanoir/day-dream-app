@@ -72,7 +72,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
                 {dateHeading}
               </span>
               {dayBadge && (
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-stone-900 text-white">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[var(--theme-primary,#4F5FD7)] text-white shadow-2xs">
                   {dayBadge}
                 </span>
               )}

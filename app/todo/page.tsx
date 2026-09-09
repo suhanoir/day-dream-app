@@ -343,7 +343,7 @@ export default function TodoPage() {
               className={cn(
                 "px-2.5 py-1 rounded-lg border transition-colors cursor-pointer shrink-0 font-medium",
                 categoryFilter === "all"
-                  ? "bg-stone-900 text-white border-stone-900 shadow-2xs"
+                  ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs"
                   : "bg-white text-stone-600 border-stone-200/80 hover:bg-stone-50"
               )}
             >
@@ -358,7 +358,7 @@ export default function TodoPage() {
                 className={cn(
                   "px-2.5 py-1 rounded-lg border transition-colors cursor-pointer shrink-0 font-medium",
                   categoryFilter === cat
-                    ? "bg-stone-900 text-white border-stone-900 shadow-2xs"
+                    ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs"
                     : "bg-white text-stone-600 border-stone-200/80 hover:bg-stone-50"
                 )}
               >

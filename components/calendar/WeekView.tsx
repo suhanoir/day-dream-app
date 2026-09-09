@@ -60,7 +60,7 @@ export function WeekView({
                       className={cn(
                         "inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-semibold",
                         isToday
-                          ? "bg-stone-900 text-white font-bold"
+                          ? "bg-[var(--theme-primary,#4F5FD7)] text-white font-bold shadow-2xs"
                           : "bg-stone-100 text-stone-800"
                       )}
                     >

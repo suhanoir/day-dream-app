@@ -4,7 +4,15 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { Calendar as CalendarIcon, User, LogOut, ListTodo, Receipt } from "lucide-react";
+import { useTheme } from "@/components/providers/ThemeProvider";
+import {
+  Calendar as CalendarIcon,
+  User,
+  LogOut,
+  ListTodo,
+  Receipt,
+  Palette,
+} from "lucide-react";
 import { ProfileModal } from "@/components/profile/ProfileModal";
 import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
 import { BucketIcon } from "@/components/ui/BucketIcon";
@@ -13,8 +21,13 @@ import { cn } from "@/lib/utils/cn";
 
 export function DashboardHeader() {
   const { user, logout } = useAuth();
+  const { currentThemeMeta } = useTheme();
   const pathname = usePathname();
+
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profileModalView, setProfileModalView] = useState<
+    "profile" | "settings" | "theme"
+  >("profile");
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const isDashboard = pathname === "/dashboard";
@@ -24,7 +37,7 @@ export function DashboardHeader() {
 
   return (
     <>
-      <header className="w-full bg-white/85 backdrop-blur-md border-b border-stone-200/80 sticky top-0 z-40">
+      <header className="w-full bg-white/85 backdrop-blur-md border-b border-stone-200/80 sticky top-0 z-40 transition-colors">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand & Main Navigation */}
           <div className="flex items-center gap-6 sm:gap-8">
@@ -49,7 +62,7 @@ export function DashboardHeader() {
                 className={cn(
                   "flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg transition-all",
                   isDashboard
-                    ? "bg-white text-stone-900 shadow-2xs font-semibold"
+                    ? "bg-white text-[var(--theme-primary)] shadow-2xs font-bold border border-stone-200/60"
                     : "text-stone-600 hover:text-stone-900"
                 )}
                 title="BucketList"
@@ -63,7 +76,7 @@ export function DashboardHeader() {
                 className={cn(
                   "flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg transition-all",
                   isCalendar
-                    ? "bg-white text-stone-900 shadow-2xs font-semibold"
+                    ? "bg-white text-[var(--theme-primary)] shadow-2xs font-bold border border-stone-200/60"
                     : "text-stone-600 hover:text-stone-900"
                 )}
                 title="Calendar"
@@ -77,7 +90,7 @@ export function DashboardHeader() {
                 className={cn(
                   "flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg transition-all",
                   isTodo
-                    ? "bg-white text-stone-900 shadow-2xs font-semibold"
+                    ? "bg-white text-[var(--theme-primary)] shadow-2xs font-bold border border-stone-200/60"
                     : "text-stone-600 hover:text-stone-900"
                 )}
                 title="To-Do List"
@@ -91,7 +104,7 @@ export function DashboardHeader() {
                 className={cn(
                   "flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg transition-all",
                   isExpenses
-                    ? "bg-white text-stone-900 shadow-2xs font-semibold"
+                    ? "bg-white text-[var(--theme-primary)] shadow-2xs font-bold border border-stone-200/60"
                     : "text-stone-600 hover:text-stone-900"
                 )}
                 title="Expenses"
@@ -109,7 +122,10 @@ export function DashboardHeader() {
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl hover:bg-stone-100/80 transition-colors border border-transparent hover:border-stone-200 text-left cursor-pointer"
               >
-                <div className="w-7 h-7 rounded-full bg-stone-200/90 text-stone-700 flex items-center justify-center text-xs font-semibold">
+                <div
+                  className="w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-bold shadow-2xs transition-colors"
+                  style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                >
                   {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
                 </div>
                 <span className="hidden sm:inline-block text-xs font-medium text-stone-800 max-w-[120px] truncate">
@@ -136,12 +152,30 @@ export function DashboardHeader() {
                     <button
                       onClick={() => {
                         setShowProfileMenu(false);
+                        setProfileModalView("profile");
                         setShowProfileModal(true);
                       }}
                       className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-50 rounded-xl flex items-center gap-2 font-medium transition-colors cursor-pointer"
                     >
                       <User className="w-3.5 h-3.5 text-stone-400" />
                       View Profile
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setShowProfileMenu(false);
+                        setProfileModalView("settings");
+                        setShowProfileModal(true);
+                      }}
+                      className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-50 rounded-xl flex items-center justify-between font-medium transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Palette className="w-3.5 h-3.5 text-stone-400" />
+                        <span>Settings & Theme</span>
+                      </div>
+                      <span className="text-[10px] font-semibold text-stone-500 bg-stone-100 px-1.5 py-0.5 rounded">
+                        {currentThemeMeta.name.split(" ")[0]}
+                      </span>
                     </button>
 
                     <div className="my-1 border-t border-stone-100" />
@@ -174,7 +208,7 @@ export function DashboardHeader() {
               className={cn(
                 "flex items-center justify-center w-10 h-10 rounded-xl transition-all",
                 isDashboard
-                  ? "bg-white text-stone-900 shadow-2xs border border-stone-200/90"
+                  ? "bg-white text-[var(--theme-primary)] shadow-2xs border border-stone-200/90 font-bold"
                   : "text-stone-500 hover:text-stone-900 hover:bg-stone-200/50"
               )}
             >
@@ -194,7 +228,7 @@ export function DashboardHeader() {
               className={cn(
                 "flex items-center justify-center w-10 h-10 rounded-xl transition-all",
                 isCalendar
-                  ? "bg-white text-stone-900 shadow-2xs border border-stone-200/90"
+                  ? "bg-white text-[var(--theme-primary)] shadow-2xs border border-stone-200/90 font-bold"
                   : "text-stone-500 hover:text-stone-900 hover:bg-stone-200/50"
               )}
             >
@@ -214,7 +248,7 @@ export function DashboardHeader() {
               className={cn(
                 "flex items-center justify-center w-10 h-10 rounded-xl transition-all",
                 isTodo
-                  ? "bg-white text-stone-900 shadow-2xs border border-stone-200/90"
+                  ? "bg-white text-[var(--theme-primary)] shadow-2xs border border-stone-200/90 font-bold"
                   : "text-stone-500 hover:text-stone-900 hover:bg-stone-200/50"
               )}
             >
@@ -234,7 +268,7 @@ export function DashboardHeader() {
               className={cn(
                 "flex items-center justify-center w-10 h-10 rounded-xl transition-all",
                 isExpenses
-                  ? "bg-white text-stone-900 shadow-2xs border border-stone-200/90"
+                  ? "bg-white text-[var(--theme-primary)] shadow-2xs border border-stone-200/90 font-bold"
                   : "text-stone-500 hover:text-stone-900 hover:bg-stone-200/50"
               )}
             >
@@ -249,7 +283,10 @@ export function DashboardHeader() {
           <div className="relative group">
             <button
               type="button"
-              onClick={() => setShowProfileModal(true)}
+              onClick={() => {
+                setProfileModalView("profile");
+                setShowProfileModal(true);
+              }}
               aria-label="Profile"
               title="Profile"
               className="flex items-center justify-center w-10 h-10 rounded-xl transition-all text-stone-500 hover:text-stone-900 hover:bg-stone-200/50 cursor-pointer"
@@ -263,10 +300,11 @@ export function DashboardHeader() {
         </div>
       </header>
 
-      {/* Profile Modal */}
+      {/* Profile & Settings Modal */}
       <ProfileModal
         isOpen={showProfileModal}
         onClose={() => setShowProfileModal(false)}
+        initialView={profileModalView}
       />
     </>
   );

@@ -55,7 +55,7 @@ export function TodoProgressWidget({
           <div
             className={cn(
               "h-full rounded-full transition-all duration-500 ease-out",
-              isAllDone ? "bg-emerald-500" : "bg-stone-800"
+              isAllDone ? "bg-emerald-500" : "bg-[var(--theme-primary,#4F5FD7)]"
             )}
             style={{ width: `${percentage}%` }}
           />

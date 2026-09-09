@@ -29,7 +29,7 @@ export function ProgressBar({
         )}
       >
         <div
-          className="h-full bg-stone-900 rounded-full transition-all duration-500 ease-out"
+          className="h-full bg-[var(--theme-primary,#4F5FD7)] rounded-full transition-all duration-500 ease-out"
           style={{ width: `${clampedValue}%` }}
         />
       </div>

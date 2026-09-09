@@ -29,12 +29,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          "inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-stone-400/50 disabled:opacity-50 disabled:cursor-not-allowed select-none cursor-pointer",
+          "inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary-soft-border,#D5D9FB)] disabled:opacity-50 disabled:cursor-not-allowed select-none cursor-pointer",
           // Variants
           variant === "primary" &&
-            "bg-stone-900 text-stone-50 hover:bg-stone-800 shadow-sm active:scale-[0.98]",
+            "bg-[var(--theme-primary,#4F5FD7)] text-white hover:bg-[var(--theme-primary-hover,#4351C2)] shadow-sm active:scale-[0.98]",
           variant === "secondary" &&
-            "bg-stone-100 text-stone-800 hover:bg-stone-200 active:scale-[0.98]",
+            "bg-[var(--theme-primary-soft,#EEF0FF)] text-[var(--theme-primary,#4F5FD7)] hover:opacity-90 active:scale-[0.98]",
           variant === "outline" &&
             "border border-stone-200/90 text-stone-700 bg-white hover:bg-stone-50 hover:border-stone-300 active:scale-[0.98]",
           variant === "subtle" &&

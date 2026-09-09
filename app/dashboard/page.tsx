@@ -307,7 +307,7 @@ export default function DashboardPage() {
             setDefaultCategoryForAdd(undefined);
             setIsAddGoalOpen(true);
           }}
-          className="w-14 h-14 rounded-full bg-stone-900 text-stone-50 shadow-xl flex items-center justify-center text-2xl font-light hover:bg-stone-800 active:scale-95 transition-transform"
+          className="w-14 h-14 rounded-full bg-[var(--theme-primary,#4F5FD7)] text-white shadow-xl flex items-center justify-center text-2xl font-light hover:bg-[var(--theme-primary-hover,#4351C2)] active:scale-95 transition-transform"
           aria-label="Add Bucket List Goal"
         >
           +

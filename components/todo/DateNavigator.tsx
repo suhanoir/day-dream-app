@@ -81,7 +81,7 @@ export function DateNavigator({
                 className={cn(
                   "text-[11px] font-semibold px-2 py-0.5 rounded-full border",
                   isViewingToday
-                    ? "bg-stone-900 text-white border-stone-900"
+                    ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs"
                     : "bg-stone-100 text-stone-600 border-stone-200"
                 )}
               >

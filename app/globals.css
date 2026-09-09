@@ -1,24 +1,166 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: 40 20% 98%;
-    --foreground: 20 14% 10%;
-    --muted: 30 10% 92%;
-    --muted-foreground: 25 5% 45%;
-    --border: 30 10% 88%;
-  }
+/* -------------------------------------------------------------
+ * DAYDREAM GLOBAL THEME SYSTEM (v2.5.12)
+ * Centralized theme tokens and semantic variables
+ * ----------------------------------------------------------- */
 
+/* Default & DayDream Indigo (Theme 1) */
+:root,
+[data-theme="indigo"] {
+  --theme-bg: #FAFAF8;
+  --theme-surface: #FFFFFF;
+  --theme-surface-secondary: #F4F4F2;
+  --theme-primary: #4F5FD7;
+  --theme-primary-hover: #4351C2;
+  --theme-primary-soft: #EEF0FF;
+  --theme-primary-soft-border: #D5D9FB;
+  --theme-secondary: #7C6FE8;
+  --theme-accent: #7C6FE8;
+  --theme-text: #20242C;
+  --theme-text-muted: #737780;
+  --theme-border: #E7E7E5;
+  --theme-border-subtle: #F0F0EE;
+  --theme-success: #35A879;
+  --theme-warning: #D89A18;
+  --theme-danger: #D9655A;
+
+  /* Tailwind Stone Bridge */
+  --color-stone-50: #F7F7F5;
+  --color-stone-100: #EFEFEF;
+  --color-stone-200: #E7E7E5;
+  --color-stone-300: #D8D8D5;
+  --color-stone-400: #9B9FA7;
+  --color-stone-500: #737780;
+  --color-stone-600: #545862;
+  --color-stone-700: #3E424C;
+  --color-stone-800: #292D36;
+  --color-stone-900: #20242C;
+
+  /* Semantic Overrides */
+  --color-emerald-500: #35A879;
+  --color-emerald-600: #2E946A;
+  --color-amber-500: #D89A18;
+  --color-amber-600: #BF8713;
+  --color-rose-500: #D9655A;
+  --color-rose-600: #C2564C;
+}
+
+/* Slate Blue (Theme 2) */
+[data-theme="slate"] {
+  --theme-bg: #F5F7FA;
+  --theme-surface: #FFFFFF;
+  --theme-surface-secondary: #EDF1F5;
+  --theme-primary: #456B8C;
+  --theme-primary-hover: #395B78;
+  --theme-primary-soft: #EAF1F6;
+  --theme-primary-soft-border: #D1DFEA;
+  --theme-secondary: #708AA0;
+  --theme-accent: #708AA0;
+  --theme-text: #202A33;
+  --theme-text-muted: #727C85;
+  --theme-border: #DDE3E8;
+  --theme-border-subtle: #E8EDF2;
+  --theme-success: #3C9B78;
+  --theme-warning: #C99527;
+  --theme-danger: #D4635A;
+
+  /* Tailwind Stone Bridge */
+  --color-stone-50: #F3F5F8;
+  --color-stone-100: #EBF0F4;
+  --color-stone-200: #DDE3E8;
+  --color-stone-300: #CBD4DC;
+  --color-stone-400: #99A5B0;
+  --color-stone-500: #727C85;
+  --color-stone-600: #545F69;
+  --color-stone-700: #3C4650;
+  --color-stone-800: #2B343E;
+  --color-stone-900: #202A33;
+
+  /* Semantic Overrides */
+  --color-emerald-500: #3C9B78;
+  --color-emerald-600: #328667;
+  --color-amber-500: #C99527;
+  --color-amber-600: #AF8120;
+  --color-rose-500: #D4635A;
+  --color-rose-600: #BC544C;
+}
+
+/* Dreamy Aurora (Theme 3) */
+[data-theme="aurora"] {
+  --theme-bg: #F8F7FC;
+  --theme-surface: #FFFFFF;
+  --theme-surface-secondary: #F1EFF9;
+  --theme-primary: #7567D9;
+  --theme-primary-hover: #6355C5;
+  --theme-primary-soft: #F0EDFF;
+  --theme-primary-soft-border: #DDD8F8;
+  --theme-secondary: #5FA7B5;
+  --theme-accent: #E7A85C;
+  --theme-text: #29283A;
+  --theme-text-muted: #77758A;
+  --theme-border: #E5E2EF;
+  --theme-border-subtle: #EDEAF5;
+  --theme-success: #54A982;
+  --theme-warning: #D99A45;
+  --theme-danger: #D86670;
+
+  /* Tailwind Stone Bridge */
+  --color-stone-50: #F5F4FA;
+  --color-stone-100: #EEEBF7;
+  --color-stone-200: #E5E2EF;
+  --color-stone-300: #D4D0E3;
+  --color-stone-400: #9F9CB2;
+  --color-stone-500: #77758A;
+  --color-stone-600: #5B596E;
+  --color-stone-700: #444254;
+  --color-stone-800: #333242;
+  --color-stone-900: #29283A;
+
+  /* Semantic Overrides */
+  --color-emerald-500: #54A982;
+  --color-emerald-600: #45936F;
+  --color-amber-500: #D99A45;
+  --color-amber-600: #BE8437;
+  --color-rose-500: #D86670;
+  --color-rose-600: #C25660;
+}
+
+@layer base {
   body {
-    background-color: #faf9f6;
-    color: #1c1917;
+    background-color: var(--theme-bg, #FAFAF8);
+    color: var(--theme-text, #20242C);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 }
 
-/* Custom subtle scrollbar */
+/* Primary buttons, active badges, and interactive theme accents */
+[data-theme] .theme-primary-bg,
+[data-theme] button.bg-stone-900,
+[data-theme] a.bg-stone-900 {
+  background-color: var(--theme-primary) !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme] .theme-primary-bg:hover,
+[data-theme] button.bg-stone-900:hover,
+[data-theme] a.bg-stone-900:hover {
+  background-color: var(--theme-primary-hover) !important;
+}
+
+[data-theme] .theme-primary-border,
+[data-theme] .border-stone-900 {
+  border-color: var(--theme-primary) !important;
+}
+
+[data-theme] .theme-primary-text {
+  color: var(--theme-primary) !important;
+}
+
+/* Custom subtle scrollbar styled with active theme tokens */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -29,12 +171,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d6d3d1;
+  background: var(--theme-border, #d6d3d1);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a29e;
+  background: var(--theme-text-muted, #a8a29e);
 }
 
 /* Subtle fade in animations */
@@ -65,4 +207,3 @@
 .animate-pulse-subtle {
   animation: pulseSubtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
-

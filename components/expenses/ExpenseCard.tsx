@@ -135,8 +135,8 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
         onConfirm={handleDelete}
         title="Delete Expense"
         message={`Are you sure you want to delete "${expense.title}" (${formatCurrency(expense.amount)})? This action cannot be undone.`}
-        confirmLabel="Delete"
-        variant="danger"
+        confirmText="Delete"
+        isDestructive={true}
         isLoading={isDeleting}
       />
     </>

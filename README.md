@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.4.11 — Full-Stack Web Application
+# 🌟 DayDream v2.5.12 — Full-Stack Web Application
 
-> **Version 2.4.11** · **"Make memories worth remembering."**
+> **Version 2.5.12** · **"Make memories worth remembering."**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Designed with a calm, minimal, and warm aesthetic.
 

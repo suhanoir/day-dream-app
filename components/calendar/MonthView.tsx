@@ -108,7 +108,7 @@ export function MonthView({
                 "min-h-[85px] sm:min-h-[110px] p-1 sm:p-2 transition-colors cursor-pointer group relative flex flex-col justify-between",
                 !isCurrentMonth && "bg-stone-50/40 text-stone-400",
                 isCurrentMonth && "hover:bg-stone-50/80",
-                isSelected && "bg-stone-100/70 ring-1 ring-inset ring-stone-400"
+                isSelected && "bg-[var(--theme-primary-soft,#EEF0FF)]/50 ring-1 ring-inset ring-[var(--theme-primary,#4F5FD7)]/40"
               )}
             >
               {/* Day Number Header */}
@@ -117,9 +117,9 @@ export function MonthView({
                   className={cn(
                     "inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-medium",
                     isToday
-                      ? "bg-stone-900 text-white font-bold"
+                      ? "bg-[var(--theme-primary,#4F5FD7)] text-white font-bold shadow-2xs"
                       : isSelected
-                      ? "text-stone-900 font-bold"
+                      ? "text-[var(--theme-primary,#4F5FD7)] font-bold"
                       : isCurrentMonth
                       ? "text-stone-700"
                       : "text-stone-300"

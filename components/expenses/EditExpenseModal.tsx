@@ -290,8 +290,8 @@ export function EditExpenseModal({
         onConfirm={handleDelete}
         title="Delete Expense"
         message={`Are you sure you want to delete this expense? This action cannot be undone.`}
-        confirmLabel="Delete"
-        variant="danger"
+        confirmText="Delete"
+        isDestructive={true}
         isLoading={isDeleting}
       />
     </>
