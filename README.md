@@ -43,7 +43,7 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Add Task Action**: Prominent "Add Task" header button opening a dedicated task modal with Task Name, Date, Due Time, Priority, and Category.
 - **Always-Visible Checkboxes**: Checkbox is always visible. Ticking applies smooth strikethrough styling and moves tasks to a collapsible `COMPLETED` section.
 - **Daily Progress & Confetti**: Tracks daily progress with a progress bar and celebratory confetti when all tasks for the day are finished.
-- **Task Details & Helpers**: Full editing support, plus 1-click **"Move to Today"** for overdue tasks from past days.
+- **Task Details & Helpers**: Full editing support, individual 1-click **"Move to Today"**, and a batch **"Move All to Today"** button to instantly roll over uncompleted past tasks.
 
 ### 4. Expenses — Monthly Budget & Spend Tracking
 - **Indian Rupees (₹ / INR)**: All amounts, daily averages, and category badges formatted with Indian numerical grouping (`₹1,450.50`).
@@ -52,12 +52,23 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Add & Edit Expenses**: Clean form modal with What I Bought, Total Price, Category, Date, and Side Notes.
 - **Categories & Filtering**: Color-coded category tags (Food, Shopping, Travel, Bills, Education, Entertainment, Health, Other) with spend badges and real-time text search.
 
-### 5. Responsive & Mobile-First Design
+### 5. Centralized Global Theme System (6 Curated Themes)
+- **6 Hand-Crafted Global Themes**:
+  - **DayDream Indigo** *(Default)*: Modern, calm, professional aesthetic (`#4F5FD7`).
+  - **Slate Blue**: Sophisticated, premium productivity aesthetic (`#456B8C`).
+  - **Dreamy Aurora**: Soft, memorable creative aesthetic (`#7567D9`).
+  - **Forest Noir**: Elegant, luxury muted botanical green aesthetic (`#2F6B57`).
+  - **Ocean Mist**: Airy, refreshing coastal seafoam blue aesthetic (`#2F7F95`).
+  - **Crimson Red**: Confident, luxury burgundy/rose aesthetic (`#B23A48`).
+- **Unified Background Consistency**: All 4 core sections (BucketList, Calendar, To-Do List, Expenses) share the exact same dynamic theme background tint across every theme.
+- **Instant Persistence**: Quick selection under `Profile → Settings → Theme` with live 4-color palette swatches and zero-flicker loading via `localStorage` and `data-theme`.
+
+### 6. Responsive & Mobile-First Design
 - **Compact Icon-Only Mobile Navigation**: Screens < 640px display clean, finger-friendly icon buttons for BucketList, Calendar, To-Do List, Expenses, and Profile.
 - **Hover Tooltips**: On pointer/desktop devices, hovering over icons displays styled tooltip pills.
 - **Vector Scalable Logo**: Crisp, lightweight SVG logo that looks sharp at all sizes on light and dark backgrounds.
 
-### 6. Security & Infrastructure
+### 7. Security & Infrastructure
 - **Authentication**: Secure email/password authentication with `bcryptjs` hashing (10 rounds).
 - **Session Security**: Stateless, secure `HttpOnly` JWT cookies verified on every request.
 - **User Data Isolation**: Strict server-side `userId` scoping on all Prisma queries and mutations.
@@ -149,8 +160,8 @@ DayDream/
 │   ├── dashboard/                   # DashboardHeader, StatsOverview, FilterBar
 │   ├── expenses/                    # MonthlyTotalCard, MonthNavigator, ExpenseCard, Modals
 │   ├── todo/                        # AddTodoTaskModal, TodoTaskItem, DateNavigator
-│   ├── profile/                     # ProfileModal with user statistics
-│   ├── providers/                   # AuthProvider, ToastProvider
+│   ├── profile/                     # ProfileModal with user settings & 6 themes
+│   ├── providers/                   # AuthProvider, ToastProvider, ThemeProvider
 │   └── ui/                          # Button, Input, Textarea, Modal, ConfirmDialog, DayDreamLogo
 ├── lib/
 │   ├── auth/                        # JWT & Session verification utilities
@@ -160,7 +171,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.4.11 dependencies and scripts
+├── package.json                     # v2.5.13 dependencies and scripts
 └── README.md
 ```
 
