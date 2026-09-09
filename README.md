@@ -85,7 +85,7 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 
 ---
 
-## 📂 Project Structure
+## � Project Structure
 
 ```text
 DayDream/
