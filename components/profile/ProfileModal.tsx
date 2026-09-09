@@ -84,7 +84,7 @@ export function ProfileModal({
     : "Recently";
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} maxWidth="sm" showCloseButton={true}>
+    <Modal isOpen={isOpen} onClose={onClose} maxWidth="md" showCloseButton={true}>
       {/* VIEW 1: PROFILE OVERVIEW */}
       {currentView === "profile" && (
         <div className="space-y-5 text-center pt-2 pb-1 animate-fade-in">
@@ -284,7 +284,7 @@ export function ProfileModal({
           </div>
 
           {/* Theme Selection Cards */}
-          <div className="space-y-2.5 pt-1 max-h-[60vh] overflow-y-auto pr-1 scrollbar-thin">
+          <div className="space-y-2.5 pt-1">
             {themes.map((t) => {
               const isSelected = theme === t.id;
 
@@ -303,7 +303,7 @@ export function ProfileModal({
                     borderColor: isSelected ? t.palette.primary : undefined,
                   }}
                 >
-                  <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="flex items-center gap-3.5 min-w-0 flex-1">
                     {/* 4-color palette swatch preview */}
                     <div className="flex items-center gap-1 p-1.5 rounded-xl bg-white border border-stone-200/80 shadow-2xs shrink-0">
                       {t.previewSwatches.map((color, idx) => (
@@ -316,13 +316,13 @@ export function ProfileModal({
                       ))}
                     </div>
 
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <p className="text-xs sm:text-sm font-bold text-stone-900 truncate">
+                        <p className="text-xs sm:text-sm font-bold text-stone-900 whitespace-nowrap">
                           {t.name}
                         </p>
                         {t.id === "indigo" && (
-                          <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-500 border border-stone-200/60 uppercase tracking-wider">
+                          <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-500 border border-stone-200/60 uppercase tracking-wider shrink-0">
                             Default
                           </span>
                         )}
