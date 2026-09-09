@@ -205,7 +205,7 @@ export default function DashboardPage() {
 
   if (authLoading || (isLoading && items.length === 0 && categories.length === 0)) {
     return (
-      <div className="min-h-screen bg-[#faf9f6] flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-stone-50/50 flex flex-col items-center justify-center">
         <Loader2 className="w-8 h-8 text-stone-700 animate-spin mb-3" />
         <p className="text-xs text-stone-500 font-medium">
           Loading your bucket list...
@@ -215,7 +215,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf9f6] flex flex-col">
+    <div className="min-h-screen bg-stone-50/50 flex flex-col selection:bg-stone-900 selection:text-stone-50">
       <DashboardHeader />
 
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1">
