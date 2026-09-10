@@ -1,52 +1,160 @@
 import React from "react";
 import { cn } from "@/lib/utils/cn";
 
+export type DayDreamLogoVariant =
+  | "default"
+  | "icon"
+  | "light"
+  | "dark"
+  | "monochrome";
+
 export interface DayDreamLogoProps {
   className?: string;
   size?: number;
+  variant?: DayDreamLogoVariant;
+  withWordmark?: boolean;
+  wordmarkClassName?: string;
+  wordmarkPosition?: "horizontal" | "stacked";
 }
 
 export function DayDreamLogo({
   className,
   size = 32,
+  variant = "default",
+  withWordmark = false,
+  wordmarkClassName,
+  wordmarkPosition = "horizontal",
 }: DayDreamLogoProps) {
+  // Brand color palette constants
+  const CHARCOAL = "#17191C";
+  const WARM_IVORY = "#F7F3EA";
+
+  // Master Abstract Geometry: "The Threshold" (viewBox 0 0 256 256)
+  // Positive Space = DAY (Grounded action / reality)
+  // Negative Space = DREAM (Ascending aperture / vision)
+  // Subtly conceals the dual 'DD' (DayDream) relationship.
+  const glyphPath =
+    "M 70 70 C 70 52, 86 40, 108 40 C 168 40, 212 79, 212 128 C 212 177, 168 216, 108 216 C 86 216, 70 204, 70 186 Z M 106 82 C 138 82, 166 102, 166 128 C 166 154, 138 174, 106 174 C 100 174, 96 170, 96 164 L 96 92 C 96 86, 100 82, 106 82 Z";
+
+  const renderSvgMark = () => {
+    if (variant === "icon") {
+      // Mobile native squircle app icon
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+          width={size}
+          height={size}
+          className={cn("shrink-0 select-none overflow-hidden rounded-2xl", className)}
+          shapeRendering="geometricPrecision"
+          aria-label="DayDream App Icon"
+          role="img"
+        >
+          <rect width="256" height="256" rx="56" fill={CHARCOAL} />
+          <g transform="translate(128, 128) scale(0.80) translate(-128, -128)">
+            <path d={glyphPath} fill={WARM_IVORY} fillRule="evenodd" />
+          </g>
+        </svg>
+      );
+    }
+
+    if (variant === "light") {
+      // Dark glyph on transparent ground (for light backgrounds/paper)
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+          width={size}
+          height={size}
+          className={cn("shrink-0 select-none", className)}
+          shapeRendering="geometricPrecision"
+          aria-label="DayDream"
+          role="img"
+        >
+          <path d={glyphPath} fill={CHARCOAL} fillRule="evenodd" />
+        </svg>
+      );
+    }
+
+    if (variant === "dark") {
+      // Warm ivory glyph on transparent ground (for dark headers/cards)
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+          width={size}
+          height={size}
+          className={cn("shrink-0 select-none", className)}
+          shapeRendering="geometricPrecision"
+          aria-label="DayDream"
+          role="img"
+        >
+          <path d={glyphPath} fill={WARM_IVORY} fillRule="evenodd" />
+        </svg>
+      );
+    }
+
+    if (variant === "monochrome") {
+      // Contextual tint using currentColor
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+          width={size}
+          height={size}
+          className={cn("rounded-full shrink-0 select-none overflow-hidden", className)}
+          shapeRendering="geometricPrecision"
+          aria-label="DayDream"
+          role="img"
+        >
+          <circle cx="128" cy="128" r="128" fill="currentColor" />
+          <path d={glyphPath} fill="#FFFFFF" fillRule="evenodd" />
+        </svg>
+      );
+    }
+
+    // Default: Signature circular dark emblem with warm ivory symbol
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 256 256"
+        width={size}
+        height={size}
+        className={cn("rounded-full shrink-0 select-none overflow-hidden", className)}
+        shapeRendering="geometricPrecision"
+        aria-label="DayDream Logo"
+        role="img"
+      >
+        <circle cx="128" cy="128" r="128" fill={CHARCOAL} />
+        <path d={glyphPath} fill={WARM_IVORY} fillRule="evenodd" />
+      </svg>
+    );
+  };
+
+  if (!withWordmark) {
+    return renderSvgMark();
+  }
+
+  const isStacked = wordmarkPosition === "stacked";
+
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 100"
-      width={size}
-      height={size}
-      className={cn("rounded-xl shrink-0 select-none overflow-hidden", className)}
-      shapeRendering="geometricPrecision"
-      aria-label="DayDream Logo"
-      role="img"
+    <div
+      className={cn(
+        "inline-flex items-center select-none",
+        isStacked ? "flex-col gap-2.5 text-center" : "gap-3",
+      )}
     >
-      {/* Clean, Minimal Background Canvas */}
-      <rect width="100" height="100" rx="22" fill="#F4F4F2" />
-      <rect
-        x="0.75"
-        y="0.75"
-        width="98.5"
-        height="98.5"
-        rx="21.25"
-        fill="none"
-        stroke="#E5E5E2"
-        strokeWidth="1.5"
-      />
-
-      {/* Main Bold Geometric D */}
-      <path
-        d="M 25 21 H 52 C 66.5 21 76.5 33.5 76.5 50 C 76.5 66.5 66.5 79 52 79 H 25 V 21 Z M 37 33 V 65 H 43 C 44 68.5 46.5 72 50.5 72 C 59.5 72 65 62.5 65 50 C 65 37.5 59.5 33 50.5 33 H 37 Z"
-        fill="#1E2024"
-        fillRule="evenodd"
-      />
-
-      {/* Secondary Inner Echo Arc (Extends lower than main opening baseline) */}
-      <path
-        d="M 44 39 C 52.5 39 59 44 59 50 C 59 58 53.5 65 44.5 67.5 L 42.5 62 C 48.5 60 53 55.5 53 50 C 53 45 48.5 43.5 43 43.5 Z"
-        fill="#1E2024"
-      />
-    </svg>
+      {renderSvgMark()}
+      <span
+        className={cn(
+          "font-semibold tracking-[0.2em] uppercase text-sm",
+          variant === "light" ? "text-[#17191C]" : "text-[#F7F3EA]",
+          wordmarkClassName,
+        )}
+      >
+        DAYDREAM
+      </span>
+    </div>
   );
 }
 

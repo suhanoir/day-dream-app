@@ -1,8 +1,8 @@
-# 🌟 DayDream v2.9.0 — Full-Stack Web Application
+# 🌟 DayDream v2.9.1 — Full-Stack Web Application
 
-> **Version 2.9.0** · **"Liquid Glass Design System · Make memories worth remembering."**
+> **Version 2.9.1** · **"Master Abstract Brand Identity & Liquid Glass Design System · Make memories worth remembering."**
 
-A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Designed with a calm, tactile Liquid Glass design language with spatial depth, specular light reflections, and atmospheric backdrops.
+A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Featuring a timeless, abstract visual identity inspired by *The Threshold* (Day & Dream figure-ground duality) alongside a calm, tactile Liquid Glass design language.
 
 Repository: **[https://github.com/suhanoir/day-dream-app.git](https://github.com/suhanoir/day-dream-app.git)**  
 Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-app-two.vercel.app)**
@@ -173,7 +173,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.9.0 dependencies and scripts
+├── package.json                     # v2.9.1 dependencies and scripts
 └── README.md
 ```
 
