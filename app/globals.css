@@ -464,45 +464,143 @@
   --color-rose-600: #9F1239;
 }
 
-/* Midnight Citrus (Theme 12) */
+/* Midnight Citrus (Theme 12) — Perfected Dark Glass & Radiant Citrus */
 [data-theme="midnight-citrus"] {
-  --theme-bg: #181A20;
-  --theme-surface: #22252D;
-  --theme-surface-secondary: #2B2F3A;
-  --theme-primary: #B45309;
-  --theme-primary-hover: #92400E;
-  --theme-primary-soft: #2A2720;
-  --theme-primary-soft-border: #4D3A1B;
-  --theme-secondary: #F59E0B;
-  --theme-accent: #EAB308;
+  --theme-bg: #12151D;
+  --theme-surface: #1D2330;
+  --theme-surface-secondary: #252D3D;
+  --theme-primary: #F59E0B;
+  --theme-primary-hover: #D97706;
+  --theme-primary-text: #12151D;
+  --theme-primary-soft: rgba(245, 158, 11, 0.15);
+  --theme-primary-soft-border: rgba(245, 158, 11, 0.35);
+  --theme-secondary: #FB923C;
+  --theme-accent: #FBBF24;
   --theme-text: #F8FAFC;
-  --theme-text-muted: #94A3B8;
-  --theme-border: #333846;
-  --theme-border-subtle: #262A34;
+  --theme-text-muted: #8E9CAE;
+  --theme-border: #252C3A;
+  --theme-border-subtle: #1E2430;
   --theme-success: #10B981;
   --theme-warning: #F59E0B;
-  --theme-danger: #EF4444;
+  --theme-danger: #F43F5E;
 
-  /* Tailwind Stone Bridge */
-  --color-stone-50: #22252D;
-  --color-stone-100: #282C36;
-  --color-stone-200: #333846;
-  --color-stone-300: #474E61;
-  --color-stone-400: #64748B;
-  --color-stone-500: #94A3B8;
-  --color-stone-600: #CBD5E1;
-  --color-stone-700: #E2E8F0;
-  --color-stone-800: #F1F5F9;
+  /* Tailwind Stone Bridge (Complete 10-Level Inverted Dark Scale) */
+  --color-stone-50: #171B24;
+  --color-stone-100: #1E2430;
+  --color-stone-200: #252C3A;
+  --color-stone-300: #384252;
+  --color-stone-400: #5A6679;
+  --color-stone-500: #7E8B9F;
+  --color-stone-600: #94A3B8;
+  --color-stone-700: #CBD5E1;
+  --color-stone-800: #E2E8F0;
   --color-stone-900: #F8FAFC;
+  --color-stone-950: #FFFFFF;
 
   /* Semantic Overrides */
   --color-emerald-500: #10B981;
   --color-emerald-600: #059669;
   --color-amber-500: #F59E0B;
   --color-amber-600: #D97706;
-  --color-rose-500: #EF4444;
-  --color-rose-600: #DC2626;
+  --color-rose-500: #F43F5E;
+  --color-rose-600: #E11D48;
+
+  /* Scoped Liquid Glass System for Midnight Citrus */
+  --glass-bg-subtle: rgba(29, 35, 48, 0.50);
+  --glass-bg: rgba(29, 35, 48, 0.78);
+  --glass-bg-strong: rgba(33, 40, 54, 0.92);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-border-interactive: rgba(245, 158, 11, 0.35);
+  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+  --glass-highlight-subtle: inset 0 1px 0.5px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.35), 0 1px 3px -1px rgba(0, 0, 0, 0.25);
+  --glass-shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.45), 0 2px 6px -1px rgba(0, 0, 0, 0.30);
+  --glass-shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.60), 0 4px 12px -2px rgba(0, 0, 0, 0.40);
 }
+
+/* Scoped Dark Glass & Navigation Refinements for Midnight Citrus */
+[data-theme="midnight-citrus"] body {
+  background-color: #12151D;
+  background-image:
+    radial-gradient(circle at 12% 15%, rgba(245, 158, 11, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 88% 85%, rgba(56, 189, 248, 0.03) 0%, transparent 45%);
+}
+
+[data-theme="midnight-citrus"] .liquid-glass-dock {
+  background: rgba(20, 25, 36, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 16px 36px -4px rgba(0, 0, 0, 0.55),
+    0 4px 12px -2px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+[data-theme="midnight-citrus"] .glass-tab-active {
+  background: rgba(245, 158, 11, 0.18);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #FBBF24 !important;
+  box-shadow: 0 2px 8px -1px rgba(245, 158, 11, 0.22);
+}
+
+[data-theme="midnight-citrus"] .glass-modal {
+  background: rgba(25, 31, 44, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.70),
+    0 8px 20px -4px rgba(0, 0, 0, 0.50),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="midnight-citrus"] .glass-dropdown {
+  background: rgba(25, 31, 44, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+[data-theme="midnight-citrus"] .glass-toast {
+  background: rgba(25, 31, 44, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="midnight-citrus"] .glass-input {
+  background: rgba(29, 35, 48, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: #F8FAFC;
+}
+
+[data-theme="midnight-citrus"] .glass-input:focus {
+  background: rgba(33, 40, 54, 0.95);
+  border-color: #F59E0B;
+  box-shadow:
+    0 0 0 3px rgba(245, 158, 11, 0.20),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+/* Secondary buttons adapt to refined dark glass */
+[data-theme="midnight-citrus"] button.bg-white\/80,
+[data-theme="midnight-citrus"] button.bg-white {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+  color: #F8FAFC !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+[data-theme="midnight-citrus"] button.bg-white\/80:hover,
+[data-theme="midnight-citrus"] button.bg-white:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(245, 158, 11, 0.35) !important;
+}
+
+/* Container cards with legacy bg-white adapt to elevated midnight surface */
+[data-theme="midnight-citrus"] div.bg-white,
+[data-theme="midnight-citrus"] section.bg-white,
+[data-theme="midnight-citrus"] input.bg-white,
+[data-theme="midnight-citrus"] select.bg-white,
+[data-theme="midnight-citrus"] form.bg-white,
+[data-theme="midnight-citrus"] .bg-white\/70,
+[data-theme="midnight-citrus"] .bg-white\/80:not([role="switch"] *):not(.rounded-full) {
+  background-color: var(--theme-surface);
+}
+
 @layer base {
   body {
     background-color: var(--theme-bg, #FAFAF8);
@@ -519,7 +617,7 @@
 [data-theme] button.bg-stone-900,
 [data-theme] a.bg-stone-900 {
   background-color: var(--theme-primary) !important;
-  color: #FFFFFF !important;
+  color: var(--theme-primary-text, #FFFFFF) !important;
 }
 
 [data-theme] .theme-primary-bg:hover,
