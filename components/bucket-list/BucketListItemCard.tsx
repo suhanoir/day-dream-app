@@ -45,10 +45,10 @@ export function BucketListItemCard({
         }
       }}
       className={cn(
-        "group relative flex items-center justify-between py-3.5 px-4 rounded-xl transition-all duration-150 cursor-pointer border border-transparent select-none text-left",
+        "group relative flex items-center justify-between py-3.5 px-4 rounded-xl transition-all duration-150 cursor-pointer select-none text-left active:scale-98",
         item.completed
-          ? "bg-stone-100/50 hover:bg-stone-100 text-stone-500 border-stone-200/50"
-          : "bg-white hover:bg-stone-50 text-stone-900 border-stone-200/80 shadow-xs hover:border-stone-300"
+          ? "bg-stone-100/40 hover:bg-stone-100/70 text-stone-400 border border-stone-200/40"
+          : "glass-card-interactive text-stone-900 hover:border-stone-300"
       )}
     >
       <div className="flex items-center gap-3 min-w-0 pr-3">
@@ -66,7 +66,7 @@ export function BucketListItemCard({
 
         {/* Subtle completed check indicator */}
         {item.completed && (
-          <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 shrink-0 text-xs">
+          <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-700 border border-emerald-500/25 shrink-0 text-xs shadow-2xs">
             <Check className="w-3 h-3" />
           </span>
         )}
@@ -75,18 +75,18 @@ export function BucketListItemCard({
         {item.reflection && (
           <span
             title="Has saved reflection memory"
-            className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"
+            className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 shadow-2xs"
           />
         )}
       </div>
 
       <div className="flex items-center gap-2 shrink-0">
         {showCategoryBadge && item.category && (
-          <span className="text-[11px] font-medium text-stone-500 bg-stone-100 px-2 py-0.5 rounded-md hidden sm:inline-block">
+          <span className="text-[11px] font-medium text-stone-600 glass-card px-2 py-0.5 rounded-md hidden sm:inline-block">
             {item.category.name}
           </span>
         )}
-        <ChevronRight className="w-4 h-4 text-stone-300 group-hover:text-stone-500 transition-transform group-hover:translate-x-0.5 shrink-0" />
+        <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-stone-700 transition-transform group-hover:translate-x-0.5 shrink-0" />
       </div>
     </div>
   );

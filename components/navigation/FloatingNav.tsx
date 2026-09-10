@@ -135,10 +135,10 @@ export function FloatingNav() {
                 if (!isHome) playSound("navigation");
               }}
               className={cn(
-                "flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full text-xs font-medium transition-all",
+                "flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full text-xs font-medium transition-all cursor-pointer active:scale-95",
                 isHome
-                  ? "bg-[var(--theme-primary-soft)] text-[var(--theme-primary)] font-semibold border border-[var(--theme-primary-soft-border)] shadow-2xs"
-                  : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/80 border border-transparent"
+                  ? "glass-tab-active"
+                  : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/70 border border-transparent"
               )}
             >
               <HomeIcon className="w-4 h-4 shrink-0" />
@@ -156,7 +156,7 @@ export function FloatingNav() {
                 }}
                 aria-label="Open navigation menu"
                 aria-expanded={isExpanded}
-                className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold text-stone-700 hover:text-stone-950 hover:bg-stone-100/80 border border-transparent transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold text-stone-700 hover:text-stone-950 hover:bg-stone-100/70 border border-transparent transition-all cursor-pointer active:scale-95"
               >
                 <Menu className="w-4 h-4 text-stone-500" />
                 <span>Menu</span>
@@ -171,7 +171,7 @@ export function FloatingNav() {
                 }}
                 aria-label={`Open navigation menu. Currently on ${currentSection?.name || "section"}`}
                 aria-expanded={isExpanded}
-                className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold bg-[var(--theme-primary-soft)] text-[var(--theme-primary)] border border-[var(--theme-primary-soft-border)] shadow-2xs transition-all cursor-pointer group"
+                className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold glass-tab-active transition-all cursor-pointer group active:scale-95"
               >
                 <CurrentSectionIcon className="w-4 h-4 shrink-0" />
                 <span>{currentSection?.name}</span>
@@ -197,10 +197,10 @@ export function FloatingNav() {
                     if (!active) playSound("navigation");
                   }}
                   className={cn(
-                    "flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-full text-xs transition-all shrink-0 cursor-pointer",
+                    "flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-full text-xs transition-all shrink-0 cursor-pointer active:scale-95",
                     active
-                      ? "bg-[var(--theme-primary-soft)] text-[var(--theme-primary)] font-semibold border border-[var(--theme-primary-soft-border)] shadow-2xs"
-                      : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/80 border border-transparent font-medium"
+                      ? "glass-tab-active"
+                      : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/70 border border-transparent font-medium"
                   )}
                   title={item.name}
                 >

@@ -73,10 +73,10 @@ export function TodoTaskItem({
     <div
       onClick={() => onClick(task)}
       className={cn(
-        "group relative flex items-center justify-between gap-3 p-3.5 sm:px-4 sm:py-3.5 rounded-2xl border transition-all duration-200 cursor-pointer select-none",
+        "group relative flex items-center justify-between gap-3 p-3.5 sm:px-4 sm:py-3.5 rounded-2xl border transition-all duration-200 cursor-pointer select-none active:scale-98",
         task.completed
-          ? "bg-stone-50/60 border-stone-200/60 text-stone-400 hover:bg-stone-50 hover:border-stone-200"
-          : "bg-white border-stone-200/90 hover:border-stone-300 hover:shadow-2xs text-stone-900"
+          ? "bg-stone-100/40 border-stone-200/40 text-stone-400 hover:bg-stone-100/60"
+          : "glass-card-interactive text-stone-900"
       )}
     >
       {/* Checkbox and Task Info */}
@@ -88,10 +88,10 @@ export function TodoTaskItem({
           disabled={isToggling}
           aria-label={task.completed ? "Mark as incomplete" : "Mark as complete"}
           className={cn(
-            "w-5 h-5 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer",
+            "w-5 h-5 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer active:scale-95",
             task.completed
-              ? "bg-emerald-600 border-emerald-600 text-white shadow-2xs rotate-0 scale-100"
-              : "border-stone-300 bg-white hover:border-stone-500 hover:bg-stone-50"
+              ? "bg-[var(--theme-primary)] border-[var(--theme-primary)] text-white shadow-2xs rotate-0 scale-100"
+              : "border-stone-300/80 bg-white/80 hover:border-[var(--theme-primary)] hover:bg-white"
           )}
         >
           {task.completed && (
@@ -119,8 +119,8 @@ export function TodoTaskItem({
                 className={cn(
                   "inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium transition-colors",
                   task.completed
-                    ? "text-stone-400 bg-stone-100/60"
-                    : "text-stone-600 bg-stone-100 border border-stone-200/60"
+                    ? "text-stone-400 bg-stone-100/40"
+                    : "text-stone-600 glass-card"
                 )}
               >
                 <Clock className="w-3 h-3 text-stone-400" />

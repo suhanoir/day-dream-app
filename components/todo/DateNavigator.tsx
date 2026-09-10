@@ -49,13 +49,13 @@ export function DateNavigator({
   };
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 sm:px-5 sm:py-3.5 rounded-2xl border border-stone-200/90 shadow-2xs">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 glass-card p-3 sm:px-5 sm:py-3.5 rounded-2xl">
       {/* Date Header Display */}
       <div className="flex items-center gap-2.5">
         <button
           type="button"
           onClick={() => dateInputRef.current?.showPicker?.() || dateInputRef.current?.focus()}
-          className="w-9 h-9 rounded-xl bg-stone-100 hover:bg-stone-200/80 text-stone-700 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+          className="w-9 h-9 rounded-xl glass-card text-stone-700 flex items-center justify-center transition-all cursor-pointer shrink-0 active:scale-95"
           title="Jump to date"
         >
           <CalendarIcon className="w-4 h-4 text-stone-600" />
@@ -82,7 +82,7 @@ export function DateNavigator({
                   "text-[11px] font-semibold px-2 py-0.5 rounded-full border",
                   isViewingToday
                     ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs"
-                    : "bg-stone-100 text-stone-600 border-stone-200"
+                    : "glass-card text-stone-600 border-stone-200/80"
                 )}
               >
                 {relativeLabel}
@@ -97,7 +97,7 @@ export function DateNavigator({
         <button
           type="button"
           onClick={handlePrevDay}
-          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl border border-stone-200/80 text-xs font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl glass-card text-xs font-medium text-stone-700 hover:text-stone-900 transition-all cursor-pointer active:scale-95"
         >
           <ChevronLeft className="w-3.5 h-3.5" />
           <span className="hidden xs:inline">Previous Day</span>
@@ -110,8 +110,8 @@ export function DateNavigator({
           className={cn(
             "inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
             isViewingToday
-              ? "bg-stone-100 text-stone-400 border-stone-200/60 cursor-default opacity-70"
-              : "bg-white text-stone-900 border-stone-200/90 hover:bg-stone-100 shadow-2xs"
+              ? "bg-stone-100/60 text-stone-400 border-stone-200/40 cursor-default opacity-60"
+              : "glass-card text-stone-900 active:scale-95"
           )}
         >
           <RotateCcw className="w-3 h-3" />
@@ -121,7 +121,7 @@ export function DateNavigator({
         <button
           type="button"
           onClick={handleNextDay}
-          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl border border-stone-200/80 text-xs font-medium text-stone-700 hover:bg-stone-50 hover:text-stone-900 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl glass-card text-xs font-medium text-stone-700 hover:text-stone-900 transition-all cursor-pointer active:scale-95"
         >
           <span className="hidden xs:inline">Next Day</span>
           <ChevronRight className="w-3.5 h-3.5" />

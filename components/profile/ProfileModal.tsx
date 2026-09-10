@@ -118,7 +118,7 @@ export function ProfileModal({
           </div>
 
           {/* User Stats Grid */}
-          <div className="grid grid-cols-3 gap-2 bg-stone-50 p-3.5 rounded-2xl border border-stone-200/80 text-center">
+          <div className="grid grid-cols-3 gap-2 glass-card p-3.5 rounded-2xl text-center">
             <div className="p-2">
               <span className="text-xs text-stone-400 font-medium block mb-1">
                 Goals
@@ -128,7 +128,7 @@ export function ProfileModal({
               </span>
             </div>
 
-            <div className="p-2 border-x border-stone-200/60">
+            <div className="p-2 border-x border-stone-200/50">
               <span className="text-xs text-stone-400 font-medium block mb-1">
                 Completed
               </span>
@@ -151,7 +151,7 @@ export function ProfileModal({
           <button
             type="button"
             onClick={() => setCurrentView("settings")}
-            className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-stone-50 hover:bg-stone-100/90 border border-stone-200/80 transition-all cursor-pointer group shadow-2xs text-left"
+            className="w-full flex items-center justify-between p-3.5 rounded-2xl glass-card-interactive transition-all cursor-pointer group shadow-2xs text-left active:scale-98"
           >
             <div className="flex items-center gap-3">
               <div
@@ -223,7 +223,7 @@ export function ProfileModal({
             <button
               type="button"
               onClick={() => setCurrentView("theme")}
-              className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-white border border-stone-200/90 hover:border-stone-300 hover:shadow-2xs transition-all cursor-pointer group text-left"
+              className="w-full flex items-center justify-between p-3.5 rounded-2xl glass-card-interactive transition-all cursor-pointer group text-left active:scale-98"
             >
               <div className="flex items-center gap-3">
                 <div
@@ -265,7 +265,7 @@ export function ProfileModal({
             <button
               type="button"
               onClick={() => setCurrentView("sound")}
-              className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-white border border-stone-200/90 hover:border-stone-300 hover:shadow-2xs transition-all cursor-pointer group text-left"
+              className="w-full flex items-center justify-between p-3.5 rounded-2xl glass-card-interactive transition-all cursor-pointer group text-left active:scale-98"
             >
               <div className="flex items-center gap-3">
                 <div
@@ -341,10 +341,10 @@ export function ProfileModal({
                   type="button"
                   onClick={() => setTheme(t.id)}
                   className={cn(
-                    "w-full text-left p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 relative",
+                    "w-full text-left p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 relative active:scale-98",
                     isSelected
-                      ? "bg-white shadow-sm border-2"
-                      : "bg-stone-50/70 hover:bg-white border-stone-200/80 hover:border-stone-300"
+                      ? "glass-card shadow-sm border-2"
+                      : "glass-card-interactive"
                   )}
                   style={{
                     borderColor: isSelected ? t.palette.primary : undefined,
@@ -352,7 +352,7 @@ export function ProfileModal({
                 >
                   <div className="flex items-center gap-3.5 min-w-0 flex-1">
                     {/* 4-color palette swatch preview */}
-                    <div className="flex items-center gap-1 p-1.5 rounded-xl bg-white border border-stone-200/80 shadow-2xs shrink-0">
+                    <div className="flex items-center gap-1 p-1.5 rounded-xl glass-card shrink-0">
                       {t.previewSwatches.map((color, idx) => (
                         <span
                           key={idx}
@@ -437,7 +437,7 @@ export function ProfileModal({
           {/* Sound Controls */}
           <div className="space-y-3 pt-1">
             {/* Toggle Card */}
-            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs">
+            <div className="flex items-center justify-between p-3.5 rounded-2xl glass-card">
               <div className="flex items-center gap-3">
                 <div
                   className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-2xs transition-colors shrink-0"
@@ -486,7 +486,7 @@ export function ProfileModal({
             </div>
 
             {/* Volume Card */}
-            <div className="p-3.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs space-y-2.5">
+            <div className="p-3.5 rounded-2xl glass-card space-y-2.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Volume1 className="w-4 h-4 text-stone-500" />
@@ -514,7 +514,7 @@ export function ProfileModal({
             </div>
 
             {/* Preview Sounds Card */}
-            <div className="p-3.5 rounded-2xl bg-stone-50/70 border border-stone-200/80 space-y-2.5">
+            <div className="p-3.5 rounded-2xl glass-card space-y-2.5">
               <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400 block px-0.5">
                 Preview Sounds
               </span>
@@ -523,7 +523,7 @@ export function ProfileModal({
                   type="button"
                   disabled={!soundEnabled}
                   onClick={() => playSound("ui-click")}
-                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
                     className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
@@ -539,7 +539,7 @@ export function ProfileModal({
                   type="button"
                   disabled={!soundEnabled}
                   onClick={() => playSound("navigation")}
-                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
                     className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
@@ -555,7 +555,7 @@ export function ProfileModal({
                   type="button"
                   disabled={!soundEnabled}
                   onClick={() => playSound("success")}
-                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
                     className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
@@ -571,7 +571,7 @@ export function ProfileModal({
                   type="button"
                   disabled={!soundEnabled}
                   onClick={() => playSound("dream-complete")}
-                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
                     className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
@@ -587,7 +587,7 @@ export function ProfileModal({
                   type="button"
                   disabled={!soundEnabled}
                   onClick={() => playSound("delete")}
-                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
                     className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
@@ -603,7 +603,7 @@ export function ProfileModal({
                   type="button"
                   disabled={!soundEnabled}
                   onClick={() => playSound("notification")}
-                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
                     className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"

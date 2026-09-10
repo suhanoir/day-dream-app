@@ -43,12 +43,12 @@ export function FilterBar({
             placeholder="Search your bucket list..."
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-10 pr-9 py-2.5 bg-white border border-stone-200/90 rounded-2xl text-sm placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-400/50 focus:border-stone-400 transition-all shadow-2xs"
+            className="w-full pl-10 pr-9 py-2.5 glass-input rounded-2xl text-sm placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 transition-all"
           />
           {search && (
             <button
               onClick={() => onSearchChange("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-1"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-1 cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -85,15 +85,15 @@ export function FilterBar({
       {/* Bottom row: Filter Tabs and Category Dropdown */}
       <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1">
         {/* Status Segmented Control */}
-        <div className="inline-flex p-1 bg-stone-200/60 rounded-xl">
+        <div className="inline-flex p-1 bg-stone-200/50 backdrop-blur-xs rounded-xl border border-stone-200/60 shadow-inner">
           <button
             type="button"
             onClick={() => onStatusChange("all")}
             className={cn(
-              "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer",
+              "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
               status === "all"
-                ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                : "text-stone-600 hover:text-stone-900"
+                ? "glass-tab-active shadow-2xs font-semibold"
+                : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
             )}
           >
             All
@@ -102,10 +102,10 @@ export function FilterBar({
             type="button"
             onClick={() => onStatusChange("active")}
             className={cn(
-              "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer",
+              "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
               status === "active"
-                ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                : "text-stone-600 hover:text-stone-900"
+                ? "glass-tab-active shadow-2xs font-semibold"
+                : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
             )}
           >
             Active
@@ -114,10 +114,10 @@ export function FilterBar({
             type="button"
             onClick={() => onStatusChange("completed")}
             className={cn(
-              "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer",
+              "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
               status === "completed"
-                ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                : "text-stone-600 hover:text-stone-900"
+                ? "glass-tab-active shadow-2xs font-semibold"
+                : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
             )}
           >
             Completed
@@ -132,7 +132,7 @@ export function FilterBar({
           <select
             value={selectedCategory}
             onChange={(e) => onCategoryChange(e.target.value)}
-            className="px-3 py-1.5 bg-white text-stone-800 border border-stone-200/90 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-stone-400/50 cursor-pointer shadow-2xs"
+            className="px-3 py-1.5 glass-input text-stone-800 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 cursor-pointer shadow-2xs"
           >
             <option value="all">All Categories</option>
             {categories.map((cat) => (

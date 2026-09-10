@@ -22,7 +22,7 @@ export function DashboardHeader() {
 
   return (
     <>
-      <header className="w-full bg-white/85 backdrop-blur-md border-b border-stone-200/80 sticky top-0 z-40 transition-colors">
+      <header className="w-full glass-panel sticky top-0 z-40 border-b border-stone-200/60 transition-all">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand Logo & Version */}
           <Link href="/home" className="flex items-center gap-2.5 group">
@@ -33,7 +33,7 @@ export function DashboardHeader() {
               <span className="text-base font-bold tracking-tight text-stone-900">
                 DayDream
               </span>
-              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-500 border border-stone-200/80">
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md glass-card text-stone-600 border border-stone-200/70">
                 {APP_VERSION}
               </span>
             </div>
@@ -44,7 +44,7 @@ export function DashboardHeader() {
             <div className="relative">
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl hover:bg-stone-100/80 transition-colors border border-transparent hover:border-stone-200 text-left cursor-pointer"
+                className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl hover:bg-stone-100/60 transition-all border border-transparent hover:border-stone-200/80 text-left cursor-pointer active:scale-98"
               >
                 <div
                   className="w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-bold shadow-2xs transition-colors"
@@ -63,12 +63,12 @@ export function DashboardHeader() {
                     className="fixed inset-0 z-20"
                     onClick={() => setShowProfileMenu(false)}
                   />
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-stone-200/90 rounded-2xl shadow-xl z-30 p-2 text-xs animate-fade-in">
-                    <div className="px-3 py-2 border-b border-stone-100 mb-1">
+                  <div className="absolute right-0 top-full mt-2 w-56 glass-dropdown z-30 p-2 text-xs animate-fade-in">
+                    <div className="px-3 py-2 border-b border-stone-200/50 mb-1">
                       <p className="font-semibold text-stone-900 truncate">
                         {user?.name}
                       </p>
-                      <p className="text-[11px] text-stone-400 truncate">
+                      <p className="text-[11px] text-stone-500 truncate">
                         {user?.email}
                       </p>
                     </div>
@@ -79,7 +79,7 @@ export function DashboardHeader() {
                         setProfileModalView("profile");
                         setShowProfileModal(true);
                       }}
-                      className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-50 rounded-xl flex items-center gap-2 font-medium transition-colors cursor-pointer"
+                      className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-100/70 rounded-xl flex items-center gap-2 font-medium transition-colors cursor-pointer active:scale-98"
                     >
                       <User className="w-3.5 h-3.5 text-stone-400" />
                       View Profile
@@ -91,25 +91,25 @@ export function DashboardHeader() {
                         setProfileModalView("settings");
                         setShowProfileModal(true);
                       }}
-                      className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-50 rounded-xl flex items-center justify-between font-medium transition-colors cursor-pointer"
+                      className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-100/70 rounded-xl flex items-center justify-between font-medium transition-colors cursor-pointer active:scale-98"
                     >
                       <div className="flex items-center gap-2">
                         <Palette className="w-3.5 h-3.5 text-stone-400" />
                         <span>Settings & Theme</span>
                       </div>
-                      <span className="text-[10px] font-semibold text-stone-500 bg-stone-100 px-1.5 py-0.5 rounded">
+                      <span className="text-[10px] font-semibold text-stone-600 bg-stone-100/90 border border-stone-200/50 px-1.5 py-0.5 rounded">
                         {currentThemeMeta.name.split(" ")[0]}
                       </span>
                     </button>
 
-                    <div className="my-1 border-t border-stone-100" />
+                    <div className="my-1 border-t border-stone-200/50" />
 
                     <button
                       onClick={() => {
                         setShowProfileMenu(false);
                         logout();
                       }}
-                      className="w-full px-3 py-2 text-left text-rose-600 hover:bg-rose-50 rounded-xl flex items-center gap-2 font-medium transition-colors cursor-pointer"
+                      className="w-full px-3 py-2 text-left text-rose-600 hover:bg-rose-500/10 rounded-xl flex items-center gap-2 font-medium transition-colors cursor-pointer active:scale-98"
                     >
                       <LogOut className="w-3.5 h-3.5" />
                       Sign Out

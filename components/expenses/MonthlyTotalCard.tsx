@@ -41,12 +41,12 @@ export function MonthlyTotalCard({
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
       {/* Primary Monthly Total Card */}
-      <div className="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-colors relative overflow-hidden group">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 hover:border-stone-300 transition-all relative overflow-hidden group">
         <div className="flex items-center justify-between text-stone-400 mb-2">
           <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
             Total Spent ({formatMonthYear(currentDate)})
           </span>
-          <div className="w-7 h-7 rounded-lg bg-stone-100 flex items-center justify-center text-stone-600">
+          <div className="w-7 h-7 rounded-lg glass-card flex items-center justify-center text-stone-600">
             <IndianRupee className="w-4 h-4" />
           </div>
         </div>
@@ -60,12 +60,12 @@ export function MonthlyTotalCard({
       </div>
 
       {/* Top Category Card */}
-      <div className="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-colors">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 hover:border-stone-300 transition-all">
         <div className="flex items-center justify-between text-stone-400 mb-2">
           <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
             Top Category
           </span>
-          <div className="w-7 h-7 rounded-lg bg-stone-100 flex items-center justify-center text-stone-600">
+          <div className="w-7 h-7 rounded-lg glass-card flex items-center justify-center text-stone-600">
             <Tag className="w-4 h-4" />
           </div>
         </div>
@@ -91,12 +91,12 @@ export function MonthlyTotalCard({
       </div>
 
       {/* Daily Average Card */}
-      <div className="bg-white border border-stone-200/90 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-colors">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 hover:border-stone-300 transition-all">
         <div className="flex items-center justify-between text-stone-400 mb-2">
           <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
             Daily Average
           </span>
-          <div className="w-7 h-7 rounded-lg bg-stone-100 flex items-center justify-center text-stone-600">
+          <div className="w-7 h-7 rounded-lg glass-card flex items-center justify-center text-stone-600">
             <TrendingUp className="w-4 h-4" />
           </div>
         </div>

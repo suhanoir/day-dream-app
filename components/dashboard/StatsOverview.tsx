@@ -35,7 +35,7 @@ export function StatsOverview({ stats, isLoading = false }: StatsOverviewProps) 
       {/* 4 Cards Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Goals */}
-        <div className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-colors">
+        <div className="glass-card rounded-2xl p-4 sm:p-5 hover:border-stone-300 transition-all">
           <div className="flex items-center justify-between text-stone-400 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
               Total Goals
@@ -48,7 +48,7 @@ export function StatsOverview({ stats, isLoading = false }: StatsOverviewProps) 
         </div>
 
         {/* Completed */}
-        <div className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-colors">
+        <div className="glass-card rounded-2xl p-4 sm:p-5 hover:border-stone-300 transition-all">
           <div className="flex items-center justify-between text-stone-400 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
               Completed
@@ -58,7 +58,7 @@ export function StatsOverview({ stats, isLoading = false }: StatsOverviewProps) 
           <div className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900 flex items-center gap-1.5">
             {stats.completedGoals}
             {stats.completedGoals > 0 && (
-              <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md">
+              <span className="text-xs font-semibold text-emerald-700 bg-emerald-500/15 border border-emerald-500/25 px-1.5 py-0.5 rounded-md shadow-2xs">
                 ✓
               </span>
             )}
@@ -66,7 +66,7 @@ export function StatsOverview({ stats, isLoading = false }: StatsOverviewProps) 
         </div>
 
         {/* Remaining */}
-        <div className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-colors">
+        <div className="glass-card rounded-2xl p-4 sm:p-5 hover:border-stone-300 transition-all">
           <div className="flex items-center justify-between text-stone-400 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
               Remaining
@@ -79,7 +79,7 @@ export function StatsOverview({ stats, isLoading = false }: StatsOverviewProps) 
         </div>
 
         {/* Completion % */}
-        <div className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-colors">
+        <div className="glass-card rounded-2xl p-4 sm:p-5 hover:border-stone-300 transition-all">
           <div className="flex items-center justify-between text-stone-400 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
               Progress
@@ -94,7 +94,7 @@ export function StatsOverview({ stats, isLoading = false }: StatsOverviewProps) 
 
       {/* Sleek Minimal Progress Bar */}
       {stats.totalGoals > 0 && (
-        <div className="bg-white border border-stone-200/80 rounded-2xl px-5 py-3.5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div className="glass-card rounded-2xl px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <span className="text-xs font-medium text-stone-600">
             Overall Milestone Completion
           </span>

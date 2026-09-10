@@ -64,21 +64,21 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           <div
             key={t.id}
             className={cn(
-              "pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 rounded-xl shadow-lg border text-sm transition-all duration-300 animate-fade-in",
-              t.type === "success" && "bg-white text-stone-900 border-emerald-200 shadow-emerald-500/5",
-              t.type === "error" && "bg-white text-stone-900 border-rose-200 shadow-rose-500/5",
-              t.type === "info" && "bg-white text-stone-900 border-stone-200"
+              "pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 rounded-2xl glass-toast text-sm transition-all duration-300 animate-fade-in",
+              t.type === "success" && "border-emerald-500/40 shadow-emerald-500/10",
+              t.type === "error" && "border-rose-500/40 shadow-rose-500/10",
+              t.type === "info" && "border-stone-200/80"
             )}
           >
             <div className="flex items-center gap-2.5">
               {t.type === "success" && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
               {t.type === "error" && <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />}
               {t.type === "info" && <Info className="w-4 h-4 text-stone-600 shrink-0" />}
-              <span className="font-medium text-stone-800 text-[13px]">{t.message}</span>
+              <span className="font-medium text-stone-900 text-[13px]">{t.message}</span>
             </div>
             <button
               onClick={() => removeToast(t.id)}
-              className="text-stone-400 hover:text-stone-600 transition-colors p-1 rounded-md"
+              className="text-stone-400 hover:text-stone-700 transition-colors p-1 rounded-md cursor-pointer active:scale-95"
             >
               <X className="w-3.5 h-3.5" />
             </button>

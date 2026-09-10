@@ -11,16 +11,16 @@ export interface CategoryBadgeProps {
 }
 
 const colorMap: Record<string, { bg: string; text: string; border: string }> = {
-  sky: { bg: "bg-sky-50", text: "text-sky-800", border: "border-sky-200/80" },
-  amber: { bg: "bg-amber-50", text: "text-amber-800", border: "border-amber-200/80" },
-  rose: { bg: "bg-rose-50", text: "text-rose-800", border: "border-rose-200/80" },
-  indigo: { bg: "bg-indigo-50", text: "text-indigo-800", border: "border-indigo-200/80" },
-  emerald: { bg: "bg-emerald-50", text: "text-emerald-800", border: "border-emerald-200/80" },
-  teal: { bg: "bg-teal-50", text: "text-teal-800", border: "border-teal-200/80" },
-  yellow: { bg: "bg-yellow-50", text: "text-yellow-800", border: "border-yellow-200/80" },
-  violet: { bg: "bg-violet-50", text: "text-violet-800", border: "border-violet-200/80" },
-  purple: { bg: "bg-purple-50", text: "text-purple-800", border: "border-purple-200/80" },
-  stone: { bg: "bg-stone-100", text: "text-stone-700", border: "border-stone-200/80" },
+  sky: { bg: "bg-sky-50/80 backdrop-blur-xs", text: "text-sky-850", border: "border-sky-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  amber: { bg: "bg-amber-50/80 backdrop-blur-xs", text: "text-amber-850", border: "border-amber-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  rose: { bg: "bg-rose-50/80 backdrop-blur-xs", text: "text-rose-850", border: "border-rose-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  indigo: { bg: "bg-indigo-50/80 backdrop-blur-xs", text: "text-indigo-850", border: "border-indigo-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  emerald: { bg: "bg-emerald-50/80 backdrop-blur-xs", text: "text-emerald-850", border: "border-emerald-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  teal: { bg: "bg-teal-50/80 backdrop-blur-xs", text: "text-teal-850", border: "border-teal-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  yellow: { bg: "bg-yellow-50/80 backdrop-blur-xs", text: "text-yellow-850", border: "border-yellow-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  violet: { bg: "bg-violet-50/80 backdrop-blur-xs", text: "text-violet-850", border: "border-violet-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  purple: { bg: "bg-purple-50/80 backdrop-blur-xs", text: "text-purple-850", border: "border-purple-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  stone: { bg: "bg-stone-100/80 backdrop-blur-xs", text: "text-stone-700", border: "border-stone-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
 };
 
 export function CategoryBadge({
@@ -34,12 +34,12 @@ export function CategoryBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center font-medium rounded-md border tracking-wide uppercase",
+        "inline-flex items-center font-semibold rounded-full border tracking-wide uppercase shadow-2xs select-none",
         styles.bg,
         styles.text,
         styles.border,
-        size === "sm" && "text-[10px] px-2 py-0.5",
-        size === "md" && "text-xs px-2.5 py-1",
+        size === "sm" && "text-[9.5px] px-2.5 py-0.5",
+        size === "md" && "text-[11px] px-3 py-1",
         className
       )}
     >

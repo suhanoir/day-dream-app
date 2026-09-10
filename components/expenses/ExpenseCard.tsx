@@ -62,12 +62,12 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
 
   return (
     <>
-      <div className="group bg-white rounded-2xl border border-stone-200/90 p-4 shadow-2xs hover:border-stone-300 hover:shadow-xs transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="group glass-card-interactive rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all duration-200 active:scale-98">
         {/* Left: Category Icon + Title & Notes */}
         <div className="flex items-start gap-3 min-w-0 flex-1">
           <div
             className={cn(
-              "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5",
+              "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 shadow-2xs",
               config.bg
             )}
           >
@@ -81,7 +81,7 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
               </h3>
               <span
                 className={cn(
-                  "text-[10px] font-semibold px-2 py-0.5 rounded-md border uppercase tracking-wider",
+                  "text-[10px] font-semibold px-2 py-0.5 rounded-md border uppercase tracking-wider shadow-2xs",
                   config.badge
                 )}
               >
@@ -103,7 +103,7 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
         </div>
 
         {/* Right: Amount + Action Buttons */}
-        <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100">
+        <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-200/50">
           <div className="text-right">
             <div className="text-base sm:text-lg font-bold text-stone-900 tracking-tight">
               {formatCurrency(expense.amount)}
@@ -117,7 +117,7 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
                 e.stopPropagation();
                 onEdit(expense);
               }}
-              className="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100/80 transition-colors cursor-pointer active:scale-95"
               title="Edit Expense"
             >
               <Pencil className="w-3.5 h-3.5" />
@@ -129,7 +129,7 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
                 e.stopPropagation();
                 setShowConfirmDelete(true);
               }}
-              className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-500/10 transition-colors cursor-pointer active:scale-95"
               title="Delete Expense"
             >
               <Trash2 className="w-3.5 h-3.5" />

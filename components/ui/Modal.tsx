@@ -48,13 +48,13 @@ export function Modal({
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-stone-950/40 backdrop-blur-xs transition-opacity animate-fade-in"
+        className="fixed inset-0 bg-stone-950/30 backdrop-blur-md transition-opacity animate-fade-in"
       />
 
       {/* Modal Container */}
       <div
         className={cn(
-          "relative w-full bg-white rounded-2xl shadow-2xl border border-stone-200/80 p-6 z-10 my-auto text-left transform transition-all animate-fade-in overflow-hidden max-h-[90vh] flex flex-col",
+          "relative w-full glass-modal rounded-3xl p-6 sm:p-7 z-10 my-auto text-left transform transition-all animate-fade-in overflow-hidden max-h-[90vh] flex flex-col",
           maxWidth === "sm" && "max-w-sm",
           maxWidth === "md" && "max-w-md",
           maxWidth === "lg" && "max-w-lg",
@@ -64,10 +64,10 @@ export function Modal({
       >
         {/* Header */}
         {(title || showCloseButton) && (
-          <div className="flex items-start justify-between gap-4 pb-4 border-b border-stone-100 mb-5">
+          <div className="flex items-start justify-between gap-4 pb-4 border-b border-stone-200/60 mb-5">
             <div>
               {title && (
-                <h3 className="text-lg font-semibold text-stone-900 tracking-tight">
+                <h3 className="text-lg font-bold text-stone-900 tracking-tight">
                   {title}
                 </h3>
               )}
@@ -80,7 +80,7 @@ export function Modal({
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="text-stone-400 hover:text-stone-700 p-1.5 rounded-lg hover:bg-stone-100 transition-colors -mr-1 -mt-1"
+                className="text-stone-400 hover:text-stone-700 p-1.5 rounded-full hover:bg-stone-200/60 transition-colors -mr-1 -mt-1 cursor-pointer"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />

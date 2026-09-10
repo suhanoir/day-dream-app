@@ -234,7 +234,7 @@ export default function HomePage() {
   const expensesSummary = data?.expensesSummary;
 
   return (
-    <div className="min-h-screen bg-stone-50/50 flex flex-col selection:bg-stone-900 selection:text-stone-50">
+    <div className="min-h-screen flex flex-col selection:bg-stone-900 selection:text-stone-50">
       <DashboardHeader />
 
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-28 sm:pb-24 flex-1 space-y-8">
@@ -248,12 +248,12 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* 2. Today at a Glance (4 compact, clean overview cards) */}
+        {/* 2. Today at a Glance (4 compact, clean liquid-glass overview cards) */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Card 1: Today's Tasks */}
           <Link
             href="/todo"
-            className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-all group flex flex-col justify-between"
+            className="glass-card-interactive rounded-2xl p-4 sm:p-5 flex flex-col justify-between group cursor-pointer"
           >
             <div className="flex items-center justify-between text-stone-400 mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
@@ -272,7 +272,7 @@ export default function HomePage() {
           {/* Card 2: Today's Events */}
           <Link
             href="/calendar"
-            className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-all group flex flex-col justify-between"
+            className="glass-card-interactive rounded-2xl p-4 sm:p-5 flex flex-col justify-between group cursor-pointer"
           >
             <div className="flex items-center justify-between text-stone-400 mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
@@ -291,7 +291,7 @@ export default function HomePage() {
           {/* Card 3: BucketList Active */}
           <Link
             href="/dashboard"
-            className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-all group flex flex-col justify-between"
+            className="glass-card-interactive rounded-2xl p-4 sm:p-5 flex flex-col justify-between group cursor-pointer"
           >
             <div className="flex items-center justify-between text-stone-400 mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
@@ -310,7 +310,7 @@ export default function HomePage() {
           {/* Card 4: Monthly Spending */}
           <Link
             href="/expenses"
-            className="bg-white border border-stone-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs hover:border-stone-300 transition-all group flex flex-col justify-between"
+            className="glass-card-interactive rounded-2xl p-4 sm:p-5 flex flex-col justify-between group cursor-pointer"
           >
             <div className="flex items-center justify-between text-stone-400 mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
@@ -328,13 +328,13 @@ export default function HomePage() {
         </div>
 
         {/* 3. Today's Focus (Surfaces max 3 top items for today) */}
-        <section className="bg-white border border-stone-200/80 rounded-2xl p-5 sm:p-6 shadow-2xs">
-          <div className="flex items-center justify-between pb-3 border-b border-stone-100 mb-4">
+        <section className="glass-card rounded-2xl p-5 sm:p-6">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-200/50 mb-4">
             <div className="flex items-center gap-2">
               <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
                 Today&apos;s Focus
               </h2>
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 border border-stone-200/80">
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
                 Top Priorities
               </span>
             </div>
@@ -350,7 +350,7 @@ export default function HomePage() {
           {focusItems.length === 0 ? (
             /* Smart Empty State for Today's Focus */
             <div className="py-8 text-center space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-500/20 shadow-2xs">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <h3 className="text-sm font-bold text-stone-900">
@@ -370,8 +370,8 @@ export default function HomePage() {
                       className={cn(
                         "flex items-center justify-between p-3 sm:p-3.5 rounded-xl border transition-all",
                         item.completed
-                          ? "bg-stone-50 border-stone-200/60 text-stone-400"
-                          : "bg-stone-50/50 hover:bg-stone-50 border-stone-200/80 text-stone-800 hover:border-stone-300"
+                          ? "bg-stone-100/40 border-stone-200/40 text-stone-400"
+                          : "glass-card-interactive text-stone-800"
                       )}
                     >
                       <div className="flex items-center gap-3 min-w-0 pr-3">
@@ -381,10 +381,10 @@ export default function HomePage() {
                           onClick={() => handleToggleTask(item.id, item.completed)}
                           disabled={togglingTaskId === item.id}
                           className={cn(
-                            "w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-colors cursor-pointer",
+                            "w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all cursor-pointer active:scale-95",
                             item.completed
-                              ? "bg-[var(--theme-primary)] border-[var(--theme-primary)] text-white"
-                              : "border-stone-300 hover:border-stone-400 bg-white"
+                              ? "bg-[var(--theme-primary)] border-[var(--theme-primary)] text-white shadow-2xs"
+                              : "border-stone-300/80 hover:border-[var(--theme-primary)] bg-white/80"
                           )}
                           aria-label={item.completed ? "Mark uncompleted" : "Mark completed"}
                         >
@@ -407,10 +407,10 @@ export default function HomePage() {
                             className={cn(
                               "text-[10px] font-semibold px-2 py-0.5 rounded-full border",
                               item.priority.toLowerCase() === "high" || item.priority.toLowerCase() === "urgent"
-                                ? "bg-rose-50 text-rose-600 border-rose-200"
+                                ? "bg-rose-500/10 text-rose-600 border-rose-200/80"
                                 : item.priority.toLowerCase() === "medium"
-                                ? "bg-amber-50 text-amber-600 border-amber-200"
-                                : "bg-stone-100 text-stone-600 border-stone-200"
+                                ? "bg-amber-500/10 text-amber-700 border-amber-200/80"
+                                : "bg-stone-100/80 text-stone-600 border-stone-200/70"
                             )}
                           >
                             {item.priority}
@@ -431,10 +431,10 @@ export default function HomePage() {
                 return (
                   <div
                     key={`focus-${item.id}`}
-                    className="flex items-center justify-between p-3 sm:p-3.5 rounded-xl border border-stone-200/80 bg-stone-50/50 hover:bg-stone-50 transition-all text-stone-800"
+                    className="flex items-center justify-between p-3 sm:p-3.5 rounded-xl glass-card-interactive text-stone-800"
                   >
                     <div className="flex items-center gap-3 min-w-0 pr-3">
-                      <div className="w-5 h-5 rounded-md bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] flex items-center justify-center shrink-0">
+                      <div className="w-5 h-5 rounded-md bg-[var(--theme-primary-soft)] text-[var(--theme-primary)] border border-[var(--theme-primary-soft-border)] flex items-center justify-center shrink-0 shadow-2xs">
                         <CalendarIcon className="w-3 h-3" />
                       </div>
                       <span className="text-sm font-medium leading-snug truncate">
@@ -444,7 +444,7 @@ export default function HomePage() {
 
                     <div className="flex items-center gap-2 shrink-0 text-xs">
                       {item.category && (
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200">
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-600 border border-stone-200/70">
                           {item.category}
                         </span>
                       )}
@@ -467,13 +467,13 @@ export default function HomePage() {
           {/* Column 1: Dream in Progress & Monthly Spending */}
           <div className="space-y-6">
             {/* 4A. Dream in Progress (BucketList Connection) */}
-            <section className="bg-white border border-stone-200/80 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+            <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-stone-200/50">
                 <div className="flex items-center gap-2">
                   <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
                     Dream in Progress
                   </h2>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 border border-stone-200/80">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
                     BucketList
                   </span>
                 </div>
@@ -487,7 +487,7 @@ export default function HomePage() {
               </div>
 
               {dream ? (
-                <div className="p-4 rounded-xl bg-stone-50/60 border border-stone-200/70 space-y-3">
+                <div className="p-4 rounded-xl bg-stone-50/40 backdrop-blur-xs border border-stone-200/60 space-y-3">
                   <div className="flex items-start justify-between gap-3">
                     <div className="space-y-1 min-w-0">
                       <div className="flex items-center gap-2">
@@ -532,7 +532,7 @@ export default function HomePage() {
                 </div>
               ) : (
                 <div className="py-6 text-center space-y-2">
-                  <div className="w-10 h-10 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center mx-auto">
+                  <div className="w-10 h-10 rounded-xl bg-stone-100/80 text-stone-400 flex items-center justify-center mx-auto border border-stone-200/50 shadow-2xs">
                     <Compass className="w-5 h-5" />
                   </div>
                   <h3 className="text-sm font-bold text-stone-900">
@@ -553,13 +553,13 @@ export default function HomePage() {
             </section>
 
             {/* 4B. This Month's Spending (Expense Connection) */}
-            <section className="bg-white border border-stone-200/80 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+            <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-stone-200/50">
                 <div className="flex items-center gap-2">
                   <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
                     This Month
                   </h2>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 border border-stone-200/80">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
                     Expenses
                   </span>
                 </div>
@@ -573,7 +573,7 @@ export default function HomePage() {
               </div>
 
               {overview.monthlyExpenseCount > 0 ? (
-                <div className="p-4 rounded-xl bg-stone-50/60 border border-stone-200/70 space-y-3">
+                <div className="p-4 rounded-xl bg-stone-50/40 backdrop-blur-xs border border-stone-200/60 space-y-3">
                   <div className="flex items-baseline justify-between">
                     <div>
                       <span className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
@@ -583,7 +583,7 @@ export default function HomePage() {
                         Total spent in {expensesSummary?.monthName} {expensesSummary?.year}
                       </p>
                     </div>
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-white border border-stone-200 text-stone-700 shadow-2xs">
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-lg glass-card text-stone-700">
                       {overview.monthlyExpenseCount} {overview.monthlyExpenseCount === 1 ? "expense" : "expenses"}
                     </span>
                   </div>
@@ -599,7 +599,7 @@ export default function HomePage() {
                 </div>
               ) : (
                 <div className="py-6 text-center space-y-2">
-                  <div className="w-10 h-10 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center mx-auto">
+                  <div className="w-10 h-10 rounded-xl bg-stone-100/80 text-stone-400 flex items-center justify-center mx-auto border border-stone-200/50 shadow-2xs">
                     <Receipt className="w-5 h-5" />
                   </div>
                   <h3 className="text-sm font-bold text-stone-900">
@@ -623,13 +623,13 @@ export default function HomePage() {
           {/* Column 2: Today's Schedule & Today's Tasks Progress */}
           <div className="space-y-6">
             {/* 4C. Today's Schedule (Calendar Connection) */}
-            <section className="bg-white border border-stone-200/80 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+            <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-stone-200/50">
                 <div className="flex items-center gap-2">
                   <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
                     Today&apos;s Schedule
                   </h2>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 border border-stone-200/80">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
                     Calendar
                   </span>
                 </div>
@@ -647,7 +647,7 @@ export default function HomePage() {
                   {todayEvents.map((ev) => (
                     <div
                       key={ev.id}
-                      className="p-3 sm:p-3.5 rounded-xl bg-stone-50/60 border border-stone-200/70 flex items-center justify-between gap-3"
+                      className="p-3 sm:p-3.5 rounded-xl glass-card-interactive flex items-center justify-between gap-3"
                     >
                       <div className="min-w-0 space-y-0.5">
                         <div className="flex items-center gap-2">
@@ -669,7 +669,7 @@ export default function HomePage() {
                       </div>
 
                       {ev.startTime && (
-                        <span className="text-xs font-semibold text-stone-600 px-2 py-1 rounded-md bg-white border border-stone-200/80 shrink-0">
+                        <span className="text-xs font-semibold text-stone-600 px-2 py-1 rounded-md glass-card shrink-0">
                           {ev.startTime}
                         </span>
                       )}
@@ -678,7 +678,7 @@ export default function HomePage() {
                 </div>
               ) : (
                 <div className="py-6 text-center space-y-2">
-                  <div className="w-10 h-10 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center mx-auto">
+                  <div className="w-10 h-10 rounded-xl bg-stone-100/80 text-stone-400 flex items-center justify-center mx-auto border border-stone-200/50 shadow-2xs">
                     <CalendarIcon className="w-5 h-5" />
                   </div>
                   <h3 className="text-sm font-bold text-stone-900">
@@ -699,13 +699,13 @@ export default function HomePage() {
             </section>
 
             {/* 4D. Today's Tasks Progress (To-Do Connection) */}
-            <section className="bg-white border border-stone-200/80 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+            <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-stone-200/50">
                 <div className="flex items-center gap-2">
                   <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
                     Today&apos;s Tasks
                   </h2>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-500 border border-stone-200/80">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
                     To-Do List
                   </span>
                 </div>
@@ -719,7 +719,7 @@ export default function HomePage() {
               </div>
 
               {overview.tasksTotal > 0 ? (
-                <div className="p-4 rounded-xl bg-stone-50/60 border border-stone-200/70 space-y-3.5">
+                <div className="p-4 rounded-xl bg-stone-50/40 backdrop-blur-xs border border-stone-200/60 space-y-3.5">
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-lg font-bold text-stone-900">
@@ -727,26 +727,26 @@ export default function HomePage() {
                       </span>
                       <p className="text-xs text-stone-400">
                         {overview.tasksRemaining === 0
-                          ? "All daily tasks completed! 🎉"
+                           ? "All daily tasks completed! 🎉"
                           : `${overview.tasksRemaining} task${overview.tasksRemaining === 1 ? "" : "s"} remaining`}
                       </p>
                     </div>
-                    <span className="text-sm font-bold text-stone-900 px-2 py-0.5 rounded-md bg-white border border-stone-200/80 shadow-2xs">
+                    <span className="text-sm font-bold text-stone-900 px-2 py-0.5 rounded-md glass-card">
                       {overview.tasksPercent}%
                     </span>
                   </div>
 
-                  {/* Subtle progress bar */}
-                  <div className="w-full bg-stone-200/80 rounded-full h-2 overflow-hidden">
+                  {/* Subtle recessed liquid glass progress bar */}
+                  <div className="w-full bg-stone-200/60 rounded-full h-2.5 overflow-hidden shadow-inner p-0.5">
                     <div
-                      className="bg-[var(--theme-primary)] h-full rounded-full transition-all duration-500"
+                      className="bg-linear-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] h-full rounded-full transition-all duration-500 shadow-xs"
                       style={{ width: `${overview.tasksPercent}%` }}
                     />
                   </div>
                 </div>
               ) : (
                 <div className="py-6 text-center space-y-2">
-                  <div className="w-10 h-10 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center mx-auto">
+                  <div className="w-10 h-10 rounded-xl bg-stone-100/80 text-stone-400 flex items-center justify-center mx-auto border border-stone-200/50 shadow-2xs">
                     <ListTodo className="w-5 h-5" />
                   </div>
                   <h3 className="text-sm font-bold text-stone-900">

@@ -32,7 +32,7 @@ export function ConfirmDialog({
     <Modal isOpen={isOpen} onClose={onClose} maxWidth="sm" showCloseButton={false}>
       <div className="flex flex-col items-center text-center p-2">
         {isDestructive && (
-          <div className="w-12 h-12 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600 mb-4">
+          <div className="w-12 h-12 rounded-2xl bg-rose-50/80 backdrop-blur-xs border border-rose-200/60 flex items-center justify-center text-rose-600 mb-4 shadow-2xs">
             <AlertTriangle className="w-6 h-6" />
           </div>
         )}
