@@ -13,8 +13,9 @@ import { AddBucketListItemModal } from "@/components/bucket-list/AddBucketListIt
 import { EditBucketListItemModal } from "@/components/bucket-list/EditBucketListItemModal";
 import { AddCategoryModal, CategoryData } from "@/components/categories/AddCategoryModal";
 import { EditCategoryModal } from "@/components/categories/EditCategoryModal";
+import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/providers/ToastProvider";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus, FolderPlus } from "lucide-react";
 
 export default function DashboardPage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -219,14 +220,47 @@ export default function DashboardPage() {
       <DashboardHeader />
 
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-28 sm:pb-24 flex-1">
-        {/* Welcome motivational title banner */}
-        <div className="mb-6">
-          <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-normal tracking-tight text-stone-950 font-serif-heading leading-tight">
-            Make memories worth remembering.
-          </h1>
-          <p className="text-xs sm:text-sm text-stone-500 mt-1">
-            Track your milestones, record your reflections, and live life with purpose.
-          </p>
+        {/* Page Top Title & Primary Actions */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-stone-900 font-serif-heading leading-tight">
+                Bucket List
+              </h1>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200">
+                Life Goals
+              </span>
+            </div>
+            <p className="text-sm text-stone-500">
+              Track your milestones, record your reflections, and live life with purpose.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2.5 self-start sm:self-auto shrink-0">
+            <Button
+              type="button"
+              variant="outline"
+              size="md"
+              onClick={() => setIsAddCategoryOpen(true)}
+              className="font-semibold shadow-xs"
+            >
+              <FolderPlus className="w-4 h-4 mr-1.5" />
+              New Category
+            </Button>
+            <Button
+              type="button"
+              variant="primary"
+              size="md"
+              onClick={() => {
+                setDefaultCategoryForAdd(undefined);
+                setIsAddGoalOpen(true);
+              }}
+              className="font-semibold shadow-sm"
+            >
+              <Plus className="w-4 h-4 mr-1.5" />
+              Add Goal
+            </Button>
+          </div>
         </div>
 
         {/* Dashboard Statistics Overview */}
@@ -299,20 +333,6 @@ export default function DashboardPage() {
           </div>
         )}
       </main>
-
-      {/* Floating Add Goal Button on Mobile */}
-      <div className="sm:hidden fixed bottom-6 right-6 z-30">
-        <button
-          onClick={() => {
-            setDefaultCategoryForAdd(undefined);
-            setIsAddGoalOpen(true);
-          }}
-          className="w-14 h-14 rounded-full bg-[var(--theme-primary,#4F5FD7)] text-white shadow-xl flex items-center justify-center text-2xl font-light hover:bg-[var(--theme-primary-hover,#4351C2)] active:scale-95 transition-transform"
-          aria-label="Add Bucket List Goal"
-        >
-          +
-        </button>
-      </div>
 
       {/* Modals */}
       {/* 1. Item Detail & Reflection Modal */}

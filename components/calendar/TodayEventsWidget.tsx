@@ -26,8 +26,8 @@ export function TodayEventsWidget({
   const todayEvents = events.filter((e) => isSameDay(new Date(e.date), today));
 
   return (
-    <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-2xs">
-      <div className="flex items-center justify-between pb-3 border-b border-stone-100 mb-3">
+    <div className="glass-card rounded-2xl p-5 shadow-2xs">
+      <div className="flex items-center justify-between pb-3 border-b border-stone-100 dark:border-stone-800/50 mb-3">
         <div className="flex items-center gap-2">
           <Calendar className="w-4 h-4 text-stone-700" />
           <h3 className="text-xs font-bold uppercase tracking-wider text-stone-900">

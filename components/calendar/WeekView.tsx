@@ -39,9 +39,9 @@ export function WeekView({
     d1.getDate() === d2.getDate();
 
   return (
-    <div className="bg-white rounded-2xl border border-stone-200/80 shadow-xs overflow-hidden">
+    <div className="glass-card rounded-2xl shadow-xs overflow-hidden">
       {/* 7 Columns Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-7 divide-y md:divide-y-0 md:divide-x divide-stone-100 min-h-[450px]">
+      <div className="grid grid-cols-1 md:grid-cols-7 divide-y md:divide-y-0 md:divide-x divide-stone-200/50 min-h-[450px]">
         {weekDays.map((day, idx) => {
           const isToday = isSameDay(day, today);
           const dayEvents = events.filter((e) => isSameDay(new Date(e.date), day));
@@ -51,10 +51,10 @@ export function WeekView({
           const monthName = day.toLocaleDateString("en-US", { month: "short" });
 
           return (
-            <div key={idx} className="p-3 flex flex-col justify-between bg-white hover:bg-stone-50/50 transition-colors">
+            <div key={idx} className="p-3 flex flex-col justify-between hover:bg-stone-100/40 transition-colors">
               <div>
                 {/* Column Header */}
-                <div className="flex items-center justify-between pb-2 mb-2 border-b border-stone-100">
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-stone-200/50">
                   <div className="flex items-center gap-2">
                     <span
                       className={cn(

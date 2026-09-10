@@ -190,13 +190,18 @@ export default function CalendarPage() {
       <DashboardHeader />
 
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-28 sm:pb-24 flex-1">
-        {/* Page Title & Slogan */}
+        {/* Page Top Title & Primary Action */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-stone-950 font-serif-heading leading-tight">
-              Upcoming Events & Plans
-            </h1>
-            <p className="text-xs sm:text-sm text-stone-500 mt-1">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-stone-900 font-serif-heading leading-tight">
+                Upcoming Events & Plans
+              </h1>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200">
+                Calendar & Schedule
+              </span>
+            </div>
+            <p className="text-sm text-stone-500">
               Stay organized, remember what matters, and look forward to what&apos;s coming.
             </p>
           </div>
@@ -216,14 +221,22 @@ export default function CalendarPage() {
         {/* Toolbar: Navigation, View Toggle, and Filters */}
         <div className="space-y-3 sm:space-y-4 mb-6">
           {/* Top Toolbar Row */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-stone-200/80 shadow-2xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 glass-card p-3 sm:px-5 sm:py-3.5 rounded-2xl">
             {/* Month / Week Navigation Controls */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl glass-card text-stone-700 flex items-center justify-center shrink-0">
+                <CalendarIcon className="w-4 h-4 text-stone-600" />
+              </div>
+
+              <h2 className="text-base sm:text-lg font-bold text-stone-900 tracking-tight min-w-[140px]">
+                {monthHeading}
+              </h2>
+
               <div className="flex items-center gap-1">
                 <button
                   type="button"
                   onClick={handlePrevMonth}
-                  className="p-1.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-colors"
+                  className="p-1.5 rounded-lg glass-card text-stone-600 hover:text-stone-900 transition-all cursor-pointer active:scale-95"
                   title="Previous"
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -231,36 +244,32 @@ export default function CalendarPage() {
                 <button
                   type="button"
                   onClick={handleNextMonth}
-                  className="p-1.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-colors"
+                  className="p-1.5 rounded-lg glass-card text-stone-600 hover:text-stone-900 transition-all cursor-pointer active:scale-95"
                   title="Next"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
 
-              <h2 className="text-base sm:text-lg font-bold text-stone-900 min-w-[160px]">
-                {monthHeading}
-              </h2>
-
               <button
                 type="button"
                 onClick={handleToday}
-                className="px-2.5 py-1 text-xs font-semibold text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-lg transition-colors"
+                className="px-2.5 py-1 text-xs font-semibold text-stone-700 glass-card hover:text-stone-900 rounded-lg transition-all cursor-pointer active:scale-95"
               >
                 Today
               </button>
             </div>
 
             {/* View Switcher: Month / Week / Agenda */}
-            <div className="inline-flex p-1 bg-stone-100 rounded-xl self-start sm:self-auto">
+            <div className="inline-flex p-1 bg-stone-200/50 backdrop-blur-xs rounded-xl border border-stone-200/60 shadow-inner self-start sm:self-auto">
               <button
                 type="button"
                 onClick={() => setViewMode("month")}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all",
+                  "flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
                   viewMode === "month"
-                    ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                    : "text-stone-600 hover:text-stone-900"
+                    ? "glass-tab-active shadow-2xs font-semibold"
+                    : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
                 )}
               >
                 <LayoutGrid className="w-3.5 h-3.5" />
@@ -270,10 +279,10 @@ export default function CalendarPage() {
                 type="button"
                 onClick={() => setViewMode("week")}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all",
+                  "flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
                   viewMode === "week"
-                    ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                    : "text-stone-600 hover:text-stone-900"
+                    ? "glass-tab-active shadow-2xs font-semibold"
+                    : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
                 )}
               >
                 <Columns className="w-3.5 h-3.5" />
@@ -283,10 +292,10 @@ export default function CalendarPage() {
                 type="button"
                 onClick={() => setViewMode("agenda")}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all",
+                  "flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
                   viewMode === "agenda"
-                    ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                    : "text-stone-600 hover:text-stone-900"
+                    ? "glass-tab-active shadow-2xs font-semibold"
+                    : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
                 )}
               >
                 <List className="w-3.5 h-3.5" />
@@ -305,12 +314,12 @@ export default function CalendarPage() {
                 placeholder="Search events, locations, notes..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-9 py-2 bg-white border border-stone-200/90 rounded-xl text-xs placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-400/50 shadow-2xs"
+                className="w-full pl-10 pr-9 py-2.5 glass-input rounded-2xl text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 transition-all shadow-2xs"
               />
               {search && (
                 <button
                   onClick={() => setSearch("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-1 cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -323,7 +332,7 @@ export default function CalendarPage() {
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="px-3 py-1.5 bg-white text-stone-800 border border-stone-200/90 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-stone-400/50 shadow-2xs cursor-pointer"
+                className="px-3 py-2 glass-input text-stone-800 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 cursor-pointer shadow-2xs"
               >
                 <option value="all">All Categories</option>
                 {EVENT_CATEGORIES.map((cat) => (
@@ -334,17 +343,17 @@ export default function CalendarPage() {
               </select>
 
               {/* Timeline Status tabs */}
-              <div className="inline-flex p-0.5 bg-stone-200/60 rounded-xl">
+              <div className="inline-flex p-1 bg-stone-200/50 backdrop-blur-xs rounded-xl border border-stone-200/60 shadow-inner">
                 {(["all", "today", "upcoming", "past"] as EventTimelineFilter[]).map((tab) => (
                   <button
                     key={tab}
                     type="button"
                     onClick={() => setTimelineFilter(tab)}
                     className={cn(
-                      "px-2.5 py-1 rounded-lg text-xs font-medium capitalize transition-all",
+                      "px-3 py-1.5 rounded-lg text-xs font-medium capitalize transition-all cursor-pointer",
                       timelineFilter === tab
-                        ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                        : "text-stone-600 hover:text-stone-900"
+                        ? "glass-tab-active shadow-2xs font-semibold"
+                        : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
                     )}
                   >
                     {tab}
@@ -360,7 +369,7 @@ export default function CalendarPage() {
           {/* Main Calendar View Area (2 cols on large screen) */}
           <div className="lg:col-span-2 space-y-6">
             {isLoading ? (
-              <div className="bg-white rounded-2xl border border-stone-200/80 p-16 flex flex-col items-center justify-center text-stone-400">
+              <div className="glass-card rounded-2xl p-16 flex flex-col items-center justify-center text-stone-400">
                 <Loader2 className="w-8 h-8 animate-spin mb-2" />
                 <span className="text-xs">Updating events...</span>
               </div>
@@ -389,7 +398,7 @@ export default function CalendarPage() {
 
             {/* Selected Day's Schedule (Shown in Month view) */}
             {viewMode === "month" && (
-              <div className="bg-white rounded-2xl border border-stone-200/80 p-5 shadow-2xs">
+              <div className="glass-card rounded-2xl p-5 shadow-2xs">
                 <div className="flex items-center justify-between pb-3 border-b border-stone-100 mb-3">
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-wider text-stone-900">
@@ -418,7 +427,7 @@ export default function CalendarPage() {
                         <div
                           key={event.id}
                           onClick={() => setSelectedEventForDetail(event)}
-                          className="p-3.5 rounded-xl bg-stone-50/70 hover:bg-stone-100/80 border border-stone-200/60 transition-all cursor-pointer flex items-center justify-between gap-3 text-xs"
+                          className="p-3.5 rounded-xl glass-card hover:border-stone-300 transition-all cursor-pointer flex items-center justify-between gap-3 text-xs"
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             <span className={cn("w-2 h-2 rounded-full shrink-0", style.dot)} />
@@ -478,17 +487,6 @@ export default function CalendarPage() {
           </div>
         </div>
       </main>
-
-      {/* Floating Add Event Button on Mobile */}
-      <div className="sm:hidden fixed bottom-6 right-6 z-30">
-        <button
-          onClick={() => handleOpenAdd(new Date())}
-          className="w-14 h-14 rounded-full bg-stone-900 text-stone-50 shadow-xl flex items-center justify-center text-2xl font-light hover:bg-stone-800 active:scale-95 transition-transform"
-          aria-label="Add Event"
-        >
-          +
-        </button>
-      </div>
 
       {/* Modals */}
       {/* 1. Add Event Modal */}

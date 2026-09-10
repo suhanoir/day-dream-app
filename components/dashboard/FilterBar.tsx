@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, Plus, X, FolderPlus } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { Search, X } from "lucide-react";
 import { CategoryData } from "@/components/categories/AddCategoryModal";
 import { cn } from "@/lib/utils/cn";
 
@@ -16,8 +15,8 @@ export interface FilterBarProps {
   selectedCategory: string; // "all" or categoryId
   onCategoryChange: (val: string) => void;
   categories: CategoryData[];
-  onOpenAddItem: () => void;
-  onOpenAddCategory: () => void;
+  onOpenAddItem?: () => void;
+  onOpenAddCategory?: () => void;
 }
 
 export function FilterBar({
@@ -28,12 +27,9 @@ export function FilterBar({
   selectedCategory,
   onCategoryChange,
   categories,
-  onOpenAddItem,
-  onOpenAddCategory,
 }: FilterBarProps) {
   return (
-    <div className="space-y-3 sm:space-y-4 mb-8">
-      {/* Top row: Search and Add Actions */}
+    <div className="space-y-3 sm:space-y-4 mb-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         {/* Search Input */}
         <div className="relative flex-1 max-w-md">
@@ -55,92 +51,63 @@ export function FilterBar({
           )}
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="md"
-            onClick={onOpenAddCategory}
-            className="text-stone-700"
-          >
-            <FolderPlus className="w-4 h-4 mr-1.5" />
-            <span className="hidden sm:inline">New Category</span>
-            <span className="sm:hidden">Category</span>
-          </Button>
+        {/* Filter Controls: Status Tabs & Category Select */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          {/* Status Segmented Control */}
+          <div className="inline-flex p-1 bg-stone-200/50 dark:bg-stone-800/50 backdrop-blur-xs rounded-xl border border-stone-200/60 dark:border-stone-700/60 shadow-inner">
+            <button
+              type="button"
+              onClick={() => onStatusChange("all")}
+              className={cn(
+                "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
+                status === "all"
+                  ? "glass-tab-active shadow-2xs font-semibold"
+                  : "text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:bg-stone-100/50"
+              )}
+            >
+              All
+            </button>
+            <button
+              type="button"
+              onClick={() => onStatusChange("active")}
+              className={cn(
+                "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
+                status === "active"
+                  ? "glass-tab-active shadow-2xs font-semibold"
+                  : "text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:bg-stone-100/50"
+              )}
+            >
+              Active
+            </button>
+            <button
+              type="button"
+              onClick={() => onStatusChange("completed")}
+              className={cn(
+                "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
+                status === "completed"
+                  ? "glass-tab-active shadow-2xs font-semibold"
+                  : "text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:bg-stone-100/50"
+              )}
+            >
+              Completed
+            </button>
+          </div>
 
-          <Button
-            type="button"
-            variant="primary"
-            size="md"
-            onClick={onOpenAddItem}
-            className="font-semibold shadow-sm"
-          >
-            <Plus className="w-4 h-4 mr-1.5" />
-            Add Goal
-          </Button>
-        </div>
-      </div>
-
-      {/* Bottom row: Filter Tabs and Category Dropdown */}
-      <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1">
-        {/* Status Segmented Control */}
-        <div className="inline-flex p-1 bg-stone-200/50 backdrop-blur-xs rounded-xl border border-stone-200/60 shadow-inner">
-          <button
-            type="button"
-            onClick={() => onStatusChange("all")}
-            className={cn(
-              "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
-              status === "all"
-                ? "glass-tab-active shadow-2xs font-semibold"
-                : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
-            )}
-          >
-            All
-          </button>
-          <button
-            type="button"
-            onClick={() => onStatusChange("active")}
-            className={cn(
-              "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
-              status === "active"
-                ? "glass-tab-active shadow-2xs font-semibold"
-                : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
-            )}
-          >
-            Active
-          </button>
-          <button
-            type="button"
-            onClick={() => onStatusChange("completed")}
-            className={cn(
-              "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
-              status === "completed"
-                ? "glass-tab-active shadow-2xs font-semibold"
-                : "text-stone-600 hover:text-stone-900 hover:bg-stone-100/50"
-            )}
-          >
-            Completed
-          </button>
-        </div>
-
-        {/* Category Filter Select */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-stone-400 font-medium hidden sm:inline">
-            Filter by:
-          </span>
-          <select
-            value={selectedCategory}
-            onChange={(e) => onCategoryChange(e.target.value)}
-            className="px-3 py-1.5 glass-input text-stone-800 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 cursor-pointer shadow-2xs"
-          >
-            <option value="all">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name} ({cat.totalItems || 0})
-              </option>
-            ))}
-          </select>
+          {/* Category Filter Select */}
+          <div className="flex items-center gap-2">
+            <select
+              value={selectedCategory}
+              onChange={(e) => onCategoryChange(e.target.value)}
+              className="px-3 py-1.5 glass-input text-stone-800 dark:text-stone-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 cursor-pointer shadow-2xs"
+            >
+              <option value="all">All Categories</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name} ({cat.totalItems || 0})
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
     </div>

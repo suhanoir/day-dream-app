@@ -36,7 +36,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
 
   if (sortedDateKeys.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border border-stone-200/80 p-12 text-center shadow-xs">
+      <div className="glass-card rounded-2xl p-12 text-center shadow-xs">
         <CalendarIcon className="w-8 h-8 text-stone-300 mx-auto mb-2" />
         <h4 className="text-sm font-semibold text-stone-800">No events found</h4>
         <p className="text-xs text-stone-500 mt-1">
@@ -88,7 +88,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
                   <div
                     key={event.id}
                     onClick={() => onEventClick(event)}
-                    className="p-4 bg-white rounded-2xl border border-stone-200/80 hover:border-stone-300 transition-all cursor-pointer shadow-2xs hover:shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    className="p-4 glass-card-interactive rounded-2xl hover:border-stone-300 transition-all cursor-pointer shadow-2xs hover:shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                   >
                     <div className="flex items-start gap-3 min-w-0">
                       <span

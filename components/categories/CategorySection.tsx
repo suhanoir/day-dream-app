@@ -71,9 +71,9 @@ export function CategorySection({
 
   return (
     <>
-      <section className="bg-white/70 backdrop-blur-xs border border-stone-200/80 rounded-2xl p-5 sm:p-6 transition-all duration-200 shadow-xs hover:border-stone-300">
+      <section className="glass-card rounded-2xl p-5 sm:p-6 transition-all duration-200 shadow-xs">
         {/* Category Header */}
-        <div className="flex items-start justify-between gap-4 mb-4 pb-3 border-b border-stone-100">
+        <div className="flex items-start justify-between gap-4 mb-4 pb-3 border-b border-stone-100 dark:border-stone-800/50">
           <div className="min-w-0">
             <div className="flex items-center gap-2.5">
               <h3 className="text-sm font-bold tracking-wider uppercase text-stone-900 truncate">
@@ -92,9 +92,9 @@ export function CategorySection({
 
             {/* Subtle category progress bar */}
             {totalItems > 0 && (
-              <div className="w-32 sm:w-48 bg-stone-100 rounded-full h-1 mt-2.5 overflow-hidden">
+              <div className="w-32 sm:w-48 bg-stone-200/60 rounded-full h-1 mt-2.5 overflow-hidden">
                 <div
-                  className="bg-stone-800 h-full rounded-full transition-all duration-500"
+                  className="bg-[var(--theme-primary)] h-full rounded-full transition-all duration-500"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -105,7 +105,7 @@ export function CategorySection({
           <div className="flex items-center gap-1 shrink-0 relative">
             <button
               onClick={() => onAddItemClick(category.id)}
-              className="p-1.5 text-stone-400 hover:text-stone-900 rounded-lg hover:bg-stone-100 transition-colors"
+              className="p-1.5 text-stone-400 hover:text-stone-900 rounded-lg hover:bg-stone-100/60 transition-colors"
               title="Add goal to this category"
             >
               <Plus className="w-4 h-4" />
@@ -113,7 +113,7 @@ export function CategorySection({
 
             <button
               onClick={() => setShowMenu(!showMenu)}
-              className="p-1.5 text-stone-400 hover:text-stone-900 rounded-lg hover:bg-stone-100 transition-colors"
+              className="p-1.5 text-stone-400 hover:text-stone-900 rounded-lg hover:bg-stone-100/60 transition-colors"
               title="Category options"
             >
               <MoreHorizontal className="w-4 h-4" />
@@ -126,13 +126,13 @@ export function CategorySection({
                   className="fixed inset-0 z-20"
                   onClick={() => setShowMenu(false)}
                 />
-                <div className="absolute right-0 top-full mt-1 w-44 bg-white border border-stone-200/90 rounded-xl shadow-xl z-30 py-1.5 text-xs animate-fade-in">
+                <div className="absolute right-0 top-full mt-1 w-44 glass-dropdown rounded-xl shadow-xl z-30 py-1.5 text-xs animate-fade-in">
                   <button
                     onClick={() => {
                       setShowMenu(false);
                       onAddItemClick(category.id);
                     }}
-                    className="w-full px-3.5 py-2 text-left text-stone-700 hover:bg-stone-50 flex items-center gap-2"
+                    className="w-full px-3.5 py-2 text-left text-stone-700 hover:bg-stone-100/60 flex items-center gap-2 transition-colors cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     Add Goal
@@ -142,18 +142,18 @@ export function CategorySection({
                       setShowMenu(false);
                       onEditCategoryClick(category);
                     }}
-                    className="w-full px-3.5 py-2 text-left text-stone-700 hover:bg-stone-50 flex items-center gap-2"
+                    className="w-full px-3.5 py-2 text-left text-stone-700 hover:bg-stone-100/60 flex items-center gap-2 transition-colors cursor-pointer"
                   >
                     <Pencil className="w-3.5 h-3.5" />
                     Edit Category
                   </button>
-                  <div className="my-1 border-t border-stone-100" />
+                  <div className="my-1 border-t border-stone-100 dark:border-stone-800/50" />
                   <button
                     onClick={() => {
                       setShowMenu(false);
                       setShowDeleteConfirm(true);
                     }}
-                    className="w-full px-3.5 py-2 text-left text-rose-600 hover:bg-rose-50 flex items-center gap-2 font-medium"
+                    className="w-full px-3.5 py-2 text-left text-rose-600 hover:bg-rose-50/50 flex items-center gap-2 font-medium transition-colors cursor-pointer"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     Delete Category
@@ -188,7 +188,7 @@ export function CategorySection({
             </p>
             <button
               onClick={() => onAddItemClick(category.id)}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-900 bg-white border border-stone-200/90 hover:bg-stone-100 px-3 py-1.5 rounded-lg shadow-2xs transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-900 glass-card hover:bg-stone-100/70 px-3 py-1.5 rounded-lg shadow-2xs transition-colors cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               Add Goal

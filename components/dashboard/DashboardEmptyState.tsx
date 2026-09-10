@@ -18,8 +18,8 @@ export function DashboardEmptyState({
 }: DashboardEmptyStateProps) {
   if (isSearchOrFilter) {
     return (
-      <div className="text-center py-16 px-6 bg-white/70 border border-stone-200/80 rounded-3xl my-8">
-        <div className="w-12 h-12 rounded-2xl bg-stone-100 text-stone-500 flex items-center justify-center mx-auto mb-4">
+      <div className="text-center py-16 px-6 glass-card rounded-3xl my-8">
+        <div className="w-12 h-12 rounded-2xl bg-stone-100 dark:bg-stone-800 text-stone-500 flex items-center justify-center mx-auto mb-4">
           <SearchX className="w-6 h-6" />
         </div>
         <h3 className="text-base font-semibold text-stone-900 mb-1">
@@ -43,7 +43,7 @@ export function DashboardEmptyState({
   }
 
   return (
-    <div className="text-center py-16 px-6 bg-white border border-stone-200/80 rounded-3xl my-8 shadow-xs">
+    <div className="text-center py-16 px-6 glass-card rounded-3xl my-8 shadow-xs">
       <div className="mb-5">
         <DayDreamLogo size={56} className="w-14 h-14 mx-auto shadow-sm" />
       </div>

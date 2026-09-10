@@ -79,9 +79,9 @@ export function MonthView({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-stone-200/80 shadow-xs overflow-hidden">
+    <div className="glass-card rounded-2xl shadow-xs overflow-hidden">
       {/* Weekday Header */}
-      <div className="grid grid-cols-7 border-b border-stone-100 text-center py-2.5 bg-stone-50/60">
+      <div className="grid grid-cols-7 border-b border-stone-200/60 text-center py-2.5 bg-stone-100/40">
         {WEEKDAYS.map((day) => (
           <div
             key={day}
@@ -93,7 +93,7 @@ export function MonthView({
       </div>
 
       {/* Calendar Grid */}
-      <div className="grid grid-cols-7 auto-rows-fr divide-x divide-y divide-stone-100">
+      <div className="grid grid-cols-7 auto-rows-fr divide-x divide-y divide-stone-200/50">
         {allCalendarDays.map((day, idx) => {
           const isCurrentMonth = day.getMonth() === month;
           const isToday = isSameDay(day, today);
@@ -106,9 +106,9 @@ export function MonthView({
               onClick={() => onSelectDate(day)}
               className={cn(
                 "min-h-[85px] sm:min-h-[110px] p-1 sm:p-2 transition-colors cursor-pointer group relative flex flex-col justify-between",
-                !isCurrentMonth && "bg-stone-50/40 text-stone-400",
-                isCurrentMonth && "hover:bg-stone-50/80",
-                isSelected && "bg-[var(--theme-primary-soft,#EEF0FF)]/50 ring-1 ring-inset ring-[var(--theme-primary,#4F5FD7)]/40"
+                !isCurrentMonth && "bg-stone-100/20 text-stone-400",
+                isCurrentMonth && "hover:bg-stone-100/40",
+                isSelected && "bg-[var(--theme-primary-soft,#EEF0FF)]/60 ring-1 ring-inset ring-[var(--theme-primary,#4F5FD7)]/40"
               )}
             >
               {/* Day Number Header */}
