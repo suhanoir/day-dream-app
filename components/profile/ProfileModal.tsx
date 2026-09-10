@@ -147,32 +147,64 @@ export function ProfileModal({
             </div>
           </div>
 
-          {/* Settings Entry Button */}
-          <button
-            type="button"
-            onClick={() => setCurrentView("settings")}
-            className="w-full flex items-center justify-between p-3.5 rounded-2xl glass-card-interactive transition-all cursor-pointer group shadow-2xs text-left active:scale-98"
-          >
-            <div className="flex items-center gap-3">
-              <div
-                className="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-2xs transition-colors"
-                style={{ backgroundColor: currentThemeMeta.palette.primary }}
-              >
-                <Palette className="w-4 h-4" />
+          {/* Direct Customization Actions: Theme & Sounds */}
+          <div className="space-y-2 pt-1">
+            <button
+              type="button"
+              onClick={() => setCurrentView("theme")}
+              className="w-full flex items-center justify-between p-3 rounded-2xl glass-card-interactive transition-all cursor-pointer group shadow-2xs text-left active:scale-98"
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-2xs transition-colors shrink-0"
+                  style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                >
+                  <Palette className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-stone-900">Theme</p>
+                  <p className="text-[11px] text-stone-500">Personalize colors & appearance</p>
+                </div>
               </div>
-              <div>
-                <p className="text-xs font-bold text-stone-900">Settings</p>
-                <p className="text-[11px] text-stone-500">Theme and appearance</p>
-              </div>
-            </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-semibold text-stone-600">
-                {currentThemeMeta.name}
-              </span>
-              <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-0.5 transition-transform" />
-            </div>
-          </button>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-semibold text-stone-600">
+                  {currentThemeMeta.name}
+                </span>
+                <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setCurrentView("sound")}
+              className="w-full flex items-center justify-between p-3 rounded-2xl glass-card-interactive transition-all cursor-pointer group shadow-2xs text-left active:scale-98"
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-2xs transition-colors shrink-0"
+                  style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                >
+                  {soundEnabled ? (
+                    <Volume2 className="w-4 h-4" />
+                  ) : (
+                    <VolumeX className="w-4 h-4" />
+                  )}
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-stone-900">Sounds</p>
+                  <p className="text-[11px] text-stone-500">Audio feedback & volume</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-semibold text-stone-600">
+                  {soundEnabled ? `${Math.round(soundVolume * 100)}%` : "Off"}
+                </span>
+                <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </button>
+          </div>
 
           {/* Actions */}
           <div className="pt-2 border-t border-stone-100 flex flex-col gap-2">
@@ -310,11 +342,11 @@ export function ProfileModal({
           <div className="flex items-center justify-between pb-3 border-b border-stone-100">
             <button
               type="button"
-              onClick={() => setCurrentView("settings")}
+              onClick={() => setCurrentView("profile")}
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-600 hover:text-stone-900 cursor-pointer px-2 py-1 rounded-lg hover:bg-stone-100 transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Settings</span>
+              <span>Profile</span>
             </button>
             <h3 className="text-sm font-bold text-stone-900">Theme</h3>
             <div className="w-14" />
@@ -414,13 +446,13 @@ export function ProfileModal({
           <div className="flex items-center justify-between pb-3 border-b border-stone-100">
             <button
               type="button"
-              onClick={() => setCurrentView("settings")}
+              onClick={() => setCurrentView("profile")}
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-600 hover:text-stone-900 cursor-pointer px-2 py-1 rounded-lg hover:bg-stone-100 transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Settings</span>
+              <span>Profile</span>
             </button>
-            <h3 className="text-sm font-bold text-stone-900">Sound</h3>
+            <h3 className="text-sm font-bold text-stone-900">Sounds</h3>
             <div className="w-14" />
           </div>
 

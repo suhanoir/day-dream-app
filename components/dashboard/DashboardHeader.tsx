@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useTheme } from "@/components/providers/ThemeProvider";
-import { User, LogOut, Palette } from "lucide-react";
+import { useSound } from "@/components/providers/SoundProvider";
+import { User, LogOut, Palette, Volume2, VolumeX } from "lucide-react";
 import { ProfileModal } from "@/components/profile/ProfileModal";
 import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
 import { FloatingNav } from "@/components/navigation/FloatingNav";
@@ -14,9 +15,11 @@ export function DashboardHeader() {
   const { user, logout } = useAuth();
   const { currentThemeMeta } = useTheme();
 
+  const { enabled: soundEnabled, volume: soundVolume } = useSound();
+
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileModalView, setProfileModalView] = useState<
-    "profile" | "settings" | "theme"
+    "profile" | "settings" | "theme" | "sound"
   >("profile");
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
@@ -63,7 +66,8 @@ export function DashboardHeader() {
                     className="fixed inset-0 z-20"
                     onClick={() => setShowProfileMenu(false)}
                   />
-                  <div className="absolute right-0 top-full mt-2 w-56 glass-dropdown z-30 p-2 text-xs animate-fade-in">
+                  <div className="absolute right-0 top-full mt-2 w-56 glass-dropdown z-30 p-2 text-xs animate-fade-in shadow-lg">
+                    {/* User Information */}
                     <div className="px-3 py-2 border-b border-stone-200/50 mb-1">
                       <p className="font-semibold text-stone-900 truncate">
                         {user?.name}
@@ -73,37 +77,63 @@ export function DashboardHeader() {
                       </p>
                     </div>
 
-                    <button
-                      onClick={() => {
-                        setShowProfileMenu(false);
-                        setProfileModalView("profile");
-                        setShowProfileModal(true);
-                      }}
-                      className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-100/70 rounded-xl flex items-center gap-2 font-medium transition-colors cursor-pointer active:scale-98"
-                    >
-                      <User className="w-3.5 h-3.5 text-stone-400" />
-                      View Profile
-                    </button>
+                    {/* Main Actions: Profile, Theme, Sounds */}
+                    <div className="space-y-0.5">
+                      <button
+                        onClick={() => {
+                          setShowProfileMenu(false);
+                          setProfileModalView("profile");
+                          setShowProfileModal(true);
+                        }}
+                        className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-100/70 rounded-xl flex items-center gap-2 font-medium transition-colors cursor-pointer active:scale-98"
+                      >
+                        <User className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                        <span>View Profile</span>
+                      </button>
 
-                    <button
-                      onClick={() => {
-                        setShowProfileMenu(false);
-                        setProfileModalView("settings");
-                        setShowProfileModal(true);
-                      }}
-                      className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-100/70 rounded-xl flex items-center justify-between font-medium transition-colors cursor-pointer active:scale-98"
-                    >
-                      <div className="flex items-center gap-2">
-                        <Palette className="w-3.5 h-3.5 text-stone-400" />
-                        <span>Settings & Theme</span>
-                      </div>
-                      <span className="text-[10px] font-semibold text-stone-600 bg-stone-100/90 border border-stone-200/50 px-1.5 py-0.5 rounded">
-                        {currentThemeMeta.name.split(" ")[0]}
-                      </span>
-                    </button>
+                      <button
+                        onClick={() => {
+                          setShowProfileMenu(false);
+                          setProfileModalView("theme");
+                          setShowProfileModal(true);
+                        }}
+                        className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-100/70 rounded-xl flex items-center justify-between font-medium transition-colors cursor-pointer active:scale-98"
+                      >
+                        <div className="flex items-center gap-2">
+                          <Palette className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                          <span>Theme</span>
+                        </div>
+                        <span className="text-[10px] font-semibold text-stone-600 bg-stone-100/90 border border-stone-200/50 px-1.5 py-0.5 rounded">
+                          {currentThemeMeta.name.split(" ")[0]}
+                        </span>
+                      </button>
 
+                      <button
+                        onClick={() => {
+                          setShowProfileMenu(false);
+                          setProfileModalView("sound");
+                          setShowProfileModal(true);
+                        }}
+                        className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-100/70 rounded-xl flex items-center justify-between font-medium transition-colors cursor-pointer active:scale-98"
+                      >
+                        <div className="flex items-center gap-2">
+                          {soundEnabled ? (
+                            <Volume2 className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                          ) : (
+                            <VolumeX className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                          )}
+                          <span>Sounds</span>
+                        </div>
+                        <span className="text-[10px] font-semibold text-stone-600 bg-stone-100/90 border border-stone-200/50 px-1.5 py-0.5 rounded">
+                          {soundEnabled ? `${Math.round(soundVolume * 100)}%` : "Off"}
+                        </span>
+                      </button>
+                    </div>
+
+                    {/* Separator */}
                     <div className="my-1 border-t border-stone-200/50" />
 
+                    {/* Account / Danger Action */}
                     <button
                       onClick={() => {
                         setShowProfileMenu(false);
@@ -111,8 +141,8 @@ export function DashboardHeader() {
                       }}
                       className="w-full px-3 py-2 text-left text-rose-600 hover:bg-rose-500/10 rounded-xl flex items-center gap-2 font-medium transition-colors cursor-pointer active:scale-98"
                     >
-                      <LogOut className="w-3.5 h-3.5" />
-                      Sign Out
+                      <LogOut className="w-3.5 h-3.5 shrink-0" />
+                      <span>Sign Out</span>
                     </button>
                   </div>
                 </>
