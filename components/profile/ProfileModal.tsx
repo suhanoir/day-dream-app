@@ -95,7 +95,12 @@ export function ProfileModal({
     : "Recently";
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} maxWidth="md" showCloseButton={true}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      maxWidth={currentView === "theme" ? "xl" : "md"}
+      showCloseButton={true}
+    >
       {/* VIEW 1: PROFILE OVERVIEW */}
       {currentView === "profile" && (
         <div className="space-y-5 text-center pt-2 pb-1 animate-fade-in">
@@ -362,8 +367,8 @@ export function ProfileModal({
             </p>
           </div>
 
-          {/* Theme Selection Cards */}
-          <div className="space-y-2.5 pt-1">
+          {/* Theme Selection Cards — Responsive 2-Column Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 max-h-[58vh] overflow-y-auto pr-1">
             {themes.map((t) => {
               const isSelected = theme === t.id;
 
@@ -373,7 +378,7 @@ export function ProfileModal({
                   type="button"
                   onClick={() => setTheme(t.id)}
                   className={cn(
-                    "w-full text-left p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 relative active:scale-98",
+                    "w-full text-left p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2.5 relative active:scale-98",
                     isSelected
                       ? "glass-card shadow-sm border-2"
                       : "glass-card-interactive"
@@ -382,13 +387,13 @@ export function ProfileModal({
                     borderColor: isSelected ? t.palette.primary : undefined,
                   }}
                 >
-                  <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     {/* 4-color palette swatch preview */}
-                    <div className="flex items-center gap-1 p-1.5 rounded-xl glass-card shrink-0">
+                    <div className="flex items-center gap-1 p-1 rounded-xl glass-card shrink-0">
                       {t.previewSwatches.map((color, idx) => (
                         <span
                           key={idx}
-                          className="w-3.5 h-3.5 rounded-full shadow-2xs border border-black/10 shrink-0"
+                          className="w-3 h-3 rounded-full shadow-2xs border border-black/10 shrink-0"
                           style={{ backgroundColor: color }}
                           title={color}
                         />
@@ -396,17 +401,17 @@ export function ProfileModal({
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="text-xs sm:text-sm font-bold text-stone-900 whitespace-nowrap">
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-xs font-bold text-stone-900 truncate">
                           {t.name}
                         </p>
                         {t.id === "indigo" && (
-                          <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-500 border border-stone-200/60 uppercase tracking-wider shrink-0">
+                          <span className="text-[8px] font-semibold px-1 py-0.5 rounded bg-stone-100 text-stone-500 border border-stone-200/60 uppercase tracking-wider shrink-0">
                             Default
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] text-stone-500 truncate mt-0.5">
+                      <p className="text-[10px] text-stone-500 truncate mt-0.5">
                         {t.description}
                       </p>
                     </div>
@@ -416,13 +421,13 @@ export function ProfileModal({
                   <div className="shrink-0 flex items-center justify-center">
                     {isSelected ? (
                       <div
-                        className="w-5 h-5 rounded-full flex items-center justify-center text-white shadow-2xs"
+                        className="w-4.5 h-4.5 rounded-full flex items-center justify-center text-white shadow-2xs"
                         style={{ backgroundColor: t.palette.primary }}
                       >
-                        <Check className="w-3 h-3 stroke-[3]" />
+                        <Check className="w-2.5 h-2.5 stroke-[3]" />
                       </div>
                     ) : (
-                      <div className="w-5 h-5 rounded-full border-2 border-stone-300 group-hover:border-stone-400" />
+                      <div className="w-4.5 h-4.5 rounded-full border-2 border-stone-300 group-hover:border-stone-400" />
                     )}
                   </div>
                 </button>

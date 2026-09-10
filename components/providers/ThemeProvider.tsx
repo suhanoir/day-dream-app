@@ -2,7 +2,19 @@
 
 import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 
-export type ThemeId = "indigo" | "slate" | "aurora" | "forest" | "ocean" | "crimson";
+export type ThemeId =
+  | "indigo"
+  | "slate"
+  | "aurora"
+  | "forest"
+  | "ocean"
+  | "crimson"
+  | "deep-aqua"
+  | "royal-indigo"
+  | "sunset-coral"
+  | "emerald"
+  | "ruby"
+  | "midnight-citrus";
 
 export interface ThemeMeta {
   id: ThemeId;
@@ -146,6 +158,126 @@ export const THEMES: ThemeMeta[] = [
     },
     previewSwatches: ["#FAF7F7", "#B23A48", "#8E2F3A", "#D77A86"],
   },
+  {
+    id: "deep-aqua",
+    name: "Deep Aqua",
+    description: "Vibrant ocean cyan & teal",
+    palette: {
+      background: "#F0F9FF",
+      surface: "#FFFFFF",
+      primary: "#0E7490",
+      primarySoft: "#ECFEFF",
+      secondary: "#06B6D4",
+      accent: "#14B8A6",
+      text: "#164E63",
+      mutedText: "#64748B",
+      border: "#CFFAFE",
+      success: "#10B981",
+      warning: "#F59E0B",
+      danger: "#EF4444",
+    },
+    previewSwatches: ["#F0F9FF", "#0E7490", "#06B6D4", "#14B8A6"],
+  },
+  {
+    id: "royal-indigo",
+    name: "Royal Indigo",
+    description: "Regal violet & electric indigo",
+    palette: {
+      background: "#F8F7FF",
+      surface: "#FFFFFF",
+      primary: "#4338CA",
+      primarySoft: "#EEF2FF",
+      secondary: "#6366F1",
+      accent: "#8B5CF6",
+      text: "#1E1B4B",
+      mutedText: "#6B7280",
+      border: "#E0E7FF",
+      success: "#10B981",
+      warning: "#F59E0B",
+      danger: "#EF4444",
+    },
+    previewSwatches: ["#F8F7FF", "#4338CA", "#6366F1", "#8B5CF6"],
+  },
+  {
+    id: "sunset-coral",
+    name: "Sunset Coral",
+    description: "Warm sunset coral & burnt amber",
+    palette: {
+      background: "#FFFBF7",
+      surface: "#FFFFFF",
+      primary: "#C2410C",
+      primarySoft: "#FFF7ED",
+      secondary: "#EA580C",
+      accent: "#F43F5E",
+      text: "#431407",
+      mutedText: "#78716C",
+      border: "#FFEDD5",
+      success: "#10B981",
+      warning: "#D97706",
+      danger: "#E11D48",
+    },
+    previewSwatches: ["#FFFBF7", "#C2410C", "#EA580C", "#F43F5E"],
+  },
+  {
+    id: "emerald",
+    name: "Vibrant Emerald",
+    description: "Luminous jewel emerald & jade",
+    palette: {
+      background: "#F2FBF7",
+      surface: "#FFFFFF",
+      primary: "#047857",
+      primarySoft: "#ECFDF5",
+      secondary: "#10B981",
+      accent: "#0D9488",
+      text: "#064E3B",
+      mutedText: "#64748B",
+      border: "#D1FAE5",
+      success: "#059669",
+      warning: "#D97706",
+      danger: "#E11D48",
+    },
+    previewSwatches: ["#F2FBF7", "#047857", "#10B981", "#0D9488"],
+  },
+  {
+    id: "ruby",
+    name: "Imperial Ruby",
+    description: "Gemstone ruby & rich wine",
+    palette: {
+      background: "#FFF5F6",
+      surface: "#FFFFFF",
+      primary: "#BE123C",
+      primarySoft: "#FFF1F2",
+      secondary: "#E11D48",
+      accent: "#881337",
+      text: "#4C0519",
+      mutedText: "#706568",
+      border: "#FFE4E6",
+      success: "#10B981",
+      warning: "#D97706",
+      danger: "#9F1239",
+    },
+    previewSwatches: ["#FFF5F6", "#BE123C", "#E11D48", "#881337"],
+  },
+  {
+    id: "midnight-citrus",
+    name: "Midnight Citrus",
+    description: "Midnight charcoal & golden amber",
+    palette: {
+      background: "#181A20",
+      surface: "#22252D",
+      primary: "#B45309",
+      primarySoft: "#2A2720",
+      secondary: "#F59E0B",
+      accent: "#EAB308",
+      text: "#F8FAFC",
+      mutedText: "#94A3B8",
+      border: "#333846",
+      success: "#10B981",
+      warning: "#F59E0B",
+      danger: "#EF4444",
+    },
+    previewSwatches: ["#181A20", "#B45309", "#F59E0B", "#EAB308"],
+  },
 ];
 
 const VALID_THEME_IDS: ThemeId[] = [
@@ -155,6 +287,12 @@ const VALID_THEME_IDS: ThemeId[] = [
   "forest",
   "ocean",
   "crimson",
+  "deep-aqua",
+  "royal-indigo",
+  "sunset-coral",
+  "emerald",
+  "ruby",
+  "midnight-citrus",
 ];
 
 interface ThemeContextType {
