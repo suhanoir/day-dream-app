@@ -1,4 +1,5 @@
-import { SignJWT, jwtVerify } from "jose";
+import { SignJWT } from "jose/jwt/sign";
+import { jwtVerify } from "jose/jwt/verify";
 
 const JWT_SECRET = process.env.JWT_SECRET || "bucket_list_super_secret_jwt_key_2026_modern_secure_token";
 const secretKey = new TextEncoder().encode(JWT_SECRET);

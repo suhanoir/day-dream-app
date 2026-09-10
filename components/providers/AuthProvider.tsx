@@ -65,6 +65,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user, isLoading, pathname, router]);
 
+  // Handle mobile browser BFcache (Back-Forward Cache) resume
+  useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted && user) {
+        const INNER_SECTIONS = [
+          "/dashboard",
+          "/calendar",
+          "/todo",
+          "/to-do-list",
+          "/expenses",
+        ];
+        const normalized = pathname.replace(/\/$/, "");
+        if (INNER_SECTIONS.includes(normalized)) {
+          router.replace("/home");
+        }
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, [user, pathname, router]);
+
   const logout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST" });

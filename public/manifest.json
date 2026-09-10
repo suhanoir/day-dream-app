@@ -2,7 +2,7 @@
   "name": "DayDream",
   "short_name": "DayDream",
   "description": "A calm, personal web app to track your life dreams and reflections.",
-  "start_url": "/dashboard",
+  "start_url": "/home",
   "display": "standalone",
   "background_color": "#faf9f6",
   "theme_color": "#1c1917",

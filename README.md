@@ -92,6 +92,12 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Clean Neutral Container**: Replaced busy gradients with a flat, soft off-white canvas (`#F4F4F2`) and fine subtle border framing (`#E5E5E2`).
 - **Crisp Multi-Resolution Scaling**: Pixel-perfect geometric precision from 16×16 favicons up to 512×512 display assets.
 
+### 10. Mobile App Startup Routing (v2.7.2)
+- **Deterministic Home Startup**: Authenticated users opening or reopening DayDream (via mobile browser tab restoration, PWA launcher, page refresh, or root URL) always start cleanly on `/home`.
+- **Zero Route Flicker**: Middleware-level document redirection intercepts startup navigations before HTML rendering, eliminating flashes of previously active sections (Calendar, BucketList, To-Do, Expenses).
+- **Session Continuity**: Smooth client-side in-app navigation across all 5 sections remains completely preserved during active sessions.
+- **Deep Link Preservation**: Preserves direct URLs with query parameters (calendar events, to-do dates) and email verification routes.
+
 ---
 
 ## 🛠️ Tech Stack
