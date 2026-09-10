@@ -63,7 +63,7 @@ export default function HomePage() {
           A calm space for life&apos;s greatest adventures
         </div>
 
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-stone-950 leading-[1.15] mb-6">
+        <h1 className="text-4xl sm:text-6xl font-normal tracking-tight text-stone-950 font-serif-heading leading-[1.15] mb-6">
           Make memories <br className="hidden sm:inline" />
           worth remembering.
         </h1>

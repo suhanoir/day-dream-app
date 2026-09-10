@@ -240,7 +240,7 @@ export default function HomePage() {
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1 space-y-8">
         {/* 1. Header & Greeting */}
         <div className="space-y-1">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-950">
+          <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-normal tracking-tight text-stone-950 font-serif-heading leading-tight">
             {greeting}
           </h1>
           <p className="text-xs sm:text-sm text-stone-500">

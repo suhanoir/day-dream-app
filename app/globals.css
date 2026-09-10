@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* -------------------------------------------------------------
- * DAYDREAM GLOBAL THEME SYSTEM (v2.6.0)
+ * DAYDREAM GLOBAL THEME SYSTEM (v2.6.1)
  * Centralized theme tokens and semantic variables
  * ----------------------------------------------------------- */
 
@@ -326,4 +326,15 @@
 
 .animate-pulse-subtle {
   animation: pulseSubtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* -------------------------------------------------------------
+ * DAYDREAM EDITORIAL DISPLAY TYPOGRAPHY (v2.6.1)
+ * High-contrast Instrument Serif for large expressive headlines
+ * ----------------------------------------------------------- */
+.font-serif-heading {
+  font-family: var(--font-instrument-serif), "Instrument Serif", Georgia, Cambria, "Times New Roman", Times, serif;
+  letter-spacing: -0.015em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }

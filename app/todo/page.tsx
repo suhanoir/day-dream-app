@@ -266,7 +266,7 @@ export default function TodoPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
+              <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-stone-900 font-serif-heading leading-tight">
                 To-Do List
               </h1>
               <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200">
