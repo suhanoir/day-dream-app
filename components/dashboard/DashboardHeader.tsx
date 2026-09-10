@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import {
+  Home as HomeIcon,
   Calendar as CalendarIcon,
   User,
   LogOut,
@@ -30,6 +31,7 @@ export function DashboardHeader() {
   >("profile");
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
+  const isHome = pathname === "/home";
   const isDashboard = pathname === "/dashboard";
   const isCalendar = pathname === "/calendar";
   const isTodo = pathname === "/todo" || pathname === "/to-do-list";
@@ -41,7 +43,7 @@ export function DashboardHeader() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Brand & Main Navigation */}
           <div className="flex items-center gap-6 sm:gap-8">
-            <Link href="/dashboard" className="flex items-center gap-2.5 group">
+            <Link href="/home" className="flex items-center gap-2.5 group">
               <div className="group-hover:scale-105 transition-transform">
                 <DayDreamLogo size={36} className="w-9 h-9 shadow-xs" />
               </div>
@@ -57,6 +59,20 @@ export function DashboardHeader() {
 
             {/* Desktop Navigation Links */}
             <nav className="hidden sm:flex items-center gap-1 p-1 bg-stone-100/80 rounded-xl border border-stone-200/60 text-xs font-medium">
+              <Link
+                href="/home"
+                className={cn(
+                  "flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg transition-all",
+                  isHome
+                    ? "bg-white text-[var(--theme-primary)] shadow-2xs font-bold border border-stone-200/60"
+                    : "text-stone-600 hover:text-stone-900"
+                )}
+                title="Home"
+              >
+                <HomeIcon className="w-3.5 h-3.5 shrink-0" />
+                <span className="hidden md:inline">Home</span>
+              </Link>
+
               <Link
                 href="/dashboard"
                 className={cn(
@@ -199,6 +215,26 @@ export function DashboardHeader() {
 
         {/* Mobile Sub-Navigation Bar — Compact Icon-Only with Hover Tooltips */}
         <div className="sm:hidden border-t border-stone-100 px-3 py-1.5 flex items-center justify-around bg-stone-50/90 backdrop-blur-md">
+          {/* Home */}
+          <div className="relative group">
+            <Link
+              href="/home"
+              aria-label="Home"
+              title="Home"
+              className={cn(
+                "flex items-center justify-center w-10 h-10 rounded-xl transition-all",
+                isHome
+                  ? "bg-white text-[var(--theme-primary)] shadow-2xs border border-stone-200/90 font-bold"
+                  : "text-stone-500 hover:text-stone-900 hover:bg-stone-200/50"
+              )}
+            >
+              <HomeIcon className="w-4.5 h-4.5" />
+            </Link>
+            <div className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-stone-900 text-white text-[10px] font-medium whitespace-nowrap shadow-md z-50">
+              Home
+            </div>
+          </div>
+
           {/* BucketList */}
           <div className="relative group">
             <Link

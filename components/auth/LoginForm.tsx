@@ -48,7 +48,7 @@ export function LoginForm() {
 
       setUser(data.user);
       success(`Welcome back, ${data.user.name}!`);
-      router.push("/dashboard");
+      router.push("/home");
     } catch {
       setFormError("An unexpected network error occurred. Please try again.");
     } finally {
@@ -87,7 +87,7 @@ export function LoginForm() {
       if (res.ok) {
         setUser(data.user);
         success("Logged in with Demo Account!");
-        router.push("/dashboard");
+        router.push("/home");
       } else {
         setFormError(data.error || "Demo login failed.");
       }

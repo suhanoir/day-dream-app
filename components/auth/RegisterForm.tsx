@@ -58,7 +58,7 @@ export function RegisterForm() {
 
       setUser(data.user);
       success("Account created! Let's start building your bucket list.");
-      router.push("/dashboard");
+      router.push("/home");
     } catch {
       setFormError("A network error occurred. Please try again.");
     } finally {

@@ -13,10 +13,10 @@ export default function HomePage() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
-  // If already logged in, redirect to dashboard
+  // If already logged in, redirect to home
   useEffect(() => {
     if (!isLoading && user) {
-      router.push("/dashboard");
+      router.push("/home");
     }
   }, [user, isLoading, router]);
 
@@ -33,9 +33,9 @@ export default function HomePage() {
 
         <div className="flex items-center gap-3">
           {user ? (
-            <Link href="/dashboard">
+            <Link href="/home">
               <Button variant="primary" size="sm">
-                Dashboard
+                Open DayDream
                 <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </Button>
             </Link>

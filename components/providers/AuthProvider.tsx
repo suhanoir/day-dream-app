@@ -50,12 +50,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isLoading) {
       const isAuthPage = pathname === "/login" || pathname === "/register";
-      const isDashboardPage = pathname.startsWith("/dashboard");
+      const isProtectedPage =
+        pathname.startsWith("/home") ||
+        pathname.startsWith("/dashboard") ||
+        pathname.startsWith("/calendar") ||
+        pathname.startsWith("/todo") ||
+        pathname.startsWith("/expenses");
 
-      if (!user && isDashboardPage) {
+      if (!user && isProtectedPage) {
         router.replace("/login");
       } else if (user && isAuthPage) {
-        router.replace("/dashboard");
+        router.replace("/home");
       }
     }
   }, [user, isLoading, pathname, router]);
