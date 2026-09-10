@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.7.0 — Full-Stack Web Application
+# 🌟 DayDream v2.7.1 — Full-Stack Web Application
 
-> **Version 2.7.0** · **"Make memories worth remembering."**
+> **Version 2.7.1** · **"Make memories worth remembering."**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Designed with a calm, minimal, and warm aesthetic.
 
@@ -142,7 +142,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.7.0 dependencies and scripts
+├── package.json                     # v2.7.1 dependencies and scripts
 └── README.md
 ```
 

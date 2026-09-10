@@ -21,7 +21,7 @@ import { Plus, Receipt, Loader2, Inbox } from "lucide-react";
 
 export default function ExpensesPage() {
   const { user } = useAuth();
-  const { error: toastError } = useToast();
+  const { success, error: toastError } = useToast();
 
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [expenses, setExpenses] = useState<ExpenseData[]>([]);
@@ -136,6 +136,24 @@ export default function ExpensesPage() {
     fetchExpenses();
   };
 
+  const handleDeleteExpense = async (deletedId: string) => {
+    try {
+      const res = await fetch(`/api/expenses/${deletedId}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        toastError("Failed to delete expense");
+        return;
+      }
+
+      success("Expense deleted");
+      handleExpenseDeleted(deletedId);
+    } catch {
+      toastError("Network error while deleting expense");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-stone-50/50 flex flex-col selection:bg-stone-900 selection:text-stone-50">
       <DashboardHeader />
@@ -236,7 +254,7 @@ export default function ExpensesPage() {
                   key={expense.id}
                   expense={expense}
                   onEdit={(exp) => setSelectedExpenseForEdit(exp)}
-                  onDelete={async () => handleExpenseDeleted(expense.id)}
+                  onDelete={handleDeleteExpense}
                 />
               ))}
             </div>

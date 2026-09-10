@@ -110,7 +110,10 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
           <div className="flex items-center gap-1">
             <button
               type="button"
-              onClick={() => onEdit(expense)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(expense);
+              }}
               className="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
               title="Edit Expense"
             >
@@ -119,7 +122,10 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
 
             <button
               type="button"
-              onClick={() => setShowConfirmDelete(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowConfirmDelete(true);
+              }}
               className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
               title="Delete Expense"
             >
