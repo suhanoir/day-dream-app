@@ -237,7 +237,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-stone-50/50 flex flex-col selection:bg-stone-900 selection:text-stone-50">
       <DashboardHeader />
 
-      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1 space-y-8">
+      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-28 sm:pb-24 flex-1 space-y-8">
         {/* 1. Header & Greeting */}
         <div className="space-y-1">
           <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-normal tracking-tight text-stone-950 font-serif-heading leading-tight">

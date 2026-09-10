@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.6.0 — Full-Stack Web Application
+# 🌟 DayDream v2.7.0 — Full-Stack Web Application
 
-> **Version 2.6.0** · **"Make memories worth remembering."**
+> **Version 2.7.0** · **"Make memories worth remembering."**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Designed with a calm, minimal, and warm aesthetic.
 
@@ -72,9 +72,12 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Unified Background Consistency**: All 4 core sections (BucketList, Calendar, To-Do List, Expenses) share the exact same dynamic theme background tint across every theme.
 - **Instant Persistence**: Quick selection under `Profile → Settings → Theme` with live 4-color palette swatches and zero-flicker loading via `localStorage` and `data-theme`.
 
-### 7. Responsive & Mobile-First Design
-- **Compact Icon-Only Mobile Navigation**: Screens < 640px display clean, finger-friendly icon buttons for BucketList, Calendar, To-Do List, Expenses, and Profile.
-- **Hover Tooltips**: On pointer/desktop devices, hovering over icons displays styled tooltip pills.
+### 7. Floating Liquid-Glass Navigation & Responsive Design
+- **Floating Liquid-Glass Dock**: Primary navigation floats above page content in a sleek, translucent dock with backdrop blur, specular rim highlight, and theme-reactive tinting.
+- **Minimal 2-Item Collapsed State**: Displays `[ 🏠 Home ] [ ☰ Menu ]` on Home, and dynamically switches to `[ 🏠 Home ] [ Current Section ▾ ]` on inner pages for instant context and 1-click section switching without visual clutter.
+- **Fluid Expansion**: Tapping the trigger smoothly expands the dock to reveal all 5 sections with icons, labels, and an intuitive close button.
+- **Streamlined Single-Row Header**: Stripped out top-heavy navigation bars on desktop and mobile, giving the entire viewport back to user content.
+- **Safe-Area & Scroll Padding**: Built-in safe-area inset handling and bottom padding across all pages so content never collides with the dock.
 - **Vector Scalable Logo**: Crisp, lightweight SVG logo that looks sharp at all sizes on light and dark backgrounds.
 
 ### 8. Security & Infrastructure
@@ -126,6 +129,7 @@ DayDream/
 │   ├── categories/                  # CategorySection, category modals
 │   ├── dashboard/                   # DashboardHeader, StatsOverview, FilterBar
 │   ├── expenses/                    # MonthlyTotalCard, MonthNavigator, ExpenseCard, Modals
+│   ├── navigation/                  # FloatingNav (Liquid-glass bottom dock)
 │   ├── todo/                        # AddTodoTaskModal, TodoTaskItem, DateNavigator
 │   ├── profile/                     # ProfileModal with user settings & 6 themes
 │   ├── providers/                   # AuthProvider, ToastProvider, ThemeProvider
@@ -138,7 +142,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.6.0 dependencies and scripts
+├── package.json                     # v2.7.0 dependencies and scripts
 └── README.md
 ```
 
