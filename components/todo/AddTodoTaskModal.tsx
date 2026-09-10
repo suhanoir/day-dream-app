@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useSound } from "@/components/providers/SoundProvider";
 import {
   TodoTaskData,
   TodoPriority,
@@ -39,6 +40,7 @@ export function AddTodoTaskModal({
   initialDate,
 }: AddTodoTaskModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -100,6 +102,7 @@ export function AddTodoTaskModal({
         return;
       }
 
+      playSound("success");
       success("Task added to your list!");
       onTaskAdded(data.task);
       onClose();

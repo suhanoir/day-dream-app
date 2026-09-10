@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useSound } from "@/components/providers/SoundProvider";
 import {
   ExpenseCategory,
   EXPENSE_CATEGORIES,
@@ -30,6 +31,7 @@ export function AddExpenseModal({
   initialDate,
 }: AddExpenseModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
@@ -94,6 +96,7 @@ export function AddExpenseModal({
         return;
       }
 
+      playSound("success");
       success("Expense recorded successfully!");
       onExpenseAdded(data.expense);
       onClose();

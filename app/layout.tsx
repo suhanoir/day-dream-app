@@ -3,6 +3,7 @@ import { Instrument_Serif } from "next/font/google";
 import { ToastProvider } from "@/components/providers/ToastProvider";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { SoundProvider } from "@/components/providers/SoundProvider";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -39,9 +40,11 @@ export default function RootLayout({
       </head>
       <body className={`${instrumentSerif.variable} min-h-screen bg-[var(--theme-bg,#FAFAF8)] text-[var(--theme-text,#20242C)] font-sans antialiased selection:bg-[var(--theme-primary,#4F5FD7)] selection:text-white`}>
         <ThemeProvider>
-          <ToastProvider>
-            <AuthProvider>{children}</AuthProvider>
-          </ToastProvider>
+          <SoundProvider>
+            <ToastProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </ToastProvider>
+          </SoundProvider>
         </ThemeProvider>
       </body>
     </html>

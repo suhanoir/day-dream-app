@@ -22,6 +22,7 @@ import {
 } from "./types";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { cn } from "@/lib/utils/cn";
+import { useSound } from "@/components/providers/SoundProvider";
 
 const categoryIconMap: Record<string, React.ReactNode> = {
   Food: <Utensils className="w-4 h-4" />,
@@ -43,6 +44,7 @@ interface ExpenseCardProps {
 export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { playSound } = useSound();
 
   const config = EXPENSE_CATEGORY_CONFIG[expense.category] || EXPENSE_CATEGORY_CONFIG.Other;
   const icon = categoryIconMap[expense.category] || <Tag className="w-4 h-4" />;
@@ -50,6 +52,7 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
+      playSound("delete");
       await onDelete(expense.id);
     } finally {
       setIsDeleting(false);

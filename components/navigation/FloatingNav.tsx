@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { BucketIcon } from "@/components/ui/BucketIcon";
 import { cn } from "@/lib/utils/cn";
+import { useSound } from "@/components/providers/SoundProvider";
 
 interface NavItemConfig {
   name: string;
@@ -60,6 +61,7 @@ export function FloatingNav() {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { playSound } = useSound();
 
   // Identify current section
   const currentSection = NAV_ITEMS.find((item) => item.isActive(pathname));
@@ -129,6 +131,9 @@ export function FloatingNav() {
             <Link
               href="/home"
               aria-label="Home"
+              onClick={() => {
+                if (!isHome) playSound("navigation");
+              }}
               className={cn(
                 "flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full text-xs font-medium transition-all",
                 isHome
@@ -145,7 +150,10 @@ export function FloatingNav() {
               // On Home: Show clean "Menu / ☰" button
               <button
                 type="button"
-                onClick={() => setIsExpanded(true)}
+                onClick={() => {
+                  setIsExpanded(true);
+                  playSound("ui-click");
+                }}
                 aria-label="Open navigation menu"
                 aria-expanded={isExpanded}
                 className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold text-stone-700 hover:text-stone-950 hover:bg-stone-100/80 border border-transparent transition-all cursor-pointer"
@@ -157,7 +165,10 @@ export function FloatingNav() {
               // On Non-Home: Show Current Section with expand indicator
               <button
                 type="button"
-                onClick={() => setIsExpanded(true)}
+                onClick={() => {
+                  setIsExpanded(true);
+                  playSound("ui-click");
+                }}
                 aria-label={`Open navigation menu. Currently on ${currentSection?.name || "section"}`}
                 aria-expanded={isExpanded}
                 className="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold bg-[var(--theme-primary-soft)] text-[var(--theme-primary)] border border-[var(--theme-primary-soft-border)] shadow-2xs transition-all cursor-pointer group"
@@ -181,7 +192,10 @@ export function FloatingNav() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  onClick={() => setIsExpanded(false)}
+                  onClick={() => {
+                    setIsExpanded(false);
+                    if (!active) playSound("navigation");
+                  }}
                   className={cn(
                     "flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-full text-xs transition-all shrink-0 cursor-pointer",
                     active
@@ -199,7 +213,10 @@ export function FloatingNav() {
             {/* Dedicated Close Button */}
             <button
               type="button"
-              onClick={() => setIsExpanded(false)}
+              onClick={() => {
+                setIsExpanded(false);
+                playSound("ui-click");
+              }}
               aria-label="Close navigation menu"
               title="Close menu"
               className="flex items-center justify-center w-8 h-8 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100/90 transition-all cursor-pointer ml-0.5 shrink-0"

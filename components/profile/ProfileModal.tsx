@@ -18,13 +18,17 @@ import {
   ArrowLeft,
   Check,
   Sparkles,
+  Volume2,
+  VolumeX,
+  Volume1,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useSound } from "@/components/providers/SoundProvider";
 
 export interface ProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialView?: "profile" | "settings" | "theme";
+  initialView?: "profile" | "settings" | "theme" | "sound";
 }
 
 export function ProfileModal({
@@ -34,8 +38,15 @@ export function ProfileModal({
 }: ProfileModalProps) {
   const { user, logout } = useAuth();
   const { theme, setTheme, themes, currentThemeMeta } = useTheme();
+  const {
+    enabled: soundEnabled,
+    setEnabled: setSoundEnabled,
+    volume: soundVolume,
+    setVolume: setSoundVolume,
+    playSound,
+  } = useSound();
 
-  const [currentView, setCurrentView] = useState<"profile" | "settings" | "theme">(
+  const [currentView, setCurrentView] = useState<"profile" | "settings" | "theme" | "sound">(
     initialView
   );
 
@@ -246,6 +257,42 @@ export function ProfileModal({
                 <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-0.5 transition-transform" />
               </div>
             </button>
+
+            <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400 px-1 pt-2 block">
+              Audio
+            </span>
+
+            <button
+              type="button"
+              onClick={() => setCurrentView("sound")}
+              className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-white border border-stone-200/90 hover:border-stone-300 hover:shadow-2xs transition-all cursor-pointer group text-left"
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-2xs transition-colors"
+                  style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                >
+                  {soundEnabled ? (
+                    <Volume2 className="w-4.5 h-4.5" />
+                  ) : (
+                    <VolumeX className="w-4.5 h-4.5" />
+                  )}
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-stone-900">Sound</p>
+                  <p className="text-[11px] text-stone-500">
+                    Audio feedback and volume
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-stone-700">
+                  {soundEnabled ? `${Math.round(soundVolume * 100)}%` : "Off"}
+                </span>
+                <ChevronRight className="w-4 h-4 text-stone-400 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </button>
           </div>
 
           <div className="pt-6 border-t border-stone-100 text-center">
@@ -355,6 +402,226 @@ export function ProfileModal({
           <div className="pt-3 border-t border-stone-100 text-center">
             <p className="text-[11px] text-stone-400">
               Theme is applied immediately and persists across visits.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* VIEW 4: SOUND SETTINGS PANEL */}
+      {currentView === "sound" && (
+        <div className="space-y-4 pt-1 pb-1 animate-fade-in text-left">
+          {/* Navigation Header */}
+          <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+            <button
+              type="button"
+              onClick={() => setCurrentView("settings")}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-600 hover:text-stone-900 cursor-pointer px-2 py-1 rounded-lg hover:bg-stone-100 transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Settings</span>
+            </button>
+            <h3 className="text-sm font-bold text-stone-900">Sound</h3>
+            <div className="w-14" />
+          </div>
+
+          {/* Sound Headline */}
+          <div className="pt-0.5 px-0.5">
+            <h4 className="text-sm font-bold text-stone-900">
+              Calm, minimal audio feedback.
+            </h4>
+            <p className="text-xs text-stone-500 mt-0.5">
+              Subtle, handcrafted acoustic details for key interactions.
+            </p>
+          </div>
+
+          {/* Sound Controls */}
+          <div className="space-y-3 pt-1">
+            {/* Toggle Card */}
+            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs">
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-2xs transition-colors shrink-0"
+                  style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                >
+                  {soundEnabled ? (
+                    <Volume2 className="w-4.5 h-4.5" />
+                  ) : (
+                    <VolumeX className="w-4.5 h-4.5" />
+                  )}
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-stone-900">Sound Effects</p>
+                  <p className="text-[11px] text-stone-500">
+                    Play soft sounds on key actions
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                role="switch"
+                aria-checked={soundEnabled}
+                onClick={() => {
+                  const next = !soundEnabled;
+                  setSoundEnabled(next);
+                  if (next) playSound("ui-click");
+                }}
+                className={cn(
+                  "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
+                  soundEnabled ? "bg-stone-900" : "bg-stone-200"
+                )}
+                style={{
+                  backgroundColor: soundEnabled
+                    ? currentThemeMeta.palette.primary
+                    : undefined,
+                }}
+              >
+                <span
+                  className={cn(
+                    "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out",
+                    soundEnabled ? "translate-x-5" : "translate-x-0"
+                  )}
+                />
+              </button>
+            </div>
+
+            {/* Volume Card */}
+            <div className="p-3.5 rounded-2xl bg-white border border-stone-200/90 shadow-2xs space-y-2.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Volume1 className="w-4 h-4 text-stone-500" />
+                  <span className="text-xs font-bold text-stone-900">Volume</span>
+                </div>
+                <span className="text-xs font-semibold text-stone-600">
+                  {soundEnabled ? `${Math.round(soundVolume * 100)}%` : "Muted"}
+                </span>
+              </div>
+
+              <div className="pt-1">
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={soundVolume}
+                  disabled={!soundEnabled}
+                  onChange={(e) => setSoundVolume(parseFloat(e.target.value))}
+                  onPointerUp={() => playSound("ui-click")}
+                  className="w-full h-1.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-stone-900 disabled:opacity-40 disabled:cursor-not-allowed"
+                  style={{ accentColor: currentThemeMeta.palette.primary }}
+                />
+              </div>
+            </div>
+
+            {/* Preview Sounds Card */}
+            <div className="p-3.5 rounded-2xl bg-stone-50/70 border border-stone-200/80 space-y-2.5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400 block px-0.5">
+                Preview Sounds
+              </span>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  disabled={!soundEnabled}
+                  onClick={() => playSound("ui-click")}
+                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
+                    style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                  />
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-stone-800 truncate">UI Click</p>
+                    <p className="text-[10px] text-stone-400">Soft tactile</p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={!soundEnabled}
+                  onClick={() => playSound("navigation")}
+                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
+                    style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                  />
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-stone-800 truncate">Navigation</p>
+                    <p className="text-[10px] text-stone-400">Gentle swell</p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={!soundEnabled}
+                  onClick={() => playSound("success")}
+                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
+                    style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                  />
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-stone-800 truncate">Success</p>
+                    <p className="text-[10px] text-stone-400">Warm triad</p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={!soundEnabled}
+                  onClick={() => playSound("dream-complete")}
+                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
+                    style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                  />
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-stone-800 truncate">Dream Complete</p>
+                    <p className="text-[10px] text-stone-400">Harmonic shimmer</p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={!soundEnabled}
+                  onClick={() => playSound("delete")}
+                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
+                    style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                  />
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-stone-800 truncate">Delete</p>
+                    <p className="text-[10px] text-stone-400">Muted wood tap</p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={!soundEnabled}
+                  onClick={() => playSound("notification")}
+                  className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-all text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group"
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0 group-hover:scale-125 transition-transform"
+                    style={{ backgroundColor: currentThemeMeta.palette.primary }}
+                  />
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-stone-800 truncate">Notification</p>
+                    <p className="text-[10px] text-stone-400">Celestial chime</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer note */}
+          <div className="pt-3 border-t border-stone-100 text-center">
+            <p className="text-[11px] text-stone-400">
+              Audio preferences are saved automatically to your device.
             </p>
           </div>
         </div>

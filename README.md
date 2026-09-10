@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.7.2 — Full-Stack Web Application
+# 🌟 DayDream v2.8.0 — Full-Stack Web Application
 
-> **Version 2.7.2** · **"Make memories worth remembering."**
+> **Version 2.8.0** · **"Make memories worth remembering."**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Designed with a calm, minimal, and warm aesthetic.
 
@@ -98,18 +98,34 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Session Continuity**: Smooth client-side in-app navigation across all 5 sections remains completely preserved during active sessions.
 - **Deep Link Preservation**: Preserves direct URLs with query parameters (calendar events, to-do dates) and email verification routes.
 
+### 11. Handcrafted Acoustic & Sound System (v2.8.0)
+- **7 Bespoke Audio Assets**: Handcrafted 16-bit 44.1kHz audio profiles designed to feel calm, minimal, warm, and subtle:
+  - `ui-click`: Soft, tactile micro-impulse (40ms).
+  - `navigation`: Gentle, airy sine swell (120ms).
+  - `success`: Warm ascending major triad (E5 → G#5 → B5, 380ms).
+  - `dream-complete`: Grand ethereal harmonic shimmer (F#5 → A#5 → C#6 → F#6 with bell resonance decay, 1.15s) synchronized with celebratory confetti.
+  - `delete`: Subdued neutral acoustic wood tap (90ms).
+  - `error`: Gentle low double-chime (280ms).
+  - `notification`: Dreamy celestial chime (A5 + E6, 480ms).
+- **Zero Heavy Dependencies**: Pure browser Web Audio API synthesis and preloaded buffer management with HTML5 audio fallback and strict non-blocking silent failure.
+- **Settings & Volume Control**: Complete audio management under `Profile → Settings → Sound`:
+  - **Sound Effects Toggle**: Instant `[ ON / OFF ]` master switch.
+  - **Volume Slider**: 0% to 100% fine-grained acoustic control (default 45%).
+  - **Live Sound Preview**: Interactive preview triggers for each sound profile.
+  - **Persistent Storage**: Preferences saved cleanly in `localStorage` across all sessions.
+
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 15.5 (App Router), React 19, TypeScript, Tailwind CSS, Lucide React, Canvas Confetti
+- **Frontend**: Next.js 15.5 (App Router), React 19, TypeScript, Tailwind CSS, Lucide React, Canvas Confetti, Web Audio API
 - **Backend**: Next.js Route Handlers (`app/api/...`), Jose (JWT), Bcrypt.js
 - **Database & ORM**: PostgreSQL (hosted on Neon Serverless) with Prisma ORM
 - **Deployment**: Vercel CI/CD with automatic branch deployments
 
 ---
 
-## � Project Structure
+## 📂 Project Structure
 
 ```text
 DayDream/
@@ -133,7 +149,7 @@ DayDream/
 │   ├── expenses/page.tsx            # Section 5: Monthly Expenses Tracker (₹)
 │   ├── maintenance/page.tsx         # Maintenance mode page
 │   ├── globals.css                  # Tailwind styles & animations
-│   ├── layout.tsx                   # App Root Layout with providers
+│   ├── layout.tsx                   # App Root Layout with Sound, Toast, Auth & Theme providers
 │   └── page.tsx                     # Landing page
 ├── components/
 │   ├── bucket-list/                 # BucketListItem cards, detail & edit modals
@@ -143,18 +159,21 @@ DayDream/
 │   ├── expenses/                    # MonthlyTotalCard, MonthNavigator, ExpenseCard, Modals
 │   ├── navigation/                  # FloatingNav (Liquid-glass bottom dock)
 │   ├── todo/                        # AddTodoTaskModal, TodoTaskItem, DateNavigator
-│   ├── profile/                     # ProfileModal with user settings & 6 themes
-│   ├── providers/                   # AuthProvider, ToastProvider, ThemeProvider
+│   ├── profile/                     # ProfileModal with user settings, sound controls & themes
+│   ├── providers/                   # SoundProvider, AuthProvider, ToastProvider, ThemeProvider
 │   └── ui/                          # Button, Input, Textarea, Modal, ConfirmDialog, DayDreamLogo
 ├── lib/
 │   ├── auth/                        # JWT & Session verification utilities
 │   ├── config/                      # version.ts, maintenance.ts
 │   ├── db/                          # Prisma Client singleton
+│   ├── sound/                       # soundConfig.ts (types, paths, weights)
 │   └── utils/                       # cn helper
+├── public/
+│   └── sounds/                      # Handcrafted audio assets (ui, nav, success, feedback, notification)
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.7.2 dependencies and scripts
+├── package.json                     # v2.8.0 dependencies and scripts
 └── README.md
 ```
 

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useSound } from "@/components/providers/SoundProvider";
 import {
   ExpenseCategory,
   EXPENSE_CATEGORIES,
@@ -33,6 +34,7 @@ export function EditExpenseModal({
   onExpenseDeleted,
 }: EditExpenseModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
@@ -101,6 +103,7 @@ export function EditExpenseModal({
         return;
       }
 
+      playSound("success");
       success("Expense updated!");
       onExpenseUpdated(data.expense);
       onClose();
@@ -124,6 +127,7 @@ export function EditExpenseModal({
         return;
       }
 
+      playSound("delete");
       success("Expense deleted");
       onExpenseDeleted(expense.id);
       setShowConfirmDelete(false);

@@ -23,6 +23,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useSound } from "@/components/providers/SoundProvider";
 
 export interface EventDetailModalProps {
   event: EventData | null;
@@ -40,6 +41,7 @@ export function EventDetailModal({
   onEventDeleted,
 }: EventDetailModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -74,6 +76,7 @@ export function EventDetailModal({
         return;
       }
 
+      playSound("delete");
       setShowDeleteConfirm(false);
       onEventDeleted(event.id);
       onClose();

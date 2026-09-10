@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useSound } from "@/components/providers/SoundProvider";
 import { cn } from "@/lib/utils/cn";
 import { CategoryData } from "./AddCategoryModal";
 
@@ -34,6 +35,7 @@ export function EditCategoryModal({
   onCategoryUpdated,
 }: EditCategoryModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -81,6 +83,7 @@ export function EditCategoryModal({
         return;
       }
 
+      playSound("success");
       success(`Category "${data.category.name}" updated!`);
       onCategoryUpdated(data.category);
       onClose();

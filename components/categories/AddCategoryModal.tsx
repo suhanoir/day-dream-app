@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useSound } from "@/components/providers/SoundProvider";
 import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -43,6 +44,7 @@ export function AddCategoryModal({
   onCategoryAdded,
 }: AddCategoryModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -80,6 +82,7 @@ export function AddCategoryModal({
         return;
       }
 
+      playSound("success");
       success(`Category "${data.category.name}" created!`);
       onCategoryAdded(data.category);
       setName("");

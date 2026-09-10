@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { AddEventModal } from "@/components/calendar/AddEventModal";
+import { useSound } from "@/components/providers/SoundProvider";
 
 export interface BucketListItemDetailModalProps {
   item: BucketListItemData | null;
@@ -42,6 +43,7 @@ export function BucketListItemDetailModal({
   onEditClick,
 }: BucketListItemDetailModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [reflectionText, setReflectionText] = useState("");
   const [isEditingReflection, setIsEditingReflection] = useState(false);
@@ -59,7 +61,8 @@ export function BucketListItemDetailModal({
   useEffect(() => {
     if (item) {
       setReflectionText(item.reflection || "");
-      setIsEditingReflection(!item.reflection && item.completed);
+      setIsEditingReflection(false);
+      setTodoTaskTitle(item.title ? `Goal: ${item.title}` : "");
     }
   }, [item]);
 
@@ -67,7 +70,7 @@ export function BucketListItemDetailModal({
 
   const handleCreateTodoFromGoal = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!todoTaskTitle.trim() || isAddingToTodo) return;
+    if (!todoTaskTitle.trim()) return;
     try {
       setIsAddingToTodo(true);
       const res = await fetch("/api/todos", {
@@ -87,6 +90,7 @@ export function BucketListItemDetailModal({
         return;
       }
 
+      playSound("success");
       success("Goal added to your To-Do List!");
       setIsAddToTodoOpen(false);
     } catch {
@@ -126,10 +130,12 @@ export function BucketListItemDetailModal({
       onUpdate(data.item);
 
       if (newCompleted) {
+        playSound("dream-complete");
         triggerCelebration();
         success("Goal completed! 🎉 Take a moment to capture the memory.");
         setIsEditingReflection(true);
       } else {
+        playSound("ui-click");
         success("Goal moved back to active.");
       }
     } catch {
@@ -156,6 +162,7 @@ export function BucketListItemDetailModal({
         return;
       }
 
+      playSound("success");
       onUpdate(data.item);
       setIsEditingReflection(false);
       success("Memory reflection saved permanently.");
@@ -181,6 +188,7 @@ export function BucketListItemDetailModal({
         return;
       }
 
+      playSound("delete");
       setShowDeleteConfirm(false);
       onDelete(item.id);
       onClose();

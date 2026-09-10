@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import { CheckCircle2, AlertCircle, Info, X } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useSound } from "@/components/providers/SoundProvider";
 
 export type ToastType = "success" | "error" | "info";
 
@@ -23,6 +24,7 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const { playSound } = useSound();
 
   const removeToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -33,11 +35,17 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       const id = Math.random().toString(36).substring(2, 9);
       setToasts((prev) => [...prev, { id, message, type }]);
 
+      if (type === "error") {
+        playSound("error");
+      } else if (type === "info") {
+        playSound("notification");
+      }
+
       setTimeout(() => {
         removeToast(id);
       }, 4000);
     },
-    [removeToast]
+    [removeToast, playSound]
   );
 
   const contextValue: ToastContextType = {

@@ -5,6 +5,7 @@ import { BucketListItemCard, BucketListItemData } from "@/components/bucket-list
 import { CategoryData } from "./AddCategoryModal";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useSound } from "@/components/providers/SoundProvider";
 import {
   Plus,
   MoreHorizontal,
@@ -32,6 +33,7 @@ export function CategorySection({
   onCategoryDeleted,
 }: CategorySectionProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [showMenu, setShowMenu] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -56,6 +58,7 @@ export function CategorySection({
         return;
       }
 
+      playSound("delete");
       setShowDeleteConfirm(false);
       onCategoryDeleted(category.id);
       success(`Category "${category.name}" removed.`);

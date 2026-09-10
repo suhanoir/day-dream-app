@@ -8,6 +8,7 @@ import {
 } from "./types";
 import { Check, Clock, ArrowRightCircle, Trash2, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useSound } from "@/components/providers/SoundProvider";
 
 interface TodoTaskItemProps {
   task: TodoTaskData;
@@ -28,12 +29,18 @@ export function TodoTaskItem({
 }: TodoTaskItemProps) {
   const [isToggling, setIsToggling] = useState(false);
   const [isMoving, setIsMoving] = useState(false);
+  const { playSound } = useSound();
 
   const handleCheckboxClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isToggling) return;
     try {
       setIsToggling(true);
+      if (!task.completed) {
+        playSound("success");
+      } else {
+        playSound("ui-click");
+      }
       await onToggleComplete(task);
     } finally {
       setIsToggling(false);
@@ -45,6 +52,7 @@ export function TodoTaskItem({
     if (!onMoveToToday || isMoving) return;
     try {
       setIsMoving(true);
+      playSound("ui-click");
       await onMoveToToday(task);
     } finally {
       setIsMoving(false);
@@ -54,6 +62,7 @@ export function TodoTaskItem({
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!onDelete) return;
+    playSound("delete");
     await onDelete(task);
   };
 

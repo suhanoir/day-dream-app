@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useSound } from "@/components/providers/SoundProvider";
 import {
   EventData,
   EVENT_CATEGORIES,
@@ -40,6 +41,7 @@ export function AddEventModal({
   initialBucketListItem,
 }: AddEventModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -132,6 +134,7 @@ export function AddEventModal({
         return;
       }
 
+      playSound("success");
       success("Event added to your calendar!");
       onEventAdded(data.event);
       onClose();

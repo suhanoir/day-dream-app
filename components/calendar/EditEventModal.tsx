@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useSound } from "@/components/providers/SoundProvider";
 import {
   EventData,
   EVENT_CATEGORIES,
@@ -26,6 +27,7 @@ export function EditEventModal({
   onEventUpdated,
 }: EditEventModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -116,6 +118,7 @@ export function EditEventModal({
         return;
       }
 
+      playSound("success");
       success("Event updated successfully.");
       onEventUpdated(data.event);
       onClose();

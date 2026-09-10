@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useSound } from "@/components/providers/SoundProvider";
 import { Plus, Sparkles } from "lucide-react";
 import { BucketListItemData } from "./BucketListItemCard";
 
@@ -33,6 +34,7 @@ export function AddBucketListItemModal({
   onOpenAddCategory,
 }: AddBucketListItemModalProps) {
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [title, setTitle] = useState("");
   const [categoryId, setCategoryId] = useState(defaultCategoryId || (categories[0]?.id || ""));
@@ -86,6 +88,7 @@ export function AddBucketListItemModal({
         return;
       }
 
+      playSound("success");
       success("New goal added to your bucket list!");
       onItemAdded(data.item);
       // Reset form
