@@ -28,6 +28,19 @@ export function ScrapbookCard({ item, onClick }: ScrapbookCardProps) {
       : item.reflection
     : null;
 
+  // Multi-photo album calculation
+  const photoCount = React.useMemo(() => {
+    if (item.memoryPhotos) {
+      try {
+        const parsed = JSON.parse(item.memoryPhotos);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed.length;
+      } catch {
+        // ignore
+      }
+    }
+    return item.memoryPhoto ? 1 : 0;
+  }, [item.memoryPhotos, item.memoryPhoto]);
+
   return (
     <div
       role="button"
@@ -59,15 +72,16 @@ export function ScrapbookCard({ item, onClick }: ScrapbookCardProps) {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60" />
-            <span className="absolute bottom-2 right-2 p-1 rounded-md bg-black/40 backdrop-blur-xs text-white text-[10px]">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-70" />
+            <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-xs text-white text-[10.5px] font-semibold flex items-center gap-1 shadow-xs border border-white/10">
               <ImageIcon className="w-3 h-3" />
+              {photoCount > 1 && <span>{photoCount}</span>}
             </span>
           </div>
         ) : (
           <div className="w-full aspect-[4/2.4] rounded-2xl flex flex-col items-center justify-center p-4 text-center bg-stone-100/60 dark:bg-stone-800/30 border border-dashed border-stone-200 dark:border-stone-700/80 group-hover:border-stone-300 transition-colors">
             <Sparkles className="w-5 h-5 text-amber-500/80 mb-1.5 opacity-80 group-hover:scale-110 transition-transform" />
-            <span className="text-[10px] font-bold tracking-widest uppercase text-stone-400 font-mono">
+            <span className="text-[10px] font-bold tracking-widest uppercase text-stone-500 dark:text-stone-400 font-mono">
               Memory Keepsake
             </span>
           </div>
@@ -80,39 +94,39 @@ export function ScrapbookCard({ item, onClick }: ScrapbookCardProps) {
           {/* Category & Date */}
           <div className="flex items-center justify-between gap-2 mb-2 text-[11px]">
             {item.category ? (
-              <span className="font-semibold uppercase tracking-wider text-[10px] text-stone-500 dark:text-stone-400">
+              <span className="font-bold uppercase tracking-wider text-[10px] text-stone-600 dark:text-stone-300">
                 {item.category.name}
               </span>
             ) : (
-              <span className="text-stone-400 font-mono text-[10px]">Dream</span>
+              <span className="text-stone-500 dark:text-stone-400 font-mono text-[10px]">Dream</span>
             )}
             {formattedDate && (
-              <span className="text-stone-400 text-[10px] font-medium">
+              <span className="text-stone-500 dark:text-stone-400 text-[10px] font-medium">
                 {formattedDate}
               </span>
             )}
           </div>
 
           {/* Title */}
-          <h3 className="text-base sm:text-lg font-bold tracking-tight text-stone-900 dark:text-stone-100 font-serif-heading line-clamp-2 leading-snug group-hover:text-[var(--theme-primary)] transition-colors">
+          <h3 className="text-base sm:text-lg font-bold tracking-tight text-stone-900 dark:text-stone-50 font-serif-heading line-clamp-2 leading-snug group-hover:text-[var(--theme-primary)] transition-colors">
             {item.title}
           </h3>
 
           {/* Reflection Quote Snippet */}
           {snippet && (
-            <p className="mt-2 text-xs text-stone-600 dark:text-stone-400 leading-relaxed italic font-serif line-clamp-2">
+            <p className="mt-2 text-xs text-stone-700 dark:text-stone-300 leading-relaxed italic font-serif line-clamp-2">
               &ldquo;{snippet}&rdquo;
             </p>
           )}
         </div>
 
         {/* Footer Seal */}
-        <div className="mt-4 pt-3 border-t border-stone-100 dark:border-stone-800/60 flex items-center justify-between text-[11px] text-stone-400">
-          <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
+        <div className="mt-4 pt-3 border-t border-stone-100 dark:border-stone-800/60 flex items-center justify-between text-[11px] text-stone-500 dark:text-stone-400">
+          <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
             <CheckCircle2 className="w-3.5 h-3.5" />
-            <span className="text-[10px] font-semibold">Achieved</span>
+            <span className="text-[10px]">Achieved</span>
           </div>
-          <span className="text-[10px] font-medium group-hover:translate-x-0.5 transition-transform text-stone-500">
+          <span className="text-[10px] font-semibold group-hover:translate-x-0.5 transition-transform text-stone-600 dark:text-stone-300 group-hover:text-[var(--theme-primary)]">
             View Postcard →
           </span>
         </div>

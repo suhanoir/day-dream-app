@@ -1,11 +1,21 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme-mode="dark"], [data-theme-mode="dark"] *, .dark, .dark *));
+
 /* -------------------------------------------------------------
- * DAYDREAM GLOBAL THEME SYSTEM (v2.9.0)
+ * DAYDREAM GLOBAL THEME SYSTEM (v2.14.0)
  * Centralized theme tokens and semantic variables
  * ----------------------------------------------------------- */
 
 :root {
+  /* Semantic High-Contrast Typography & Surface Tokens */
+  --text-primary: #18181b;
+  --text-secondary: #3f3f46;
+  --text-muted: #52525b;
+  --text-on-glass: #18181b;
+  --surface-journal: rgba(255, 255, 255, 0.96);
+  --surface-journal-border: rgba(0, 0, 0, 0.08);
+
   /* Liquid Glass Design System Tokens */
   --glass-bg-subtle: color-mix(in srgb, var(--theme-surface, #ffffff) 60%, transparent);
   --glass-bg: color-mix(in srgb, var(--theme-surface, #ffffff) 78%, transparent);
@@ -698,19 +708,45 @@
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
 }
 
+[data-theme-mode="dark"],
+.dark {
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-on-glass: #f8fafc;
+  --surface-journal: rgba(24, 30, 44, 0.94);
+  --surface-journal-border: rgba(255, 255, 255, 0.12);
+}
+
 [data-theme-mode="dark"] .glass-modal,
 [data-theme="midnight-citrus"] .glass-modal,
 [data-theme="slate"] .glass-modal,
 [data-theme="aurora"] .glass-modal,
 [data-theme="forest"] .glass-modal,
 [data-theme="ocean"] .glass-modal,
-[data-theme="ruby"] .glass-modal {
+[data-theme="ruby"] .glass-modal,
+.dark .glass-modal {
   background: var(--glass-bg-strong, rgba(25, 31, 44, 0.96));
   border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.10));
   box-shadow:
     0 24px 48px -12px rgba(0, 0, 0, 0.70),
     0 8px 20px -4px rgba(0, 0, 0, 0.50),
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+[data-theme-mode="dark"] .glass-journal,
+[data-theme="midnight-citrus"] .glass-journal,
+[data-theme="slate"] .glass-journal,
+[data-theme="aurora"] .glass-journal,
+[data-theme="forest"] .glass-journal,
+[data-theme="ocean"] .glass-journal,
+[data-theme="ruby"] .glass-journal,
+.dark .glass-journal {
+  background: var(--surface-journal, rgba(24, 30, 44, 0.94));
+  border: 1px solid var(--surface-journal-border, rgba(255, 255, 255, 0.12));
+  box-shadow:
+    0 8px 24px -4px rgba(0, 0, 0, 0.40),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 [data-theme-mode="dark"] .glass-dropdown,
@@ -1060,6 +1096,17 @@
     0 24px 48px -12px rgba(0, 0, 0, 0.12),
     0 8px 20px -4px rgba(0, 0, 0, 0.05),
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Glass Journal Surface (Memory Reflection High-Contrast Layer) */
+.glass-journal {
+  background: var(--surface-journal, rgba(255, 255, 255, 0.96));
+  border: 1px solid var(--surface-journal-border, rgba(0, 0, 0, 0.08));
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Glass Dropdown / Popover */

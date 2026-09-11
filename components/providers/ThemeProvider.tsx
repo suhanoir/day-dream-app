@@ -356,6 +356,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       const meta = THEMES.find((t) => t.id === activeId) || THEMES[0];
       document.documentElement.setAttribute("data-theme", activeId);
       document.documentElement.setAttribute("data-theme-mode", meta.mode);
+      document.documentElement.classList.toggle("dark", meta.mode === "dark");
     } catch {
       // localStorage may be unavailable in private browsing
     }
@@ -372,6 +373,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const meta = THEMES.find((t) => t.id === newTheme) || THEMES[0];
     document.documentElement.setAttribute("data-theme", newTheme);
     document.documentElement.setAttribute("data-theme-mode", meta.mode);
+    document.documentElement.classList.toggle("dark", meta.mode === "dark");
   };
 
   const currentThemeMeta = useMemo(() => {

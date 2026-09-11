@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.13.0 — Full-Stack Web Application
+# 🌟 DayDream v2.14.0 — Full-Stack Web Application
 
-> **Version 2.13.0** · **"Memory Postcard & Visual Scrapbook · One day, your bucket list becomes your memory."**
+> **Version 2.14.0** · **"Keepsake Album & Contrast Upgrade · Multi-Photo Albums, Full-Screen Lightbox & System-Wide Contrast"**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Featuring a timeless, abstract visual identity inspired by *The Threshold* (Day & Dream figure-ground duality) alongside a calm, tactile Liquid Glass design language unified across all four core modules (To-Do, Expenses, BucketList, Calendar).
 
@@ -207,8 +207,24 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
   - Heartfelt empty state for new accounts (*"Your scrapbook is waiting. Complete your first dream and the memory will live here."*).
   - Memory Detail Modal with full reflection viewer, PNG download, and postcard customization.
 - **Privacy & Database Security**:
-  - Stored privately on `BucketListItem` in PostgreSQL (`memoryPhoto`, `postcardStyle`), strictly scoped to `userId: session.userId`.
+  - Stored privately on `BucketListItem` in PostgreSQL (`memoryPhoto`, `memoryPhotos`, `postcardStyle`), strictly scoped to `userId: session.userId`.
   - Zero public photo exposure; User A cannot access or mutate User B's memories or images.
+
+### 18. Keepsake Album & System-Wide Contrast Upgrade (v2.14.0)
+- **Multi-Photo Keepsake Albums (Up to 10 Photos per Dream)**:
+  - Upgraded from single photo to an album storing up to 10 photos per dream.
+  - **Clean UX**: No upfront "10/10" counter clutter. Only triggers a friendly toast (*"You can add up to 10 memories to a Keepsake."*) when attempting to exceed 10.
+  - Automatic cover photo assignment with manual "Set as Cover" selection.
+  - Album reordering (earlier/later) and safe deletion with automatic cover promotion.
+- **Full-Screen Lightbox Image Viewer (`MemoryLightbox`)**:
+  - Deep backdrop blur, responsive high-resolution image viewing.
+  - Touch swipe gestures for mobile devices and keyboard navigation (`ESC`, `ArrowLeft`, `ArrowRight`).
+  - Active photo counter (`X of Y`), Cover Photo indicator badge, and thumbnail navigation strip.
+- **System-Wide High-Contrast Design Tokens (WCAG AA Compliant)**:
+  - Eliminated faint text issues across all 12 themes (Light, Dark, and Midnight Citrus).
+  - Semantic typography tokens (`--text-primary`, `--text-secondary`, `--text-muted`, `--surface-journal`).
+  - Dedicated `.glass-journal` reflection card with crisp serif typography and specular liquid glass borders.
+  - Upgraded `CategoryBadge` with dark-mode support across all palette colors.
 
 ---
 
@@ -271,7 +287,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.13.0 dependencies and scripts
+├── package.json                     # v2.14.0 dependencies and scripts
 └── README.md
 ```
 

@@ -64,15 +64,15 @@ export function Modal({
       >
         {/* Header */}
         {(title || showCloseButton) && (
-          <div className="flex items-start justify-between gap-4 pb-4 border-b border-stone-200/60 mb-5">
+          <div className="flex items-start justify-between gap-4 pb-4 border-b border-stone-200/60 dark:border-stone-800/80 mb-5">
             <div>
               {title && (
-                <h3 className="text-lg font-bold text-stone-900 tracking-tight">
+                <h3 className="text-lg font-bold text-stone-900 dark:text-stone-100 tracking-tight">
                   {title}
                 </h3>
               )}
               {subtitle && (
-                <p className="text-xs text-stone-500 mt-1 font-normal">
+                <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 font-normal">
                   {subtitle}
                 </p>
               )}
@@ -80,7 +80,7 @@ export function Modal({
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="text-stone-400 hover:text-stone-700 p-1.5 rounded-full hover:bg-stone-200/60 transition-colors -mr-1 -mt-1 cursor-pointer"
+                className="text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100 p-1.5 rounded-full hover:bg-stone-200/60 dark:hover:bg-stone-800/60 transition-colors -mr-1 -mt-1 cursor-pointer"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />

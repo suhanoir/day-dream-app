@@ -11,16 +11,56 @@ export interface CategoryBadgeProps {
 }
 
 const colorMap: Record<string, { bg: string; text: string; border: string }> = {
-  sky: { bg: "bg-sky-50/80 backdrop-blur-xs", text: "text-sky-850", border: "border-sky-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
-  amber: { bg: "bg-amber-50/80 backdrop-blur-xs", text: "text-amber-850", border: "border-amber-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
-  rose: { bg: "bg-rose-50/80 backdrop-blur-xs", text: "text-rose-850", border: "border-rose-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
-  indigo: { bg: "bg-indigo-50/80 backdrop-blur-xs", text: "text-indigo-850", border: "border-indigo-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
-  emerald: { bg: "bg-emerald-50/80 backdrop-blur-xs", text: "text-emerald-850", border: "border-emerald-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
-  teal: { bg: "bg-teal-50/80 backdrop-blur-xs", text: "text-teal-850", border: "border-teal-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
-  yellow: { bg: "bg-yellow-50/80 backdrop-blur-xs", text: "text-yellow-850", border: "border-yellow-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
-  violet: { bg: "bg-violet-50/80 backdrop-blur-xs", text: "text-violet-850", border: "border-violet-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
-  purple: { bg: "bg-purple-50/80 backdrop-blur-xs", text: "text-purple-850", border: "border-purple-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
-  stone: { bg: "bg-stone-100/80 backdrop-blur-xs", text: "text-stone-700", border: "border-stone-200/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)]" },
+  sky: {
+    bg: "bg-sky-50/90 dark:bg-sky-950/60 backdrop-blur-xs",
+    text: "text-sky-700 dark:text-sky-300 font-semibold",
+    border: "border-sky-200/80 dark:border-sky-700/60 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
+  amber: {
+    bg: "bg-amber-50/90 dark:bg-amber-950/60 backdrop-blur-xs",
+    text: "text-amber-800 dark:text-amber-300 font-semibold",
+    border: "border-amber-200/80 dark:border-amber-700/60 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
+  rose: {
+    bg: "bg-rose-50/90 dark:bg-rose-950/60 backdrop-blur-xs",
+    text: "text-rose-700 dark:text-rose-300 font-semibold",
+    border: "border-rose-200/80 dark:border-rose-700/60 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
+  indigo: {
+    bg: "bg-indigo-50/90 dark:bg-indigo-950/60 backdrop-blur-xs",
+    text: "text-indigo-700 dark:text-indigo-300 font-semibold",
+    border: "border-indigo-200/80 dark:border-indigo-700/60 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
+  emerald: {
+    bg: "bg-emerald-50/90 dark:bg-emerald-950/60 backdrop-blur-xs",
+    text: "text-emerald-800 dark:text-emerald-300 font-semibold",
+    border: "border-emerald-200/80 dark:border-emerald-700/60 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
+  teal: {
+    bg: "bg-teal-50/90 dark:bg-teal-950/60 backdrop-blur-xs",
+    text: "text-teal-700 dark:text-teal-300 font-semibold",
+    border: "border-teal-200/80 dark:border-teal-700/60 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
+  yellow: {
+    bg: "bg-yellow-50/90 dark:bg-yellow-950/60 backdrop-blur-xs",
+    text: "text-yellow-800 dark:text-yellow-300 font-semibold",
+    border: "border-yellow-200/80 dark:border-yellow-700/60 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
+  violet: {
+    bg: "bg-violet-50/90 dark:bg-violet-950/60 backdrop-blur-xs",
+    text: "text-violet-700 dark:text-violet-300 font-semibold",
+    border: "border-violet-200/80 dark:border-violet-700/60 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
+  purple: {
+    bg: "bg-purple-50/90 dark:bg-purple-950/60 backdrop-blur-xs",
+    text: "text-purple-700 dark:text-purple-300 font-semibold",
+    border: "border-purple-200/80 dark:border-purple-700/60 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
+  stone: {
+    bg: "bg-stone-100/90 dark:bg-stone-800/80 backdrop-blur-xs",
+    text: "text-stone-800 dark:text-stone-200 font-semibold",
+    border: "border-stone-200/80 dark:border-stone-700/80 shadow-[inset_0_0.5px_0.5px_0_rgba(255,255,255,0.8)] dark:shadow-none",
+  },
 };
 
 export function CategoryBadge({

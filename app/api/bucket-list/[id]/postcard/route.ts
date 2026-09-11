@@ -15,7 +15,7 @@ export async function PATCH(
 
     const { id } = await params;
     const body = await req.json();
-    const { memoryPhoto, postcardStyle, reflection } = body;
+    const { memoryPhoto, memoryPhotos, postcardStyle, reflection } = body;
 
     // Verify ownership
     const existing = await prisma.bucketListItem.findFirst({
@@ -34,12 +34,32 @@ export async function PATCH(
 
     const data: {
       memoryPhoto?: string | null;
+      memoryPhotos?: string | null;
       postcardStyle?: string | null;
       reflection?: string | null;
     } = {};
 
+    if (memoryPhotos !== undefined) {
+      if (Array.isArray(memoryPhotos)) {
+        data.memoryPhotos = memoryPhotos.length > 0 ? JSON.stringify(memoryPhotos) : null;
+      } else if (typeof memoryPhotos === "string" && memoryPhotos.trim()) {
+        data.memoryPhotos = memoryPhotos;
+      } else {
+        data.memoryPhotos = null;
+      }
+    }
+
     if (memoryPhoto !== undefined) {
       data.memoryPhoto = typeof memoryPhoto === "string" && memoryPhoto.trim() ? memoryPhoto : null;
+    } else if (data.memoryPhotos) {
+      try {
+        const parsed = JSON.parse(data.memoryPhotos);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          data.memoryPhoto = parsed[0];
+        }
+      } catch {
+        // ignore json parse error
+      }
     }
 
     if (postcardStyle !== undefined) {

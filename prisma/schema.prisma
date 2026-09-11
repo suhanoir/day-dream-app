@@ -68,6 +68,7 @@ model BucketListItem {
   completedAt   DateTime?
   reflection    String?
   memoryPhoto   String?
+  memoryPhotos  String?
   postcardStyle String?   @default("polaroid")
   targetDate    DateTime?
   createdAt     DateTime  @default(now())

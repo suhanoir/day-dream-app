@@ -13,6 +13,7 @@ export interface BucketListItemData {
   completedAt: string | null;
   reflection: string | null;
   memoryPhoto?: string | null;
+  memoryPhotos?: string | null;
   postcardStyle?: string | null;
   targetDate: string | null;
   createdAt: string;

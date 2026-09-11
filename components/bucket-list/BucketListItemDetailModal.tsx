@@ -384,7 +384,9 @@ export function BucketListItemDetailModal({
                 >
                   <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                   <span>
-                    {item.memoryPhoto ? "View Memory Postcard" : "Create Memory Postcard"}
+                    {item.memoryPhoto || (item.memoryPhotos && item.memoryPhotos !== "[]")
+                      ? "View Memory Postcard"
+                      : "Create Memory Postcard"}
                   </span>
                 </Button>
               </div>
@@ -396,7 +398,7 @@ export function BucketListItemDetailModal({
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-1.5">
                 <Quote className="w-4 h-4 text-stone-400" />
-                <h4 className="text-sm font-semibold text-stone-900">
+                <h4 className="text-sm font-bold text-stone-900 dark:text-stone-100">
                   {item.completed ? "My Experience & Memory" : "Reflection / Vision"}
                 </h4>
               </div>
@@ -405,7 +407,7 @@ export function BucketListItemDetailModal({
                 <button
                   type="button"
                   onClick={() => setIsEditingReflection(true)}
-                  className="text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-semibold text-stone-600 hover:text-stone-900 dark:text-stone-300 dark:hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   <Pencil className="w-3 h-3" />
                   Edit Reflection

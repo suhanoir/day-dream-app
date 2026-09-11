@@ -157,10 +157,13 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                   }}
                 >
                   <Sparkles
-                    className="w-6 h-6 mb-2 opacity-60"
+                    className="w-6 h-6 mb-2 opacity-80"
                     style={{ color: palette.primary }}
                   />
-                  <span className="text-[11px] font-semibold tracking-widest uppercase opacity-50 font-mono">
+                  <span
+                    className="text-[11px] font-bold tracking-widest uppercase font-mono"
+                    style={{ color: isDark ? "rgba(240, 245, 255, 0.85)" : "#4B5563" }}
+                  >
                     DayDream Keepsake
                   </span>
                 </div>
@@ -174,12 +177,12 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                 <div className="flex items-center justify-between gap-2 mb-1.5">
                   {showCategory && categoryName && (
                     <span
-                      className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full inline-block"
+                      className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full inline-block shadow-2xs"
                       style={{
                         backgroundColor: isDark
-                          ? "rgba(255, 255, 255, 0.08)"
-                          : "rgba(0, 0, 0, 0.04)",
-                        color: palette.primary,
+                          ? "rgba(255, 255, 255, 0.12)"
+                          : "rgba(0, 0, 0, 0.06)",
+                        color: isDark ? "#FFFFFF" : palette.primary,
                       }}
                     >
                       {categoryName}
@@ -188,7 +191,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                   {showDate && formattedDate && (
                     <span
                       className="text-[10px] tracking-wide font-medium ml-auto"
-                      style={{ color: palette.mutedText }}
+                      style={{ color: isDark ? "rgba(220, 225, 235, 0.85)" : "#4B5563" }}
                     >
                       {formattedDate}
                     </span>
@@ -196,15 +199,18 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                 </div>
 
                 {/* Dream Title */}
-                <h3 className="text-xl sm:text-2xl font-normal tracking-tight font-serif-heading leading-tight line-clamp-2 mt-1">
+                <h3
+                  className="text-xl sm:text-2xl font-bold tracking-tight font-serif-heading leading-tight line-clamp-2 mt-1"
+                  style={{ color: isDark ? "#FFFFFF" : "#18181B" }}
+                >
                   {title}
                 </h3>
 
                 {/* Reflection Quote */}
                 <div className="mt-3 relative">
                   <p
-                    className="text-xs sm:text-[13px] leading-relaxed italic font-serif"
-                    style={{ color: isDark ? "rgba(240, 240, 240, 0.85)" : "#3F3F46" }}
+                    className="text-xs sm:text-[13px] leading-relaxed italic font-serif font-normal"
+                    style={{ color: isDark ? "rgba(248, 250, 252, 0.94)" : "#27272A" }}
                   >
                     &ldquo;{displayQuote}&rdquo;
                   </p>
@@ -216,21 +222,21 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                 className="mt-4 pt-3 flex items-center justify-between text-[10px] border-t"
                 style={{
                   borderColor: isDark
-                    ? "rgba(255, 255, 255, 0.08)"
-                    : "rgba(0, 0, 0, 0.06)",
-                  color: palette.mutedText,
+                    ? "rgba(255, 255, 255, 0.12)"
+                    : "rgba(0, 0, 0, 0.08)",
+                  color: isDark ? "rgba(220, 225, 235, 0.85)" : "#4B5563",
                 }}
               >
-                <div className="flex items-center gap-1.5 font-medium">
+                <div className="flex items-center gap-1.5 font-semibold">
                   <CheckCircle2
-                    className="w-3 h-3 shrink-0"
+                    className="w-3.5 h-3.5 shrink-0"
                     style={{ color: palette.success || palette.primary }}
                   />
                   <span>Milestone Achieved</span>
                 </div>
-                <div className="flex items-center gap-1.5 opacity-80">
+                <div className="flex items-center gap-1.5 font-bold">
                   <DayDreamLogo size={14} />
-                  <span className="font-semibold tracking-wide">DayDream</span>
+                  <span className="tracking-wide">DayDream</span>
                 </div>
               </div>
             </div>
@@ -247,17 +253,27 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
               className="flex items-center justify-between pb-3 border-b text-[10px] tracking-wider uppercase font-semibold"
               style={{
                 borderColor: isDark
-                  ? "rgba(255, 255, 255, 0.1)"
+                  ? "rgba(255, 255, 255, 0.12)"
                   : "rgba(0, 0, 0, 0.08)",
                 color: palette.primary,
               }}
             >
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 font-bold">
                 <DayDreamLogo size={14} />
                 <span>DayDream Archive</span>
               </div>
               {showCategory && categoryName && (
-                <span style={{ color: palette.mutedText }}>{categoryName}</span>
+                <span
+                  className="font-bold px-2 py-0.5 rounded-full"
+                  style={{
+                    backgroundColor: isDark
+                      ? "rgba(255, 255, 255, 0.1)"
+                      : "rgba(0, 0, 0, 0.05)",
+                    color: isDark ? "#FFFFFF" : "#334155",
+                  }}
+                >
+                  {categoryName}
+                </span>
               )}
             </div>
 
@@ -268,7 +284,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                   className="w-full aspect-[16/10] rounded-xl overflow-hidden shadow-sm"
                   style={{
                     border: `1px solid ${
-                      isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)"
+                      isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.06)"
                     }`,
                   }}
                 >
@@ -281,7 +297,10 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                 </div>
               )}
 
-              <h2 className="text-2xl sm:text-3xl font-normal tracking-tight font-serif-heading leading-tight line-clamp-3">
+              <h2
+                className="text-2xl sm:text-3xl font-bold tracking-tight font-serif-heading leading-tight line-clamp-3"
+                style={{ color: isDark ? "#FFFFFF" : "#18181B" }}
+              >
                 {title}
               </h2>
 
@@ -291,7 +310,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
               >
                 <p
                   className="text-xs sm:text-[13px] leading-relaxed italic font-serif"
-                  style={{ color: isDark ? "rgba(240, 240, 240, 0.85)" : "#3F3F46" }}
+                  style={{ color: isDark ? "rgba(248, 250, 252, 0.94)" : "#27272A" }}
                 >
                   &ldquo;{displayQuote}&rdquo;
                 </p>
@@ -303,20 +322,20 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
               className="pt-3 border-t flex items-center justify-between text-[10px]"
               style={{
                 borderColor: isDark
-                  ? "rgba(255, 255, 255, 0.1)"
+                  ? "rgba(255, 255, 255, 0.12)"
                   : "rgba(0, 0, 0, 0.08)",
-                color: palette.mutedText,
+                color: isDark ? "rgba(220, 225, 235, 0.85)" : "#4B5563",
               }}
             >
               {showDate && formattedDate ? (
-                <span className="font-medium flex items-center gap-1">
-                  <Calendar className="w-3 h-3 opacity-60" />
+                <span className="font-semibold flex items-center gap-1">
+                  <Calendar className="w-3 h-3 opacity-80" />
                   {formattedDate}
                 </span>
               ) : (
-                <span>Recorded Memory</span>
+                <span className="font-semibold">Recorded Memory</span>
               )}
-              <span className="font-mono text-[9px] uppercase tracking-widest opacity-60">
+              <span className="font-mono text-[9px] uppercase tracking-widest font-medium opacity-80">
                 Memories Worth Remembering
               </span>
             </div>
@@ -332,26 +351,31 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
             style={{
               border: `1px solid ${
                 isMidnightCitrus
-                  ? "rgba(245, 158, 11, 0.3)"
+                  ? "rgba(245, 158, 11, 0.35)"
                   : isDark
-                  ? "rgba(255, 255, 255, 0.12)"
+                  ? "rgba(255, 255, 255, 0.14)"
                   : "rgba(0, 0, 0, 0.08)"
               }`,
               backgroundColor: isDark
-                ? "rgba(255, 255, 255, 0.02)"
-                : "rgba(250, 250, 248, 0.7)",
+                ? "rgba(255, 255, 255, 0.04)"
+                : "rgba(250, 250, 248, 0.8)",
             }}
           >
             {/* Header: Subtle Quote icon & Category */}
             <div className="flex items-center justify-between">
               <Quote
-                className="w-5 h-5 opacity-40"
+                className="w-5 h-5 opacity-70"
                 style={{ color: palette.primary }}
               />
               {showCategory && categoryName && (
                 <span
-                  className="text-[10px] font-semibold tracking-wider uppercase"
-                  style={{ color: palette.mutedText }}
+                  className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full"
+                  style={{
+                    backgroundColor: isDark
+                      ? "rgba(255, 255, 255, 0.1)"
+                      : "rgba(0, 0, 0, 0.05)",
+                    color: isDark ? "#FFFFFF" : "#334155",
+                  }}
                 >
                   {categoryName}
                 </span>
@@ -365,7 +389,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                   className="w-full aspect-[2/1] rounded-xl overflow-hidden shadow-xs mb-3"
                   style={{
                     border: `1px solid ${
-                      isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.06)"
+                      isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.06)"
                     }`,
                   }}
                 >
@@ -379,18 +403,21 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
               )}
 
               <p
-                className="text-sm sm:text-base leading-relaxed font-serif italic"
-                style={{ color: isDark ? "#F4F4F5" : "#27272A" }}
+                className="text-sm sm:text-base leading-relaxed font-serif italic font-normal"
+                style={{ color: isDark ? "#F8FAFC" : "#18181B" }}
               >
                 &ldquo;{displayQuote}&rdquo;
               </p>
 
               <div className="pt-2">
                 <div
-                  className="w-8 h-0.5 rounded-full mb-2 opacity-50"
+                  className="w-8 h-0.5 rounded-full mb-2 opacity-70"
                   style={{ backgroundColor: palette.primary }}
                 />
-                <h4 className="text-base sm:text-lg font-normal tracking-tight font-serif-heading">
+                <h4
+                  className="text-base sm:text-lg font-bold tracking-tight font-serif-heading"
+                  style={{ color: isDark ? "#FFFFFF" : "#18181B" }}
+                >
                   {title}
                 </h4>
               </div>
@@ -401,19 +428,19 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
               className="pt-3 border-t flex items-center justify-between text-[10px]"
               style={{
                 borderColor: isDark
-                  ? "rgba(255, 255, 255, 0.08)"
-                  : "rgba(0, 0, 0, 0.06)",
-                color: palette.mutedText,
+                  ? "rgba(255, 255, 255, 0.12)"
+                  : "rgba(0, 0, 0, 0.08)",
+                color: isDark ? "rgba(220, 225, 235, 0.85)" : "#4B5563",
               }}
             >
               {showDate && formattedDate ? (
-                <span>Captured · {formattedDate}</span>
+                <span className="font-semibold">Captured · {formattedDate}</span>
               ) : (
-                <span>DayDream Journal</span>
+                <span className="font-semibold">DayDream Journal</span>
               )}
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 font-bold">
                 <DayDreamLogo size={13} />
-                <span className="font-medium">DayDream</span>
+                <span>DayDream</span>
               </div>
             </div>
           </div>
