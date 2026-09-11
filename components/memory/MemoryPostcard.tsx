@@ -39,12 +39,11 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
     },
     ref
   ) => {
-    const { theme, currentThemeMeta: activeThemeMeta } = useTheme();
+    const { currentThemeMeta } = useTheme();
 
-    // Resolve target theme
-    const resolvedThemeId = themeId || theme;
+    // Resolve target theme (defaults to active DayDream theme as single source of truth)
     const themeMeta =
-      THEMES.find((t) => t.id === resolvedThemeId) || activeThemeMeta;
+      (themeId && THEMES.find((t) => t.id === themeId)) || currentThemeMeta;
 
     const isDark = themeMeta.mode === "dark";
     const isMidnightCitrus = themeMeta.id === "midnight-citrus";

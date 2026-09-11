@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 import { useToast } from "@/components/providers/ToastProvider";
 import { useSound } from "@/components/providers/SoundProvider";
-import { useTheme, THEMES, ThemeId } from "@/components/providers/ThemeProvider";
 import { BucketListItemData } from "@/components/bucket-list/BucketListItemCard";
 import { MemoryPostcard, PostcardStyle } from "./MemoryPostcard";
 import {
@@ -19,7 +18,6 @@ import {
   Trash2,
   Download,
   Save,
-  Palette,
   Layers,
   Sparkles,
   Plus,
@@ -49,7 +47,6 @@ export function PostcardEditorModal({
   item,
   onSaved,
 }: PostcardEditorModalProps) {
-  const { theme } = useTheme();
   const { success, error: toastError } = useToast();
   const { playSound } = useSound();
 
@@ -57,7 +54,6 @@ export function PostcardEditorModal({
   const [photos, setPhotos] = useState<string[]>([]);
   const [coverPhoto, setCoverPhoto] = useState<string | null>(null);
   const [reflectionText, setReflectionText] = useState("");
-  const [selectedTheme, setSelectedTheme] = useState<ThemeId>(theme);
   const [showCategory, setShowCategory] = useState(true);
   const [showDate, setShowDate] = useState(true);
 
@@ -92,11 +88,10 @@ export function PostcardEditorModal({
       setPhotos(initialPhotos);
       setCoverPhoto(item.memoryPhoto || initialPhotos[0] || null);
       setReflectionText(item.reflection || "");
-      setSelectedTheme(theme);
       setShowCategory(true);
       setShowDate(true);
     }
-  }, [item, theme, isOpen]);
+  }, [item, isOpen]);
 
   if (!item) return null;
 
@@ -278,13 +273,12 @@ export function PostcardEditorModal({
                 categoryName={item.category?.name}
                 categoryColor={item.category?.color}
                 style={style}
-                themeId={selectedTheme}
                 showCategory={showCategory}
                 showDate={showDate}
               />
             </div>
             <p className="text-[11px] text-muted mt-3 text-center font-medium">
-              Live Preview · Displays Cover Photo & Selected Theme
+              Live Preview · Adapts automatically to your DayDream theme
             </p>
           </div>
 
@@ -456,39 +450,7 @@ export function PostcardEditorModal({
               )}
             </div>
 
-            {/* 3. Theme Palette */}
-            <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5 mb-2">
-                <Palette className="w-3.5 h-3.5 text-muted" />
-                Color Atmosphere
-              </label>
-              <div className="flex flex-wrap gap-1.5">
-                {THEMES.map((th) => (
-                  <button
-                    key={th.id}
-                    type="button"
-                    onClick={() => {
-                      setSelectedTheme(th.id);
-                      playSound("ui-click");
-                    }}
-                    className={cn(
-                      "flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer border",
-                      selectedTheme === th.id
-                        ? "border-stone-900 dark:border-stone-100 font-bold bg-stone-100 dark:bg-stone-800 text-primary"
-                        : "border-stone-200/80 dark:border-stone-700/80 hover:border-stone-300 text-secondary bg-white dark:bg-stone-900/60"
-                    )}
-                  >
-                    <span
-                      className="w-2.5 h-2.5 rounded-full shrink-0"
-                      style={{ backgroundColor: th.palette.primary }}
-                    />
-                    <span>{th.name.replace("DayDream ", "")}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 4. Reflection Quote */}
+            {/* 3. Personal Reflection */}
             <div>
               <label className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center justify-between mb-1.5">
                 <span>Personal Reflection</span>
@@ -505,7 +467,7 @@ export function PostcardEditorModal({
               />
             </div>
 
-            {/* 5. Toggles */}
+            {/* 4. Display Options */}
             <div className="flex items-center gap-4 text-xs text-secondary pt-1 font-medium">
               <label className="flex items-center gap-1.5 cursor-pointer">
                 <input

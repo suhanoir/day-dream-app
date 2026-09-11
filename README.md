@@ -196,7 +196,7 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
     - **Editorial**: Modern museum/art-gallery print with category pill, framed cover photo, and architectural layout.
     - **Journal**: Luxury stationery page with decorative frame, watermark branding, and large contemplative reflection quote.
   - **Optional Single Cover Photo**: Client-side compressed upload (max 1200px, WebP/JPEG), with replace and remove controls, cropped gracefully into the postcard frame.
-  - **12-Theme Atmosphere**: Inherits the user's active theme or allows selecting any of DayDream's 6 Light or 6 Dark themes (featuring specialized obsidian & warm amber treatment for **Midnight Citrus**).
+  - **Unified Automatic Theming**: Automatically adapts to the user's active DayDream theme (across all 6 Light and 6 Dark themes, featuring specialized obsidian & warm amber treatment for **Midnight Citrus**) with perfect contrast hierarchy and zero manual palette selection.
   - **Smart Content Adaptability**: Graceful fallback when no photo is attached (clean typographic composition) and subtle quote placeholder (*"Another dream lived."*) when no reflection is written yet.
 - **High-Resolution Export & Native Sharing**:
   - High-DPI 2x Retina PNG export powered by `html-to-image`.

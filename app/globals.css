@@ -37,6 +37,20 @@
   --glass-blur-lg: 26px;
 }
 
+[data-theme-mode="dark"],
+.dark {
+  /* Semantic High-Contrast Typography & Surface Tokens (Dark Mode) */
+  --text-primary: #F8FAFC;
+  --text-secondary: #E2E8F0;
+  --text-muted: #94A3B8;
+  --text-accent: var(--theme-primary);
+  --text-on-glass: #F8FAFC;
+  --text-on-surface: #F8FAFC;
+  --text-on-accent: #0F172A;
+  --surface-journal: rgba(24, 27, 34, 0.92);
+  --surface-journal-border: rgba(255, 255, 255, 0.12);
+}
+
 /* Default & DayDream Indigo (Theme 1) */
 :root,
 [data-theme="indigo"] {
