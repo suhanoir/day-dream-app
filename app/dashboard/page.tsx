@@ -13,9 +13,10 @@ import { AddBucketListItemModal } from "@/components/bucket-list/AddBucketListIt
 import { EditBucketListItemModal } from "@/components/bucket-list/EditBucketListItemModal";
 import { AddCategoryModal, CategoryData } from "@/components/categories/AddCategoryModal";
 import { EditCategoryModal } from "@/components/categories/EditCategoryModal";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/providers/ToastProvider";
-import { Loader2, Plus, FolderPlus } from "lucide-react";
+import { Loader2, Plus, FolderPlus, Sparkles } from "lucide-react";
 
 export default function DashboardPage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -236,7 +237,18 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 self-start sm:self-auto shrink-0">
+          <div className="flex items-center gap-2.5 self-start sm:self-auto shrink-0 flex-wrap">
+            <Link href="/memories">
+              <Button
+                type="button"
+                variant="outline"
+                size="md"
+                className="font-semibold shadow-xs gap-1.5 border-amber-500/30 hover:border-amber-500/50 text-amber-900 dark:text-amber-300 bg-amber-500/10 hover:bg-amber-500/15"
+              >
+                <Sparkles className="w-4 h-4 text-amber-500" />
+                <span>Memory Scrapbook</span>
+              </Button>
+            </Link>
             <Button
               type="button"
               variant="outline"

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Check, ChevronRight } from "lucide-react";
+import { Check, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 export interface BucketListItemData {
@@ -12,6 +12,8 @@ export interface BucketListItemData {
   completed: boolean;
   completedAt: string | null;
   reflection: string | null;
+  memoryPhoto?: string | null;
+  postcardStyle?: string | null;
   targetDate: string | null;
   createdAt: string;
   category?: {
@@ -77,6 +79,16 @@ export function BucketListItemCard({
             title="Has saved reflection memory"
             className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 shadow-2xs"
           />
+        )}
+
+        {/* Optional Cover Photo indicator */}
+        {item.memoryPhoto && (
+          <span
+            title="Has postcard memory photo"
+            className="text-stone-400 dark:text-stone-500 shrink-0"
+          >
+            <ImageIcon className="w-3.5 h-3.5" />
+          </span>
         )}
       </div>
 

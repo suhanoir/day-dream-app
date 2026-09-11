@@ -1,6 +1,6 @@
 {
   "name": "bucket-list-app",
-  "version": "2.12.2",
+  "version": "2.13.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,6 +17,7 @@
     "bcryptjs": "^3.0.2",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
+    "html-to-image": "^1.11.13",
     "jose": "^6.0.8",
     "lucide-react": "^1.16.0",
     "next": "^15.2.0",

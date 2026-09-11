@@ -289,22 +289,22 @@ export default function HomePage() {
             </p>
           </Link>
 
-          {/* Card 3: BucketList Active */}
+          {/* Card 3: BucketList & Memories */}
           <Link
-            href="/dashboard"
+            href="/memories"
             className="glass-card-interactive rounded-2xl p-4 sm:p-5 flex flex-col justify-between group cursor-pointer"
           >
             <div className="flex items-center justify-between text-stone-400 mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
-                BucketList
+                Memories & Dreams
               </span>
-              <BucketIcon className="w-4 h-4 text-stone-400 group-hover:text-[var(--theme-primary)] transition-colors" />
+              <Sparkles className="w-4 h-4 text-amber-500 group-hover:scale-110 transition-transform" />
             </div>
             <div className="text-xl sm:text-2xl font-bold tracking-tight text-stone-900">
-              {overview.activeGoalsCount} in progress
+              {overview.completedGoalsCount} {overview.completedGoalsCount === 1 ? "memory" : "memories"}
             </div>
             <p className="text-xs text-stone-400 mt-1">
-              {overview.completedGoalsCount} aspirations fulfilled
+              {overview.activeGoalsCount} in progress · View Scrapbook →
             </p>
           </Link>
 

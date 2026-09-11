@@ -20,10 +20,12 @@ import {
   Save,
   CalendarPlus,
   ListTodo,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { AddEventModal } from "@/components/calendar/AddEventModal";
 import { useSound } from "@/components/providers/SoundProvider";
+import { PostcardEditorModal } from "@/components/memory/PostcardEditorModal";
 
 export interface BucketListItemDetailModalProps {
   item: BucketListItemData | null;
@@ -56,6 +58,7 @@ export function BucketListItemDetailModal({
   const [todoTaskTitle, setTodoTaskTitle] = useState("");
   const [todoTaskDate, setTodoTaskDate] = useState("");
   const [isAddingToTodo, setIsAddingToTodo] = useState(false);
+  const [isPostcardModalOpen, setIsPostcardModalOpen] = useState(false);
 
   // Sync reflection text when item changes
   useEffect(() => {
@@ -365,6 +368,27 @@ export function BucketListItemDetailModal({
                 )}
               </Button>
             </div>
+
+            {item.completed && (
+              <div className="mt-3.5 pt-3 border-t border-emerald-200/60 dark:border-emerald-800/40 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                <span className="text-xs text-emerald-800 dark:text-emerald-300 font-medium flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  Turn this milestone into an authentic keepsake
+                </span>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsPostcardModalOpen(true)}
+                  className="bg-white/80 dark:bg-stone-900/60 border-emerald-300 text-emerald-950 dark:text-emerald-200 hover:bg-white text-xs font-semibold gap-1.5 shadow-2xs self-start sm:self-auto"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <span>
+                    {item.memoryPhoto ? "View Memory Postcard" : "Create Memory Postcard"}
+                  </span>
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Reflection / Memory Section */}
@@ -530,6 +554,16 @@ export function BucketListItemDetailModal({
           </div>
         </form>
       </Modal>
+
+      {/* Memory Postcard Editor Modal */}
+      <PostcardEditorModal
+        isOpen={isPostcardModalOpen}
+        onClose={() => setIsPostcardModalOpen(false)}
+        item={item}
+        onSaved={(updated) => {
+          onUpdate(updated);
+        }}
+      />
     </>
   );
 }

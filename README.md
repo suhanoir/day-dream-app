@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.12.2 — Full-Stack Web Application
+# 🌟 DayDream v2.13.0 — Full-Stack Web Application
 
-> **Version 2.12.2** · **"Refined & Focused Experience · Clean Architecture · Make memories worth remembering."**
+> **Version 2.13.0** · **"Memory Postcard & Visual Scrapbook · One day, your bucket list becomes your memory."**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Featuring a timeless, abstract visual identity inspired by *The Threshold* (Day & Dream figure-ground duality) alongside a calm, tactile Liquid Glass design language unified across all four core modules (To-Do, Expenses, BucketList, Calendar).
 
@@ -18,6 +18,7 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 | **3. Calendar** | `/calendar` | Upcoming events, schedules, important dates, and goal target dates with month/week/agenda views. | *"What is coming up?"* |
 | **4. To-Do List** | `/todo` | Daily actionable tasks with date isolation, priority/category filters, checkboxes, and celebration. | *"What do I need to get done today?"* |
 | **5. Expenses** | `/expenses` | Monthly expenditure tracking in Indian Rupees (₹), monthly totals, category breakdowns, and budgets. | *"Where is my money going this month?"* |
+| **6. Memory Scrapbook** | `/memories` | Visual gallery of achieved aspirations, memory postcards, and personal reflections. | *"What memories have I created?"* |
 
 ---
 
@@ -185,11 +186,35 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
   - Cleaned Service Worker (`public/sw.js`) down to essential PWA caching/activation lifecycle while preserving installability.
   - Retained in-app UI feedback toast system (`ToastProvider`) and Web Audio sound effects.
 
+### 17. Memory Postcard & Visual Scrapbook (v2.13.0)
+- **Transforming Accomplished Aspirations into Keepsakes**:
+  - The emotional centerpiece of DayDream: *"One day, your bucket list becomes your memory."*
+  - Completed bucket-list dreams and reflection journals can now be rendered into authentic, tangible **Memory Postcards**.
+- **Postcard Editor with Real-Time Live Preview**:
+  - **3 Elegant Compositions**:
+    - **Polaroid**: Classic photo-first keepsake with vintage margin, serif display headline, reflection excerpt, and subtle DayDream seal.
+    - **Editorial**: Modern museum/art-gallery print with category pill, framed cover photo, and architectural layout.
+    - **Journal**: Luxury stationery page with decorative frame, watermark branding, and large contemplative reflection quote.
+  - **Optional Single Cover Photo**: Client-side compressed upload (max 1200px, WebP/JPEG), with replace and remove controls, cropped gracefully into the postcard frame.
+  - **12-Theme Atmosphere**: Inherits the user's active theme or allows selecting any of DayDream's 6 Light or 6 Dark themes (featuring specialized obsidian & warm amber treatment for **Midnight Citrus**).
+  - **Smart Content Adaptability**: Graceful fallback when no photo is attached (clean typographic composition) and subtle quote placeholder (*"Another dream lived."*) when no reflection is written yet.
+- **High-Resolution Export & Native Sharing**:
+  - High-DPI 2x Retina PNG export powered by `html-to-image`.
+  - Native Web Share API integration on mobile devices with seamless fallback to direct file download.
+- **Visual Scrapbook / Memory Gallery (`/memories`)**:
+  - A living gallery displaying completed dreams as personal memories rather than closed checklist tasks.
+  - Search and category filters.
+  - Heartfelt empty state for new accounts (*"Your scrapbook is waiting. Complete your first dream and the memory will live here."*).
+  - Memory Detail Modal with full reflection viewer, PNG download, and postcard customization.
+- **Privacy & Database Security**:
+  - Stored privately on `BucketListItem` in PostgreSQL (`memoryPhoto`, `postcardStyle`), strictly scoped to `userId: session.userId`.
+  - Zero public photo exposure; User A cannot access or mutate User B's memories or images.
+
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 15.5 (App Router), React 19, TypeScript, Tailwind CSS, Lucide React, Canvas Confetti, Web Audio API, Service Worker PWA
+- **Frontend**: Next.js 15.5 (App Router), React 19, TypeScript, Tailwind CSS, Lucide React, Canvas Confetti, HTML-to-Image, Web Audio API, Service Worker PWA
 - **Backend**: Next.js Route Handlers (`app/api/...`), Jose (JWT), Bcrypt.js
 - **Database & ORM**: PostgreSQL (hosted on Neon Serverless) with Prisma ORM
 - **Deployment**: Vercel CI/CD with automatic branch deployments
@@ -206,7 +231,7 @@ DayDream/
 │   │   └── register/page.tsx        # Registration page
 │   ├── api/
 │   │   ├── auth/                    # Auth endpoints (login, register, session)
-│   │   ├── bucket-list/             # Goal CRUD, complete status, reflection
+│   │   ├── bucket-list/             # Goal CRUD, complete, reflection, postcard
 │   │   ├── categories/              # Category CRUD endpoints
 │   │   ├── events/                  # Calendar event CRUD endpoints
 │   │   ├── expenses/                # Expense CRUD, monthly totals, breakdown
@@ -218,6 +243,7 @@ DayDream/
 │   ├── calendar/page.tsx            # Section 3: Upcoming Events Calendar
 │   ├── todo/page.tsx                # Section 4: Daily To-Do List
 │   ├── expenses/page.tsx            # Section 5: Monthly Expenses Tracker (₹)
+│   ├── memories/page.tsx            # Section 6: Memory Scrapbook & Gallery
 │   ├── maintenance/page.tsx         # Maintenance mode page
 │   ├── globals.css                  # Tailwind styles & animations
 │   ├── layout.tsx                   # App Root Layout with Sound, Toast, Auth & Theme providers
@@ -228,6 +254,7 @@ DayDream/
 │   ├── categories/                  # CategorySection, category modals
 │   ├── dashboard/                   # DashboardHeader, StatsOverview, FilterBar
 │   ├── expenses/                    # MonthlyTotalCard, MonthNavigator, ExpenseCard, Modals
+│   ├── memory/                      # MemoryPostcard, PostcardEditor, DetailModal, ScrapbookCard
 │   ├── navigation/                  # FloatingNav (Liquid-glass bottom dock)
 │   ├── todo/                        # AddTodoTaskModal, TodoTaskItem, DateNavigator
 │   ├── profile/                     # ProfileModal with user settings, sound controls & themes
@@ -238,13 +265,13 @@ DayDream/
 │   ├── config/                      # version.ts, maintenance.ts
 │   ├── db/                          # Prisma Client singleton
 │   ├── sound/                       # soundConfig.ts (types, paths, weights)
-│   └── utils/                       # cn helper
+│   └── utils/                       # cn helper, imageExport.ts
 ├── public/
-│   └── sounds/                      # Handcrafted audio assets (ui, nav, success, feedback, notification)
+│   └── sounds/                      # Handcrafted audio assets
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.12.2 dependencies and scripts
+├── package.json                     # v2.13.0 dependencies and scripts
 └── README.md
 ```
 

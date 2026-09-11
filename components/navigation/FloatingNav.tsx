@@ -8,6 +8,7 @@ import {
   Calendar as CalendarIcon,
   ListTodo,
   Receipt,
+  Sparkles,
   Menu,
   X,
   ChevronUp,
@@ -54,6 +55,12 @@ const NAV_ITEMS: NavItemConfig[] = [
     href: "/expenses",
     icon: Receipt,
     isActive: (pathname: string) => pathname === "/expenses",
+  },
+  {
+    name: "Memories",
+    href: "/memories",
+    icon: Sparkles,
+    isActive: (pathname: string) => pathname === "/memories",
   },
 ];
 
