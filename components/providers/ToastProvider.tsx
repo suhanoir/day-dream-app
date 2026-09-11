@@ -58,27 +58,38 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={contextValue}>
       {children}
-      {/* Toast container */}
-      <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full px-4 pointer-events-none">
+      {/* Global Toast Container */}
+      <div
+        role="region"
+        aria-label="Notifications"
+        className="fixed bottom-[calc(5.25rem+env(safe-area-inset-bottom,0px))] left-0 right-0 mx-auto z-[60] flex flex-col items-center gap-2 w-full max-w-[min(calc(100vw-2rem),24rem)] sm:bottom-5 sm:right-5 sm:left-auto sm:mx-0 sm:items-end sm:w-auto sm:max-w-sm px-0 pointer-events-none"
+      >
         {toasts.map((t) => (
           <div
             key={t.id}
+            role="status"
+            aria-live="polite"
             className={cn(
-              "pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 rounded-2xl glass-toast text-sm transition-all duration-300 animate-fade-in",
+              "pointer-events-auto flex items-center justify-between gap-3 px-4 py-3 rounded-2xl glass-toast text-sm transition-all duration-300 animate-fade-in shadow-lg",
+              "w-auto max-w-full min-w-0 sm:min-w-[280px]",
               t.type === "success" && "border-emerald-500/40 shadow-emerald-500/10",
               t.type === "error" && "border-rose-500/40 shadow-rose-500/10",
               t.type === "info" && "border-stone-200/80"
             )}
           >
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
               {t.type === "success" && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
               {t.type === "error" && <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />}
               {t.type === "info" && <Info className="w-4 h-4 text-stone-600 shrink-0" />}
-              <span className="font-medium text-stone-900 text-[13px]">{t.message}</span>
+              <span className="font-medium text-stone-900 text-[13px] leading-snug break-words">
+                {t.message}
+              </span>
             </div>
             <button
+              type="button"
               onClick={() => removeToast(t.id)}
-              className="text-stone-400 hover:text-stone-700 transition-colors p-1 rounded-md cursor-pointer active:scale-95"
+              aria-label="Dismiss notification"
+              className="text-stone-400 hover:text-stone-700 transition-colors p-1.5 rounded-lg cursor-pointer active:scale-95 shrink-0 ml-0.5 flex items-center justify-center"
             >
               <X className="w-3.5 h-3.5" />
             </button>
