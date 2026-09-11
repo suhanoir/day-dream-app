@@ -88,7 +88,7 @@ export function AddBucketListItemModal({
         return;
       }
 
-      playSound("success");
+      playSound("dream.created");
       success("New goal added to your bucket list!");
       onItemAdded(data.item);
       // Reset form

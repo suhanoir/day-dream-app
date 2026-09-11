@@ -51,13 +51,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       setToasts((prev) => [...prev, { id, message, type }]);
 
       if (type === "error") {
-        playSound("error");
-      } else if (type === "success" || type === "task") {
-        playSound("success");
+        playSound("error.soft");
       } else if (type === "bucket") {
-        playSound("dream-complete");
-      } else {
-        playSound("notification");
+        playSound("dream.completed");
+      } else if (type === "info" || type === "system" || type === "calendar") {
+        playSound("notification.received");
       }
 
       setTimeout(() => {

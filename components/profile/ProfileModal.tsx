@@ -23,6 +23,7 @@ import {
   Volume1,
   Moon,
   Sun,
+  Waves,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { useSound } from "@/components/providers/SoundProvider";
@@ -47,6 +48,8 @@ export function ProfileModal({
     setEnabled: setSoundEnabled,
     volume: soundVolume,
     setVolume: setSoundVolume,
+    ambientEnabled,
+    setAmbientEnabled,
     playSound,
   } = useSound();
 
@@ -391,7 +394,12 @@ export function ProfileModal({
                       <button
                         key={t.id}
                         type="button"
-                        onClick={() => setTheme(t.id)}
+                        onClick={() => {
+                          if (theme !== t.id) {
+                            setTheme(t.id);
+                            playSound("theme.changed");
+                          }
+                        }}
                         className={cn(
                           "w-full text-left p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2.5 relative active:scale-98",
                           isSelected
@@ -477,7 +485,12 @@ export function ProfileModal({
                       <button
                         key={t.id}
                         type="button"
-                        onClick={() => setTheme(t.id)}
+                        onClick={() => {
+                          if (theme !== t.id) {
+                            setTheme(t.id);
+                            playSound("theme.changed");
+                          }
+                        }}
                         className={cn(
                           "w-full text-left p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2.5 relative active:scale-98",
                           isSelected
@@ -570,16 +583,16 @@ export function ProfileModal({
           {/* Sound Headline */}
           <div className="pt-0.5 px-0.5">
             <h4 className="text-sm font-bold text-stone-900">
-              Calm, minimal audio feedback.
+              Calm, emotional sound design.
             </h4>
             <p className="text-xs text-stone-500 mt-0.5">
-              Subtle, handcrafted acoustic details for key interactions.
+              Subtle acoustic feedback for life&apos;s meaningful moments.
             </p>
           </div>
 
           {/* Sound Controls */}
           <div className="space-y-3 pt-1">
-            {/* Toggle Card */}
+            {/* Sound Effects Toggle */}
             <div className="flex items-center justify-between p-3.5 rounded-2xl glass-card">
               <div className="flex items-center gap-3">
                 <div
@@ -595,7 +608,7 @@ export function ProfileModal({
                 <div>
                   <p className="text-xs font-bold text-stone-900">Sound Effects</p>
                   <p className="text-[11px] text-stone-500">
-                    Play soft sounds on key actions
+                    Gentle chimes on creation, completion &amp; keepsakes
                   </p>
                 </div>
               </div>
@@ -623,6 +636,60 @@ export function ProfileModal({
                   className={cn(
                     "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out",
                     soundEnabled ? "translate-x-5" : "translate-x-0"
+                  )}
+                />
+              </button>
+            </div>
+
+            {/* Ambient Sound Mode Toggle */}
+            <div className="flex items-center justify-between p-3.5 rounded-2xl glass-card">
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-2xs transition-colors shrink-0"
+                  style={{
+                    backgroundColor: ambientEnabled
+                      ? currentThemeMeta.palette.primary
+                      : "rgba(0, 0, 0, 0.35)",
+                  }}
+                >
+                  <Waves className="w-4.5 h-4.5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-xs font-bold text-stone-900">Ambient Atmosphere</p>
+                    <span className="text-[9px] font-semibold px-1 py-0.2 rounded bg-stone-100 dark:bg-white/10 text-stone-500 uppercase tracking-wider">
+                      {ambientEnabled ? "Playing" : "Off"}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-stone-500">
+                    Gentle sanctuary room air &amp; warm harmonic pad
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                role="switch"
+                aria-checked={ambientEnabled}
+                disabled={!soundEnabled}
+                onClick={() => {
+                  setAmbientEnabled(!ambientEnabled);
+                }}
+                className={cn(
+                  "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed",
+                  ambientEnabled && soundEnabled ? "bg-stone-900" : "bg-stone-200"
+                )}
+                style={{
+                  backgroundColor:
+                    ambientEnabled && soundEnabled
+                      ? currentThemeMeta.palette.primary
+                      : undefined,
+                }}
+              >
+                <span
+                  className={cn(
+                    "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out",
+                    ambientEnabled && soundEnabled ? "translate-x-5" : "translate-x-0"
                   )}
                 />
               </button>
@@ -659,13 +726,13 @@ export function ProfileModal({
             {/* Preview Sounds Card */}
             <div className="p-3.5 rounded-2xl glass-card space-y-2.5">
               <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400 block px-0.5">
-                Preview Sounds
+                Sound Library Preview
               </span>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   disabled={!soundEnabled}
-                  onClick={() => playSound("ui-click")}
+                  onClick={() => playSound("dream.created")}
                   className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
@@ -673,15 +740,15 @@ export function ProfileModal({
                     style={{ backgroundColor: currentThemeMeta.palette.primary }}
                   />
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-stone-800 truncate">UI Click</p>
-                    <p className="text-[10px] text-stone-400">Soft tactile</p>
+                    <p className="text-xs font-semibold text-stone-800 truncate">Dream Added</p>
+                    <p className="text-[10px] text-stone-400">Warm Rhodes pluck</p>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   disabled={!soundEnabled}
-                  onClick={() => playSound("navigation")}
+                  onClick={() => playSound("dream.completed")}
                   className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
@@ -689,15 +756,15 @@ export function ProfileModal({
                     style={{ backgroundColor: currentThemeMeta.palette.primary }}
                   />
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-stone-800 truncate">Navigation</p>
-                    <p className="text-[10px] text-stone-400">Gentle swell</p>
+                    <p className="text-xs font-semibold text-stone-800 truncate">Dream Completed</p>
+                    <p className="text-[10px] text-stone-400">Emotional chime</p>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   disabled={!soundEnabled}
-                  onClick={() => playSound("success")}
+                  onClick={() => playSound("keepsake.saved")}
                   className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
@@ -705,15 +772,15 @@ export function ProfileModal({
                     style={{ backgroundColor: currentThemeMeta.palette.primary }}
                   />
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-stone-800 truncate">Success</p>
-                    <p className="text-[10px] text-stone-400">Warm triad</p>
+                    <p className="text-xs font-semibold text-stone-800 truncate">Keepsake Saved</p>
+                    <p className="text-[10px] text-stone-400">Reassuring tone</p>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   disabled={!soundEnabled}
-                  onClick={() => playSound("dream-complete")}
+                  onClick={() => playSound("memory.journalSaved")}
                   className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
@@ -721,15 +788,15 @@ export function ProfileModal({
                     style={{ backgroundColor: currentThemeMeta.palette.primary }}
                   />
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-stone-800 truncate">Dream Complete</p>
-                    <p className="text-[10px] text-stone-400">Harmonic shimmer</p>
+                    <p className="text-xs font-semibold text-stone-800 truncate">Journal Saved</p>
+                    <p className="text-[10px] text-stone-400">Felted piano</p>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   disabled={!soundEnabled}
-                  onClick={() => playSound("delete")}
+                  onClick={() => playSound("theme.changed")}
                   className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span
@@ -737,15 +804,15 @@ export function ProfileModal({
                     style={{ backgroundColor: currentThemeMeta.palette.primary }}
                   />
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-stone-800 truncate">Delete</p>
-                    <p className="text-[10px] text-stone-400">Muted wood tap</p>
+                    <p className="text-xs font-semibold text-stone-800 truncate">Theme Shimmer</p>
+                    <p className="text-[10px] text-stone-400">Glass sweep</p>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   disabled={!soundEnabled}
-                  onClick={() => playSound("notification")}
+                  onClick={() => playSound("notification.received")}
                   className="flex items-center gap-2 p-2.5 rounded-xl glass-card-interactive text-left cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed group active:scale-95"
                 >
                   <span

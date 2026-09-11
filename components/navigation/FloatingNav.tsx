@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { BucketIcon } from "@/components/ui/BucketIcon";
 import { cn } from "@/lib/utils/cn";
-import { useSound } from "@/components/providers/SoundProvider";
 
 interface NavItemConfig {
   name: string;
@@ -68,7 +67,6 @@ export function FloatingNav() {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { playSound } = useSound();
 
   // Identify current section
   const currentSection = NAV_ITEMS.find((item) => item.isActive(pathname));
@@ -138,9 +136,6 @@ export function FloatingNav() {
             <Link
               href="/home"
               aria-label="Home"
-              onClick={() => {
-                if (!isHome) playSound("navigation");
-              }}
               className={cn(
                 "flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full text-xs font-medium transition-all cursor-pointer active:scale-95",
                 isHome
@@ -159,7 +154,6 @@ export function FloatingNav() {
                 type="button"
                 onClick={() => {
                   setIsExpanded(true);
-                  playSound("ui-click");
                 }}
                 aria-label="Open navigation menu"
                 aria-expanded={isExpanded}
@@ -174,7 +168,6 @@ export function FloatingNav() {
                 type="button"
                 onClick={() => {
                   setIsExpanded(true);
-                  playSound("ui-click");
                 }}
                 aria-label={`Open navigation menu. Currently on ${currentSection?.name || "section"}`}
                 aria-expanded={isExpanded}
@@ -201,7 +194,6 @@ export function FloatingNav() {
                   href={item.href}
                   onClick={() => {
                     setIsExpanded(false);
-                    if (!active) playSound("navigation");
                   }}
                   className={cn(
                     "flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-full text-xs transition-all shrink-0 cursor-pointer active:scale-95",
@@ -222,7 +214,6 @@ export function FloatingNav() {
               type="button"
               onClick={() => {
                 setIsExpanded(false);
-                playSound("ui-click");
               }}
               aria-label="Close navigation menu"
               title="Close menu"

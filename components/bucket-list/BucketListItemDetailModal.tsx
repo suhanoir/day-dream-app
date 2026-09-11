@@ -133,12 +133,11 @@ export function BucketListItemDetailModal({
       onUpdate(data.item);
 
       if (newCompleted) {
-        playSound("dream-complete");
+        playSound("dream.completed");
         triggerCelebration();
         success("Goal completed! 🎉 Take a moment to capture the memory.");
         setIsEditingReflection(true);
       } else {
-        playSound("ui-click");
         success("Goal moved back to active.");
       }
     } catch {
@@ -165,7 +164,7 @@ export function BucketListItemDetailModal({
         return;
       }
 
-      playSound("success");
+      playSound("memory.journalSaved");
       onUpdate(data.item);
       setIsEditingReflection(false);
       success("Memory reflection saved permanently.");
@@ -191,7 +190,6 @@ export function BucketListItemDetailModal({
         return;
       }
 
-      playSound("delete");
       setShowDeleteConfirm(false);
       onDelete(item.id);
       onClose();

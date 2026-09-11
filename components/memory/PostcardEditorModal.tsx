@@ -125,7 +125,7 @@ export function PostcardEditorModal({
         setCoverPhoto(updatedPhotos[0]);
       }
 
-      playSound("ui-click");
+      playSound("memory.photoAdded");
       if (hadExcess) {
         toastError("You can add up to 10 memories to a Keepsake.");
       } else {
@@ -148,7 +148,7 @@ export function PostcardEditorModal({
 
   const handleSetCover = (photo: string) => {
     setCoverPhoto(photo);
-    playSound("ui-click");
+    playSound("memory.coverChanged");
     success("Cover photo updated!");
   };
 
@@ -162,7 +162,6 @@ export function PostcardEditorModal({
     updated[targetIndex] = temp;
 
     setPhotos(updated);
-    playSound("ui-click");
   };
 
   const handleRemovePhoto = (index: number) => {
@@ -174,8 +173,6 @@ export function PostcardEditorModal({
     if (coverPhoto === removedPhoto) {
       setCoverPhoto(updated.length > 0 ? updated[0] : null);
     }
-
-    playSound("ui-click");
   };
 
   const handleSaveToScrapbook = async () => {
@@ -198,7 +195,7 @@ export function PostcardEditorModal({
         return;
       }
 
-      playSound("success");
+      playSound("keepsake.saved");
       success("Memory postcard saved to your Scrapbook! ✨");
       if (onSaved) {
         onSaved(data.item);
@@ -215,7 +212,6 @@ export function PostcardEditorModal({
     if (!postcardRef.current) return;
     try {
       setIsExporting(true);
-      playSound("ui-click");
       const slug = item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
       const action = await shareOrDownloadPostcard(
         postcardRef.current,
@@ -223,6 +219,7 @@ export function PostcardEditorModal({
         slug
       );
 
+      playSound("keepsake.saved");
       if (action === "shared") {
         success("Postcard shared successfully!");
       } else {
@@ -297,7 +294,6 @@ export function PostcardEditorModal({
                     type="button"
                     onClick={() => {
                       setStyle(s.id);
-                      playSound("ui-click");
                     }}
                     className={cn(
                       "p-2.5 rounded-xl border text-left transition-all cursor-pointer",

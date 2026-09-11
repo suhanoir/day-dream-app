@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.14.0 — Full-Stack Web Application
+# 🌟 DayDream v2.15.0 — Full-Stack Web Application
 
-> **Version 2.14.0** · **"Keepsake Album & Contrast Upgrade · Multi-Photo Albums, Full-Screen Lightbox & System-Wide Contrast"**
+> **Version 2.15.0** · **"Professional Sound & Audio Experience · Apple-Calm Haptics, Web Audio Engine & Atmospheric Ambience"**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Featuring a timeless, abstract visual identity inspired by *The Threshold* (Day & Dream figure-ground duality) alongside a calm, tactile Liquid Glass design language unified across all four core modules (To-Do, Expenses, BucketList, Calendar).
 
@@ -226,6 +226,37 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
   - Dedicated `.glass-journal` reflection card with crisp serif typography and specular liquid glass borders.
   - Upgraded `CategoryBadge` with dark-mode support across all palette colors.
 
+### 19. Professional Sound & Audio Experience (v2.15.0)
+- **Calm, Emotional Sound Philosophy**:
+  - Engineered with the principle of *"tiny moments of satisfaction"*, not constant UI sound effects. Silence is an intentional design choice.
+  - Standard interactions (navigation dock taps, tab switching, photo album scrolling/swiping, photo deletions, typing) remain completely silent to preserve peace of mind.
+- **Harmonically Synthesized Audio Palette**:
+  - `dream.created`: Warm Rhodes/marimba chime with gentle overtone decay (~0.48s).
+  - `dream.completed`: Emotional centerpiece — soft rising pedal note, gentle crystal triad, and warm acoustic resonance (~1.35s).
+  - `keepsake.created`: Crystal glass resonance marking the transformation of a dream into a memory (~0.58s).
+  - `memory.photoAdded`: Gentle airy camera-like shutter chime (~0.22s).
+  - `memory.coverChanged`: Delicate two-note ascending chime (~0.30s).
+  - `keepsake.saved`: Reassuring ascending chime confirming postcard export & save (~0.44s).
+  - `memory.journalSaved`: Warm acoustic felted piano note (~0.40s).
+  - `theme.changed`: Airy glass shimmer sweep responsive to theme toggling (~0.52s).
+  - `notification.received`: Single celestial soft chime (~0.46s).
+  - `error.soft`: Calm low two-tone signal (~0.28s) providing gentle guidance without harsh buzzer tones.
+- **Atmospheric Ambient Sound Mode (OFF by Default)**:
+  - 12.0s seamless, zero-crossing stereo loop (`ambient/calm-space.wav`) creating a serene contemplative backdrop.
+  - Mastered at low presence with smooth 2.0s exponential fade-in and 1.2s fade-out.
+  - Disabled by default; user-activated via Profile Settings.
+- **Central Web Audio API Engine**:
+  - Independent gain staging: `masterGain`, `sfxGain`, and `ambientGain`.
+  - Intelligent per-sound debouncing (e.g. 1200ms lock on completion, 200ms on theme change) preventing overlapping clatter and audio stacking.
+  - Priority management ensuring key emotional events (`dream.completed`) are never clipped by subsequent actions.
+  - Mobile gesture unlocking listening for safe `pointerdown`/`touchstart` events.
+  - Total silent fail-safe: any Web Audio unavailability or permission denial fails gracefully without throwing errors.
+- **Unified Profile Sound Controls**:
+  - **Sound Effects Toggle**: Instant master toggle for all SFX.
+  - **Ambient Sound Toggle**: Independent toggle for the continuous calm background loop.
+  - **Master Volume Slider**: Smooth percentage slider (0% to 100%).
+  - **Interactive Sound Library Preview**: 6-item interactive soundboard in Profile Settings to preview the acoustic signatures.
+
 ---
 
 ## 🛠️ Tech Stack
@@ -287,7 +318,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.14.0 dependencies and scripts
+├── package.json                     # v2.15.0 dependencies and scripts
 └── README.md
 ```
 
