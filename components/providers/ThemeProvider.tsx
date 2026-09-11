@@ -16,9 +16,12 @@ export type ThemeId =
   | "ruby"
   | "midnight-citrus";
 
+export type ThemeMode = "light" | "dark";
+
 export interface ThemeMeta {
   id: ThemeId;
   name: string;
+  mode: ThemeMode;
   description: string;
   palette: {
     background: string;
@@ -38,10 +41,14 @@ export interface ThemeMeta {
 }
 
 export const THEMES: ThemeMeta[] = [
+  // ==========================================
+  // ☀️ LIGHT THEMES (6)
+  // ==========================================
   {
     id: "indigo",
     name: "DayDream Indigo",
-    description: "Professional and calm",
+    mode: "light",
+    description: "Calm, focused, and timeless",
     palette: {
       background: "#FAFAF8",
       surface: "#FFFFFF",
@@ -59,89 +66,10 @@ export const THEMES: ThemeMeta[] = [
     previewSwatches: ["#FAFAF8", "#4F5FD7", "#7C6FE8", "#35A879"],
   },
   {
-    id: "slate",
-    name: "Slate Blue",
-    description: "Clean and sophisticated",
-    palette: {
-      background: "#F5F7FA",
-      surface: "#FFFFFF",
-      primary: "#456B8C",
-      primarySoft: "#EAF1F6",
-      secondary: "#708AA0",
-      accent: "#708AA0",
-      text: "#202A33",
-      mutedText: "#727C85",
-      border: "#DDE3E8",
-      success: "#3C9B78",
-      warning: "#C99527",
-      danger: "#D4635A",
-    },
-    previewSwatches: ["#F5F7FA", "#456B8C", "#708AA0", "#3C9B78"],
-  },
-  {
-    id: "aurora",
-    name: "Dreamy Aurora",
-    description: "Creative and expressive",
-    palette: {
-      background: "#F8F7FC",
-      surface: "#FFFFFF",
-      primary: "#7567D9",
-      primarySoft: "#F0EDFF",
-      secondary: "#5FA7B5",
-      accent: "#E7A85C",
-      text: "#29283A",
-      mutedText: "#77758A",
-      border: "#E5E2EF",
-      success: "#54A982",
-      warning: "#D99A45",
-      danger: "#D86670",
-    },
-    previewSwatches: ["#F8F7FC", "#7567D9", "#5FA7B5", "#E7A85C"],
-  },
-  {
-    id: "forest",
-    name: "Forest Noir",
-    description: "Elegant green workspace",
-    palette: {
-      background: "#F6F7F4",
-      surface: "#FFFFFF",
-      primary: "#2F6B57",
-      primarySoft: "#E7F1EC",
-      secondary: "#557A6B",
-      accent: "#A3B18A",
-      text: "#1E2A24",
-      mutedText: "#6F7C75",
-      border: "#DDE5DF",
-      success: "#3FA76F",
-      warning: "#C89B3C",
-      danger: "#C85C5C",
-    },
-    previewSwatches: ["#F6F7F4", "#2F6B57", "#557A6B", "#A3B18A"],
-  },
-  {
-    id: "ocean",
-    name: "Ocean Mist",
-    description: "Refreshing modern blue",
-    palette: {
-      background: "#F4F8FA",
-      surface: "#FFFFFF",
-      primary: "#2F7F95",
-      primarySoft: "#E5F3F7",
-      secondary: "#5FA8B8",
-      accent: "#8CCAD8",
-      text: "#1F2D33",
-      mutedText: "#708087",
-      border: "#D9E5E8",
-      success: "#4DAA88",
-      warning: "#D6A84A",
-      danger: "#CF6B6B",
-    },
-    previewSwatches: ["#F4F8FA", "#2F7F95", "#5FA8B8", "#8CCAD8"],
-  },
-  {
     id: "crimson",
     name: "Crimson Red",
-    description: "Bold luxury productivity",
+    mode: "light",
+    description: "Bold, energetic, and expressive",
     palette: {
       background: "#FAF7F7",
       surface: "#FFFFFF",
@@ -161,7 +89,8 @@ export const THEMES: ThemeMeta[] = [
   {
     id: "deep-aqua",
     name: "Deep Aqua",
-    description: "Vibrant ocean cyan & teal",
+    mode: "light",
+    description: "Crisp, refreshing, and modern",
     palette: {
       background: "#F0F9FF",
       surface: "#FFFFFF",
@@ -181,7 +110,8 @@ export const THEMES: ThemeMeta[] = [
   {
     id: "royal-indigo",
     name: "Royal Indigo",
-    description: "Regal violet & electric indigo",
+    mode: "light",
+    description: "Regal, creative, and deep",
     palette: {
       background: "#F8F7FF",
       surface: "#FFFFFF",
@@ -201,7 +131,8 @@ export const THEMES: ThemeMeta[] = [
   {
     id: "sunset-coral",
     name: "Sunset Coral",
-    description: "Warm sunset coral & burnt amber",
+    mode: "light",
+    description: "Warm, inviting, and radiant",
     palette: {
       background: "#FFFBF7",
       surface: "#FFFFFF",
@@ -221,7 +152,8 @@ export const THEMES: ThemeMeta[] = [
   {
     id: "emerald",
     name: "Vibrant Emerald",
-    description: "Luminous jewel emerald & jade",
+    mode: "light",
+    description: "Lush, balanced, and rejuvenating",
     palette: {
       background: "#F2FBF7",
       surface: "#FFFFFF",
@@ -238,35 +170,125 @@ export const THEMES: ThemeMeta[] = [
     },
     previewSwatches: ["#F2FBF7", "#047857", "#10B981", "#0D9488"],
   },
+
+  // ==========================================
+  // 🌙 DARK THEMES (6)
+  // ==========================================
+  {
+    id: "slate",
+    name: "Slate Blue",
+    mode: "dark",
+    description: "Minimal, cool, and architectural",
+    palette: {
+      background: "#0D1117",
+      surface: "#161B22",
+      primary: "#38BDF8",
+      primarySoft: "rgba(56, 189, 248, 0.15)",
+      secondary: "#5B8FB9",
+      accent: "#7DD3FC",
+      text: "#F8FAFC",
+      mutedText: "#8B9BAE",
+      border: "#232D3B",
+      success: "#10B981",
+      warning: "#F59E0B",
+      danger: "#F43F5E",
+    },
+    previewSwatches: ["#0D1117", "#38BDF8", "#5B8FB9", "#7DD3FC"],
+  },
+  {
+    id: "aurora",
+    name: "Dreamy Aurora",
+    mode: "dark",
+    description: "Celestial, creative, and immersive",
+    palette: {
+      background: "#0F0D1A",
+      surface: "#181528",
+      primary: "#A78BFA",
+      primarySoft: "rgba(167, 139, 250, 0.16)",
+      secondary: "#38BDF8",
+      accent: "#F472B6",
+      text: "#FAF8FF",
+      mutedText: "#998FB8",
+      border: "#282341",
+      success: "#34D399",
+      warning: "#FBBF24",
+      danger: "#FB7185",
+    },
+    previewSwatches: ["#0F0D1A", "#A78BFA", "#38BDF8", "#F472B6"],
+  },
+  {
+    id: "forest",
+    name: "Forest Noir",
+    mode: "dark",
+    description: "Nocturnal, organic, and grounded",
+    palette: {
+      background: "#0B130E",
+      surface: "#121E17",
+      primary: "#34D399",
+      primarySoft: "rgba(52, 211, 153, 0.15)",
+      secondary: "#10B981",
+      accent: "#6EE7B7",
+      text: "#F4FAF6",
+      mutedText: "#83A092",
+      border: "#1F3129",
+      success: "#10B981",
+      warning: "#F59E0B",
+      danger: "#F43F5E",
+    },
+    previewSwatches: ["#0B130E", "#34D399", "#10B981", "#6EE7B7"],
+  },
+  {
+    id: "ocean",
+    name: "Ocean Mist",
+    mode: "dark",
+    description: "Abyssal, serene, and crystal clear",
+    palette: {
+      background: "#08121A",
+      surface: "#0E1B26",
+      primary: "#38BDF8",
+      primarySoft: "rgba(56, 189, 248, 0.15)",
+      secondary: "#06B6D4",
+      accent: "#22D3EE",
+      text: "#F4F9FD",
+      mutedText: "#7798B5",
+      border: "#1A2C3C",
+      success: "#10B981",
+      warning: "#F59E0B",
+      danger: "#F43F5E",
+    },
+    previewSwatches: ["#08121A", "#38BDF8", "#06B6D4", "#22D3EE"],
+  },
   {
     id: "ruby",
     name: "Imperial Ruby",
-    description: "Gemstone ruby & rich wine",
+    mode: "dark",
+    description: "Prestige, velvet, and gemstone wine",
     palette: {
-      background: "#FFF5F6",
-      surface: "#FFFFFF",
-      primary: "#BE123C",
-      primarySoft: "#FFF1F2",
-      secondary: "#E11D48",
-      accent: "#881337",
-      text: "#4C0519",
-      mutedText: "#706568",
-      border: "#FFE4E6",
+      background: "#160A0E",
+      surface: "#221017",
+      primary: "#FB7185",
+      primarySoft: "rgba(251, 113, 133, 0.15)",
+      secondary: "#F43F5E",
+      accent: "#FDA4AF",
+      text: "#FAF3F5",
+      mutedText: "#A16F82",
+      border: "#331B25",
       success: "#10B981",
-      warning: "#D97706",
-      danger: "#9F1239",
+      warning: "#F59E0B",
+      danger: "#E11D48",
     },
-    previewSwatches: ["#FFF5F6", "#BE123C", "#E11D48", "#881337"],
+    previewSwatches: ["#160A0E", "#FB7185", "#F43F5E", "#FDA4AF"],
   },
   {
     id: "midnight-citrus",
     name: "Midnight Citrus",
-    description: "Midnight luxury & vibrant golden citrus",
+    mode: "dark",
+    description: "Midnight luxury & radiant citrus",
     palette: {
       background: "#12151D",
       surface: "#1D2330",
       primary: "#F59E0B",
-      primarySoft: "#282218",
+      primarySoft: "rgba(245, 158, 11, 0.15)",
       secondary: "#FB923C",
       accent: "#FBBF24",
       text: "#F8FAFC",
@@ -282,24 +304,38 @@ export const THEMES: ThemeMeta[] = [
 
 const VALID_THEME_IDS: ThemeId[] = [
   "indigo",
-  "slate",
-  "aurora",
-  "forest",
-  "ocean",
   "crimson",
   "deep-aqua",
   "royal-indigo",
   "sunset-coral",
   "emerald",
+  "slate",
+  "aurora",
+  "forest",
+  "ocean",
   "ruby",
   "midnight-citrus",
 ];
+
+export const DARK_THEME_IDS: ThemeId[] = [
+  "slate",
+  "aurora",
+  "forest",
+  "ocean",
+  "ruby",
+  "midnight-citrus",
+];
+
+export function isDarkTheme(themeId: ThemeId): boolean {
+  return DARK_THEME_IDS.includes(themeId);
+}
 
 interface ThemeContextType {
   theme: ThemeId;
   setTheme: (theme: ThemeId) => void;
   themes: ThemeMeta[];
   currentThemeMeta: ThemeMeta;
+  isDark: boolean;
 }
 
 const THEME_STORAGE_KEY = "daydream_theme";
@@ -314,12 +350,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(THEME_STORAGE_KEY) as ThemeId | null;
-      if (stored && VALID_THEME_IDS.includes(stored)) {
-        setThemeState(stored);
-        document.documentElement.setAttribute("data-theme", stored);
-      } else {
-        document.documentElement.setAttribute("data-theme", "indigo");
-      }
+      const activeId: ThemeId =
+        stored && VALID_THEME_IDS.includes(stored) ? stored : "indigo";
+      setThemeState(activeId);
+      const meta = THEMES.find((t) => t.id === activeId) || THEMES[0];
+      document.documentElement.setAttribute("data-theme", activeId);
+      document.documentElement.setAttribute("data-theme-mode", meta.mode);
     } catch {
       // localStorage may be unavailable in private browsing
     }
@@ -333,12 +369,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // ignore
     }
+    const meta = THEMES.find((t) => t.id === newTheme) || THEMES[0];
     document.documentElement.setAttribute("data-theme", newTheme);
+    document.documentElement.setAttribute("data-theme-mode", meta.mode);
   };
 
   const currentThemeMeta = useMemo(() => {
     return THEMES.find((t) => t.id === theme) || THEMES[0];
   }, [theme]);
+
+  const isDark = useMemo(() => {
+    return currentThemeMeta.mode === "dark";
+  }, [currentThemeMeta]);
 
   const value = useMemo(
     () => ({
@@ -346,8 +388,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setTheme,
       themes: THEMES,
       currentThemeMeta,
+      isDark,
     }),
-    [theme, currentThemeMeta]
+    [theme, currentThemeMeta, isDark]
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

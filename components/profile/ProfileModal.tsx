@@ -565,72 +565,174 @@ export function ProfileModal({
             </p>
           </div>
 
-          {/* Theme Selection Cards — Responsive 2-Column Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 max-h-[58vh] overflow-y-auto pr-1">
-            {themes.map((t) => {
-              const isSelected = theme === t.id;
+          {/* Scrollable Theme Groups Container */}
+          <div className="space-y-4 pt-1 max-h-[58vh] overflow-y-auto pr-1">
+            {/* LIGHT THEMES SECTION */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-1.5 px-1">
+                <Sun className="w-3.5 h-3.5 text-amber-500" />
+                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+                  Light Themes (6)
+                </span>
+              </div>
 
-              return (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => setTheme(t.id)}
-                  className={cn(
-                    "w-full text-left p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2.5 relative active:scale-98",
-                    isSelected
-                      ? "glass-card shadow-sm border-2"
-                      : "glass-card-interactive"
-                  )}
-                  style={{
-                    borderColor: isSelected ? t.palette.primary : undefined,
-                  }}
-                >
-                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    {/* 4-color palette swatch preview */}
-                    <div className="flex items-center gap-1 p-1 rounded-xl glass-card shrink-0">
-                      {t.previewSwatches.map((color, idx) => (
-                        <span
-                          key={idx}
-                          className="w-3 h-3 rounded-full shadow-2xs border border-black/10 shrink-0"
-                          style={{ backgroundColor: color }}
-                          title={color}
-                        />
-                      ))}
-                    </div>
-
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <p className="text-xs font-bold text-stone-900 truncate">
-                          {t.name}
-                        </p>
-                        {t.id === "indigo" && (
-                          <span className="text-[8px] font-semibold px-1 py-0.5 rounded bg-stone-100 text-stone-500 border border-stone-200/60 uppercase tracking-wider shrink-0">
-                            Default
-                          </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {themes
+                  .filter((t) => t.mode === "light")
+                  .map((t) => {
+                    const isSelected = theme === t.id;
+                    return (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => setTheme(t.id)}
+                        className={cn(
+                          "w-full text-left p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2.5 relative active:scale-98",
+                          isSelected
+                            ? "glass-card shadow-sm border-2"
+                            : "glass-card-interactive"
                         )}
-                      </div>
-                      <p className="text-[10px] text-stone-500 truncate mt-0.5">
-                        {t.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Selected indicator */}
-                  <div className="shrink-0 flex items-center justify-center">
-                    {isSelected ? (
-                      <div
-                        className="w-4.5 h-4.5 rounded-full flex items-center justify-center text-white shadow-2xs"
-                        style={{ backgroundColor: t.palette.primary }}
+                        style={{
+                          borderColor: isSelected ? t.palette.primary : undefined,
+                        }}
                       >
-                        <Check className="w-2.5 h-2.5 stroke-[3]" />
-                      </div>
-                    ) : (
-                      <div className="w-4.5 h-4.5 rounded-full border-2 border-stone-300 group-hover:border-stone-400" />
-                    )}
-                  </div>
-                </button>
-              );
-            })}
+                        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                          {/* 4-color palette swatch preview */}
+                          <div className="flex items-center gap-1 p-1 rounded-xl bg-black/5 border border-stone-200/60 shrink-0">
+                            {t.previewSwatches.map((color, idx) => (
+                              <span
+                                key={idx}
+                                className="w-3 h-3 rounded-full shadow-2xs border border-black/10 shrink-0"
+                                style={{ backgroundColor: color }}
+                                title={color}
+                              />
+                            ))}
+                          </div>
+
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5">
+                              <p className="text-xs font-bold text-stone-900 truncate">
+                                {t.name}
+                              </p>
+                              {t.id === "indigo" && (
+                                <span className="text-[8px] font-semibold px-1 py-0.5 rounded bg-stone-100 text-stone-500 border border-stone-200/60 uppercase tracking-wider shrink-0">
+                                  Default
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[10px] text-stone-500 truncate mt-0.5">
+                              {t.description}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Selected indicator */}
+                        <div className="shrink-0 flex items-center justify-center">
+                          {isSelected ? (
+                            <div
+                              className="w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-2xs text-white"
+                              style={{
+                                backgroundColor: t.palette.primary,
+                              }}
+                            >
+                              <Check className="w-2.5 h-2.5 stroke-[3]" />
+                            </div>
+                          ) : (
+                            <div className="w-4.5 h-4.5 rounded-full border-2 border-stone-300 group-hover:border-stone-400" />
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+              </div>
+            </div>
+
+            {/* DARK THEMES SECTION */}
+            <div className="space-y-2 pt-2 border-t border-stone-100">
+              <div className="flex items-center gap-1.5 px-1">
+                <Moon className="w-3.5 h-3.5 text-indigo-400" />
+                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+                  Dark Themes (6)
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {themes
+                  .filter((t) => t.mode === "dark")
+                  .map((t) => {
+                    const isSelected = theme === t.id;
+                    const isDarkIcon =
+                      t.id === "midnight-citrus" ||
+                      t.id === "slate" ||
+                      t.id === "ocean" ||
+                      t.id === "forest";
+
+                    return (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => setTheme(t.id)}
+                        className={cn(
+                          "w-full text-left p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-2.5 relative active:scale-98",
+                          isSelected
+                            ? "glass-card shadow-sm border-2"
+                            : "glass-card-interactive"
+                        )}
+                        style={{
+                          borderColor: isSelected ? t.palette.primary : undefined,
+                        }}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                          {/* 4-color palette swatch preview with dark capsule */}
+                          <div className="flex items-center gap-1 p-1 rounded-xl bg-black/40 border border-white/10 shrink-0 shadow-inner">
+                            {t.previewSwatches.map((color, idx) => (
+                              <span
+                                key={idx}
+                                className="w-3 h-3 rounded-full shadow-2xs border border-white/15 shrink-0"
+                                style={{ backgroundColor: color }}
+                                title={color}
+                              />
+                            ))}
+                          </div>
+
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5">
+                              <p className="text-xs font-bold text-stone-900 truncate">
+                                {t.name}
+                              </p>
+                              {t.id === "midnight-citrus" && (
+                                <span className="text-[8px] font-semibold px-1 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30 uppercase tracking-wider shrink-0">
+                                  Classic
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[10px] text-stone-500 truncate mt-0.5">
+                              {t.description}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Selected indicator */}
+                        <div className="shrink-0 flex items-center justify-center">
+                          {isSelected ? (
+                            <div
+                              className="w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-2xs font-bold"
+                              style={{
+                                backgroundColor: t.palette.primary,
+                                color: isDarkIcon ? "#0D1117" : "#FFFFFF",
+                              }}
+                            >
+                              <Check className="w-2.5 h-2.5 stroke-[3]" />
+                            </div>
+                          ) : (
+                            <div className="w-4.5 h-4.5 rounded-full border-2 border-stone-300 group-hover:border-stone-400" />
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+              </div>
+            </div>
           </div>
 
           {/* Footer note */}

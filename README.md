@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.11.1 — Full-Stack Web Application
+# 🌟 DayDream v2.12.0 — Full-Stack Web Application
 
-> **Version 2.11.1** · **"Native Time Picker for Due Time · Enhanced Task Usability · Make memories worth remembering."**
+> **Version 2.12.0** · **"6 Light Themes + 6 Dark Themes · Premium Dark Expansion · Make memories worth remembering."**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Featuring a timeless, abstract visual identity inspired by *The Threshold* (Day & Dream figure-ground duality) alongside a calm, tactile Liquid Glass design language unified across all four core modules (To-Do, Expenses, BucketList, Calendar).
 
@@ -61,16 +61,24 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Add & Edit Expenses**: Clean form modal with What I Bought, Total Price, Category, Date, and Side Notes.
 - **Categories & Filtering**: Color-coded category tags (Food, Shopping, Travel, Bills, Education, Entertainment, Health, Other) with spend badges and real-time text search.
 
-### 6. Centralized Global Theme System (6 Curated Themes)
-- **6 Hand-Crafted Global Themes**:
-  - **DayDream Indigo** *(Default)*: Modern, calm, professional aesthetic (`#4F5FD7`).
-  - **Slate Blue**: Sophisticated, premium productivity aesthetic (`#456B8C`).
-  - **Dreamy Aurora**: Soft, memorable creative aesthetic (`#7567D9`).
-  - **Forest Noir**: Elegant, luxury muted botanical green aesthetic (`#2F6B57`).
-  - **Ocean Mist**: Airy, refreshing coastal seafoam blue aesthetic (`#2F7F95`).
-  - **Crimson Red**: Confident, luxury burgundy/rose aesthetic (`#B23A48`).
-- **Unified Background Consistency**: All 4 core sections (BucketList, Calendar, To-Do List, Expenses) share the exact same dynamic theme background tint across every theme.
-- **Instant Persistence**: Quick selection under `Profile → Settings → Theme` with live 4-color palette swatches and zero-flicker loading via `localStorage` and `data-theme`.
+### 6. Centralized Global Theme System (6 Light + 6 Dark Themes)
+- **12 Handcrafted Themes (6 Light + 6 Dark Architecture)**:
+  - **☀️ Light Themes (6)**:
+    - **DayDream Indigo** *(Default)*: Modern, calm, professional aesthetic (`#4F5FD7`).
+    - **Crimson Red**: Confident, luxury burgundy/rose aesthetic (`#B23A48`).
+    - **Deep Aqua**: Vibrant ocean cyan & teal aesthetic (`#0E7490`).
+    - **Royal Indigo**: Regal violet & electric indigo aesthetic (`#4338CA`).
+    - **Sunset Coral**: Warm sunset coral & burnt amber aesthetic (`#C2410C`).
+    - **Vibrant Emerald**: Luminous jewel emerald & jade aesthetic (`#047857`).
+  - **🌙 Dark Themes (6)**:
+    - **Slate Blue**: Minimal, cool, architectural graphite & slate (`#0D1117`).
+    - **Dreamy Aurora**: Celestial, creative twilight violet & neon aura (`#0F0D1A`).
+    - **Forest Noir**: Nocturnal botanical evergreen & mint (`#0B130E`).
+    - **Ocean Mist**: Abyssal oceanic trench deep dark (`#08121A`).
+    - **Imperial Ruby**: Velvet midnight wine & luxury gemstone dark (`#160A0E`).
+    - **Midnight Citrus** *(Gold Standard)*: Nocturnal luxury & radiant golden citrus (`#12151D`).
+- **10-Level Inverted Tailwind Stone Bridge**: Each dark theme provides an inverted 10-level stone scale (`--color-stone-50` through `--color-stone-950`) ensuring all components across To-Do, Calendar, BucketList, Expenses, and Modals render with crisp contrast, elevated surfaces, and theme-tinted borders.
+- **Structured Theme Selector**: Organized in `Profile → Settings → Theme` into clear **☀️ Light Themes (6)** and **🌙 Dark Themes (6)** sections with real 4-color palette swatches and zero-flicker loading via `localStorage` and `data-theme-mode`.
 
 ### 7. Floating Liquid-Glass Navigation & Responsive Design
 - **Floating Liquid-Glass Dock**: Primary navigation floats above page content in a sleek, translucent dock with backdrop blur, specular rim highlight, and theme-reactive tinting.
@@ -132,6 +140,16 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **One-Tap Quick Clear**: Added a dedicated, unobtrusive "Clear" action when a time is selected, preserving the optional nature of task due times.
 - **Bi-directional Time Normalization**: Seamlessly parses legacy task times (e.g. `"5:00 PM"`, `"5:00pm"`) to initialize native pickers (`"17:00"`), while formatting task times cleanly according to the user's locale (12-hour or 24-hour).
 - **Theme-Adaptive Indicator**: Enhanced calendar and clock picker indicators with smooth hover transitions and automatic contrast inversion in dark themes like Midnight Citrus.
+
+### 14. 6 Light Themes + 6 Dark Themes — Premium Dark Expansion (v2.12.0)
+- **Balanced 6 Light + 6 Dark Architecture**:
+  - Rebalanced the entire theme catalog into an equal collection of 6 Light Themes and 6 Dark Themes.
+  - **Light Themes**: DayDream Indigo, Crimson Red, Deep Aqua, Royal Indigo, Sunset Coral, Vibrant Emerald.
+  - **Dark Themes**: Slate Blue, Dreamy Aurora, Forest Noir, Ocean Mist, Imperial Ruby, Midnight Citrus.
+- **Midnight Citrus as the Gold Standard**: Applied the dark design language of Midnight Citrus (ambient glow, elevated surfaces, high contrast, specular rims) to craft 5 new distinctive, luxury dark themes from the ground up.
+- **Dedicated 10-Level Inverted Stone Bridges**: Each dark theme specifies its own tailored 10-level stone scale (`--color-stone-50` through `--color-stone-950`), allowing all pre-existing UI elements across To-Do, Calendar, BucketList, Expenses, and Modals to seamlessly adapt with zero component-level hacks.
+- **Categorized Theme Selector**: Reorganized `Profile → Settings → Theme` into responsive, grouped sections (`☀️ Light Themes` and `🌙 Dark Themes`) with live 4-color palette swatches and theme mode indicators.
+- **Zero-Flicker Hydration (`data-theme-mode`)**: Inline `<head>` script sets both `data-theme` and `data-theme-mode` synchronously from `localStorage`, preventing any flash of unstyled content upon page reload.
 
 ---
 

@@ -64,164 +64,224 @@
   --color-rose-600: #C2564C;
 }
 
-/* Slate Blue (Theme 2) */
+/* Slate Blue — Minimal & Architectural Cool Graphite Dark */
 [data-theme="slate"] {
-  --theme-bg: #F5F7FA;
-  --theme-surface: #FFFFFF;
-  --theme-surface-secondary: #EDF1F5;
-  --theme-primary: #456B8C;
-  --theme-primary-hover: #395B78;
-  --theme-primary-soft: #EAF1F6;
-  --theme-primary-soft-border: #D1DFEA;
-  --theme-secondary: #708AA0;
-  --theme-accent: #708AA0;
-  --theme-text: #202A33;
-  --theme-text-muted: #727C85;
-  --theme-border: #DDE3E8;
-  --theme-border-subtle: #E8EDF2;
-  --theme-success: #3C9B78;
-  --theme-warning: #C99527;
-  --theme-danger: #D4635A;
+  --theme-bg: #0D1117;
+  --theme-surface: #161B22;
+  --theme-surface-secondary: #1F242C;
+  --theme-primary: #38BDF8;
+  --theme-primary-hover: #0EA5E9;
+  --theme-primary-text: #0D1117;
+  --theme-primary-soft: rgba(56, 189, 248, 0.15);
+  --theme-primary-soft-border: rgba(56, 189, 248, 0.35);
+  --theme-secondary: #5B8FB9;
+  --theme-accent: #7DD3FC;
+  --theme-text: #F8FAFC;
+  --theme-text-muted: #8B9BAE;
+  --theme-border: #232D3B;
+  --theme-border-subtle: #19202B;
+  --theme-success: #10B981;
+  --theme-warning: #F59E0B;
+  --theme-danger: #F43F5E;
 
-  /* Tailwind Stone Bridge */
-  --color-stone-50: #F3F5F8;
-  --color-stone-100: #EBF0F4;
-  --color-stone-200: #DDE3E8;
-  --color-stone-300: #CBD4DC;
-  --color-stone-400: #99A5B0;
-  --color-stone-500: #727C85;
-  --color-stone-600: #545F69;
-  --color-stone-700: #3C4650;
-  --color-stone-800: #2B343E;
-  --color-stone-900: #202A33;
+  /* Tailwind Stone Bridge (Inverted Dark Cool Slate Scale) */
+  --color-stone-50: #12171F;
+  --color-stone-100: #19202B;
+  --color-stone-200: #232D3B;
+  --color-stone-300: #334155;
+  --color-stone-400: #64748B;
+  --color-stone-500: #8B9BAE;
+  --color-stone-600: #CBD5E1;
+  --color-stone-700: #E2E8F0;
+  --color-stone-800: #F1F5F9;
+  --color-stone-900: #F8FAFC;
+  --color-stone-950: #FFFFFF;
 
   /* Semantic Overrides */
-  --color-emerald-500: #3C9B78;
-  --color-emerald-600: #328667;
-  --color-amber-500: #C99527;
-  --color-amber-600: #AF8120;
-  --color-rose-500: #D4635A;
-  --color-rose-600: #BC544C;
+  --color-emerald-500: #10B981;
+  --color-emerald-600: #059669;
+  --color-amber-500: #F59E0B;
+  --color-amber-600: #D97706;
+  --color-rose-500: #F43F5E;
+  --color-rose-600: #E11D48;
+
+  /* Scoped Liquid Glass System for Slate Blue */
+  --glass-bg-subtle: rgba(22, 27, 34, 0.50);
+  --glass-bg: rgba(22, 27, 34, 0.80);
+  --glass-bg-strong: rgba(26, 32, 41, 0.94);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-border-interactive: rgba(56, 189, 248, 0.35);
+  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+  --glass-highlight-subtle: inset 0 1px 0.5px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.35), 0 1px 3px -1px rgba(0, 0, 0, 0.25);
+  --glass-shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.45), 0 2px 6px -1px rgba(0, 0, 0, 0.30);
+  --glass-shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.60), 0 4px 12px -2px rgba(0, 0, 0, 0.40);
 }
 
-/* Dreamy Aurora (Theme 3) */
+/* Dreamy Aurora — Celestial Twilight Violet Dark */
 [data-theme="aurora"] {
-  --theme-bg: #F8F7FC;
-  --theme-surface: #FFFFFF;
-  --theme-surface-secondary: #F1EFF9;
-  --theme-primary: #7567D9;
-  --theme-primary-hover: #6355C5;
-  --theme-primary-soft: #F0EDFF;
-  --theme-primary-soft-border: #DDD8F8;
-  --theme-secondary: #5FA7B5;
-  --theme-accent: #E7A85C;
-  --theme-text: #29283A;
-  --theme-text-muted: #77758A;
-  --theme-border: #E5E2EF;
-  --theme-border-subtle: #EDEAF5;
-  --theme-success: #54A982;
-  --theme-warning: #D99A45;
-  --theme-danger: #D86670;
+  --theme-bg: #0F0D1A;
+  --theme-surface: #181528;
+  --theme-surface-secondary: #221E36;
+  --theme-primary: #A78BFA;
+  --theme-primary-hover: #8B5CF6;
+  --theme-primary-text: #0F0D1A;
+  --theme-primary-soft: rgba(167, 139, 250, 0.16);
+  --theme-primary-soft-border: rgba(167, 139, 250, 0.35);
+  --theme-secondary: #38BDF8;
+  --theme-accent: #F472B6;
+  --theme-text: #FAF8FF;
+  --theme-text-muted: #998FB8;
+  --theme-border: #282341;
+  --theme-border-subtle: #1C182F;
+  --theme-success: #34D399;
+  --theme-warning: #FBBF24;
+  --theme-danger: #FB7185;
 
-  /* Tailwind Stone Bridge */
-  --color-stone-50: #F5F4FA;
-  --color-stone-100: #EEEBF7;
-  --color-stone-200: #E5E2EF;
-  --color-stone-300: #D4D0E3;
-  --color-stone-400: #9F9CB2;
-  --color-stone-500: #77758A;
-  --color-stone-600: #5B596E;
-  --color-stone-700: #444254;
-  --color-stone-800: #333242;
-  --color-stone-900: #29283A;
+  /* Tailwind Stone Bridge (Inverted Dark Violet Aurora Scale) */
+  --color-stone-50: #141122;
+  --color-stone-100: #1C182F;
+  --color-stone-200: #282341;
+  --color-stone-300: #3C355E;
+  --color-stone-400: #6E6496;
+  --color-stone-500: #998FB8;
+  --color-stone-600: #C8C1E0;
+  --color-stone-700: #E3DFF2;
+  --color-stone-800: #F2EFFF;
+  --color-stone-900: #FAF8FF;
+  --color-stone-950: #FFFFFF;
 
   /* Semantic Overrides */
-  --color-emerald-500: #54A982;
-  --color-emerald-600: #45936F;
-  --color-amber-500: #D99A45;
-  --color-amber-600: #BE8437;
-  --color-rose-500: #D86670;
-  --color-rose-600: #C25660;
+  --color-emerald-500: #34D399;
+  --color-emerald-600: #10B981;
+  --color-amber-500: #FBBF24;
+  --color-amber-600: #F59E0B;
+  --color-rose-500: #FB7185;
+  --color-rose-600: #F43F5E;
+
+  /* Scoped Liquid Glass System for Dreamy Aurora */
+  --glass-bg-subtle: rgba(24, 21, 40, 0.50);
+  --glass-bg: rgba(24, 21, 40, 0.80);
+  --glass-bg-strong: rgba(30, 26, 50, 0.94);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-border-interactive: rgba(167, 139, 250, 0.35);
+  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+  --glass-highlight-subtle: inset 0 1px 0.5px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.35), 0 1px 3px -1px rgba(0, 0, 0, 0.25);
+  --glass-shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.45), 0 2px 6px -1px rgba(0, 0, 0, 0.30);
+  --glass-shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.60), 0 4px 12px -2px rgba(0, 0, 0, 0.40);
 }
 
-/* Forest Noir (Theme 4) */
+/* Forest Noir — Nocturnal Botanical Evergreen Dark */
 [data-theme="forest"] {
-  --theme-bg: #F6F7F4;
-  --theme-surface: #FFFFFF;
-  --theme-surface-secondary: #EEF1EC;
-  --theme-primary: #2F6B57;
-  --theme-primary-hover: #265746;
-  --theme-primary-soft: #E7F1EC;
-  --theme-primary-soft-border: #C8DCD2;
-  --theme-secondary: #557A6B;
-  --theme-accent: #A3B18A;
-  --theme-text: #1E2A24;
-  --theme-text-muted: #6F7C75;
-  --theme-border: #DDE5DF;
-  --theme-border-subtle: #E8EFEA;
-  --theme-success: #3FA76F;
-  --theme-warning: #C89B3C;
-  --theme-danger: #C85C5C;
+  --theme-bg: #0B130E;
+  --theme-surface: #121E17;
+  --theme-surface-secondary: #1A2B21;
+  --theme-primary: #34D399;
+  --theme-primary-hover: #10B981;
+  --theme-primary-text: #0B130E;
+  --theme-primary-soft: rgba(52, 211, 153, 0.15);
+  --theme-primary-soft-border: rgba(52, 211, 153, 0.35);
+  --theme-secondary: #10B981;
+  --theme-accent: #6EE7B7;
+  --theme-text: #F4FAF6;
+  --theme-text-muted: #83A092;
+  --theme-border: #1F3129;
+  --theme-border-subtle: #16231D;
+  --theme-success: #10B981;
+  --theme-warning: #F59E0B;
+  --theme-danger: #F43F5E;
 
-  /* Tailwind Stone Bridge */
-  --color-stone-50: #F3F5F2;
-  --color-stone-100: #EAEFE9;
-  --color-stone-200: #DDE5DF;
-  --color-stone-300: #CAD4CD;
-  --color-stone-400: #9AA8A0;
-  --color-stone-500: #6F7C75;
-  --color-stone-600: #515E57;
-  --color-stone-700: #3B4640;
-  --color-stone-800: #29332D;
-  --color-stone-900: #1E2A24;
+  /* Tailwind Stone Bridge (Inverted Dark Botanical Forest Scale) */
+  --color-stone-50: #0F1813;
+  --color-stone-100: #16231D;
+  --color-stone-200: #1F3129;
+  --color-stone-300: #2E463B;
+  --color-stone-400: #557566;
+  --color-stone-500: #83A092;
+  --color-stone-600: #B2C9BE;
+  --color-stone-700: #D4E3DB;
+  --color-stone-800: #EAF2ED;
+  --color-stone-900: #F4FAF6;
+  --color-stone-950: #FFFFFF;
 
   /* Semantic Overrides */
-  --color-emerald-500: #3FA76F;
-  --color-emerald-600: #348E5D;
-  --color-amber-500: #C89B3C;
-  --color-amber-600: #AF852E;
-  --color-rose-500: #C85C5C;
-  --color-rose-600: #B14B4B;
+  --color-emerald-500: #10B981;
+  --color-emerald-600: #059669;
+  --color-amber-500: #F59E0B;
+  --color-amber-600: #D97706;
+  --color-rose-500: #F43F5E;
+  --color-rose-600: #E11D48;
+
+  /* Scoped Liquid Glass System for Forest Noir */
+  --glass-bg-subtle: rgba(18, 30, 23, 0.50);
+  --glass-bg: rgba(18, 30, 23, 0.80);
+  --glass-bg-strong: rgba(22, 38, 29, 0.94);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-border-interactive: rgba(52, 211, 153, 0.35);
+  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+  --glass-highlight-subtle: inset 0 1px 0.5px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.35), 0 1px 3px -1px rgba(0, 0, 0, 0.25);
+  --glass-shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.45), 0 2px 6px -1px rgba(0, 0, 0, 0.30);
+  --glass-shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.60), 0 4px 12px -2px rgba(0, 0, 0, 0.40);
 }
 
-/* Ocean Mist (Theme 5) */
+/* Ocean Mist — Abyssal Oceanic Trench Deep Dark */
 [data-theme="ocean"] {
-  --theme-bg: #F4F8FA;
-  --theme-surface: #FFFFFF;
-  --theme-surface-secondary: #EAF2F5;
-  --theme-primary: #2F7F95;
-  --theme-primary-hover: #266A7D;
-  --theme-primary-soft: #E5F3F7;
-  --theme-primary-soft-border: #C5E3EB;
-  --theme-secondary: #5FA8B8;
-  --theme-accent: #8CCAD8;
-  --theme-text: #1F2D33;
-  --theme-text-muted: #708087;
-  --theme-border: #D9E5E8;
-  --theme-border-subtle: #E5EFF2;
-  --theme-success: #4DAA88;
-  --theme-warning: #D6A84A;
-  --theme-danger: #CF6B6B;
+  --theme-bg: #08121A;
+  --theme-surface: #0E1B26;
+  --theme-surface-secondary: #142636;
+  --theme-primary: #38BDF8;
+  --theme-primary-hover: #0284C7;
+  --theme-primary-text: #08121A;
+  --theme-primary-soft: rgba(56, 189, 248, 0.15);
+  --theme-primary-soft-border: rgba(56, 189, 248, 0.35);
+  --theme-secondary: #06B6D4;
+  --theme-accent: #22D3EE;
+  --theme-text: #F4F9FD;
+  --theme-text-muted: #7798B5;
+  --theme-border: #1A2C3C;
+  --theme-border-subtle: #12202C;
+  --theme-success: #10B981;
+  --theme-warning: #F59E0B;
+  --theme-danger: #F43F5E;
 
-  /* Tailwind Stone Bridge */
-  --color-stone-50: #F1F6F8;
-  --color-stone-100: #E6EFF2;
-  --color-stone-200: #D9E5E8;
-  --color-stone-300: #C5D5D9;
-  --color-stone-400: #98ABB3;
-  --color-stone-500: #708087;
-  --color-stone-600: #526168;
-  --color-stone-700: #3B474D;
-  --color-stone-800: #293439;
-  --color-stone-900: #1F2D33;
+  /* Tailwind Stone Bridge (Inverted Dark Abyssal Ocean Scale) */
+  --color-stone-50: #0C1721;
+  --color-stone-100: #12202C;
+  --color-stone-200: #1A2C3C;
+  --color-stone-300: #274157;
+  --color-stone-400: #4B6E8A;
+  --color-stone-500: #7798B5;
+  --color-stone-600: #ADC7DE;
+  --color-stone-700: #D6E6F2;
+  --color-stone-800: #ECF4FA;
+  --color-stone-900: #F4F9FD;
+  --color-stone-950: #FFFFFF;
 
   /* Semantic Overrides */
-  --color-emerald-500: #4DAA88;
-  --color-emerald-600: #3E9072;
-  --color-amber-500: #D6A84A;
-  --color-amber-600: #BB9038;
-  --color-rose-500: #CF6B6B;
-  --color-rose-600: #B75656;
+  --color-emerald-500: #10B981;
+  --color-emerald-600: #059669;
+  --color-amber-500: #F59E0B;
+  --color-amber-600: #D97706;
+  --color-rose-500: #F43F5E;
+  --color-rose-600: #E11D48;
+
+  /* Scoped Liquid Glass System for Ocean Mist */
+  --glass-bg-subtle: rgba(14, 27, 38, 0.50);
+  --glass-bg: rgba(14, 27, 38, 0.80);
+  --glass-bg-strong: rgba(18, 34, 48, 0.94);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-border-interactive: rgba(56, 189, 248, 0.35);
+  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+  --glass-highlight-subtle: inset 0 1px 0.5px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.35), 0 1px 3px -1px rgba(0, 0, 0, 0.25);
+  --glass-shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.45), 0 2px 6px -1px rgba(0, 0, 0, 0.30);
+  --glass-shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.60), 0 4px 12px -2px rgba(0, 0, 0, 0.40);
 }
 
 /* Crimson Red (Theme 6) */
@@ -424,44 +484,59 @@
   --color-rose-600: #BE123C;
 }
 
-/* Imperial Ruby (Theme 11) */
+/* Imperial Ruby — Velvet Midnight Wine & Luxury Gemstone Dark */
 [data-theme="ruby"] {
-  --theme-bg: #FFF5F6;
-  --theme-surface: #FFFFFF;
-  --theme-surface-secondary: #FFEAEF;
-  --theme-primary: #BE123C;
-  --theme-primary-hover: #9F1239;
-  --theme-primary-soft: #FFF1F2;
-  --theme-primary-soft-border: #FECDD3;
-  --theme-secondary: #E11D48;
-  --theme-accent: #881337;
-  --theme-text: #4C0519;
-  --theme-text-muted: #706568;
-  --theme-border: #FFE4E6;
-  --theme-border-subtle: #FFF1F2;
+  --theme-bg: #160A0E;
+  --theme-surface: #221017;
+  --theme-surface-secondary: #2F1720;
+  --theme-primary: #FB7185;
+  --theme-primary-hover: #F43F5E;
+  --theme-primary-text: #160A0E;
+  --theme-primary-soft: rgba(251, 113, 133, 0.15);
+  --theme-primary-soft-border: rgba(251, 113, 133, 0.35);
+  --theme-secondary: #F43F5E;
+  --theme-accent: #FDA4AF;
+  --theme-text: #FAF3F5;
+  --theme-text-muted: #A16F82;
+  --theme-border: #331B25;
+  --theme-border-subtle: #24131A;
   --theme-success: #10B981;
-  --theme-warning: #D97706;
-  --theme-danger: #9F1239;
+  --theme-warning: #F59E0B;
+  --theme-danger: #E11D48;
 
-  /* Tailwind Stone Bridge */
-  --color-stone-50: #FFF5F6;
-  --color-stone-100: #FFEAEF;
-  --color-stone-200: #FFE4E6;
-  --color-stone-300: #FECDD3;
-  --color-stone-400: #A39095;
-  --color-stone-500: #706568;
-  --color-stone-600: #54484B;
-  --color-stone-700: #3F3235;
-  --color-stone-800: #2E2224;
-  --color-stone-900: #1F1416;
+  /* Tailwind Stone Bridge (Inverted Dark Velvet Wine Scale) */
+  --color-stone-50: #1A0D12;
+  --color-stone-100: #24131A;
+  --color-stone-200: #331B25;
+  --color-stone-300: #4A2736;
+  --color-stone-400: #774558;
+  --color-stone-500: #A16F82;
+  --color-stone-600: #CCA4B3;
+  --color-stone-700: #E8D0D9;
+  --color-stone-800: #F5E8ED;
+  --color-stone-900: #FAF3F5;
+  --color-stone-950: #FFFFFF;
 
   /* Semantic Overrides */
   --color-emerald-500: #10B981;
   --color-emerald-600: #059669;
-  --color-amber-500: #D97706;
-  --color-amber-600: #B45309;
-  --color-rose-500: #BE123C;
-  --color-rose-600: #9F1239;
+  --color-amber-500: #F59E0B;
+  --color-amber-600: #D97706;
+  --color-rose-500: #FB7185;
+  --color-rose-600: #E11D48;
+
+  /* Scoped Liquid Glass System for Imperial Ruby */
+  --glass-bg-subtle: rgba(34, 16, 23, 0.50);
+  --glass-bg: rgba(34, 16, 23, 0.80);
+  --glass-bg-strong: rgba(42, 20, 29, 0.94);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-border-interactive: rgba(251, 113, 133, 0.35);
+  --glass-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+  --glass-highlight-subtle: inset 0 1px 0.5px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.35), 0 1px 3px -1px rgba(0, 0, 0, 0.25);
+  --glass-shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.45), 0 2px 6px -1px rgba(0, 0, 0, 0.30);
+  --glass-shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.60), 0 4px 12px -2px rgba(0, 0, 0, 0.40);
 }
 
 /* Midnight Citrus (Theme 12) — Perfected Dark Glass & Radiant Citrus */
@@ -519,7 +594,7 @@
   --glass-shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.60), 0 4px 12px -2px rgba(0, 0, 0, 0.40);
 }
 
-/* Scoped Dark Glass & Navigation Refinements for Midnight Citrus */
+/* Theme-specific dark backgrounds & ambient light fields */
 [data-theme="midnight-citrus"] body {
   background-color: #12151D;
   background-image:
@@ -527,15 +602,42 @@
     radial-gradient(circle at 88% 85%, rgba(56, 189, 248, 0.03) 0%, transparent 45%);
 }
 
-[data-theme="midnight-citrus"] .liquid-glass-dock {
-  background: rgba(20, 25, 36, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow:
-    0 16px 36px -4px rgba(0, 0, 0, 0.55),
-    0 4px 12px -2px rgba(0, 0, 0, 0.35),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+[data-theme="slate"] body {
+  background-color: #0D1117;
+  background-image:
+    radial-gradient(circle at 12% 15%, rgba(56, 189, 248, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 88% 85%, rgba(91, 143, 185, 0.03) 0%, transparent 45%);
 }
 
+[data-theme="aurora"] body {
+  background-color: #0F0D1A;
+  background-image:
+    radial-gradient(circle at 12% 15%, rgba(167, 139, 250, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 88% 85%, rgba(56, 189, 248, 0.04) 0%, transparent 45%);
+}
+
+[data-theme="forest"] body {
+  background-color: #0B130E;
+  background-image:
+    radial-gradient(circle at 12% 15%, rgba(52, 211, 153, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 88% 85%, rgba(16, 185, 129, 0.03) 0%, transparent 45%);
+}
+
+[data-theme="ocean"] body {
+  background-color: #08121A;
+  background-image:
+    radial-gradient(circle at 12% 15%, rgba(56, 189, 248, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 88% 85%, rgba(6, 182, 212, 0.03) 0%, transparent 45%);
+}
+
+[data-theme="ruby"] body {
+  background-color: #160A0E;
+  background-image:
+    radial-gradient(circle at 12% 15%, rgba(251, 113, 133, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 88% 85%, rgba(244, 63, 94, 0.03) 0%, transparent 45%);
+}
+
+/* Individual Active Tab Colors for Dark Themes */
 [data-theme="midnight-citrus"] .glass-tab-active {
   background: rgba(245, 158, 11, 0.18);
   border: 1px solid rgba(245, 158, 11, 0.45);
@@ -543,67 +645,228 @@
   box-shadow: 0 2px 8px -1px rgba(245, 158, 11, 0.22);
 }
 
-[data-theme="midnight-citrus"] .glass-modal {
-  background: rgba(25, 31, 44, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+[data-theme="slate"] .glass-tab-active {
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.40);
+  color: #38BDF8 !important;
+  box-shadow: 0 2px 8px -1px rgba(56, 189, 248, 0.20);
+}
+
+[data-theme="aurora"] .glass-tab-active {
+  background: rgba(167, 139, 250, 0.18);
+  border: 1px solid rgba(167, 139, 250, 0.45);
+  color: #C4B5FD !important;
+  box-shadow: 0 2px 8px -1px rgba(167, 139, 250, 0.22);
+}
+
+[data-theme="forest"] .glass-tab-active {
+  background: rgba(52, 211, 153, 0.16);
+  border: 1px solid rgba(52, 211, 153, 0.40);
+  color: #6EE7B7 !important;
+  box-shadow: 0 2px 8px -1px rgba(52, 211, 153, 0.20);
+}
+
+[data-theme="ocean"] .glass-tab-active {
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.40);
+  color: #38BDF8 !important;
+  box-shadow: 0 2px 8px -1px rgba(56, 189, 248, 0.20);
+}
+
+[data-theme="ruby"] .glass-tab-active {
+  background: rgba(251, 113, 133, 0.18);
+  border: 1px solid rgba(251, 113, 133, 0.45);
+  color: #FDA4AF !important;
+  box-shadow: 0 2px 8px -1px rgba(251, 113, 133, 0.22);
+}
+
+/* ==========================================================================
+   Shared Dark Mode Adaptations (All 6 Dark Themes)
+   ========================================================================== */
+[data-theme-mode="dark"] .liquid-glass-dock,
+[data-theme="midnight-citrus"] .liquid-glass-dock,
+[data-theme="slate"] .liquid-glass-dock,
+[data-theme="aurora"] .liquid-glass-dock,
+[data-theme="forest"] .liquid-glass-dock,
+[data-theme="ocean"] .liquid-glass-dock,
+[data-theme="ruby"] .liquid-glass-dock {
+  background: var(--glass-bg-strong, rgba(20, 25, 36, 0.88));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.10));
+  box-shadow:
+    0 16px 36px -4px rgba(0, 0, 0, 0.55),
+    0 4px 12px -2px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+[data-theme-mode="dark"] .glass-modal,
+[data-theme="midnight-citrus"] .glass-modal,
+[data-theme="slate"] .glass-modal,
+[data-theme="aurora"] .glass-modal,
+[data-theme="forest"] .glass-modal,
+[data-theme="ocean"] .glass-modal,
+[data-theme="ruby"] .glass-modal {
+  background: var(--glass-bg-strong, rgba(25, 31, 44, 0.96));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.10));
   box-shadow:
     0 24px 48px -12px rgba(0, 0, 0, 0.70),
     0 8px 20px -4px rgba(0, 0, 0, 0.50),
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
 }
 
-[data-theme="midnight-citrus"] .glass-dropdown {
-  background: rgba(25, 31, 44, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+[data-theme-mode="dark"] .glass-dropdown,
+[data-theme="midnight-citrus"] .glass-dropdown,
+[data-theme="slate"] .glass-dropdown,
+[data-theme="aurora"] .glass-dropdown,
+[data-theme="forest"] .glass-dropdown,
+[data-theme="ocean"] .glass-dropdown,
+[data-theme="ruby"] .glass-dropdown {
+  background: var(--glass-bg-strong, rgba(25, 31, 44, 0.96));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.10));
 }
 
-[data-theme="midnight-citrus"] .glass-toast {
-  background: rgba(25, 31, 44, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+[data-theme-mode="dark"] .glass-toast,
+[data-theme="midnight-citrus"] .glass-toast,
+[data-theme="slate"] .glass-toast,
+[data-theme="aurora"] .glass-toast,
+[data-theme="forest"] .glass-toast,
+[data-theme="ocean"] .glass-toast,
+[data-theme="ruby"] .glass-toast {
+  background: var(--glass-bg-strong, rgba(25, 31, 44, 0.94));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.12));
 }
 
-[data-theme="midnight-citrus"] .glass-input {
-  background: rgba(29, 35, 48, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  color: #F8FAFC;
+[data-theme-mode="dark"] .glass-input,
+[data-theme="midnight-citrus"] .glass-input,
+[data-theme="slate"] .glass-input,
+[data-theme="aurora"] .glass-input,
+[data-theme="forest"] .glass-input,
+[data-theme="ocean"] .glass-input,
+[data-theme="ruby"] .glass-input {
+  background: var(--glass-bg, rgba(29, 35, 48, 0.85));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.10));
+  color: var(--theme-text, #F8FAFC);
 }
 
-[data-theme="midnight-citrus"] .glass-input:focus {
-  background: rgba(33, 40, 54, 0.95);
-  border-color: #F59E0B;
+[data-theme-mode="dark"] .glass-input:focus,
+[data-theme="midnight-citrus"] .glass-input:focus,
+[data-theme="slate"] .glass-input:focus,
+[data-theme="aurora"] .glass-input:focus,
+[data-theme="forest"] .glass-input:focus,
+[data-theme="ocean"] .glass-input:focus,
+[data-theme="ruby"] .glass-input:focus {
+  background: var(--glass-bg-strong, rgba(33, 40, 54, 0.95));
+  border-color: var(--theme-primary);
   box-shadow:
-    0 0 0 3px rgba(245, 158, 11, 0.20),
+    0 0 0 3px var(--theme-primary-soft),
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.10);
 }
 
+[data-theme-mode="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme-mode="dark"] input[type="time"]::-webkit-calendar-picker-indicator,
 [data-theme="midnight-citrus"] input[type="date"]::-webkit-calendar-picker-indicator,
-[data-theme="midnight-citrus"] input[type="time"]::-webkit-calendar-picker-indicator {
+[data-theme="midnight-citrus"] input[type="time"]::-webkit-calendar-picker-indicator,
+[data-theme="slate"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="slate"] input[type="time"]::-webkit-calendar-picker-indicator,
+[data-theme="aurora"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="aurora"] input[type="time"]::-webkit-calendar-picker-indicator,
+[data-theme="forest"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="forest"] input[type="time"]::-webkit-calendar-picker-indicator,
+[data-theme="ocean"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="ocean"] input[type="time"]::-webkit-calendar-picker-indicator,
+[data-theme="ruby"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="ruby"] input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(0.85);
   opacity: 0.8;
 }
 
 /* Secondary buttons adapt to refined dark glass */
+[data-theme-mode="dark"] button.bg-white\/80,
+[data-theme-mode="dark"] button.bg-white,
 [data-theme="midnight-citrus"] button.bg-white\/80,
-[data-theme="midnight-citrus"] button.bg-white {
+[data-theme="midnight-citrus"] button.bg-white,
+[data-theme="slate"] button.bg-white\/80,
+[data-theme="slate"] button.bg-white,
+[data-theme="aurora"] button.bg-white\/80,
+[data-theme="aurora"] button.bg-white,
+[data-theme="forest"] button.bg-white\/80,
+[data-theme="forest"] button.bg-white,
+[data-theme="ocean"] button.bg-white\/80,
+[data-theme="ocean"] button.bg-white,
+[data-theme="ruby"] button.bg-white\/80,
+[data-theme="ruby"] button.bg-white {
   background-color: rgba(255, 255, 255, 0.07) !important;
-  color: #F8FAFC !important;
+  color: var(--theme-text, #F8FAFC) !important;
   border-color: rgba(255, 255, 255, 0.10) !important;
 }
 
+[data-theme-mode="dark"] button.bg-white\/80:hover,
+[data-theme-mode="dark"] button.bg-white:hover,
 [data-theme="midnight-citrus"] button.bg-white\/80:hover,
-[data-theme="midnight-citrus"] button.bg-white:hover {
+[data-theme="midnight-citrus"] button.bg-white:hover,
+[data-theme="slate"] button.bg-white\/80:hover,
+[data-theme="slate"] button.bg-white:hover,
+[data-theme="aurora"] button.bg-white\/80:hover,
+[data-theme="aurora"] button.bg-white:hover,
+[data-theme="forest"] button.bg-white\/80:hover,
+[data-theme="forest"] button.bg-white:hover,
+[data-theme="ocean"] button.bg-white\/80:hover,
+[data-theme="ocean"] button.bg-white:hover,
+[data-theme="ruby"] button.bg-white\/80:hover,
+[data-theme="ruby"] button.bg-white:hover {
   background-color: rgba(255, 255, 255, 0.12) !important;
-  border-color: rgba(245, 158, 11, 0.35) !important;
+  border-color: var(--theme-primary-soft-border) !important;
 }
 
-/* Container cards with legacy bg-white adapt to elevated midnight surface */
+/* Container cards with legacy bg-white adapt to elevated theme surface */
+[data-theme-mode="dark"] div.bg-white,
+[data-theme-mode="dark"] section.bg-white,
+[data-theme-mode="dark"] input.bg-white,
+[data-theme-mode="dark"] select.bg-white,
+[data-theme-mode="dark"] form.bg-white,
+[data-theme-mode="dark"] .bg-white\/70,
+[data-theme-mode="dark"] .bg-white\/80:not([role="switch"] *):not(.rounded-full),
 [data-theme="midnight-citrus"] div.bg-white,
 [data-theme="midnight-citrus"] section.bg-white,
 [data-theme="midnight-citrus"] input.bg-white,
 [data-theme="midnight-citrus"] select.bg-white,
 [data-theme="midnight-citrus"] form.bg-white,
 [data-theme="midnight-citrus"] .bg-white\/70,
-[data-theme="midnight-citrus"] .bg-white\/80:not([role="switch"] *):not(.rounded-full) {
+[data-theme="midnight-citrus"] .bg-white\/80:not([role="switch"] *):not(.rounded-full),
+[data-theme="slate"] div.bg-white,
+[data-theme="slate"] section.bg-white,
+[data-theme="slate"] input.bg-white,
+[data-theme="slate"] select.bg-white,
+[data-theme="slate"] form.bg-white,
+[data-theme="slate"] .bg-white\/70,
+[data-theme="slate"] .bg-white\/80:not([role="switch"] *):not(.rounded-full),
+[data-theme="aurora"] div.bg-white,
+[data-theme="aurora"] section.bg-white,
+[data-theme="aurora"] input.bg-white,
+[data-theme="aurora"] select.bg-white,
+[data-theme="aurora"] form.bg-white,
+[data-theme="aurora"] .bg-white\/70,
+[data-theme="aurora"] .bg-white\/80:not([role="switch"] *):not(.rounded-full),
+[data-theme="forest"] div.bg-white,
+[data-theme="forest"] section.bg-white,
+[data-theme="forest"] input.bg-white,
+[data-theme="forest"] select.bg-white,
+[data-theme="forest"] form.bg-white,
+[data-theme="forest"] .bg-white\/70,
+[data-theme="forest"] .bg-white\/80:not([role="switch"] *):not(.rounded-full),
+[data-theme="ocean"] div.bg-white,
+[data-theme="ocean"] section.bg-white,
+[data-theme="ocean"] input.bg-white,
+[data-theme="ocean"] select.bg-white,
+[data-theme="ocean"] form.bg-white,
+[data-theme="ocean"] .bg-white\/70,
+[data-theme="ocean"] .bg-white\/80:not([role="switch"] *):not(.rounded-full),
+[data-theme="ruby"] div.bg-white,
+[data-theme="ruby"] section.bg-white,
+[data-theme="ruby"] input.bg-white,
+[data-theme="ruby"] select.bg-white,
+[data-theme="ruby"] form.bg-white,
+[data-theme="ruby"] .bg-white\/70,
+[data-theme="ruby"] .bg-white\/80:not([role="switch"] *):not(.rounded-full) {
   background-color: var(--theme-surface);
 }
 
