@@ -56,7 +56,6 @@ export async function GET(req: NextRequest) {
       where,
       orderBy: [
         { completed: "asc" },
-        { dueTime: "asc" },
         { createdAt: "asc" },
       ],
     });
@@ -91,7 +90,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { title, description, date, dueTime, priority, category } = body;
+    const { title, description, date, priority, category } = body;
 
     if (!title || typeof title !== "string" || !title.trim()) {
       return NextResponse.json(
@@ -108,7 +107,6 @@ export async function POST(req: NextRequest) {
         title: title.trim(),
         description: description?.trim() || null,
         date: normalizedDate,
-        dueTime: dueTime?.trim() || null,
         priority: priority || "Medium",
         category: category?.trim() || "Personal",
         completed: false,

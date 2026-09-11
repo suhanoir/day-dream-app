@@ -111,7 +111,7 @@ function VerifyContent() {
               Email Verified!
             </h2>
             <p className="text-sm text-stone-600 mt-2.5 leading-relaxed">
-              Your email address has been successfully confirmed. You are all set to receive reminders for your upcoming calendar events and to-do deadlines.
+              Your email address has been successfully confirmed. You are all set to track your lifelong dreams and reflections.
             </p>
             <div className="mt-8">
               <Button

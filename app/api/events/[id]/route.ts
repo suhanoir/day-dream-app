@@ -63,7 +63,6 @@ export async function PUT(
       location,
       category,
       description,
-      reminder,
       bucketListItemId,
     } = body;
 
@@ -119,7 +118,6 @@ export async function PUT(
         location: location !== undefined ? (location ? location.trim() : null) : existing.location,
         category: category || existing.category,
         description: description !== undefined ? (description ? description.trim() : null) : existing.description,
-        reminder: reminder !== undefined ? (reminder ? reminder.trim() : "none") : existing.reminder,
         bucketListItemId: bucketListItemId !== undefined ? bucketListItemId : existing.bucketListItemId,
       },
       include: {

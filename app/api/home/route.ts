@@ -62,7 +62,6 @@ export async function GET(req: NextRequest) {
         },
         orderBy: [
           { completed: "asc" },
-          { dueTime: "asc" },
           { createdAt: "asc" },
         ],
       }),
@@ -180,7 +179,6 @@ export async function GET(req: NextRequest) {
       const weightA = priorityWeight[a.priority?.toLowerCase() || ""] || 2;
       const weightB = priorityWeight[b.priority?.toLowerCase() || ""] || 2;
       if (weightB !== weightA) return weightB - weightA;
-      if (a.dueTime && b.dueTime) return a.dueTime.localeCompare(b.dueTime);
       return 0;
     });
 
@@ -202,7 +200,7 @@ export async function GET(req: NextRequest) {
         id: task.id,
         type: "task",
         title: task.title,
-        time: task.dueTime,
+        time: null,
         priority: task.priority,
         category: task.category,
         completed: task.completed,

@@ -15,7 +15,7 @@ import {
   Heart,
   Globe,
   Quote,
-  Bell,
+  Sliders,
   Volume2,
   Palette,
   Sun,
@@ -739,7 +739,7 @@ export default function HomePage() {
               </span>
               <h4 className="text-sm font-bold text-stone-900 mb-1">PLAN</h4>
               <p className="text-xs text-stone-600 leading-relaxed">
-                Assign a category, target date, reminder, or break into daily tasks.
+                Assign a category, target date, or break into daily tasks.
               </p>
             </div>
 
@@ -821,58 +821,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ====================================================================
-            8. REMINDERS & NOTIFICATIONS SECTION
-            ==================================================================== */}
-        <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24 border-t border-stone-200/60 text-left">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-stone-400 block mb-2">
-              Gentle Reminders
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-normal tracking-tight text-stone-950 font-serif-heading leading-tight mb-4">
-              Dreams shouldn&apos;t disappear into tomorrow.
-            </h2>
-            <p className="text-sm sm:text-base text-stone-600 leading-relaxed">
-              Set a reminder for the moments that matter and let DayDream bring
-              them back to your attention without invasive noise.
-            </p>
-          </div>
-
-          {/* Realistic Liquid Glass Notification Toast UI */}
-          <div className="max-w-md mx-auto">
-            <div className="p-4 sm:p-5 rounded-3xl glass-card border border-stone-200 shadow-lg relative">
-              <div className="flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-stone-900 text-white flex items-center justify-center shrink-0 shadow-sm">
-                  <Sparkles className="w-5 h-5 text-amber-300" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">
-                      DayDream Reminder
-                    </span>
-                    <span className="text-[10px] text-stone-400">Tonight · 8:00 PM</span>
-                  </div>
-                  <h4 className="text-sm font-bold text-stone-900 mt-0.5">
-                    Your dream is waiting ✨
-                  </h4>
-                  <p className="text-xs text-stone-600 mt-1">
-                    Book reservations for the Kyoto sunrise tour.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-500">
-                <span className="flex items-center gap-1">
-                  <Bell className="w-3 h-3 text-stone-400" />
-                  Web Push & In-App Toast
-                </span>
-                <span className="font-semibold text-stone-800">
-                  Quiet Hours Respected
-                </span>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* ====================================================================
             9. PERSONALIZATION / THEMES SECTION
@@ -1133,7 +1081,7 @@ export default function HomePage() {
 
             <div className="p-4 rounded-2xl glass-card border border-stone-200/80">
               <div className="w-8 h-8 rounded-xl bg-sky-50 text-sky-700 flex items-center justify-center mb-3">
-                <Bell className="w-4 h-4" />
+                <Sliders className="w-4 h-4" />
               </div>
               <h4 className="text-xs font-bold text-stone-900">Full Audio Control</h4>
               <p className="text-[11px] text-stone-500 mt-1">

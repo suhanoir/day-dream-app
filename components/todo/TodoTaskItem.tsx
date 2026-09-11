@@ -5,9 +5,8 @@ import {
   TodoTaskData,
   PRIORITY_STYLES,
   CATEGORY_STYLES,
-  formatTimeForDisplay,
 } from "./types";
-import { Check, Clock, ArrowRightCircle, Trash2, Calendar } from "lucide-react";
+import { Check, ArrowRightCircle, Trash2, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { useSound } from "@/components/providers/SoundProvider";
 
@@ -113,23 +112,9 @@ export function TodoTaskItem({
             {task.title}
           </span>
 
-          {/* Sub-tags / Due time / Category in row */}
-          <div className="flex items-center gap-2 flex-wrap text-xs">
-            {task.dueTime && (
-              <span
-                className={cn(
-                  "inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium transition-colors",
-                  task.completed
-                    ? "text-stone-400 bg-stone-100/40"
-                    : "text-stone-600 glass-card"
-                )}
-              >
-                <Clock className="w-3 h-3 text-stone-400" />
-                {formatTimeForDisplay(task.dueTime)}
-              </span>
-            )}
-
-            {task.category && categoryStyle && (
+          {/* Sub-tags / Category in row */}
+          {task.category && categoryStyle && (
+            <div className="flex items-center gap-2 flex-wrap text-xs">
               <span
                 className={cn(
                   "inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium border",
@@ -140,8 +125,8 @@ export function TodoTaskItem({
               >
                 {categoryStyle.label}
               </span>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 

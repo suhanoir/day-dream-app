@@ -9,14 +9,12 @@ import {
   EventData,
   getCategoryStyle,
   formatEventTime,
-  REMINDER_OPTIONS,
 } from "./types";
 import {
   Calendar as CalendarIcon,
   Clock,
   MapPin,
   Tag,
-  Bell,
   Pencil,
   Trash2,
   Bookmark,
@@ -40,10 +38,10 @@ export function EventDetailModal({
   onEditClick,
   onEventDeleted,
 }: EventDetailModalProps) {
-  const { success, error: toastError } = useToast();
   const { playSound } = useSound();
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const { error: toastError, success } = useToast();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (!event) return null;
 
@@ -57,9 +55,6 @@ export function EventDetailModal({
     day: "numeric",
     year: "numeric",
   });
-
-  const reminderLabel =
-    REMINDER_OPTIONS.find((r) => r.value === event.reminder)?.label || "No reminder";
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -151,14 +146,6 @@ export function EventDetailModal({
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-stone-400 shrink-0" />
                 <span className="truncate">{event.location}</span>
-              </div>
-            )}
-
-            {/* Reminder */}
-            {event.reminder && event.reminder !== "none" && (
-              <div className="flex items-center gap-2 text-stone-600">
-                <Bell className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>Reminder: {reminderLabel}</span>
               </div>
             )}
           </div>

@@ -72,7 +72,7 @@ export async function PUT(
     }
 
     const body = await req.json();
-    const { title, description, date, dueTime, priority, category, completed } = body;
+    const { title, description, date, priority, category, completed } = body;
 
     const dataToUpdate: any = {};
     if (title !== undefined) {
@@ -86,9 +86,6 @@ export async function PUT(
     }
     if (date !== undefined) {
       dataToUpdate.date = parseToUtcDate(date);
-    }
-    if (dueTime !== undefined) {
-      dataToUpdate.dueTime = dueTime?.trim() || null;
     }
     if (priority !== undefined) {
       dataToUpdate.priority = priority;

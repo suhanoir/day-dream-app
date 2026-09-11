@@ -102,14 +102,6 @@ export function getCategoryStyle(category: string): EventCategoryStyle {
   };
 }
 
-export const REMINDER_OPTIONS = [
-  { value: "none", label: "No reminder" },
-  { value: "10_mins", label: "10 minutes before" },
-  { value: "30_mins", label: "30 minutes before" },
-  { value: "1_hour", label: "1 hour before" },
-  { value: "1_day", label: "1 day before" },
-];
-
 export function formatEventTime(startTime?: string | null, endTime?: string | null): string {
   if (!startTime && !endTime) return "All Day";
   if (startTime && !endTime) return startTime;

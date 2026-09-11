@@ -15,11 +15,9 @@ import {
   PRIORITY_STYLES,
   CATEGORY_STYLES,
   formatToDateKey,
-  formatTimeTo24H,
 } from "./types";
 import {
   Calendar,
-  Clock,
   Tag,
   Flag,
   Trash2,
@@ -52,7 +50,6 @@ export function TodoTaskDetailModal({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
-  const [dueTime, setDueTime] = useState("");
   const [priority, setPriority] = useState<TodoPriority>("Medium");
   const [category, setCategory] = useState<TodoCategory>("Personal");
   const [isSaving, setIsSaving] = useState(false);
@@ -67,7 +64,6 @@ export function TodoTaskDetailModal({
       // Date in YYYY-MM-DD
       const dateVal = task.date.split("T")[0];
       setDate(dateVal);
-      setDueTime(formatTimeTo24H(task.dueTime));
       setPriority(task.priority || "Medium");
       setCategory((task.category as TodoCategory) || "Personal");
     }
@@ -89,7 +85,6 @@ export function TodoTaskDetailModal({
         title: title.trim(),
         description: description.trim() || null,
         date: date ? `${date}T00:00:00.000Z` : task.date,
-        dueTime: dueTime.trim() || null,
         priority,
         category,
       });
@@ -197,55 +192,18 @@ export function TodoTaskDetailModal({
             />
           </div>
 
-          {/* Date & Due Time Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
-                <Calendar className="w-3.5 h-3.5 text-stone-400" />
-                Date
-              </label>
-              <Input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="text-xs"
-              />
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-1.5 min-h-[16px]">
-                <label
-                  htmlFor="todo-due-time-edit"
-                  className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider"
-                >
-                  <Clock className="w-3.5 h-3.5 text-stone-400" />
-                  Due Time
-                </label>
-                {dueTime && (
-                  <button
-                    type="button"
-                    onClick={() => setDueTime("")}
-                    className="text-[10px] font-semibold text-stone-400 hover:text-rose-500 transition-colors cursor-pointer active:scale-95"
-                    title="Clear time"
-                    aria-label="Clear due time"
-                  >
-                    Clear
-                  </button>
-                )}
-              </div>
-              <Input
-                id="todo-due-time-edit"
-                type="time"
-                value={dueTime}
-                onChange={(e) => setDueTime(e.target.value)}
-                onClick={(e) => {
-                  try {
-                    e.currentTarget.showPicker?.();
-                  } catch {}
-                }}
-                className="text-xs"
-              />
-            </div>
+          {/* Date */}
+          <div>
+            <label className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
+              <Calendar className="w-3.5 h-3.5 text-stone-400" />
+              Date
+            </label>
+            <Input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="text-xs"
+            />
           </div>
 
           {/* Priority Selection */}

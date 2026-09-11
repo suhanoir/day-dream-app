@@ -114,7 +114,6 @@ export async function POST(req: NextRequest) {
       location,
       category,
       description,
-      reminder,
       bucketListItemId,
     } = body;
 
@@ -163,7 +162,7 @@ export async function POST(req: NextRequest) {
         location: location ? location.trim() : null,
         category: category ? category.trim() : "Personal",
         description: description ? description.trim() : null,
-        reminder: reminder ? reminder.trim() : "none",
+        reminder: "none",
         bucketListItemId: bucketListItemId || null,
       },
       include: {
