@@ -118,8 +118,8 @@ export default function MemoriesPage() {
   if (authLoading || (isLoading && items.length === 0)) {
     return (
       <div className="min-h-screen bg-stone-50/50 flex flex-col items-center justify-center">
-        <Loader2 className="w-8 h-8 text-stone-700 dark:text-stone-300 animate-spin mb-3" />
-        <p className="text-xs text-stone-600 dark:text-stone-400 font-medium">
+        <Loader2 className="w-8 h-8 text-muted animate-spin mb-3" />
+        <p className="text-xs text-secondary font-medium">
           Gathering your memory scrapbook...
         </p>
       </div>
@@ -135,7 +135,7 @@ export default function MemoriesPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2.5">
-              <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-stone-900 dark:text-stone-50 font-serif-heading leading-tight">
+              <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-primary font-serif-heading leading-tight">
                 Memory Scrapbook
               </h1>
               <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-900 dark:text-amber-200 border border-amber-500/25 inline-flex items-center gap-1">
@@ -143,7 +143,7 @@ export default function MemoriesPage() {
                 <span>{items.length} {items.length === 1 ? "Keepsake" : "Keepsakes"}</span>
               </span>
             </div>
-            <p className="text-sm text-stone-600 dark:text-stone-300 max-w-xl leading-relaxed">
+            <p className="text-sm text-secondary max-w-xl leading-relaxed">
               &ldquo;One day, your bucket list becomes your memory.&rdquo; A living
               gallery of milestones lived, reflections written, and moments preserved.
             </p>
@@ -170,7 +170,7 @@ export default function MemoriesPage() {
                 placeholder="Search your memories & reflections..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-9 py-2.5 glass-input rounded-2xl text-sm placeholder:text-stone-400 text-stone-900 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 transition-all"
+                className="w-full pl-10 pr-9 py-2.5 glass-input rounded-2xl text-sm placeholder:text-stone-400 text-primary focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 transition-all"
               />
               {search && (
                 <button
@@ -191,7 +191,7 @@ export default function MemoriesPage() {
                   "px-3 py-1.5 rounded-xl text-xs font-medium transition-all shrink-0 cursor-pointer",
                   selectedCategory === "all"
                     ? "glass-tab-active shadow-2xs font-semibold"
-                    : "text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100/70 dark:hover:bg-stone-800/60"
+                    : "text-secondary hover:text-primary hover:bg-stone-100/70 dark:hover:bg-white/10"
                 )}
               >
                 All ({items.length})
@@ -208,7 +208,7 @@ export default function MemoriesPage() {
                       "px-3 py-1.5 rounded-xl text-xs font-medium transition-all shrink-0 cursor-pointer",
                       selectedCategory === cat.id
                         ? "glass-tab-active shadow-2xs font-semibold"
-                        : "text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100/70 dark:hover:bg-stone-800/60"
+                        : "text-secondary hover:text-primary hover:bg-stone-100/70 dark:hover:bg-white/10"
                     )}
                   >
                     {cat.name} ({count})
@@ -226,10 +226,10 @@ export default function MemoriesPage() {
             <div className="w-16 h-16 rounded-3xl bg-amber-500/10 text-amber-700 border border-amber-500/20 flex items-center justify-center mx-auto mb-5 shadow-xs">
               <Sparkles className="w-8 h-8 text-amber-600" />
             </div>
-            <h3 className="text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100 font-serif-heading mb-2">
+            <h3 className="text-2xl font-bold tracking-tight text-primary font-serif-heading mb-2">
               Your scrapbook is waiting.
             </h3>
-            <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed mb-6">
+            <p className="text-sm text-secondary leading-relaxed mb-6">
               Complete your first dream and the memory will live here. Every milestone
               you accomplish becomes an authentic keepsake you can treasure forever.
             </p>
@@ -243,7 +243,7 @@ export default function MemoriesPage() {
         ) : filteredItems.length === 0 ? (
           /* No filter match */
           <div className="py-16 text-center">
-            <p className="text-sm text-stone-500 mb-3">
+            <p className="text-sm text-muted mb-3">
               No memories match &ldquo;{search}&rdquo;.
             </p>
             <Button

@@ -34,7 +34,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('daydream_theme')||'indigo';var d=['slate','aurora','forest','ocean','ruby','midnight-citrus'];document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-theme-mode',d.indexOf(t)!==-1?'dark':'light');}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('daydream_theme')||'indigo';var d=['slate','aurora','forest','ocean','ruby','midnight-citrus'];var isDark=d.indexOf(t)!==-1;document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-theme-mode',isDark?'dark':'light');if(isDark){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`,
           }}
         />
       </head>

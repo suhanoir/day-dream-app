@@ -222,7 +222,7 @@ export function BucketListItemDetailModal({
       <Modal isOpen={isOpen} onClose={onClose} maxWidth="lg" showCloseButton={true}>
         <div className="space-y-6">
           {/* Top metadata & Action bar */}
-          <div className="flex items-center justify-between gap-2 border-b border-stone-100 pb-3">
+          <div className="flex items-center justify-between gap-2 border-b border-stone-200/60 dark:border-stone-800/80 pb-3">
             <div className="flex items-center gap-2 flex-wrap">
               {item.category && (
                 <CategoryBadge
@@ -231,7 +231,7 @@ export function BucketListItemDetailModal({
                   size="md"
                 />
               )}
-              <span className="text-xs text-stone-400 font-normal">
+              <span className="text-xs text-muted font-normal">
                 Added {formattedCreatedDate}
               </span>
             </div>
@@ -243,7 +243,7 @@ export function BucketListItemDetailModal({
                   onClose();
                   onEditClick(item);
                 }}
-                className="p-1.5 text-stone-400 hover:text-stone-700 rounded-lg hover:bg-stone-100 transition-colors"
+                className="p-1.5 text-muted hover:text-primary rounded-lg hover:bg-stone-100 dark:hover:bg-white/10 transition-colors"
                 title="Edit Goal"
                 aria-label="Edit Goal"
               >
@@ -252,7 +252,7 @@ export function BucketListItemDetailModal({
               <button
                 type="button"
                 onClick={() => setShowDeleteConfirm(true)}
-                className="p-1.5 text-stone-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors"
+                className="p-1.5 text-muted hover:text-rose-500 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
                 title="Delete Goal"
                 aria-label="Delete Goal"
               >
@@ -263,21 +263,16 @@ export function BucketListItemDetailModal({
 
           {/* Goal Title */}
           <div>
-            <h2
-              className={cn(
-                "text-2xl font-bold tracking-tight text-stone-900",
-                item.completed && "text-stone-800"
-              )}
-            >
+            <h2 className="text-2xl font-bold tracking-tight text-primary">
               {item.title}
               {item.completed && (
-                <span className="text-emerald-600 ml-2 font-normal text-xl">✓</span>
+                <span className="text-emerald-500 ml-2 font-normal text-xl">✓</span>
               )}
             </h2>
 
             {/* Optional Description */}
             {item.description && (
-              <p className="text-sm text-stone-600 mt-2 leading-relaxed whitespace-pre-wrap">
+              <p className="text-sm text-secondary mt-2 leading-relaxed whitespace-pre-wrap">
                 {item.description}
               </p>
             )}
@@ -285,17 +280,17 @@ export function BucketListItemDetailModal({
             {/* Target Date & Calendar Scheduling */}
             <div className="flex items-center gap-3 mt-3 flex-wrap">
               {item.targetDate && (
-                <div className="flex items-center gap-1.5 text-xs text-stone-500 font-medium">
-                  <Calendar className="w-3.5 h-3.5 text-stone-400" />
+                <div className="flex items-center gap-1.5 text-xs text-muted font-medium">
+                  <Calendar className="w-3.5 h-3.5 text-muted" />
                   <span>Target: {new Date(item.targetDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
                 </div>
               )}
               <button
                 type="button"
                 onClick={() => setIsScheduleCalendarOpen(true)}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200/80 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-secondary hover:text-primary bg-stone-100/80 dark:bg-white/10 hover:bg-stone-200/80 dark:hover:bg-white/15 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
               >
-                <CalendarPlus className="w-3.5 h-3.5 text-stone-500" />
+                <CalendarPlus className="w-3.5 h-3.5 text-muted" />
                 Schedule on Calendar
               </button>
 
@@ -310,9 +305,9 @@ export function BucketListItemDetailModal({
                   );
                   setIsAddToTodoOpen(true);
                 }}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200/80 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-secondary hover:text-primary bg-stone-100/80 dark:bg-white/10 hover:bg-stone-200/80 dark:hover:bg-white/15 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
               >
-                <ListTodo className="w-3.5 h-3.5 text-stone-500" />
+                <ListTodo className="w-3.5 h-3.5 text-muted" />
                 Add to To-Do List
               </button>
             </div>
@@ -323,22 +318,22 @@ export function BucketListItemDetailModal({
             className={cn(
               "p-4 rounded-2xl border transition-all duration-200",
               item.completed
-                ? "bg-emerald-50/70 border-emerald-200/80 text-emerald-950"
-                : "bg-stone-50/80 border-stone-200/80"
+                ? "bg-emerald-50/70 dark:bg-emerald-950/40 border-emerald-200/80 dark:border-emerald-700/60 text-emerald-950 dark:text-emerald-100"
+                : "bg-stone-50/80 dark:bg-white/5 border-stone-200/80 dark:border-white/10"
             )}
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-stone-500 block mb-0.5">
+                <span className="text-xs font-semibold uppercase tracking-wider text-muted block mb-0.5">
                   Have you completed this?
                 </span>
                 {item.completed ? (
-                  <p className="text-sm font-medium text-emerald-900 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <p className="text-sm font-medium text-emerald-900 dark:text-emerald-200 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     Completed on {formattedCompletedDate || "Recently"}
                   </p>
                 ) : (
-                  <p className="text-xs text-stone-600">
+                  <p className="text-xs text-secondary">
                     Mark this milestone as achieved when you accomplish it.
                   </p>
                 )}
@@ -352,12 +347,12 @@ export function BucketListItemDetailModal({
                 size="sm"
                 className={cn(
                   "shrink-0",
-                  item.completed && "border-emerald-300 text-emerald-800 hover:bg-emerald-100 hover:text-emerald-900"
+                  item.completed && "border-emerald-300 dark:border-emerald-600 text-emerald-800 dark:text-emerald-200 hover:bg-emerald-100 dark:hover:bg-emerald-950/60"
                 )}
               >
                 {item.completed ? (
                   <>
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mr-1.5" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 mr-1.5" />
                     Mark as Incomplete
                   </>
                 ) : (
@@ -371,7 +366,7 @@ export function BucketListItemDetailModal({
 
             {item.completed && (
               <div className="mt-3.5 pt-3 border-t border-emerald-200/60 dark:border-emerald-800/40 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                <span className="text-xs text-emerald-800 dark:text-emerald-300 font-medium flex items-center gap-1.5">
+                <span className="text-xs text-emerald-800 dark:text-emerald-200 font-medium flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                   Turn this milestone into an authentic keepsake
                 </span>
@@ -380,7 +375,7 @@ export function BucketListItemDetailModal({
                   variant="outline"
                   size="sm"
                   onClick={() => setIsPostcardModalOpen(true)}
-                  className="bg-white/80 dark:bg-stone-900/60 border-emerald-300 text-emerald-950 dark:text-emerald-200 hover:bg-white text-xs font-semibold gap-1.5 shadow-2xs self-start sm:self-auto"
+                  className="bg-white/80 dark:bg-stone-900/60 border-emerald-300 dark:border-emerald-700/60 text-emerald-950 dark:text-emerald-200 hover:bg-white text-xs font-semibold gap-1.5 shadow-2xs self-start sm:self-auto"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                   <span>
@@ -397,8 +392,8 @@ export function BucketListItemDetailModal({
           <div className="pt-2">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-1.5">
-                <Quote className="w-4 h-4 text-stone-400" />
-                <h4 className="text-sm font-bold text-stone-900 dark:text-stone-100">
+                <Quote className="w-4 h-4 text-muted" />
+                <h4 className="text-sm font-bold text-primary">
                   {item.completed ? "My Experience & Memory" : "Reflection / Vision"}
                 </h4>
               </div>
@@ -407,7 +402,7 @@ export function BucketListItemDetailModal({
                 <button
                   type="button"
                   onClick={() => setIsEditingReflection(true)}
-                  className="text-xs font-semibold text-stone-600 hover:text-stone-900 dark:text-stone-300 dark:hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-semibold text-secondary hover:text-primary transition-colors flex items-center gap-1 cursor-pointer"
                 >
                   <Pencil className="w-3 h-3" />
                   Edit Reflection
@@ -417,13 +412,13 @@ export function BucketListItemDetailModal({
 
             {/* Display Saved Memory */}
             {!isEditingReflection && item.reflection ? (
-              <div className="relative p-5 rounded-2xl bg-stone-50 border border-stone-200/80 text-stone-800">
-                <Quote className="w-8 h-8 text-stone-200 absolute top-3 right-3 pointer-events-none" />
-                <p className="text-sm leading-relaxed whitespace-pre-wrap italic font-serif text-stone-700">
+              <div className="relative p-5 rounded-2xl glass-journal text-primary">
+                <Quote className="w-8 h-8 text-muted opacity-30 absolute top-3 right-3 pointer-events-none" />
+                <p className="text-sm leading-relaxed whitespace-pre-wrap italic font-serif text-primary">
                   &ldquo;{item.reflection}&rdquo;
                 </p>
                 {formattedCompletedDate && (
-                  <div className="mt-3 pt-3 border-t border-stone-200/60 flex items-center justify-between text-[11px] text-stone-400">
+                  <div className="mt-3 pt-3 border-t border-stone-200/60 dark:border-stone-800/80 flex items-center justify-between text-[11px] text-muted">
                     <span>Captured milestone</span>
                     <span>{formattedCompletedDate}</span>
                   </div>
@@ -512,7 +507,7 @@ export function BucketListItemDetailModal({
       >
         <form onSubmit={handleCreateTodoFromGoal} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-secondary uppercase tracking-wider mb-1.5">
               Task Name <span className="text-rose-500">*</span>
             </label>
             <Input
@@ -525,7 +520,7 @@ export function BucketListItemDetailModal({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-secondary uppercase tracking-wider mb-1.5">
               Scheduled Date
             </label>
             <Input
@@ -536,7 +531,7 @@ export function BucketListItemDetailModal({
             />
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-stone-100">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-stone-200/60 dark:border-stone-800/80">
             <Button
               type="button"
               variant="ghost"

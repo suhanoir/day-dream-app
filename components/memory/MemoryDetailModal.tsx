@@ -123,7 +123,7 @@ export function MemoryDetailModal({
                   size="md"
                 />
               )}
-              <span className="text-xs text-stone-600 dark:text-stone-300 font-semibold tracking-wide">
+              <span className="text-xs text-secondary font-semibold tracking-wide">
                 Achieved on {formattedCompletedDate}
               </span>
             </div>
@@ -137,7 +137,7 @@ export function MemoryDetailModal({
                   onClose();
                   onEditPostcard(item);
                 }}
-                className="gap-1.5 text-xs text-stone-700 dark:text-stone-200 border-stone-300 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-800"
+                className="gap-1.5 text-xs text-secondary hover:text-primary border-stone-300 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-white/10"
               >
                 <Pencil className="w-3.5 h-3.5" />
                 <span>Customize</span>
@@ -190,11 +190,11 @@ export function MemoryDetailModal({
               {photos.length > 1 && (
                 <div className="mt-3.5 w-full max-w-[380px] sm:max-w-[420px]">
                   <div className="flex items-center justify-between mb-1.5 px-1">
-                    <span className="text-[11px] font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider flex items-center gap-1.5">
-                      <ImageIcon className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />
+                    <span className="text-[11px] font-bold text-secondary uppercase tracking-wider flex items-center gap-1.5">
+                      <ImageIcon className="w-3.5 h-3.5 text-muted" />
                       Album ({photos.length} photos)
                     </span>
-                    <span className="text-[10.5px] text-stone-500 dark:text-stone-400 font-medium">
+                    <span className="text-[10.5px] text-muted font-medium">
                       Tap photo to expand
                     </span>
                   </div>
@@ -235,26 +235,26 @@ export function MemoryDetailModal({
             {/* Full Memory Reflection Details */}
             <div className="md:col-span-6 space-y-4">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 block mb-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-muted block mb-1">
                   Completed Dream
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900 dark:text-stone-50 font-serif-heading leading-snug">
+                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-primary font-serif-heading leading-snug">
                   {item.title}
                 </h3>
               </div>
 
               {/* Reflection Journal Section with Dedicated High-Contrast Surface */}
               <div className="p-4 sm:p-5 rounded-2xl glass-journal relative">
-                <Quote className="w-6 h-6 text-stone-400 dark:text-stone-500 absolute top-3.5 right-3.5 pointer-events-none opacity-40" />
-                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 block mb-2">
+                <Quote className="w-6 h-6 text-muted absolute top-3.5 right-3.5 pointer-events-none opacity-40" />
+                <span className="text-[11px] font-bold uppercase tracking-wider text-muted block mb-2">
                   Personal Memory Journal
                 </span>
                 {item.reflection ? (
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap italic font-serif text-stone-800 dark:text-stone-100 font-normal">
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap italic font-serif text-primary font-normal">
                     &ldquo;{item.reflection}&rdquo;
                   </p>
                 ) : (
-                  <p className="text-xs text-stone-500 dark:text-stone-400 italic">
+                  <p className="text-xs text-muted italic">
                     No written reflection was captured for this dream. You can add one anytime by customizing this memory.
                   </p>
                 )}
@@ -263,10 +263,10 @@ export function MemoryDetailModal({
               {/* Description if present */}
               {item.description && (
                 <div className="text-xs leading-relaxed">
-                  <span className="font-bold text-stone-700 dark:text-stone-300 block mb-1">
+                  <span className="font-bold text-primary block mb-1">
                     Original Goal Description:
                   </span>
-                  <p className="whitespace-pre-wrap text-stone-600 dark:text-stone-400">
+                  <p className="whitespace-pre-wrap text-secondary">
                     {item.description}
                   </p>
                 </div>
@@ -277,7 +277,7 @@ export function MemoryDetailModal({
                 <Link
                   href="/dashboard"
                   onClick={onClose}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-700 dark:text-stone-300 hover:text-[var(--theme-primary)] dark:hover:text-[var(--theme-primary)] transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-accent hover:underline transition-colors cursor-pointer"
                 >
                   <span>View on Bucket List Dashboard</span>
                   <ExternalLink className="w-3.5 h-3.5" />

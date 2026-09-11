@@ -61,8 +61,8 @@ export function FilterBar({
               className={cn(
                 "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
                 status === "all"
-                  ? "glass-tab-active shadow-2xs font-semibold"
-                  : "text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:bg-stone-100/50"
+                  ? "glass-tab-active shadow-2xs font-semibold text-primary"
+                  : "text-secondary hover:text-primary hover:bg-stone-100/50 dark:hover:bg-white/10"
               )}
             >
               All
@@ -73,8 +73,8 @@ export function FilterBar({
               className={cn(
                 "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
                 status === "active"
-                  ? "glass-tab-active shadow-2xs font-semibold"
-                  : "text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:bg-stone-100/50"
+                  ? "glass-tab-active shadow-2xs font-semibold text-primary"
+                  : "text-secondary hover:text-primary hover:bg-stone-100/50 dark:hover:bg-white/10"
               )}
             >
               Active
@@ -85,8 +85,8 @@ export function FilterBar({
               className={cn(
                 "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95",
                 status === "completed"
-                  ? "glass-tab-active shadow-2xs font-semibold"
-                  : "text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200 hover:bg-stone-100/50"
+                  ? "glass-tab-active shadow-2xs font-semibold text-primary"
+                  : "text-secondary hover:text-primary hover:bg-stone-100/50 dark:hover:bg-white/10"
               )}
             >
               Completed
@@ -98,7 +98,7 @@ export function FilterBar({
             <select
               value={selectedCategory}
               onChange={(e) => onCategoryChange(e.target.value)}
-              className="px-3 py-1.5 glass-input text-stone-800 dark:text-stone-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 cursor-pointer shadow-2xs"
+              className="px-3 py-1.5 glass-input text-primary rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 cursor-pointer shadow-2xs"
             >
               <option value="all">All Categories</option>
               {categories.map((cat) => (

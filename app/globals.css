@@ -7,12 +7,16 @@
  * Centralized theme tokens and semantic variables
  * ----------------------------------------------------------- */
 
-:root {
+:root,
+[data-theme-mode="light"] {
   /* Semantic High-Contrast Typography & Surface Tokens */
-  --text-primary: #18181b;
-  --text-secondary: #3f3f46;
-  --text-muted: #52525b;
-  --text-on-glass: #18181b;
+  --text-primary: #18181B;
+  --text-secondary: #3F3F46;
+  --text-muted: #52525B;
+  --text-accent: var(--theme-primary, #4F5FD7);
+  --text-on-glass: #18181B;
+  --text-on-surface: #18181B;
+  --text-on-accent: #FFFFFF;
   --surface-journal: rgba(255, 255, 255, 0.96);
   --surface-journal-border: rgba(0, 0, 0, 0.08);
 
@@ -710,12 +714,35 @@
 
 [data-theme-mode="dark"],
 .dark {
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --text-on-glass: #f8fafc;
+  --text-primary: #F8FAFC;
+  --text-secondary: #E2E8F0;
+  --text-muted: #94A3B8;
+  --text-accent: var(--theme-accent, var(--theme-primary, #38BDF8));
+  --text-on-glass: #F8FAFC;
+  --text-on-surface: #F8FAFC;
+  --text-on-accent: #0B0D12;
   --surface-journal: rgba(24, 30, 44, 0.94);
   --surface-journal-border: rgba(255, 255, 255, 0.12);
+}
+
+/* High-contrast safeguards for dark mode text-stone utility classes */
+.dark .dark\:text-stone-50,
+[data-theme-mode="dark"] .dark\:text-stone-50,
+.dark .dark\:text-stone-100,
+[data-theme-mode="dark"] .dark\:text-stone-100 {
+  color: #F8FAFC !important;
+}
+
+.dark .dark\:text-stone-200,
+[data-theme-mode="dark"] .dark\:text-stone-200,
+.dark .dark\:text-stone-300,
+[data-theme-mode="dark"] .dark\:text-stone-300 {
+  color: #E2E8F0 !important;
+}
+
+.dark .dark\:text-stone-400,
+[data-theme-mode="dark"] .dark\:text-stone-400 {
+  color: #94A3B8 !important;
 }
 
 [data-theme-mode="dark"] .glass-modal,
@@ -1107,6 +1134,29 @@
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* Semantic Typography Utility Classes (Theme-Aware Auto-Contrast) */
+.text-primary {
+  color: var(--text-primary) !important;
+}
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+.text-muted {
+  color: var(--text-muted) !important;
+}
+.text-accent {
+  color: var(--text-accent) !important;
+}
+.text-on-glass {
+  color: var(--text-on-glass) !important;
+}
+.text-on-surface {
+  color: var(--text-on-surface) !important;
+}
+.text-on-accent {
+  color: var(--text-on-accent) !important;
 }
 
 /* Glass Dropdown / Popover */

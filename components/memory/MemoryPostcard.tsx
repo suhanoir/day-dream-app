@@ -191,7 +191,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                   {showDate && formattedDate && (
                     <span
                       className="text-[10px] tracking-wide font-medium ml-auto"
-                      style={{ color: isDark ? "rgba(220, 225, 235, 0.85)" : "#4B5563" }}
+                      style={{ color: isDark ? "#E2E8F0" : "#3F3F46" }}
                     >
                       {formattedDate}
                     </span>
@@ -210,7 +210,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                 <div className="mt-3 relative">
                   <p
                     className="text-xs sm:text-[13px] leading-relaxed italic font-serif font-normal"
-                    style={{ color: isDark ? "rgba(248, 250, 252, 0.94)" : "#27272A" }}
+                    style={{ color: isDark ? "#F8FAFC" : "#27272A" }}
                   >
                     &ldquo;{displayQuote}&rdquo;
                   </p>
@@ -224,7 +224,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                   borderColor: isDark
                     ? "rgba(255, 255, 255, 0.12)"
                     : "rgba(0, 0, 0, 0.08)",
-                  color: isDark ? "rgba(220, 225, 235, 0.85)" : "#4B5563",
+                  color: isDark ? "#E2E8F0" : "#3F3F46",
                 }}
               >
                 <div className="flex items-center gap-1.5 font-semibold">
@@ -324,7 +324,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                 borderColor: isDark
                   ? "rgba(255, 255, 255, 0.12)"
                   : "rgba(0, 0, 0, 0.08)",
-                color: isDark ? "rgba(220, 225, 235, 0.85)" : "#4B5563",
+                color: isDark ? "#E2E8F0" : "#3F3F46",
               }}
             >
               {showDate && formattedDate ? (
@@ -374,7 +374,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                     backgroundColor: isDark
                       ? "rgba(255, 255, 255, 0.1)"
                       : "rgba(0, 0, 0, 0.05)",
-                    color: isDark ? "#FFFFFF" : "#334155",
+                    color: isDark ? "#FFFFFF" : palette.primary,
                   }}
                 >
                   {categoryName}
@@ -430,7 +430,7 @@ export const MemoryPostcard = forwardRef<HTMLDivElement, MemoryPostcardProps>(
                 borderColor: isDark
                   ? "rgba(255, 255, 255, 0.12)"
                   : "rgba(0, 0, 0, 0.08)",
-                color: isDark ? "rgba(220, 225, 235, 0.85)" : "#4B5563",
+                color: isDark ? "#E2E8F0" : "#3F3F46",
               }}
             >
               {showDate && formattedDate ? (

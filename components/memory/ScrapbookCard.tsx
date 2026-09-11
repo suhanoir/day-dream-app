@@ -81,7 +81,7 @@ export function ScrapbookCard({ item, onClick }: ScrapbookCardProps) {
         ) : (
           <div className="w-full aspect-[4/2.4] rounded-2xl flex flex-col items-center justify-center p-4 text-center bg-stone-100/60 dark:bg-stone-800/30 border border-dashed border-stone-200 dark:border-stone-700/80 group-hover:border-stone-300 transition-colors">
             <Sparkles className="w-5 h-5 text-amber-500/80 mb-1.5 opacity-80 group-hover:scale-110 transition-transform" />
-            <span className="text-[10px] font-bold tracking-widest uppercase text-stone-500 dark:text-stone-400 font-mono">
+            <span className="text-[10px] font-bold tracking-widest uppercase text-muted font-mono">
               Memory Keepsake
             </span>
           </div>
@@ -94,39 +94,39 @@ export function ScrapbookCard({ item, onClick }: ScrapbookCardProps) {
           {/* Category & Date */}
           <div className="flex items-center justify-between gap-2 mb-2 text-[11px]">
             {item.category ? (
-              <span className="font-bold uppercase tracking-wider text-[10px] text-stone-600 dark:text-stone-300">
+              <span className="font-bold uppercase tracking-wider text-[10px] text-secondary">
                 {item.category.name}
               </span>
             ) : (
-              <span className="text-stone-500 dark:text-stone-400 font-mono text-[10px]">Dream</span>
+              <span className="text-muted font-mono text-[10px]">Dream</span>
             )}
             {formattedDate && (
-              <span className="text-stone-500 dark:text-stone-400 text-[10px] font-medium">
+              <span className="text-muted text-[10px] font-medium">
                 {formattedDate}
               </span>
             )}
           </div>
 
           {/* Title */}
-          <h3 className="text-base sm:text-lg font-bold tracking-tight text-stone-900 dark:text-stone-50 font-serif-heading line-clamp-2 leading-snug group-hover:text-[var(--theme-primary)] transition-colors">
+          <h3 className="text-base sm:text-lg font-bold tracking-tight text-primary font-serif-heading line-clamp-2 leading-snug group-hover:text-accent transition-colors">
             {item.title}
           </h3>
 
           {/* Reflection Quote Snippet */}
           {snippet && (
-            <p className="mt-2 text-xs text-stone-700 dark:text-stone-300 leading-relaxed italic font-serif line-clamp-2">
+            <p className="mt-2 text-xs text-secondary leading-relaxed italic font-serif line-clamp-2">
               &ldquo;{snippet}&rdquo;
             </p>
           )}
         </div>
 
         {/* Footer Seal */}
-        <div className="mt-4 pt-3 border-t border-stone-100 dark:border-stone-800/60 flex items-center justify-between text-[11px] text-stone-500 dark:text-stone-400">
+        <div className="mt-4 pt-3 border-t border-stone-100 dark:border-stone-800/60 flex items-center justify-between text-[11px] text-muted">
           <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span className="text-[10px]">Achieved</span>
           </div>
-          <span className="text-[10px] font-semibold group-hover:translate-x-0.5 transition-transform text-stone-600 dark:text-stone-300 group-hover:text-[var(--theme-primary)]">
+          <span className="text-[10px] font-semibold group-hover:translate-x-0.5 transition-transform text-secondary group-hover:text-accent">
             View Postcard →
           </span>
         </div>
