@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.10.0 — Full-Stack Web Application
+# 🌟 DayDream v2.11.0 — Full-Stack Web Application
 
-> **Version 2.10.0** · **"Unified Design System Consistency · Calendar & BucketList Alignment · Make memories worth remembering."**
+> **Version 2.11.0** · **"Complete Dual-Layer Notification System · In-App Toasts & Web Push Alerts · Make memories worth remembering."**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Featuring a timeless, abstract visual identity inspired by *The Threshold* (Day & Dream figure-ground duality) alongside a calm, tactile Liquid Glass design language unified across all four core modules (To-Do, Expenses, BucketList, Calendar).
 
@@ -114,12 +114,24 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
   - **Live Sound Preview**: Interactive preview triggers for each sound profile.
   - **Persistent Storage**: Preferences saved cleanly in `localStorage` across all sessions.
 
+### 12. Complete Dual-Layer Notification System (v2.11.0)
+- **Dual-Layer Architecture**:
+  - **In-App Toast Layer**: Responsive viewport-centered notifications with category-specific semantic icons (`CheckCircle2`, `Calendar`, `Sparkles`, `Receipt`, `Sun`, `Bell`).
+  - **System Web Push Layer**: True background browser notifications dispatched even when the app is closed, powered by a custom Service Worker (`public/sw.js`), VAPID encryption, and server-side `web-push`.
+- **Profile Notification Settings**:
+  - **Master Switch**: Single toggle controlling global notification dispatch across all registered devices.
+  - **Explicit Permission Flow**: Respectful, user-initiated permission prompt with browser settings advisory if previously blocked.
+  - **Granular Category Toggles**: Dedicated controls for To-Do & Tasks, Calendar & Events, Bucket List & Dreams, Expenses & Finances, and Daily DayDream.
+  - **Customizable Reminder Timing**: Select alert windows for tasks and events (at time, 15m before, 30m before, 1h before, morning of).
+  - **Quiet Hours Scheduling**: Automatically holds and silences push notifications overnight (default: 10:00 PM – 7:00 AM) based on user local time.
+  - **Real "Send Test Notification"**: Instant end-to-end verification triggering both an in-app toast and a real Web Push alert to the user's device tray.
+
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 15.5 (App Router), React 19, TypeScript, Tailwind CSS, Lucide React, Canvas Confetti, Web Audio API
-- **Backend**: Next.js Route Handlers (`app/api/...`), Jose (JWT), Bcrypt.js
+- **Frontend**: Next.js 15.5 (App Router), React 19, TypeScript, Tailwind CSS, Lucide React, Canvas Confetti, Web Audio API, Push API & Service Worker
+- **Backend**: Next.js Route Handlers (`app/api/...`), Jose (JWT), Bcrypt.js, Web-Push (VAPID)
 - **Database & ORM**: PostgreSQL (hosted on Neon Serverless) with Prisma ORM
 - **Deployment**: Vercel CI/CD with automatic branch deployments
 

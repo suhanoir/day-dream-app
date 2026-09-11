@@ -1,11 +1,20 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback } from "react";
-import { CheckCircle2, AlertCircle, Info, X } from "lucide-react";
+import { CheckCircle2, AlertCircle, Info, X, Calendar, Sparkles, Receipt, Sun, Bell } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { useSound } from "@/components/providers/SoundProvider";
 
-export type ToastType = "success" | "error" | "info";
+export type ToastType =
+  | "success"
+  | "error"
+  | "info"
+  | "task"
+  | "calendar"
+  | "bucket"
+  | "expense"
+  | "daily"
+  | "system";
 
 export interface Toast {
   id: string;
@@ -18,6 +27,12 @@ interface ToastContextType {
   success: (message: string) => void;
   error: (message: string) => void;
   info: (message: string) => void;
+  task: (message: string) => void;
+  calendar: (message: string) => void;
+  bucket: (message: string) => void;
+  expense: (message: string) => void;
+  daily: (message: string) => void;
+  system: (message: string) => void;
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -37,7 +52,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
       if (type === "error") {
         playSound("error");
-      } else if (type === "info") {
+      } else if (type === "success" || type === "task") {
+        playSound("success");
+      } else if (type === "bucket") {
+        playSound("dream-complete");
+      } else {
         playSound("notification");
       }
 
@@ -53,6 +72,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     success: (msg: string) => addToast(msg, "success"),
     error: (msg: string) => addToast(msg, "error"),
     info: (msg: string) => addToast(msg, "info"),
+    task: (msg: string) => addToast(msg, "task"),
+    calendar: (msg: string) => addToast(msg, "calendar"),
+    bucket: (msg: string) => addToast(msg, "bucket"),
+    expense: (msg: string) => addToast(msg, "expense"),
+    daily: (msg: string) => addToast(msg, "daily"),
+    system: (msg: string) => addToast(msg, "system"),
   };
 
   return (
@@ -74,13 +99,25 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               "w-auto max-w-full min-w-0 sm:min-w-[280px]",
               t.type === "success" && "border-emerald-500/40 shadow-emerald-500/10",
               t.type === "error" && "border-rose-500/40 shadow-rose-500/10",
-              t.type === "info" && "border-stone-200/80"
+              t.type === "info" && "border-stone-200/80",
+              t.type === "task" && "border-emerald-500/40 shadow-emerald-500/10",
+              t.type === "calendar" && "border-blue-500/40 shadow-blue-500/10",
+              t.type === "bucket" && "border-amber-500/40 shadow-amber-500/10",
+              t.type === "expense" && "border-violet-500/40 shadow-violet-500/10",
+              t.type === "daily" && "border-amber-500/40 shadow-amber-500/10",
+              t.type === "system" && "border-indigo-500/40 shadow-indigo-500/10"
             )}
           >
             <div className="flex items-center gap-2.5 min-w-0 flex-1">
               {t.type === "success" && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
               {t.type === "error" && <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />}
-              {t.type === "info" && <Info className="w-4 h-4 text-stone-600 shrink-0" />}
+              {t.type === "info" && <Info className="w-4 h-4 text-sky-600 shrink-0" />}
+              {t.type === "task" && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
+              {t.type === "calendar" && <Calendar className="w-4 h-4 text-blue-600 shrink-0" />}
+              {t.type === "bucket" && <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />}
+              {t.type === "expense" && <Receipt className="w-4 h-4 text-violet-600 shrink-0" />}
+              {t.type === "daily" && <Sun className="w-4 h-4 text-amber-500 shrink-0" />}
+              {t.type === "system" && <Bell className="w-4 h-4 text-indigo-600 shrink-0" />}
               <span className="font-medium text-stone-900 text-[13px] leading-snug break-words">
                 {t.message}
               </span>

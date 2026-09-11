@@ -16,10 +16,22 @@ export async function GET() {
         email: true,
         emailVerified: true,
         timezone: true,
+        notificationsEnabled: true,
         notifyEmail: true,
         notifyCalendar: true,
         notifyTodo: true,
         notifyOverdue: true,
+        notifyBucketList: true,
+        notifyExpenses: true,
+        notifyDaily: true,
+        taskReminderTiming: true,
+        eventReminderTiming: true,
+        quietHoursEnabled: true,
+        quietHoursStart: true,
+        quietHoursEnd: true,
+        _count: {
+          select: { pushSubscriptions: true },
+        },
       },
     });
 
@@ -47,16 +59,28 @@ export async function PATCH(req: NextRequest) {
     const body = await req.json();
     const {
       timezone,
+      notificationsEnabled,
       notifyEmail,
       notifyCalendar,
       notifyTodo,
       notifyOverdue,
+      notifyBucketList,
+      notifyExpenses,
+      notifyDaily,
+      taskReminderTiming,
+      eventReminderTiming,
+      quietHoursEnabled,
+      quietHoursStart,
+      quietHoursEnd,
     } = body;
 
     const dataToUpdate: any = {};
 
     if (timezone !== undefined && typeof timezone === "string") {
       dataToUpdate.timezone = timezone.trim();
+    }
+    if (notificationsEnabled !== undefined && typeof notificationsEnabled === "boolean") {
+      dataToUpdate.notificationsEnabled = notificationsEnabled;
     }
     if (notifyEmail !== undefined && typeof notifyEmail === "boolean") {
       dataToUpdate.notifyEmail = notifyEmail;
@@ -70,6 +94,30 @@ export async function PATCH(req: NextRequest) {
     if (notifyOverdue !== undefined && typeof notifyOverdue === "boolean") {
       dataToUpdate.notifyOverdue = notifyOverdue;
     }
+    if (notifyBucketList !== undefined && typeof notifyBucketList === "boolean") {
+      dataToUpdate.notifyBucketList = notifyBucketList;
+    }
+    if (notifyExpenses !== undefined && typeof notifyExpenses === "boolean") {
+      dataToUpdate.notifyExpenses = notifyExpenses;
+    }
+    if (notifyDaily !== undefined && typeof notifyDaily === "boolean") {
+      dataToUpdate.notifyDaily = notifyDaily;
+    }
+    if (taskReminderTiming !== undefined && typeof taskReminderTiming === "string") {
+      dataToUpdate.taskReminderTiming = taskReminderTiming.trim();
+    }
+    if (eventReminderTiming !== undefined && typeof eventReminderTiming === "string") {
+      dataToUpdate.eventReminderTiming = eventReminderTiming.trim();
+    }
+    if (quietHoursEnabled !== undefined && typeof quietHoursEnabled === "boolean") {
+      dataToUpdate.quietHoursEnabled = quietHoursEnabled;
+    }
+    if (quietHoursStart !== undefined && typeof quietHoursStart === "string") {
+      dataToUpdate.quietHoursStart = quietHoursStart.trim();
+    }
+    if (quietHoursEnd !== undefined && typeof quietHoursEnd === "string") {
+      dataToUpdate.quietHoursEnd = quietHoursEnd.trim();
+    }
 
     const updatedUser = await (prisma as any).user.update({
       where: { id: session.userId },
@@ -79,10 +127,22 @@ export async function PATCH(req: NextRequest) {
         email: true,
         emailVerified: true,
         timezone: true,
+        notificationsEnabled: true,
         notifyEmail: true,
         notifyCalendar: true,
         notifyTodo: true,
         notifyOverdue: true,
+        notifyBucketList: true,
+        notifyExpenses: true,
+        notifyDaily: true,
+        taskReminderTiming: true,
+        eventReminderTiming: true,
+        quietHoursEnabled: true,
+        quietHoursStart: true,
+        quietHoursEnd: true,
+        _count: {
+          select: { pushSubscriptions: true },
+        },
       },
     });
 

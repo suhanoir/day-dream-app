@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useSound } from "@/components/providers/SoundProvider";
-import { User, LogOut, Palette, Volume2, VolumeX } from "lucide-react";
+import { User, LogOut, Palette, Volume2, VolumeX, Bell } from "lucide-react";
 import { ProfileModal } from "@/components/profile/ProfileModal";
 import { DayDreamLogo } from "@/components/ui/DayDreamLogo";
 import { FloatingNav } from "@/components/navigation/FloatingNav";
@@ -19,7 +19,7 @@ export function DashboardHeader() {
 
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileModalView, setProfileModalView] = useState<
-    "profile" | "settings" | "theme" | "sound"
+    "profile" | "settings" | "theme" | "sound" | "notifications"
   >("profile");
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
@@ -126,6 +126,23 @@ export function DashboardHeader() {
                         </div>
                         <span className="text-[10px] font-semibold text-stone-600 bg-stone-100/90 border border-stone-200/50 px-1.5 py-0.5 rounded">
                           {soundEnabled ? `${Math.round(soundVolume * 100)}%` : "Off"}
+                        </span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setShowProfileMenu(false);
+                          setProfileModalView("notifications");
+                          setShowProfileModal(true);
+                        }}
+                        className="w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-100/70 rounded-xl flex items-center justify-between font-medium transition-colors cursor-pointer active:scale-98"
+                      >
+                        <div className="flex items-center gap-2">
+                          <Bell className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                          <span>Notifications</span>
+                        </div>
+                        <span className="text-[10px] font-semibold text-stone-600 bg-stone-100/90 border border-stone-200/50 px-1.5 py-0.5 rounded">
+                          Alerts
                         </span>
                       </button>
                     </div>
