@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.11.0 — Full-Stack Web Application
+# 🌟 DayDream v2.11.1 — Full-Stack Web Application
 
-> **Version 2.11.0** · **"Complete Dual-Layer Notification System · In-App Toasts & Web Push Alerts · Make memories worth remembering."**
+> **Version 2.11.1** · **"Native Time Picker for Due Time · Enhanced Task Usability · Make memories worth remembering."**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Featuring a timeless, abstract visual identity inspired by *The Threshold* (Day & Dream figure-ground duality) alongside a calm, tactile Liquid Glass design language unified across all four core modules (To-Do, Expenses, BucketList, Calendar).
 
@@ -125,6 +125,13 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
   - **Customizable Reminder Timing**: Select alert windows for tasks and events (at time, 15m before, 30m before, 1h before, morning of).
   - **Quiet Hours Scheduling**: Automatically holds and silences push notifications overnight (default: 10:00 PM – 7:00 AM) based on user local time.
   - **Real "Send Test Notification"**: Instant end-to-end verification triggering both an in-app toast and a real Web Push alert to the user's device tray.
+
+### 13. Native Time Picker for Due Time (v2.11.1)
+- **Native Device Time Selection**: Replaced manual text typing (`e.g. 5:00 PM`) in the To-Do task creation and editing modals with the browser and operating system's native time picker (`<input type="time">`).
+- **Unified Visual Styling**: Due Time perfectly matches the Date input's border-radius, liquid-glass backdrop, theme variables, and icon alignment (`Clock` icon side-by-side with `Calendar` icon).
+- **One-Tap Quick Clear**: Added a dedicated, unobtrusive "Clear" action when a time is selected, preserving the optional nature of task due times.
+- **Bi-directional Time Normalization**: Seamlessly parses legacy task times (e.g. `"5:00 PM"`, `"5:00pm"`) to initialize native pickers (`"17:00"`), while formatting task times cleanly according to the user's locale (12-hour or 24-hour).
+- **Theme-Adaptive Indicator**: Enhanced calendar and clock picker indicators with smooth hover transitions and automatic contrast inversion in dark themes like Midnight Citrus.
 
 ---
 

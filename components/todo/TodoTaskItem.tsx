@@ -5,6 +5,7 @@ import {
   TodoTaskData,
   PRIORITY_STYLES,
   CATEGORY_STYLES,
+  formatTimeForDisplay,
 } from "./types";
 import { Check, Clock, ArrowRightCircle, Trash2, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
@@ -124,7 +125,7 @@ export function TodoTaskItem({
                 )}
               >
                 <Clock className="w-3 h-3 text-stone-400" />
-                {task.dueTime}
+                {formatTimeForDisplay(task.dueTime)}
               </span>
             )}
 

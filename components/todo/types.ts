@@ -143,3 +143,85 @@ export function getRelativeDayLabel(d: Date): string | null {
   return null;
 }
 
+/**
+ * Normalizes any time string ("5:00 PM", "5:00pm", "17:00", "9:30 AM", etc.)
+ * into a valid HTML5 input[type="time"] value: "HH:mm" (24-hour format).
+ * Returns "" if empty or invalid.
+ */
+export function formatTimeTo24H(timeStr?: string | null): string {
+  if (!timeStr || typeof timeStr !== "string") return "";
+  const clean = timeStr.trim();
+  if (!clean) return "";
+
+  const is12Hour = /am|pm/i.test(clean);
+  const isPM = /pm/i.test(clean);
+  const isAM = /am/i.test(clean);
+
+  const numPart = clean.replace(/[^\d:]/g, "");
+  const parts = numPart.split(":");
+  if (parts.length < 2) return "";
+
+  let hours = parseInt(parts[0], 10);
+  const minutes = parseInt(parts[1], 10);
+
+  if (isNaN(hours) || isNaN(minutes)) return "";
+  if (minutes < 0 || minutes > 59) return "";
+
+  if (is12Hour) {
+    if (isPM && hours < 12) hours += 12;
+    if (isAM && hours === 12) hours = 0;
+  }
+
+  if (hours < 0 || hours > 23) return "";
+
+  const hh = String(hours).padStart(2, "0");
+  const mm = String(minutes).padStart(2, "0");
+  return `${hh}:${mm}`;
+}
+
+/**
+ * Formats a time string ("17:00", "09:30", "5:00 PM") for clean user-facing display.
+ * Uses the user's browser/system locale preferences (12-hour or 24-hour).
+ */
+export function formatTimeForDisplay(timeStr?: string | null): string {
+  if (!timeStr || typeof timeStr !== "string") return "";
+  const clean = timeStr.trim();
+  if (!clean) return "";
+
+  // If already an explicit 12-hour string (e.g. "5:00 PM"), return normalized
+  if (/am|pm/i.test(clean)) {
+    return clean;
+  }
+
+  // Parse "HH:mm" or "HH:mm:ss"
+  const parts = clean.split(":");
+  if (parts.length >= 2) {
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    if (
+      !isNaN(hours) &&
+      !isNaN(minutes) &&
+      hours >= 0 &&
+      hours <= 23 &&
+      minutes >= 0 &&
+      minutes <= 59
+    ) {
+      try {
+        const d = new Date();
+        d.setHours(hours, minutes, 0, 0);
+        return d.toLocaleTimeString([], {
+          hour: "numeric",
+          minute: "2-digit",
+        });
+      } catch {
+        const period = hours >= 12 ? "PM" : "AM";
+        const h12 = hours % 12 === 0 ? 12 : hours % 12;
+        const mm = String(minutes).padStart(2, "0");
+        return `${h12}:${mm} ${period}`;
+      }
+    }
+  }
+
+  return clean;
+}
+

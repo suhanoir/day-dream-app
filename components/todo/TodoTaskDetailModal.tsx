@@ -15,6 +15,7 @@ import {
   PRIORITY_STYLES,
   CATEGORY_STYLES,
   formatToDateKey,
+  formatTimeTo24H,
 } from "./types";
 import {
   Calendar,
@@ -66,7 +67,7 @@ export function TodoTaskDetailModal({
       // Date in YYYY-MM-DD
       const dateVal = task.date.split("T")[0];
       setDate(dateVal);
-      setDueTime(task.dueTime || "");
+      setDueTime(formatTimeTo24H(task.dueTime));
       setPriority(task.priority || "Medium");
       setCategory((task.category as TodoCategory) || "Personal");
     }
@@ -212,15 +213,36 @@ export function TodoTaskDetailModal({
             </div>
 
             <div>
-              <label className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
-                <Clock className="w-3.5 h-3.5 text-stone-400" />
-                Due Time
-              </label>
+              <div className="flex items-center justify-between mb-1.5 min-h-[16px]">
+                <label
+                  htmlFor="todo-due-time-edit"
+                  className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider"
+                >
+                  <Clock className="w-3.5 h-3.5 text-stone-400" />
+                  Due Time
+                </label>
+                {dueTime && (
+                  <button
+                    type="button"
+                    onClick={() => setDueTime("")}
+                    className="text-[10px] font-semibold text-stone-400 hover:text-rose-500 transition-colors cursor-pointer active:scale-95"
+                    title="Clear time"
+                    aria-label="Clear due time"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
               <Input
-                type="text"
+                id="todo-due-time-edit"
+                type="time"
                 value={dueTime}
                 onChange={(e) => setDueTime(e.target.value)}
-                placeholder="e.g. 5:00 PM"
+                onClick={(e) => {
+                  try {
+                    e.currentTarget.showPicker?.();
+                  } catch {}
+                }}
                 className="text-xs"
               />
             </div>

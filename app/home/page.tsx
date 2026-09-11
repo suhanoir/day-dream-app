@@ -25,6 +25,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { formatTimeForDisplay } from "@/components/todo/types";
 
 interface FocusItem {
   id: string;
@@ -419,7 +420,7 @@ export default function HomePage() {
                         {item.time && (
                           <span className="text-[11px] text-stone-400 flex items-center gap-1">
                             <Clock className="w-3 h-3" />
-                            {item.time}
+                            {formatTimeForDisplay(item.time)}
                           </span>
                         )}
                       </div>
