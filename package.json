@@ -1,6 +1,6 @@
 {
   "name": "bucket-list-app",
-  "version": "2.12.0",
+  "version": "2.12.1",
   "private": true,
   "scripts": {
     "dev": "next dev",

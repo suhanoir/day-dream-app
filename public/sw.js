@@ -1,5 +1,5 @@
 // DayDream Service Worker — Web Push & PWA
-// Version: 2.12.0
+// Version: 2.12.1
 
 self.addEventListener("install", (event) => {
   // Activate immediately

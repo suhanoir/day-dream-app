@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.12.0 — Full-Stack Web Application
+# 🌟 DayDream v2.12.1 — Full-Stack Web Application
 
-> **Version 2.12.0** · **"6 Light Themes + 6 Dark Themes · Premium Dark Expansion · Make memories worth remembering."**
+> **Version 2.12.1** · **"Premium Landing Page Experience · Product Storytelling & Visual Immersion · Make memories worth remembering."**
 
 A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Featuring a timeless, abstract visual identity inspired by *The Threshold* (Day & Dream figure-ground duality) alongside a calm, tactile Liquid Glass design language unified across all four core modules (To-Do, Expenses, BucketList, Calendar).
 
@@ -151,6 +151,26 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Categorized Theme Selector**: Reorganized `Profile → Settings → Theme` into responsive, grouped sections (`☀️ Light Themes` and `🌙 Dark Themes`) with live 4-color palette swatches and theme mode indicators.
 - **Zero-Flicker Hydration (`data-theme-mode`)**: Inline `<head>` script sets both `data-theme` and `data-theme-mode` synchronously from `localStorage`, preventing any flash of unstyled content upon page reload.
 
+### 15. Premium Landing Page Experience & Visual Storytelling (v2.12.1)
+- **Product-First Visual Storytelling ("DayDream, Before You Enter DayDream")**:
+  - Rebuilt `app/page.tsx` from the ground up into a 14-section product experience that immediately showcases the real DayDream app within 20–30 seconds.
+  - Shares the exact design tokens, liquid glass cards, specular highlights, typography (`Instrument Serif` + sans-serif UI), and color palettes of the live app.
+- **14 Harmonious Storytelling Sections**:
+  - **1. Header**: Liquid glass floating header with The Threshold logo mark, navigation anchors (`#features`, `#how-it-works`, `#memories`, `#themes`), Sign In button, and primary CTA with mobile drawer menu.
+  - **2. Hero**: Elegant typography, high-converting eyebrow badge, headline (*"A place for the things you actually want to do with your life"*), and dual CTAs (*"Begin Your DayDream"* + *"Explore the Experience"*).
+  - **3. Real Product Preview**: Authentic liquid-glass mockup previewing the DayDream BucketList interface, live progress bars, category tabs, and a completed celebration card.
+  - **4. Your Dreams, Organized**: Interactive category showcase displaying real DayDream categories (Travel, Skills, Life, Career, Experiences, Custom) with real sample aspirations.
+  - **5. More Than a Bucket List**: The 4 Pillars breakdown (DREAM, PLAN, LIVE, REMEMBER) with micro UI previews for each core feature module.
+  - **6. How It Works**: 4 clear, rhythmic steps demonstrating how aspirations transform into daily reality and lasting reflections.
+  - **7. Reflection & Memory Showcase**: Faithful reproduction of the DayDream reflection card (*"Solo trip to Kyoto"*), highlighting the personal memory journal and timestamped reflections.
+  - **8. Gentle Reminders & Notifications**: Realistic liquid glass toast previewing the calm in-app and Web Push reminder system (*"Your dream is waiting ✨"*).
+  - **9. Live Theme Preview Switcher**: Interactive selector previewing 6 signature themes (DayDream Indigo, Sunset Coral, Vibrant Emerald, Forest Noir, Slate Blue, Midnight Citrus) with live color palette tokens.
+  - **10. Midnight Citrus Dark Showcase**: A cinematic dark container displaying DayDream's luxury dark mode styling with ambient amber glow and specular accents.
+  - **11. Acoustic Atmosphere**: Overview of DayDream's handcrafted Web Audio soundscapes (chime, click, celebration) with zero unprompted autoplay.
+  - **12. Emotional Centerpiece**: *"One day, your bucket list becomes your memory."*
+  - **13. Final Call-to-Action**: Magnetic closing invitation (*"What's the next memory you're going to make?"*) with direct auth links.
+  - **14. Minimal Footer**: Quiet footer with brand mark, tagline, smooth navigation links, and version identifier (`DayDream v2.12.1`).
+
 ---
 
 ## 🛠️ Tech Stack
@@ -210,7 +230,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.10.0 dependencies and scripts
+├── package.json                     # v2.12.1 dependencies and scripts
 └── README.md
 ```
 
