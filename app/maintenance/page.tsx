@@ -57,7 +57,7 @@ export default function MaintenancePage() {
           <div className="w-full bg-stone-50/80 border border-stone-200/60 rounded-2xl p-4 mb-8 text-left space-y-2.5">
             <div className="flex items-center gap-2.5 text-xs text-stone-700">
               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Your account, bucket list, and data are safe.</span>
+              <span>Your account, dreams, and memories are safe.</span>
             </div>
             <div className="flex items-center gap-2.5 text-xs text-stone-700">
               <Sparkles className="w-4 h-4 text-indigo-600 shrink-0" />

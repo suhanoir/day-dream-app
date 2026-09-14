@@ -83,13 +83,13 @@ export function AddBucketListItemModal({
       const data = await res.json();
 
       if (!res.ok) {
-        setFormError(data.error || "Failed to add goal.");
-        toastError(data.error || "Could not add goal.");
+        setFormError(data.error || "Failed to create dream.");
+        toastError(data.error || "Could not create dream.");
         return;
       }
 
       playSound("dream.created");
-      success("New goal added to your bucket list!");
+      success("Dream created!");
       onItemAdded(data.item);
       // Reset form
       setTitle("");
@@ -107,8 +107,8 @@ export function AddBucketListItemModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Add Bucket List Goal"
-      subtitle="What milestone, experience, or dream do you want to accomplish?"
+      title="Create a Dream"
+      subtitle="What experience, milestone, or aspiration do you want to live?"
       maxWidth="md"
     >
       {formError && (
@@ -119,8 +119,8 @@ export function AddBucketListItemModal({
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
-          label="What do you want to accomplish?"
-          placeholder="e.g. Travel to Japan, Learn to play cello, Hike Mount Fuji..."
+          label="Dream Title"
+          placeholder="e.g. Travel to Kyoto in autumn, Learn the cello, See the Northern Lights..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
@@ -129,7 +129,7 @@ export function AddBucketListItemModal({
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-semibold text-stone-700 tracking-wide uppercase">
+            <label className="text-xs font-semibold text-stone-700 uppercase tracking-wide">
               Category
             </label>
             {onOpenAddCategory && (
@@ -139,43 +139,43 @@ export function AddBucketListItemModal({
                   onClose();
                   onOpenAddCategory();
                 }}
-                className="text-xs text-stone-500 hover:text-stone-900 flex items-center gap-1 font-medium transition-colors"
+                className="text-xs text-primary font-medium hover:underline flex items-center gap-1 cursor-pointer"
               >
-                <Plus className="w-3 h-3" />
-                New Category
+                <Plus className="w-3.5 h-3.5" />
+                <span>New Category</span>
               </button>
             )}
           </div>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-white text-stone-900 border border-stone-200/90 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-400/50 focus:border-stone-400 transition-all cursor-pointer"
+            className="w-full text-xs font-medium px-3 py-2 rounded-xl glass-input text-primary focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 border border-stone-200 dark:border-stone-800"
             required
           >
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
               </option>
             ))}
           </select>
         </div>
 
         <Textarea
-          label="Optional Description & Inspiration"
-          placeholder="e.g. Experience cherry blossom season in Kyoto, try authentic ramen..."
+          label="Why does this dream matter to you? (Optional)"
+          placeholder="Add your thoughts, inspiration, or vision..."
           rows={3}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
 
         <Input
-          label="Optional Target Date"
+          label="Target Milestone Date (Optional)"
           type="date"
           value={targetDate}
           onChange={(e) => setTargetDate(e.target.value)}
         />
 
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-white/10">
           <Button
             type="button"
             variant="ghost"
@@ -190,7 +190,7 @@ export function AddBucketListItemModal({
             isLoading={isLoading}
           >
             <Sparkles className="w-4 h-4 mr-1.5" />
-            Add to Bucket List
+            Create Dream
           </Button>
         </div>
       </form>

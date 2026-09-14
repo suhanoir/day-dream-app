@@ -158,7 +158,7 @@ export function AddEventModal({
         <div className="mb-4 p-3 rounded-xl bg-amber-50/80 border border-amber-200/80 flex items-center gap-2 text-xs text-amber-800">
           <Bookmark className="w-4 h-4 text-amber-600 shrink-0" />
           <span>
-            Scheduling milestone from bucket list: <strong>{initialBucketListItem.title}</strong>
+            Scheduling milestone from dream: <strong>{initialBucketListItem.title}</strong>
           </span>
         </div>
       )}

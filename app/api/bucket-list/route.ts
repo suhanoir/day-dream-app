@@ -93,14 +93,14 @@ export async function POST(req: NextRequest) {
 
     if (!title || typeof title !== "string" || title.trim().length === 0) {
       return NextResponse.json(
-        { error: "Bucket list item title is required." },
+        { error: "Dream title is required." },
         { status: 400 }
       );
     }
 
     if (!categoryId || typeof categoryId !== "string") {
       return NextResponse.json(
-        { error: "Please select a category for this goal." },
+        { error: "Please select a category for this dream." },
         { status: 400 }
       );
     }
@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        message: "Goal added to your bucket list.",
+        message: "Dream created.",
         item,
       },
       { status: 201 }
@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     console.error("Create bucket list item error:", error);
     return NextResponse.json(
-      { error: "Failed to create bucket list item." },
+      { error: "Failed to create dream." },
       { status: 500 }
     );
   }

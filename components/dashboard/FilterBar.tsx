@@ -36,7 +36,7 @@ export function FilterBar({
           <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
-            placeholder="Search your bucket list..."
+            placeholder="Search your dreams..."
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             className="w-full pl-10 pr-9 py-2.5 glass-input rounded-2xl text-sm placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 transition-all"

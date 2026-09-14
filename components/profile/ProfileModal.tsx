@@ -820,8 +820,8 @@ export function ProfileModal({
                     style={{ backgroundColor: currentThemeMeta.palette.primary }}
                   />
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-stone-800 truncate">Notification</p>
-                    <p className="text-[10px] text-stone-400">Celestial chime</p>
+                    <p className="text-xs font-semibold text-stone-800 truncate">Gentle Chime</p>
+                    <p className="text-[10px] text-stone-400">Celestial harmony</p>
                   </div>
                 </button>
               </div>

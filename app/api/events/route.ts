@@ -146,7 +146,7 @@ export async function POST(req: NextRequest) {
       });
       if (!item) {
         return NextResponse.json(
-          { error: "Invalid bucket list item selected." },
+          { error: "Invalid dream selected." },
           { status: 400 }
         );
       }

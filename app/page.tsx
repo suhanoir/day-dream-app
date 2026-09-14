@@ -252,7 +252,7 @@ export default function HomePage() {
                     size="sm"
                     className="font-semibold shadow-xs bg-stone-900 hover:bg-stone-800 text-white"
                   >
-                    Start Your Bucket List
+                    Begin Your DayDream
                   </Button>
                 </Link>
               </>
@@ -316,7 +316,7 @@ export default function HomePage() {
                   size="md"
                   className="w-full justify-center bg-stone-900 hover:bg-stone-800 text-white font-semibold"
                 >
-                  Start Your Bucket List
+                  Begin Your DayDream
                   <ArrowRight className="w-4 h-4 ml-1.5" />
                 </Button>
               </Link>
@@ -356,7 +356,7 @@ export default function HomePage() {
                 size="lg"
                 className="w-full sm:w-auto px-7 py-3.5 font-semibold shadow-md bg-stone-900 hover:bg-stone-800 text-white rounded-2xl active:scale-98 transition-all"
               >
-                Start Your Bucket List
+                Begin Your DayDream
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
@@ -386,7 +386,7 @@ export default function HomePage() {
               </div>
               <div className="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/70 border border-stone-200/60 text-[11px] font-medium text-stone-500 shadow-2xs">
                 <DayDreamLogo size={14} className="w-3.5 h-3.5" />
-                <span>daydream.app/dashboard</span>
+                <span>daydream.app/dreams</span>
               </div>
               <div className="w-10" />
             </div>
@@ -398,10 +398,10 @@ export default function HomePage() {
                 <div>
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-stone-900">
-                      My Bucket List
+                      My Dreams
                     </h2>
                     <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200">
-                      14 Goals
+                      14 Dreams
                     </span>
                   </div>
                   <p className="text-xs text-stone-500 mt-1">
@@ -591,7 +591,7 @@ export default function HomePage() {
         </section>
 
         {/* ====================================================================
-            5. "MORE THAN A BUCKET LIST" (The 4 Pillars)
+            5. THE DAYDREAM JOURNEY (The 4 Pillars)
             ==================================================================== */}
         <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24 border-t border-stone-200/60 text-left">
           <div className="text-center max-w-2xl mx-auto mb-14">
@@ -1097,8 +1097,8 @@ export default function HomePage() {
         <section className="max-w-3xl mx-auto px-4 sm:px-6 py-20 sm:py-32 text-center">
           <div className="w-10 h-0.5 bg-stone-300 mx-auto mb-8" />
           <h2 className="text-3xl sm:text-5xl font-normal tracking-tight font-serif-heading leading-[1.2] mb-6 text-stone-950">
-            &ldquo;One day, your bucket list <br />
-            <span className="italic font-serif">becomes your memory.&rdquo;</span>
+            &ldquo;One day, the things you dream about <br />
+            <span className="italic font-serif">become your memory.&rdquo;</span>
           </h2>
           <p className="text-base sm:text-lg text-stone-600 leading-relaxed font-normal max-w-xl mx-auto">
             DayDream isn&apos;t about checking things off a list. It&apos;s about giving the
@@ -1131,7 +1131,7 @@ export default function HomePage() {
                     size="lg"
                     className="w-full sm:w-auto px-8 py-3.5 font-semibold bg-stone-900 hover:bg-stone-800 text-white rounded-2xl shadow-md active:scale-98 transition-all"
                   >
-                    Start Your Bucket List
+                    Begin Your DayDream
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>

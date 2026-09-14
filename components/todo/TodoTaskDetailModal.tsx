@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -21,6 +22,7 @@ import {
   Tag,
   Flag,
   Trash2,
+  ArrowRight,
   ArrowRightCircle,
   Save,
   CheckCircle2,
@@ -162,6 +164,31 @@ export function TodoTaskDetailModal({
               {task.completed ? "Mark Incomplete" : "Mark Complete"}
             </button>
           </div>
+
+          {/* Linked Dream Badge (Phase 3 & Phase 7) */}
+          {task.bucketListItem && (
+            <div className="flex items-center justify-between p-3 rounded-xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-200/70 dark:border-purple-800/50 text-xs">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="text-sm">✨</span>
+                <div className="min-w-0">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300 block">
+                    Connected Dream
+                  </span>
+                  <span className="font-semibold text-stone-900 dark:text-stone-100 truncate block">
+                    {task.bucketListItem.title}
+                  </span>
+                </div>
+              </div>
+              <Link
+                href={`/dreams?id=${task.bucketListItem.id}`}
+                onClick={onClose}
+                className="shrink-0 text-xs font-semibold text-purple-700 dark:text-purple-300 hover:underline flex items-center gap-1 ml-2"
+              >
+                <span>View Dream</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          )}
 
           {/* Task Name */}
           <div>

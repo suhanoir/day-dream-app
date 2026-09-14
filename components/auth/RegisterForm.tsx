@@ -57,7 +57,7 @@ export function RegisterForm() {
       }
 
       setUser(data.user);
-      success("Account created! Let's start building your bucket list.");
+      success("Welcome to DayDream! Your journey starts here.");
       router.push("/home");
     } catch {
       setFormError("A network error occurred. Please try again.");
@@ -124,7 +124,7 @@ export function RegisterForm() {
           className="w-full mt-2 font-medium"
         >
           <Sparkles className="w-4 h-4 mr-1.5" />
-          Create Bucket List
+          Begin Your Journey
         </Button>
       </form>
 

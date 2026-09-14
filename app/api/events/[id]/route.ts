@@ -102,7 +102,7 @@ export async function PUT(
       });
       if (!item) {
         return NextResponse.json(
-          { error: "Invalid bucket list item selected." },
+          { error: "Invalid dream selected." },
           { status: 400 }
         );
       }

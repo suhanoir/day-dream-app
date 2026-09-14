@@ -334,11 +334,15 @@ export function BucketListItemDetailModal({
       ? 1
       : 0;
 
-  // Contextual primary action (Section 4.6)
+  const isNearlyComplete = !item.completed && totalTasks > 0 && completedTasks === totalTasks;
+
+  // Contextual primary action (Section 3.8)
   const handlePrimaryAction = () => {
     if (item.completed) {
       setIsPostcardModalOpen(true);
-    } else if (status === "Dreaming" || status === "Planning") {
+    } else if (isNearlyComplete) {
+      handleToggleComplete();
+    } else if (status === "Dreaming" || dreamTasks.length === 0) {
       setTodoTaskTitle("");
       setIsAddToTodoOpen(true);
     } else {
@@ -349,11 +353,134 @@ export function BucketListItemDetailModal({
 
   const primaryActionLabel = item.completed
     ? "View Keepsake"
+    : isNearlyComplete
+    ? "Finish Dream"
     : status === "In Progress"
     ? "Continue"
     : status === "Planning"
-    ? "Continue Dream"
+    ? (dreamTasks.length === 0 ? "Add First Action" : "Continue Dream")
     : "Start Planning";
+
+  // Section 3.7 & 3.11: Adaptive Memory section component
+  const renderMemorySection = () => (
+    <section className="glass-card rounded-2xl p-4 sm:p-5 space-y-3.5">
+      <div className="flex items-center justify-between pb-2 border-b border-stone-200/50 dark:border-stone-800/80">
+        <div className="flex items-center gap-2">
+          <Quote className="w-4 h-4 text-muted" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-secondary">
+            {item.completed ? "Memory & Keepsake" : "Personal Vision & Reflection"}
+          </h3>
+        </div>
+
+        {!isEditingReflection && item.reflection && (
+          <button
+            type="button"
+            onClick={() => setIsEditingReflection(true)}
+            className="text-xs font-semibold text-accent hover:underline flex items-center gap-1 cursor-pointer"
+          >
+            <Pencil className="w-3 h-3" />
+            <span>Edit Reflection</span>
+          </button>
+        )}
+      </div>
+
+      {/* Display Saved Reflection or Editor */}
+      {!isEditingReflection && item.reflection ? (
+        <div className="relative p-4 rounded-2xl glass-journal text-primary">
+          <Quote className="w-7 h-7 text-muted opacity-30 absolute top-3 right-3 pointer-events-none" />
+          <p className="text-sm leading-relaxed whitespace-pre-wrap italic font-serif text-primary">
+            &ldquo;{item.reflection}&rdquo;
+          </p>
+          {formattedCompletedDate && (
+            <div className="mt-2.5 pt-2.5 border-t border-stone-200/60 dark:border-stone-800/80 flex items-center justify-between text-[11px] text-muted">
+              <span>Captured memory</span>
+              <span>{formattedCompletedDate}</span>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="space-y-2.5">
+          <Textarea
+            rows={3}
+            placeholder={
+              item.completed
+                ? "Tell your future self about this experience... How did it feel? What made it unforgettable?"
+                : "Write what you hope to experience, why this dream matters to you, or your thoughts so far..."
+            }
+            value={reflectionText}
+            onChange={(e) => setReflectionText(e.target.value)}
+            className="text-sm leading-relaxed"
+          />
+
+          <div className="flex items-center justify-end gap-2">
+            {item.reflection && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setReflectionText(item.reflection || "");
+                  setIsEditingReflection(false);
+                }}
+              >
+                Cancel
+              </Button>
+            )}
+            <Button
+              type="button"
+              variant="primary"
+              size="sm"
+              onClick={handleSaveReflection}
+              isLoading={isSavingReflection}
+            >
+              <Save className="w-3.5 h-3.5 mr-1.5" />
+              Save Reflection
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Memory Postcard & Scrapbook Callout */}
+      {item.completed && (
+        <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-stone-200/50 dark:border-stone-800/80">
+          <div className="text-xs">
+            <span className="font-semibold text-primary block">
+              Authentic Memory Keepsake
+            </span>
+            <span className="text-muted text-[11px]">
+              Curate photos, customize composition, and save to your phone
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setIsPostcardModalOpen(true)}
+              className="text-xs font-semibold gap-1.5 shadow-2xs border-amber-500/30 text-amber-900 dark:text-amber-300 bg-amber-500/10 hover:bg-amber-500/15"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+              <span>
+                {item.memoryPhoto || (item.memoryPhotos && item.memoryPhotos !== "[]")
+                  ? "View Keepsake Postcard"
+                  : "Create Keepsake Postcard"}
+              </span>
+            </Button>
+
+            <Link
+              href="/memories"
+              onClick={onClose}
+              className="p-1.5 text-muted hover:text-primary rounded-lg transition-colors"
+              title="View Scrapbook"
+            >
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      )}
+    </section>
+  );
 
   return (
     <>
@@ -536,8 +663,76 @@ export function BucketListItemDetailModal({
             </div>
           )}
 
+          {/* Section 3.7 & 3.11: For Achieved Dreams, Memory & Reflection sits prominently at top */}
+          {item.completed && renderMemorySection()}
+
           {/* ========================================================= */}
-          {/* 2. OVERVIEW (Description)                                 */}
+          {/* 2. NEXT ACTION (Prioritized for Active Dreams)            */}
+          {/* ========================================================= */}
+          {!item.completed && (
+            <div ref={nextActionRef}>
+              <section className="glass-card rounded-2xl p-4 sm:p-5 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+                    <ArrowRight className="w-3.5 h-3.5 text-accent" />
+                    Next Action
+                  </span>
+                  {nextActionTask && (
+                    <Link
+                      href="/today"
+                      onClick={onClose}
+                      className="text-xs font-semibold text-accent hover:underline inline-flex items-center gap-1"
+                    >
+                      <span>Open in Today</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  )}
+                </div>
+
+                {nextActionTask ? (
+                  <div className="p-3.5 rounded-xl bg-stone-50/80 dark:bg-white/5 border border-stone-200/60 dark:border-white/10 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                      <button
+                        type="button"
+                        onClick={() => handleToggleTask(nextActionTask.id, nextActionTask.completed)}
+                        disabled={togglingTaskId === nextActionTask.id}
+                        className="w-4 h-4 rounded border flex items-center justify-center shrink-0 border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 cursor-pointer"
+                        aria-label="Mark action complete"
+                      >
+                        {nextActionTask.completed && <Check className="w-3 h-3 stroke-[3]" />}
+                      </button>
+                      <span className="text-xs font-semibold text-primary truncate">
+                        {nextActionTask.title}
+                      </span>
+                    </div>
+                    <span className="text-[10.5px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-800 dark:text-amber-200 border border-amber-500/20 shrink-0 font-medium">
+                      Ready to do
+                    </span>
+                  </div>
+                ) : (
+                  <div className="p-3.5 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-dashed border-stone-200/80 dark:border-white/10 flex items-center justify-between gap-3">
+                    <span className="text-xs text-muted">
+                      No action steps yet. Add your first concrete step to get this dream moving.
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setTodoTaskTitle("");
+                        setIsAddToTodoOpen(true);
+                      }}
+                      className="text-xs font-semibold text-accent hover:underline inline-flex items-center gap-1 shrink-0 cursor-pointer"
+                    >
+                      <Plus className="w-3 h-3" />
+                      <span>Add Action</span>
+                    </button>
+                  </div>
+                )}
+              </section>
+            </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* 3. OVERVIEW (Description)                                 */}
           {/* ========================================================= */}
           {item.description && (
             <section className="space-y-1">
@@ -549,69 +744,6 @@ export function BucketListItemDetailModal({
               </p>
             </section>
           )}
-
-          {/* ========================================================= */}
-          {/* 3. NEXT ACTION (Section 4.3)                              */}
-          {/* ========================================================= */}
-          <div ref={nextActionRef}>
-            <section className="glass-card rounded-2xl p-4 sm:p-5 space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
-                  <ArrowRight className="w-3.5 h-3.5 text-accent" />
-                  Next Action
-                </span>
-                {nextActionTask && (
-                  <Link
-                    href="/today"
-                    onClick={onClose}
-                    className="text-xs font-semibold text-accent hover:underline inline-flex items-center gap-1"
-                  >
-                    <span>Open in Today</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                )}
-              </div>
-
-              {nextActionTask ? (
-                <div className="p-3.5 rounded-xl bg-stone-50/80 dark:bg-white/5 border border-stone-200/60 dark:border-white/10 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                    <button
-                      type="button"
-                      onClick={() => handleToggleTask(nextActionTask.id, nextActionTask.completed)}
-                      disabled={togglingTaskId === nextActionTask.id}
-                      className="w-4 h-4 rounded border flex items-center justify-center shrink-0 border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 cursor-pointer"
-                      aria-label="Mark action complete"
-                    >
-                      {nextActionTask.completed && <Check className="w-3 h-3 stroke-[3]" />}
-                    </button>
-                    <span className="text-xs font-semibold text-primary truncate">
-                      {nextActionTask.title}
-                    </span>
-                  </div>
-                  <span className="text-[10.5px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-800 dark:text-amber-200 border border-amber-500/20 shrink-0 font-medium">
-                    Ready to do
-                  </span>
-                </div>
-              ) : (
-                <div className="p-3.5 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-dashed border-stone-200/80 dark:border-white/10 flex items-center justify-between gap-3">
-                  <span className="text-xs text-muted">
-                    No action steps yet. Add your first concrete step to get this dream moving.
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setTodoTaskTitle("");
-                      setIsAddToTodoOpen(true);
-                    }}
-                    className="text-xs font-semibold text-accent hover:underline inline-flex items-center gap-1 shrink-0 cursor-pointer"
-                  >
-                    <Plus className="w-3 h-3" />
-                    <span>Add Action</span>
-                  </button>
-                </div>
-              )}
-            </section>
-          </div>
 
           {/* ========================================================= */}
           {/* 4. PLAN & SCHEDULE                                        */}
@@ -831,123 +963,7 @@ export function BucketListItemDetailModal({
           {/* ========================================================= */}
           {/* 7. MEMORY & REFLECTION (LIVE & REMEMBER)                  */}
           {/* ========================================================= */}
-          <section className="glass-card rounded-2xl p-4 sm:p-5 space-y-3.5">
-            <div className="flex items-center justify-between pb-2 border-b border-stone-200/50 dark:border-stone-800/80">
-              <div className="flex items-center gap-2">
-                <Quote className="w-4 h-4 text-muted" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-secondary">
-                  {item.completed ? "Memory & Keepsake" : "Personal Vision & Reflection"}
-                </h3>
-              </div>
-
-              {!isEditingReflection && item.reflection && (
-                <button
-                  type="button"
-                  onClick={() => setIsEditingReflection(true)}
-                  className="text-xs font-semibold text-accent hover:underline flex items-center gap-1 cursor-pointer"
-                >
-                  <Pencil className="w-3 h-3" />
-                  <span>Edit Reflection</span>
-                </button>
-              )}
-            </div>
-
-            {/* Display Saved Reflection or Editor */}
-            {!isEditingReflection && item.reflection ? (
-              <div className="relative p-4 rounded-2xl glass-journal text-primary">
-                <Quote className="w-7 h-7 text-muted opacity-30 absolute top-3 right-3 pointer-events-none" />
-                <p className="text-sm leading-relaxed whitespace-pre-wrap italic font-serif text-primary">
-                  &ldquo;{item.reflection}&rdquo;
-                </p>
-                {formattedCompletedDate && (
-                  <div className="mt-2.5 pt-2.5 border-t border-stone-200/60 dark:border-stone-800/80 flex items-center justify-between text-[11px] text-muted">
-                    <span>Captured memory</span>
-                    <span>{formattedCompletedDate}</span>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="space-y-2.5">
-                <Textarea
-                  rows={3}
-                  placeholder={
-                    item.completed
-                      ? "Tell your future self about this experience... How did it feel? What made it unforgettable?"
-                      : "Write what you hope to experience, why this dream matters to you, or your thoughts so far..."
-                  }
-                  value={reflectionText}
-                  onChange={(e) => setReflectionText(e.target.value)}
-                  className="text-sm leading-relaxed"
-                />
-
-                <div className="flex items-center justify-end gap-2">
-                  {item.reflection && (
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        setReflectionText(item.reflection || "");
-                        setIsEditingReflection(false);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  )}
-                  <Button
-                    type="button"
-                    variant="primary"
-                    size="sm"
-                    onClick={handleSaveReflection}
-                    isLoading={isSavingReflection}
-                  >
-                    <Save className="w-3.5 h-3.5 mr-1.5" />
-                    Save Reflection
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {/* Memory Postcard & Scrapbook Callout */}
-            {item.completed && (
-              <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-stone-200/50 dark:border-stone-800/80">
-                <div className="text-xs">
-                  <span className="font-semibold text-primary block">
-                    Authentic Memory Keepsake
-                  </span>
-                  <span className="text-muted text-[11px]">
-                    Curate photos, customize composition, and save to your phone
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setIsPostcardModalOpen(true)}
-                    className="text-xs font-semibold gap-1.5 shadow-2xs border-amber-500/30 text-amber-900 dark:text-amber-300 bg-amber-500/10 hover:bg-amber-500/15"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                    <span>
-                      {item.memoryPhoto || (item.memoryPhotos && item.memoryPhotos !== "[]")
-                        ? "View Keepsake Postcard"
-                        : "Create Keepsake Postcard"}
-                    </span>
-                  </Button>
-
-                  <Link
-                    href="/memories"
-                    onClick={onClose}
-                    className="p-1.5 text-muted hover:text-primary rounded-lg transition-colors"
-                    title="View Scrapbook"
-                  >
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
-            )}
-          </section>
+          {!item.completed && renderMemorySection()}
         </div>
       </Modal>
 

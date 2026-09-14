@@ -57,7 +57,7 @@ export async function GET(
 
     if (!item) {
       return NextResponse.json(
-        { error: "Bucket list item not found." },
+        { error: "Dream not found." },
         { status: 404 }
       );
     }
@@ -104,7 +104,7 @@ export async function PUT(
 
     if (!existing) {
       return NextResponse.json(
-        { error: "Bucket list item not found or unauthorized." },
+        { error: "Dream not found or unauthorized." },
         { status: 404 }
       );
     }
@@ -181,7 +181,7 @@ export async function DELETE(
 
     if (!existing) {
       return NextResponse.json(
-        { error: "Bucket list item not found or unauthorized." },
+        { error: "Dream not found or unauthorized." },
         { status: 404 }
       );
     }
@@ -191,7 +191,7 @@ export async function DELETE(
     });
 
     return NextResponse.json({
-      message: "Goal removed from your bucket list.",
+      message: "Dream deleted.",
     });
   } catch (error: unknown) {
     console.error("Delete bucket list item error:", error);

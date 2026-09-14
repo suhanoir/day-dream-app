@@ -49,7 +49,7 @@ export function EditBucketListItemModal({
     setFormError("");
 
     if (!title.trim()) {
-      setFormError("Goal title is required.");
+      setFormError("Dream title is required.");
       return;
     }
 
@@ -70,12 +70,12 @@ export function EditBucketListItemModal({
       const data = await res.json();
 
       if (!res.ok) {
-        setFormError(data.error || "Failed to update goal.");
-        toastError(data.error || "Could not update goal.");
+        setFormError(data.error || "Failed to update dream.");
+        toastError(data.error || "Could not update dream.");
         return;
       }
 
-      success("Goal updated successfully.");
+      success("Dream updated.");
       onItemUpdated(data.item);
       onClose();
     } catch {
@@ -89,8 +89,8 @@ export function EditBucketListItemModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Edit Goal"
-      subtitle="Update the title, category, or notes for this goal."
+      title="Edit Dream"
+      subtitle="Update the title, category, or notes for this dream."
       maxWidth="md"
     >
       {formError && (
@@ -101,7 +101,7 @@ export function EditBucketListItemModal({
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
-          label="Goal Title"
+          label="Dream Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required

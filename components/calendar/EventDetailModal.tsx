@@ -162,20 +162,20 @@ export function EventDetailModal({
             </div>
           )}
 
-          {/* Linked Bucket List Goal */}
+          {/* Linked Dream */}
           {event.bucketListItem && (
-            <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/80 flex items-center justify-between text-xs text-amber-900">
+            <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/80 flex items-center justify-between text-xs text-amber-900 dark:text-amber-200 dark:bg-amber-950/20 dark:border-amber-800/40">
               <div className="flex items-center gap-2 min-w-0 pr-2">
                 <Bookmark className="w-4 h-4 text-amber-600 shrink-0" />
                 <span className="truncate">
-                  Connected Goal: <strong>{event.bucketListItem.title}</strong>
+                  Connected Dream: <strong>{event.bucketListItem.title}</strong>
                 </span>
               </div>
               <a
-                href="/dashboard"
-                className="text-[11px] font-semibold text-amber-800 hover:underline shrink-0 flex items-center gap-1"
+                href={`/dreams?id=${event.bucketListItem.id}`}
+                className="text-[11px] font-semibold text-amber-800 dark:text-amber-300 hover:underline shrink-0 flex items-center gap-1"
               >
-                View Goal
+                View Dream
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>

@@ -26,7 +26,7 @@ export async function PATCH(
 
     if (!existing) {
       return NextResponse.json(
-        { error: "Bucket list item not found." },
+        { error: "Dream not found." },
         { status: 404 }
       );
     }
