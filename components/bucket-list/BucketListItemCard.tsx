@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Check, ChevronRight, Image as ImageIcon } from "lucide-react";
+import { Check, ChevronRight, Image as ImageIcon, ArrowRight, Plus } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 export interface BucketListItemData {
@@ -77,6 +77,11 @@ export function BucketListItemCard({
       })
     : null;
 
+  // Real action calculation (no artificial percentages)
+  const totalActions = item.todos?.length || 0;
+  const completedActions = item.todos?.filter((t) => t.completed).length || 0;
+  const nextAction = item.todos?.find((t) => !t.completed)?.title;
+
   return (
     <div
       onClick={() => onClick(item)}
@@ -89,78 +94,107 @@ export function BucketListItemCard({
         }
       }}
       className={cn(
-        "group relative flex items-center justify-between py-3.5 px-4 rounded-xl transition-all duration-150 cursor-pointer select-none text-left active:scale-98",
+        "group relative flex flex-col justify-between py-3.5 px-4 rounded-2xl transition-all duration-150 cursor-pointer select-none text-left active:scale-[0.99] gap-2",
         item.completed
           ? "bg-stone-100/40 dark:bg-white/5 hover:bg-stone-100/70 dark:hover:bg-white/10 text-muted border border-stone-200/40 dark:border-white/10"
           : "glass-card-interactive text-primary hover:border-stone-300 dark:hover:border-white/20"
       )}
     >
-      <div className="flex items-center gap-3 min-w-0 pr-3">
-        {/* Item Title */}
-        <span
-          className={cn(
-            "text-[15px] leading-snug transition-colors tracking-normal truncate",
-            item.completed
-              ? "line-through text-muted font-light"
-              : "text-primary group-hover:text-accent font-medium"
-          )}
-        >
-          {item.title}
-        </span>
-
-        {/* Subtle completed check indicator */}
-        {item.completed && (
-          <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 shrink-0 text-xs shadow-2xs">
-            <Check className="w-3 h-3" />
-          </span>
-        )}
-
-        {/* Optional Reflection indicator dot if memory is recorded */}
-        {item.reflection && (
+      {/* Primary Row: Title, Indicators, Badges */}
+      <div className="flex items-center justify-between gap-3 w-full">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          {/* Item Title */}
           <span
-            title="Has saved reflection memory"
-            className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 shadow-2xs"
-          />
-        )}
-
-        {/* Optional Cover Photo indicator */}
-        {(item.memoryPhoto || (item.memoryPhotos && item.memoryPhotos !== "[]")) && (
-          <span
-            title="Has postcard memory photo"
-            className="text-muted shrink-0"
+            className={cn(
+              "text-[15px] leading-snug transition-colors tracking-normal truncate font-medium",
+              item.completed
+                ? "line-through text-muted font-light"
+                : "text-primary group-hover:text-accent"
+            )}
           >
-            <ImageIcon className="w-3.5 h-3.5" />
+            {item.title}
           </span>
-        )}
-      </div>
 
-      <div className="flex items-center gap-2 shrink-0">
-        {/* Target Date Pill */}
-        {formattedTargetDate && !item.completed && (
-          <span className="text-[10.5px] font-medium text-muted hidden md:inline-block">
-            {formattedTargetDate}
-          </span>
-        )}
-
-        {/* Conceptual Journey Status */}
-        <span
-          className={cn(
-            "text-[10px] font-semibold px-2 py-0.5 rounded-full border tracking-wide transition-colors",
-            statusStyles[status]
+          {/* Subtle completed check indicator */}
+          {item.completed && (
+            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 shrink-0 text-xs shadow-2xs">
+              <Check className="w-3 h-3" />
+            </span>
           )}
-        >
-          {status}
-        </span>
 
-        {showCategoryBadge && item.category && (
-          <span className="text-[11px] font-medium text-secondary glass-card px-2 py-0.5 rounded-md hidden sm:inline-block">
-            {item.category.name}
+          {/* Reflection indicator dot if memory is recorded */}
+          {item.reflection && (
+            <span
+              title="Has saved reflection memory"
+              className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 shadow-2xs"
+            />
+          )}
+
+          {/* Cover Photo indicator */}
+          {(item.memoryPhoto || (item.memoryPhotos && item.memoryPhotos !== "[]")) && (
+            <span
+              title="Has postcard memory photo"
+              className="text-muted shrink-0"
+            >
+              <ImageIcon className="w-3.5 h-3.5" />
+            </span>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Target Date Pill */}
+          {formattedTargetDate && !item.completed && (
+            <span className="text-[10.5px] font-medium text-muted hidden md:inline-block">
+              {formattedTargetDate}
+            </span>
+          )}
+
+          {/* Conceptual Journey Status */}
+          <span
+            className={cn(
+              "text-[10px] font-semibold px-2 py-0.5 rounded-full border tracking-wide transition-colors",
+              statusStyles[status]
+            )}
+          >
+            {status}
           </span>
-        )}
 
-        <ChevronRight className="w-4 h-4 text-muted group-hover:text-primary transition-transform group-hover:translate-x-0.5 shrink-0" />
+          {showCategoryBadge && item.category && (
+            <span className="text-[11px] font-medium text-secondary glass-card px-2 py-0.5 rounded-md hidden sm:inline-block">
+              {item.category.name}
+            </span>
+          )}
+
+          <ChevronRight className="w-4 h-4 text-muted group-hover:text-primary transition-transform group-hover:translate-x-0.5 shrink-0" />
+        </div>
       </div>
+
+      {/* Secondary Progressive Disclosure Row: Next Action & Action Progress */}
+      {(!item.completed || totalActions > 0) && (
+        <div className="flex items-center justify-between gap-3 text-xs text-secondary pt-0.5 border-t border-stone-200/30 dark:border-white/5">
+          {/* Next Action Snippet */}
+          <div className="flex items-center gap-1.5 min-w-0 truncate text-[11.5px]">
+            {nextAction ? (
+              <>
+                <span className="text-muted font-medium shrink-0">Next:</span>
+                <span className="truncate text-primary font-normal">{nextAction}</span>
+              </>
+            ) : !item.completed ? (
+              <span className="text-muted italic flex items-center gap-1 text-[11px]">
+                <Plus className="w-3 h-3" />
+                Add your first action
+              </span>
+            ) : null}
+          </div>
+
+          {/* Real Action Completion (No artificial percentages) */}
+          {totalActions > 0 && (
+            <span className="text-[10.5px] text-muted shrink-0 font-medium">
+              {completedActions} of {totalActions} complete
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 }
-

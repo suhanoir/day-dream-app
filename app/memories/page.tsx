@@ -18,8 +18,10 @@ import {
   Compass,
   ArrowRight,
   Loader2,
-  BookOpen,
   Heart,
+  Quote,
+  ExternalLink,
+  Image as ImageIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -118,6 +120,16 @@ export default function MemoriesPage() {
     return items.filter((i) => i.reflection && i.reflection.trim().length > 0).length;
   }, [items]);
 
+  // Featured Memory (Section 6.2)
+  const featuredMemory = useMemo(() => {
+    if (items.length === 0) return null;
+    // Prefer memory with a cover photo, otherwise latest completed
+    const withPhoto = items.find(
+      (i) => i.memoryPhoto || (i.memoryPhotos && i.memoryPhotos !== "[]")
+    );
+    return withPhoto || items[0];
+  }, [items]);
+
   // Contextual side panel for desktop
   const sidePanelContent = (
     <div className="space-y-6">
@@ -125,7 +137,7 @@ export default function MemoriesPage() {
       <div className="glass-card rounded-2xl p-5 space-y-4">
         <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          Archive Summary
+          Scrapbook Archive
         </span>
         <div className="grid grid-cols-2 gap-2.5">
           <div className="p-3 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-stone-200/50 dark:border-white/10">
@@ -190,12 +202,12 @@ export default function MemoriesPage() {
   return (
     <AppShell title="Memories" sidePanel={sidePanelContent}>
       <div className="space-y-6">
-        {/* Page Top Header */}
+        {/* Page Top Header (Section 6.1) */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-primary font-serif-heading leading-tight">
-                Memories & Scrapbook
+                Memories
               </h1>
               <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-900 dark:text-amber-200 border border-amber-500/25 inline-flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-amber-600 dark:text-amber-400" />
@@ -203,19 +215,100 @@ export default function MemoriesPage() {
               </span>
             </div>
             <p className="text-xs sm:text-sm text-secondary">
-              A living gallery of milestones lived, reflections written, and moments preserved.
+              The dreams you&apos;ve already lived.
             </p>
           </div>
 
           <div className="flex items-center gap-2.5 self-start sm:self-auto shrink-0">
             <Link href="/dreams">
-              <Button variant="outline" size="md" className="font-semibold gap-1.5">
+              <Button variant="outline" size="md" className="font-semibold gap-1.5 shadow-2xs">
                 <span>View My Dreams</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
             </Link>
           </div>
         </div>
+
+        {/* Featured Memory Spotlight Hero (Section 6.2) */}
+        {featuredMemory && !search && selectedCategory === "all" && (
+          <div className="glass-card rounded-3xl p-5 sm:p-7 border border-amber-500/20 shadow-md relative overflow-hidden">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              {/* Cover Media */}
+              <div className="w-full md:w-5/12 shrink-0 aspect-[4/3] rounded-2xl overflow-hidden shadow-inner relative border border-stone-200/60 dark:border-white/10">
+                {featuredMemory.memoryPhoto ? (
+                  <img
+                    src={featuredMemory.memoryPhoto}
+                    alt={featuredMemory.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-amber-500/10 text-center">
+                    <Sparkles className="w-8 h-8 text-amber-500 mb-2" />
+                    <span className="text-xs font-bold text-primary font-serif-heading">
+                      Authentic Keepsake
+                    </span>
+                  </div>
+                )}
+                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-xs text-white text-[10.5px] font-semibold flex items-center gap-1.5 shadow-xs border border-white/10">
+                  <Sparkles className="w-3 h-3 text-amber-400" />
+                  Featured Memory
+                </span>
+              </div>
+
+              {/* Memory Details & Reflection */}
+              <div className="flex-1 space-y-3 w-full">
+                <div className="flex items-center gap-2 flex-wrap text-xs">
+                  {featuredMemory.category && (
+                    <span className="font-bold uppercase tracking-wider text-[10px] text-secondary">
+                      {featuredMemory.category.name}
+                    </span>
+                  )}
+                  {featuredMemory.completedAt && (
+                    <span className="text-muted text-[11px]">
+                      • Lived on{" "}
+                      {new Date(featuredMemory.completedAt).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
+                  )}
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-primary font-serif-heading">
+                  {featuredMemory.title}
+                </h2>
+
+                {featuredMemory.reflection && (
+                  <div className="p-3.5 rounded-2xl glass-journal text-xs sm:text-sm text-primary italic font-serif leading-relaxed line-clamp-3">
+                    &ldquo;{featuredMemory.reflection}&rdquo;
+                  </div>
+                )}
+
+                <div className="flex items-center gap-3 pt-2 flex-wrap">
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="sm"
+                    onClick={() => setSelectedItemForDetail(featuredMemory)}
+                    className="font-semibold shadow-sm text-xs gap-1.5"
+                  >
+                    <span>Open Keepsake</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Button>
+
+                  <Link
+                    href={`/dreams?id=${featuredMemory.id}`}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:underline"
+                  >
+                    <span>View Original Dream</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Filter & Search Bar if items exist */}
         {items.length > 0 && (
@@ -232,6 +325,7 @@ export default function MemoriesPage() {
               />
               {search && (
                 <button
+                  type="button"
                   onClick={() => setSearch("")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 p-1 cursor-pointer"
                 >
@@ -277,23 +371,23 @@ export default function MemoriesPage() {
           </div>
         )}
 
-        {/* Content View */}
+        {/* Content View / Empty State (Section 6.13) */}
         {items.length === 0 ? (
           /* Empty Scrapbook State */
           <div className="max-w-md mx-auto py-16 sm:py-20 text-center px-4">
             <div className="w-16 h-16 rounded-3xl bg-amber-500/10 text-amber-700 border border-amber-500/20 flex items-center justify-center mx-auto mb-5 shadow-xs">
-              <Sparkles className="w-8 h-8 text-amber-600" />
+              <Sparkles className="w-8 h-8 text-amber-600 dark:text-amber-400" />
             </div>
             <h3 className="text-2xl font-bold tracking-tight text-primary font-serif-heading mb-2">
               Your scrapbook is waiting.
             </h3>
             <p className="text-xs sm:text-sm text-secondary leading-relaxed mb-6">
-              Complete your first dream and the memory will live here. Every milestone
-              you accomplish becomes an authentic keepsake you can treasure forever.
+              Complete a Dream and save the moment. Every milestone you accomplish
+              becomes an authentic keepsake you can treasure forever.
             </p>
             <Link href="/dreams">
               <Button variant="primary" size="md" className="font-semibold shadow-sm">
-                <span>View My Dreams</span>
+                <span>View Dreams</span>
                 <ArrowRight className="w-4 h-4 ml-1.5" />
               </Button>
             </Link>
@@ -316,7 +410,7 @@ export default function MemoriesPage() {
             </Button>
           </div>
         ) : (
-          /* Responsive Keepsake Grid */
+          /* Responsive Keepsake Scrapbook Grid (Section 6.4) */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {filteredItems.map((item) => (
               <ScrapbookCard

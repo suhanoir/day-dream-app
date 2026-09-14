@@ -29,10 +29,13 @@ import {
   ArrowRight,
   TrendingUp,
   FolderPlus,
+  ArrowDownUp,
+  Lightbulb,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
-export type StatusJourneyFilter = "all" | "dreaming" | "planning" | "in-progress" | "completed";
+export type StatusJourneyFilter = "all" | "active" | "planning" | "in-progress" | "completed";
+export type DreamSortOption = "recent" | "target" | "progress";
 
 export default function DreamsPage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -42,10 +45,11 @@ export default function DreamsPage() {
   const [items, setItems] = useState<BucketListItemData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Filters
+  // Filters & Sorting
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusJourneyFilter>("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortOption, setSortOption] = useState<DreamSortOption>("recent");
 
   // Modals
   const [selectedItemForDetail, setSelectedItemForDetail] =
@@ -89,6 +93,20 @@ export default function DreamsPage() {
     }
   }, [user, fetchData]);
 
+  // Deep-link auto-open from query param (e.g. /dreams?id=...)
+  useEffect(() => {
+    if (typeof window !== "undefined" && items.length > 0) {
+      const params = new URLSearchParams(window.location.search);
+      const dreamId = params.get("id");
+      if (dreamId) {
+        const target = items.find((i) => i.id === dreamId);
+        if (target) {
+          setSelectedItemForDetail(target);
+        }
+      }
+    }
+  }, [items]);
+
   // Handlers for Dream items
   const handleItemUpdated = (updated: BucketListItemData) => {
     setItems((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
@@ -119,17 +137,9 @@ export default function DreamsPage() {
     );
   };
 
-  const handleCategoryDeleted = (catId: string) => {
-    setCategories((prev) => prev.filter((cat) => cat.id !== catId));
-    setItems((prev) => prev.filter((item) => item.categoryId !== catId));
-    if (selectedCategory === catId) {
-      setSelectedCategory("all");
-    }
-  };
-
-  // Filter items based on search, category, and journey status
+  // Filter items based on search, category, and status
   const filteredItems = useMemo(() => {
-    return items.filter((item) => {
+    const filtered = items.filter((item) => {
       // Category filter
       if (selectedCategory !== "all" && item.categoryId !== selectedCategory) {
         return false;
@@ -137,7 +147,7 @@ export default function DreamsPage() {
 
       // Journey Status filter
       const itemStatus = getDreamStatus(item);
-      if (statusFilter === "dreaming" && itemStatus !== "Dreaming") return false;
+      if (statusFilter === "active" && item.completed) return false;
       if (statusFilter === "planning" && itemStatus !== "Planning") return false;
       if (statusFilter === "in-progress" && itemStatus !== "In Progress") return false;
       if (statusFilter === "completed" && itemStatus !== "Completed") return false;
@@ -156,15 +166,71 @@ export default function DreamsPage() {
 
       return true;
     });
-  }, [items, selectedCategory, statusFilter, search]);
+
+    // Sort items
+    return filtered.sort((a, b) => {
+      if (sortOption === "target") {
+        if (!a.targetDate && !b.targetDate) return 0;
+        if (!a.targetDate) return 1;
+        if (!b.targetDate) return -1;
+        return new Date(a.targetDate).getTime() - new Date(b.targetDate).getTime();
+      }
+      if (sortOption === "progress") {
+        const aTotal = a.todos?.length || 0;
+        const aComp = a.todos?.filter((t) => t.completed).length || 0;
+        const aRatio = aTotal > 0 ? aComp / aTotal : 0;
+
+        const bTotal = b.todos?.length || 0;
+        const bComp = b.todos?.filter((t) => t.completed).length || 0;
+        const bRatio = bTotal > 0 ? bComp / bTotal : 0;
+
+        return bRatio - aRatio;
+      }
+      // default: recent
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  }, [items, selectedCategory, statusFilter, search, sortOption]);
 
   // Statistics calculation
   const totalDreams = items.length;
+  const activeCount = items.filter((i) => !i.completed).length;
   const completedCount = items.filter((i) => i.completed).length;
   const inProgressCount = items.filter((i) => getDreamStatus(i) === "In Progress").length;
   const planningCount = items.filter((i) => getDreamStatus(i) === "Planning").length;
   const dreamingCount = items.filter((i) => getDreamStatus(i) === "Dreaming").length;
   const completionRate = totalDreams > 0 ? Math.round((completedCount / totalDreams) * 100) : 0;
+
+  // Contextual Suggestion (Section 4.12)
+  const contextualSuggestion = useMemo(() => {
+    const activeDreams = items.filter((i) => !i.completed);
+    if (activeDreams.length === 0) return null;
+
+    // Check if any dream has only 1 task remaining to complete
+    const almostDone = activeDreams.find((d) => {
+      const total = d.todos?.length || 0;
+      const completed = d.todos?.filter((t) => t.completed).length || 0;
+      return total > 1 && total - completed === 1;
+    });
+    if (almostDone) {
+      return {
+        message: `"${almostDone.title}" is just 1 action step away from completion!`,
+        action: () => setSelectedItemForDetail(almostDone),
+        cta: "View Dream",
+      };
+    }
+
+    // Check if any in-progress dream has no next action
+    const noActionDream = activeDreams.find((d) => !d.todos || d.todos.length === 0);
+    if (noActionDream) {
+      return {
+        message: `"${noActionDream.title}" has no action scheduled yet.`,
+        action: () => setSelectedItemForDetail(noActionDream),
+        cta: "Add First Action",
+      };
+    }
+
+    return null;
+  }, [items]);
 
   // Find nearest upcoming milestone
   const upcomingDream = useMemo(() => {
@@ -288,10 +354,9 @@ export default function DreamsPage() {
           <div className="flex items-center gap-2.5 self-start sm:self-auto shrink-0 flex-wrap">
             <Link href="/memories">
               <Button
-                type="button"
                 variant="outline"
                 size="md"
-                className="font-semibold gap-1.5 border-amber-500/30 hover:border-amber-500/50 text-amber-900 dark:text-amber-300 bg-amber-500/10 hover:bg-amber-500/15"
+                className="font-semibold gap-1.5 shadow-2xs"
               >
                 <Sparkles className="w-4 h-4 text-amber-500" />
                 <span>Memories</span>
@@ -299,7 +364,6 @@ export default function DreamsPage() {
             </Link>
 
             <Button
-              type="button"
               variant="primary"
               size="md"
               onClick={() => {
@@ -314,9 +378,29 @@ export default function DreamsPage() {
           </div>
         </div>
 
-        {/* Filter & Search Toolbar */}
+        {/* Contextual Suggestion Banner (Section 4.12) */}
+        {contextualSuggestion && (
+          <div className="p-3 sm:px-4 sm:py-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2 min-w-0">
+              <Lightbulb className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+              <span className="text-amber-950 dark:text-amber-200 font-medium truncate">
+                {contextualSuggestion.message}
+              </span>
+            </div>
+            {contextualSuggestion.action && contextualSuggestion.cta && (
+              <button
+                type="button"
+                onClick={contextualSuggestion.action}
+                className="font-bold text-amber-800 dark:text-amber-300 hover:underline shrink-0 cursor-pointer"
+              >
+                {contextualSuggestion.cta} →
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Search, Status Tabs & Sorting Row */}
         <div className="space-y-3">
-          {/* Search bar + Status filters */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             {/* Search Input */}
             <div className="relative flex-1 max-w-md">
@@ -339,31 +423,47 @@ export default function DreamsPage() {
               )}
             </div>
 
-            {/* Journey Status Filter Tabs */}
-            <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
-              {(
-                [
-                  { key: "all", label: "All" },
-                  { key: "dreaming", label: "Dreaming" },
-                  { key: "planning", label: "Planning" },
-                  { key: "in-progress", label: "In Progress" },
-                  { key: "completed", label: "Completed" },
-                ] as const
-              ).map((tab) => (
-                <button
-                  key={tab.key}
-                  type="button"
-                  onClick={() => setStatusFilter(tab.key)}
-                  className={cn(
-                    "px-3 py-1.5 rounded-xl text-xs font-medium transition-all shrink-0 cursor-pointer",
-                    statusFilter === tab.key
-                      ? "glass-tab-active font-semibold shadow-2xs"
-                      : "text-secondary hover:text-primary hover:bg-stone-100/70 dark:hover:bg-white/5"
-                  )}
+            {/* Journey Status Filter Tabs + Sort Dropdown */}
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+              <div className="flex items-center gap-1">
+                {(
+                  [
+                    { key: "all", label: "All" },
+                    { key: "active", label: "Active" },
+                    { key: "planning", label: "Planning" },
+                    { key: "in-progress", label: "In Progress" },
+                    { key: "completed", label: "Completed" },
+                  ] as const
+                ).map((tab) => (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() => setStatusFilter(tab.key)}
+                    className={cn(
+                      "px-3 py-1.5 rounded-xl text-xs font-medium transition-all shrink-0 cursor-pointer",
+                      statusFilter === tab.key
+                        ? "glass-tab-active font-semibold shadow-2xs"
+                        : "text-secondary hover:text-primary hover:bg-stone-100/70 dark:hover:bg-white/5"
+                    )}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Lightweight Sort Selector (Section 4.10) */}
+              <div className="border-l border-stone-200/60 dark:border-white/10 pl-2 shrink-0">
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value as DreamSortOption)}
+                  className="glass-input text-xs font-medium rounded-xl px-2.5 py-1.5 text-secondary cursor-pointer focus:outline-none"
+                  aria-label="Sort dreams by"
                 >
-                  {tab.label}
-                </button>
-              ))}
+                  <option value="recent">Recently Added</option>
+                  <option value="target">Target Date</option>
+                  <option value="progress">Progress</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -412,18 +512,18 @@ export default function DreamsPage() {
           </div>
         </div>
 
-        {/* Dream List / Empty State */}
+        {/* Dream List / Empty States (Section 4.11) */}
         {items.length === 0 ? (
           /* Global Empty State */
           <div className="py-20 text-center space-y-3 max-w-sm mx-auto">
             <div className="w-14 h-14 rounded-2xl bg-stone-100/80 dark:bg-white/10 text-stone-500 flex items-center justify-center mx-auto border border-stone-200/50 dark:border-white/10 shadow-2xs">
-              <Compass className="w-7 h-7" />
+              <Compass className="w-7 h-7 text-accent" />
             </div>
             <h3 className="text-xl font-bold text-primary font-serif-heading">
-              Your next dream starts here.
+              Your next adventure starts here.
             </h3>
             <p className="text-xs sm:text-sm text-secondary leading-relaxed">
-              Add something you have always wanted to experience, achieve, or see in this lifetime.
+              Every journey begins with a single aspiration. Write down what you want to experience, achieve, or see.
             </p>
             <div className="pt-2">
               <Button
@@ -433,7 +533,31 @@ export default function DreamsPage() {
                 className="font-semibold shadow-sm"
               >
                 <Plus className="w-4 h-4 mr-1.5" />
-                <span>Add Your First Dream</span>
+                <span>Add Dream</span>
+              </Button>
+            </div>
+          </div>
+        ) : activeCount === 0 && statusFilter === "active" ? (
+          /* All Active Completed Empty State */
+          <div className="py-16 text-center space-y-3 max-w-sm mx-auto">
+            <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-500/20 shadow-2xs">
+              <Sparkles className="w-7 h-7" />
+            </div>
+            <h3 className="text-xl font-bold text-primary font-serif-heading">
+              You&apos;ve lived some beautiful ones.
+            </h3>
+            <p className="text-xs sm:text-sm text-secondary leading-relaxed">
+              All of your current dreams are accomplished. What comes next on your horizon?
+            </p>
+            <div className="pt-2">
+              <Button
+                variant="primary"
+                size="md"
+                onClick={() => setIsAddDreamOpen(true)}
+                className="font-semibold shadow-sm"
+              >
+                <Plus className="w-4 h-4 mr-1.5" />
+                <span>Create a Dream</span>
               </Button>
             </div>
           </div>
@@ -456,12 +580,12 @@ export default function DreamsPage() {
             </Button>
           </div>
         ) : (
-          /* Dream Cards Grid / Stack */
+          /* Dream Cards Stack */
           <div className="space-y-2.5">
-            {filteredItems.map((dream) => (
+            {filteredItems.map((item) => (
               <BucketListItemCard
-                key={dream.id}
-                item={dream}
+                key={item.id}
+                item={item}
                 onClick={(clicked) => setSelectedItemForDetail(clicked)}
                 showCategoryBadge={selectedCategory === "all"}
               />
@@ -470,10 +594,10 @@ export default function DreamsPage() {
         )}
       </div>
 
-      {/* Dream Container Modal */}
+      {/* Dream Detail Modal */}
       <BucketListItemDetailModal
         item={selectedItemForDetail}
-        isOpen={!!selectedItemForDetail}
+        isOpen={Boolean(selectedItemForDetail)}
         onClose={() => setSelectedItemForDetail(null)}
         onUpdate={handleItemUpdated}
         onDelete={handleItemDeleted}
@@ -484,14 +608,14 @@ export default function DreamsPage() {
       <AddBucketListItemModal
         isOpen={isAddDreamOpen}
         onClose={() => setIsAddDreamOpen(false)}
-        onItemAdded={handleItemAdded}
         categories={categories}
         defaultCategoryId={defaultCategoryForAdd}
+        onItemAdded={handleItemAdded}
       />
 
       {/* Edit Dream Modal */}
       <EditBucketListItemModal
-        isOpen={!!selectedItemForEdit}
+        isOpen={Boolean(selectedItemForEdit)}
         onClose={() => setSelectedItemForEdit(null)}
         item={selectedItemForEdit}
         categories={categories}

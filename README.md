@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.16.0 — Personal Dreams, Experiences & Memories App
+# 🌟 DayDream v2.19.0 — Personal Dreams, Experiences & Memories App
 
-> **Version 2.16.0** · **"Information Architecture & UX Restructure · One Coherent Life Experience System"**
+> **Version 2.19.0** · **"Smart Dreams • Better Today • Premium Memories (Phases 4, 5 & 6)"**
 
 A production-quality, responsive Full-Stack web application uniting lifelong dreams, daily execution, personal reflection, and memory preservation into one coherent life journey:
 $$\text{DREAM} \longrightarrow \text{PLAN} \longrightarrow \text{DO} \longrightarrow \text{LIVE} \longrightarrow \text{REMEMBER}$$
@@ -280,6 +280,26 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
   - Calendar (`/calendar`) and Expenses (`/expenses`) remain fully integrated supporting planning tools wrapped in `AppShell`.
   - Server-side middleware redirects for legacy paths (`/dashboard` → `/dreams`, `/todo` → `/today`, `/profile` → `/you`).
 
+### 21. Smart Dreams • Better Today • Premium Memories (v2.19.0)
+- **Release Scope**: Phases 4, 5, and 6 enhancements (*Note: Phase 3 and Phase 7 are intentionally reserved for future releases*).
+- **Phase 4: Smarter Dreams**:
+  - **Prioritized Card Hierarchy**: Card layout reordered into Title → Status badge → Category → Progress → Target Date → Next Action.
+  - **Authentic Action Progress**: Replaced artificial completion indicators with real count-based tracking (`"3 of 7 actions complete"`), clean progress bar, and smart snippet preview (`"Next: Pack essentials"` or `"+ Add your first action"`).
+  - **Unified Dream Container Hierarchy**: Detail modal streamlined into Header → Overview → Next Action (with 1-click checkoff) → Plan & Schedule → Linked Tasks → Real Progress → Dream Fund Preview → Memory Keepsake.
+  - **Lifecycle Action Bar**: Dynamic contextual primary CTA: *"Start Planning"* (Dreaming) → *"Continue Dream"* (Planning) → *"Continue"* (In Progress) → *"View Keepsake"* (Completed).
+  - **Post-Completion Calm Flow**: Subtle reflection and postcard prompts (`"Want to remember this one?"`) offering quick postcard creation or journal entry without forceful popups.
+  - **Refined Filtering & Sorting**: Added status chips (`All`, `Active`, `Planning`, `In Progress`, `Completed`), sorting (`Recently Added`, `Target Date`, `Progress`), contextual discovery suggestions, and deep-link auto-opening (`?id={dreamId}`).
+- **Phase 5: Better Today**:
+  - **Connected Action Cards**: Task items feature high semantic contrast and interactive parent Dream badges (`🌙 Dream Title`) that seamlessly link to the dream container (`/dreams?id={dreamId}`).
+  - **Minimal-Friction Creation**: Quick-add modal pre-selects associated Dream when initiated from dream context, with automatic today-dating and zero intrusive notification popups.
+  - **Smart Rollover**: Encouraging rollover banner for overdue tasks (`"Carry these forward?"`) with 1-click batch *"Move All to Today"*.
+  - **Adaptive View Switcher**: 1-click toggle between **"By Priority"** view and **"By Dream"** view (grouping daily actions under their parent dreams).
+  - **Desktop "Dream in Focus" Side Panel**: Persistent contextual widget displaying the current active dream, live action progress, immediate next action step, and quick deep-link.
+- **Phase 6: Premium Memories**:
+  - **Editorial Featured Memory Spotlight**: Prominent hero card spotlighting a completed life milestone with high-fidelity visual presentation, quote, and direct return link to the dream.
+  - **Refined Scrapbook Cards**: Tactile depth, specular border highlights, responsive aspect ratio grid, and calm empty states inviting users to live their first dream.
+  - **Seamless Bidirectional Linking**: Direct deep-links between Memories and Dreams (`/dreams?id={dreamId}`) creating a full-circle experience from aspiration to remembrance.
+
 ---
 
 ## 🛠️ Tech Stack
@@ -344,7 +364,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.16.0 dependencies and scripts
+├── package.json                     # v2.19.0 dependencies and scripts
 └── README.md
 ```
 

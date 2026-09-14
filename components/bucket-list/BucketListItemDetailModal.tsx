@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import confetti from "canvas-confetti";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
@@ -27,9 +27,8 @@ import {
   Compass,
   Target,
   Coins,
-  MapPin,
-  Clock,
   Loader2,
+  Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { AddEventModal } from "@/components/calendar/AddEventModal";
@@ -63,6 +62,7 @@ export function BucketListItemDetailModal({
   const [isTogglingComplete, setIsTogglingComplete] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showRememberPrompt, setShowRememberPrompt] = useState(false);
 
   // Planning modals
   const [isScheduleCalendarOpen, setIsScheduleCalendarOpen] = useState(false);
@@ -84,6 +84,8 @@ export function BucketListItemDetailModal({
   >([]);
   const [isLoadingTasks, setIsLoadingTasks] = useState(false);
   const [togglingTaskId, setTogglingTaskId] = useState<string | null>(null);
+
+  const nextActionRef = useRef<HTMLDivElement>(null);
 
   // Fetch tasks linked to this dream
   const fetchDreamTasks = useCallback(async () => {
@@ -107,6 +109,7 @@ export function BucketListItemDetailModal({
     if (item && isOpen) {
       setReflectionText(item.reflection || "");
       setIsEditingReflection(false);
+      setShowRememberPrompt(false);
       setTodoTaskTitle("");
       setTodoTaskDate(
         item.targetDate
@@ -127,6 +130,12 @@ export function BucketListItemDetailModal({
   }, [item, dreamTasks]);
 
   if (!item) return null;
+
+  // Real action counts
+  const totalTasks = dreamTasks.length;
+  const completedTasks = dreamTasks.filter((t) => t.completed).length;
+  const taskProgressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const nextActionTask = dreamTasks.find((t) => !t.completed);
 
   // Toggle task completion within Dream Container
   const handleToggleTask = async (taskId: string, currentCompleted: boolean) => {
@@ -226,8 +235,9 @@ export function BucketListItemDetailModal({
         playSound("dream.completed");
         triggerCelebration();
         success("Dream achieved! 🎉 Take a moment to capture the memory.");
-        setIsEditingReflection(true);
+        setShowRememberPrompt(true);
       } else {
+        setShowRememberPrompt(false);
         success("Dream moved back to active.");
       }
     } catch {
@@ -257,6 +267,7 @@ export function BucketListItemDetailModal({
       playSound("memory.journalSaved");
       onUpdate(data.item);
       setIsEditingReflection(false);
+      setShowRememberPrompt(false);
       success("Memory reflection saved permanently.");
     } catch {
       toastError("Failed to save reflection.");
@@ -305,11 +316,6 @@ export function BucketListItemDetailModal({
       })
     : null;
 
-  // Task progress calculation
-  const totalTasks = dreamTasks.length;
-  const completedTasks = dreamTasks.filter((t) => t.completed).length;
-  const taskProgressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-
   // Status visual style
   const statusStyles: Record<DreamStatus, string> = {
     Dreaming: "bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-500/20",
@@ -328,12 +334,33 @@ export function BucketListItemDetailModal({
       ? 1
       : 0;
 
+  // Contextual primary action (Section 4.6)
+  const handlePrimaryAction = () => {
+    if (item.completed) {
+      setIsPostcardModalOpen(true);
+    } else if (status === "Dreaming" || status === "Planning") {
+      setTodoTaskTitle("");
+      setIsAddToTodoOpen(true);
+    } else {
+      // In Progress -> Focus Next Action
+      nextActionRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  const primaryActionLabel = item.completed
+    ? "View Keepsake"
+    : status === "In Progress"
+    ? "Continue"
+    : status === "Planning"
+    ? "Continue Dream"
+    : "Start Planning";
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} maxWidth="xl" showCloseButton={true}>
         <div className="space-y-6">
           {/* ========================================================= */}
-          {/* 1. DREAM HEADER & TOP METADATA                            */}
+          {/* 1. HEADER (Title, Category, Status, Target Date)          */}
           {/* ========================================================= */}
           <div className="border-b border-stone-200/60 dark:border-stone-800/80 pb-4 space-y-3">
             <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -383,7 +410,7 @@ export function BucketListItemDetailModal({
               </div>
             </div>
 
-            {/* Title & Primary Action */}
+            {/* Title & Context-Sensitive Action Bar */}
             <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-primary font-serif-heading">
@@ -392,41 +419,49 @@ export function BucketListItemDetailModal({
                     <span className="text-emerald-500 ml-2 font-normal text-xl">✓</span>
                   )}
                 </h2>
-                {item.description && (
-                  <p className="text-sm text-secondary mt-1 leading-relaxed whitespace-pre-wrap">
-                    {item.description}
-                  </p>
-                )}
               </div>
 
-              <Button
-                type="button"
-                onClick={handleToggleComplete}
-                isLoading={isTogglingComplete}
-                variant={item.completed ? "outline" : "primary"}
-                size="sm"
-                className={cn(
-                  "shrink-0 font-semibold shadow-2xs self-start sm:self-auto",
-                  item.completed &&
-                    "border-emerald-300 dark:border-emerald-600 text-emerald-800 dark:text-emerald-200 hover:bg-emerald-100 dark:hover:bg-emerald-950/60"
-                )}
-              >
-                {item.completed ? (
-                  <>
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 mr-1.5" />
-                    Achieved
-                  </>
-                ) : (
-                  <>
-                    <Circle className="w-3.5 h-3.5 mr-1.5" />
-                    Mark Achieved
-                  </>
-                )}
-              </Button>
+              <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
+                <Button
+                  type="button"
+                  onClick={handlePrimaryAction}
+                  variant="primary"
+                  size="sm"
+                  className="font-semibold shadow-2xs gap-1"
+                >
+                  <span>{primaryActionLabel}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={handleToggleComplete}
+                  isLoading={isTogglingComplete}
+                  variant={item.completed ? "outline" : "ghost"}
+                  size="sm"
+                  className={cn(
+                    "font-semibold text-xs",
+                    item.completed &&
+                      "border-emerald-300 dark:border-emerald-600 text-emerald-800 dark:text-emerald-200 hover:bg-emerald-100 dark:hover:bg-emerald-950/60"
+                  )}
+                >
+                  {item.completed ? (
+                    <>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 mr-1" />
+                      Achieved
+                    </>
+                  ) : (
+                    <>
+                      <Circle className="w-3.5 h-3.5 mr-1" />
+                      Mark Achieved
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
 
             {/* Subtle Dream Journey Indicator */}
-            <div className="pt-2">
+            <div className="pt-1">
               <div className="flex items-center justify-between gap-1 text-[10px] font-bold tracking-wider text-muted">
                 {journeySteps.map((step, idx) => {
                   const isPast = idx < currentStepIndex;
@@ -456,7 +491,130 @@ export function BucketListItemDetailModal({
           </div>
 
           {/* ========================================================= */}
-          {/* 2. PLAN & SCHEDULE SECTION                                */}
+          {/* CALM COMPLETION FLOW NOTIFICATION (Section 6.12)          */}
+          {/* ========================================================= */}
+          {showRememberPrompt && item.completed && (
+            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/25 space-y-2 animate-fade-in">
+              <div className="flex items-center gap-2">
+                <Heart className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                <span className="text-xs font-bold text-amber-900 dark:text-amber-200">
+                  Want to remember this one?
+                </span>
+              </div>
+              <p className="text-xs text-amber-950/80 dark:text-amber-300/80 leading-relaxed">
+                Take a quiet moment to capture a personal thought, or create an authentic keepsakes postcard.
+              </p>
+              <div className="flex items-center gap-2 pt-1">
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="sm"
+                  onClick={() => setIsEditingReflection(true)}
+                  className="text-xs font-semibold"
+                >
+                  Add Reflection
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsPostcardModalOpen(true)}
+                  className="text-xs font-semibold"
+                >
+                  Create Postcard
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowRememberPrompt(false)}
+                  className="text-xs text-muted hover:text-primary"
+                >
+                  Done for now
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* 2. OVERVIEW (Description)                                 */}
+          {/* ========================================================= */}
+          {item.description && (
+            <section className="space-y-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-muted block">
+                Overview
+              </span>
+              <p className="text-sm text-secondary leading-relaxed whitespace-pre-wrap">
+                {item.description}
+              </p>
+            </section>
+          )}
+
+          {/* ========================================================= */}
+          {/* 3. NEXT ACTION (Section 4.3)                              */}
+          {/* ========================================================= */}
+          <div ref={nextActionRef}>
+            <section className="glass-card rounded-2xl p-4 sm:p-5 space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+                  <ArrowRight className="w-3.5 h-3.5 text-accent" />
+                  Next Action
+                </span>
+                {nextActionTask && (
+                  <Link
+                    href="/today"
+                    onClick={onClose}
+                    className="text-xs font-semibold text-accent hover:underline inline-flex items-center gap-1"
+                  >
+                    <span>Open in Today</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                )}
+              </div>
+
+              {nextActionTask ? (
+                <div className="p-3.5 rounded-xl bg-stone-50/80 dark:bg-white/5 border border-stone-200/60 dark:border-white/10 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleTask(nextActionTask.id, nextActionTask.completed)}
+                      disabled={togglingTaskId === nextActionTask.id}
+                      className="w-4 h-4 rounded border flex items-center justify-center shrink-0 border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 cursor-pointer"
+                      aria-label="Mark action complete"
+                    >
+                      {nextActionTask.completed && <Check className="w-3 h-3 stroke-[3]" />}
+                    </button>
+                    <span className="text-xs font-semibold text-primary truncate">
+                      {nextActionTask.title}
+                    </span>
+                  </div>
+                  <span className="text-[10.5px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-800 dark:text-amber-200 border border-amber-500/20 shrink-0 font-medium">
+                    Ready to do
+                  </span>
+                </div>
+              ) : (
+                <div className="p-3.5 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-dashed border-stone-200/80 dark:border-white/10 flex items-center justify-between gap-3">
+                  <span className="text-xs text-muted">
+                    No action steps yet. Add your first concrete step to get this dream moving.
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTodoTaskTitle("");
+                      setIsAddToTodoOpen(true);
+                    }}
+                    className="text-xs font-semibold text-accent hover:underline inline-flex items-center gap-1 shrink-0 cursor-pointer"
+                  >
+                    <Plus className="w-3 h-3" />
+                    <span>Add Action</span>
+                  </button>
+                </div>
+              )}
+            </section>
+          </div>
+
+          {/* ========================================================= */}
+          {/* 4. PLAN & SCHEDULE                                        */}
           {/* ========================================================= */}
           <section className="glass-card rounded-2xl p-4 sm:p-5 space-y-3">
             <div className="flex items-center justify-between">
@@ -515,42 +673,42 @@ export function BucketListItemDetailModal({
           </section>
 
           {/* ========================================================= */}
-          {/* 3. DO — TASKS ASSOCIATED WITH THIS DREAM                  */}
+          {/* 5. TASKS / ACTIONS (Section 4.7)                          */}
           {/* ========================================================= */}
           <section className="glass-card rounded-2xl p-4 sm:p-5 space-y-3.5">
             <div className="flex items-center justify-between pb-2 border-b border-stone-200/50 dark:border-stone-800/80">
               <div className="flex items-center gap-2">
                 <ListTodo className="w-4 h-4 text-muted" />
                 <h3 className="text-xs font-bold uppercase tracking-wider text-secondary">
-                  Action Steps ({completedTasks}/{totalTasks})
+                  Action Steps {totalTasks > 0 && `(${completedTasks} of ${totalTasks} complete)`}
                 </h3>
               </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTodoTaskTitle("");
-                    setIsAddToTodoOpen(true);
-                  }}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-primary bg-stone-100/90 dark:bg-white/10 hover:bg-stone-200/80 dark:hover:bg-white/15 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Add Task</span>
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setTodoTaskTitle("");
+                  setIsAddToTodoOpen(true);
+                }}
+                className="inline-flex items-center gap-1 text-xs font-semibold text-primary bg-stone-100/90 dark:bg-white/10 hover:bg-stone-200/80 dark:hover:bg-white/15 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Add Task</span>
+              </button>
             </div>
 
-            {/* Progress Bar (if tasks exist) */}
+            {/* Real Progress (Section 4.4 - no artificial percentages) */}
             {totalTasks > 0 && (
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-[11px]">
                   <span className="text-muted">
                     {completedTasks === totalTasks
                       ? "All action steps completed! 🎉"
-                      : `${totalTasks - completedTasks} step${totalTasks - completedTasks === 1 ? "" : "s"} remaining`}
+                      : `${totalTasks - completedTasks} action step${totalTasks - completedTasks === 1 ? "" : "s"} remaining`}
                   </span>
-                  <span className="font-bold text-primary">{taskProgressPercent}%</span>
+                  <span className="font-bold text-primary">
+                    {completedTasks} of {totalTasks} complete
+                  </span>
                 </div>
                 <div className="w-full bg-stone-200/60 dark:bg-stone-800/80 rounded-full h-2 overflow-hidden shadow-inner p-0.5">
                   <div
@@ -645,7 +803,7 @@ export function BucketListItemDetailModal({
           </section>
 
           {/* ========================================================= */}
-          {/* 4. MONEY / FUTURE DREAM FUND RESERVED AREA                */}
+          {/* 6. DREAM FUND & BUDGET PREVIEW                            */}
           {/* ========================================================= */}
           <section className="glass-card rounded-2xl p-4 sm:p-5 space-y-2">
             <div className="flex items-center justify-between">
@@ -671,7 +829,7 @@ export function BucketListItemDetailModal({
           </section>
 
           {/* ========================================================= */}
-          {/* 5. MEMORY & REFLECTION (LIVE & REMEMBER)                  */}
+          {/* 7. MEMORY & REFLECTION (LIVE & REMEMBER)                  */}
           {/* ========================================================= */}
           <section className="glass-card rounded-2xl p-4 sm:p-5 space-y-3.5">
             <div className="flex items-center justify-between pb-2 border-b border-stone-200/50 dark:border-stone-800/80">

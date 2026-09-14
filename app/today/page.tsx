@@ -4,38 +4,40 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { AppShell } from "@/components/layout/AppShell";
-import { Button } from "@/components/ui/Button";
 import { TodoTaskItem } from "@/components/todo/TodoTaskItem";
-import { TodoTaskDetailModal } from "@/components/todo/TodoTaskDetailModal";
 import { AddTodoTaskModal } from "@/components/todo/AddTodoTaskModal";
+import { TodoTaskDetailModal } from "@/components/todo/TodoTaskDetailModal";
 import { DateNavigator } from "@/components/todo/DateNavigator";
 import { TodoProgressWidget } from "@/components/todo/TodoProgressWidget";
 import { TodayEventsSnippet } from "@/components/todo/TodayEventsSnippet";
 import {
   TodoTaskData,
-  formatToDateKey,
   TODO_CATEGORIES,
   TODO_PRIORITIES,
+  formatToDateKey,
 } from "@/components/todo/types";
+import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/providers/ToastProvider";
 import {
-  CheckSquare,
-  ListTodo,
-  ChevronDown,
-  ChevronUp,
-  Inbox,
-  Loader2,
-  Filter,
   Plus,
-  ArrowRightCircle,
+  CheckCircle2,
+  Calendar,
   Clock,
-  Sparkles,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  ListTodo,
+  Loader2,
   Moon,
+  Sparkles,
   ArrowRight,
-  Target,
-  SunMedium,
+  LayoutList,
+  Layers,
+  Flag,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+
+export type TaskGroupMode = "priority" | "dream";
 
 export default function TodayPage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -43,23 +45,26 @@ export default function TodayPage() {
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [tasks, setTasks] = useState<TodoTaskData[]>([]);
-  const [overdueCount, setOverdueCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isMovingAll, setIsMovingAll] = useState(false);
+  const [overdueCount, setOverdueCount] = useState(0);
 
-  // Filter states
+  // Grouping & Filter states
+  const [groupMode, setGroupMode] = useState<TaskGroupMode>("priority");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
-  const [isCompletedExpanded, setIsCompletedExpanded] = useState(true);
+  const [isCompletedExpanded, setIsCompletedExpanded] = useState(false);
 
   // Modal State
   const [selectedTaskForDetail, setSelectedTaskForDetail] =
     useState<TodoTaskData | null>(null);
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
+  // Active Dream for Desktop Side Panel
+  const [activeDreamInFocus, setActiveDreamInFocus] = useState<any | null>(null);
+
   const selectedDateKey = formatToDateKey(selectedDate);
   const todayKey = formatToDateKey(new Date());
-  const isPastDate = selectedDateKey < todayKey;
   const isToday = selectedDateKey === todayKey;
 
   // Fetch tasks for current selected date
@@ -94,6 +99,24 @@ export default function TodayPage() {
     }
   }, [user, fetchTasks]);
 
+  // Fetch active dream for the side panel (Section 5.10)
+  useEffect(() => {
+    if (user) {
+      fetch("/api/bucket-list?status=active")
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (data?.items && data.items.length > 0) {
+            const best =
+              data.items.find((d: any) => d.targetDate) ||
+              data.items.find((d: any) => d.todos && d.todos.length > 0) ||
+              data.items[0];
+            setActiveDreamInFocus(best);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user]);
+
   // Split into active and completed tasks
   const activeTasks = useMemo(
     () => tasks.filter((t) => !t.completed),
@@ -103,6 +126,35 @@ export default function TodayPage() {
     () => tasks.filter((t) => t.completed),
     [tasks]
   );
+
+  // Priority-based split (Section 5.2)
+  const highPriorityTasks = useMemo(
+    () => activeTasks.filter((t) => t.priority === "High"),
+    [activeTasks]
+  );
+  const normalPriorityTasks = useMemo(
+    () => activeTasks.filter((t) => t.priority !== "High"),
+    [activeTasks]
+  );
+
+  // Dream-based grouping (Section 5.4)
+  const dreamGroups = useMemo(() => {
+    const groups: Record<
+      string,
+      { title: string; dreamId?: string; tasks: TodoTaskData[] }
+    > = {};
+
+    activeTasks.forEach((t) => {
+      const key = t.bucketListItemId || "independent";
+      const title = t.bucketListItem?.title || "Independent Actions";
+      if (!groups[key]) {
+        groups[key] = { title, dreamId: t.bucketListItemId || undefined, tasks: [] };
+      }
+      groups[key].tasks.push(t);
+    });
+
+    return Object.values(groups);
+  }, [activeTasks]);
 
   // Toggle completion handler
   const handleToggleComplete = async (task: TodoTaskData) => {
@@ -184,70 +236,101 @@ export default function TodayPage() {
     }
   };
 
-  // Desktop side panel
+  // Desktop side panel (Section 5.10: Dream in Focus)
   const sidePanelContent = (
     <div className="space-y-5">
       {/* Today's Progress Widget */}
       <TodoProgressWidget totalCount={tasks.length} completedCount={completedTasks.length} />
 
+      {/* Dream in Focus Card */}
+      {activeDreamInFocus && (
+        <div className="glass-card rounded-2xl p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+              <Moon className="w-3.5 h-3.5 text-accent" />
+              Dream in Focus
+            </span>
+            {activeDreamInFocus.category && (
+              <span className="text-[10px] px-2 py-0.5 rounded-md glass-card text-secondary font-medium">
+                {activeDreamInFocus.category.name}
+              </span>
+            )}
+          </div>
+
+          <div className="space-y-1">
+            <h4 className="text-sm font-bold text-primary truncate">
+              {activeDreamInFocus.title}
+            </h4>
+            {activeDreamInFocus.todos && activeDreamInFocus.todos.length > 0 ? (
+              <p className="text-[11px] text-muted">
+                {activeDreamInFocus.todos.filter((t: any) => t.completed).length} of{" "}
+                {activeDreamInFocus.todos.length} actions complete
+              </p>
+            ) : (
+              <p className="text-[11px] text-muted italic">Ready to plan</p>
+            )}
+          </div>
+
+          {/* Next Action if available */}
+          {(() => {
+            const nextAction = activeDreamInFocus.todos?.find((t: any) => !t.completed);
+            if (nextAction) {
+              return (
+                <div className="p-2.5 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-stone-200/50 dark:border-white/10 text-xs">
+                  <span className="text-[10px] uppercase font-bold text-muted block mb-0.5">
+                    Next Action:
+                  </span>
+                  <p className="font-medium text-primary truncate">{nextAction.title}</p>
+                </div>
+              );
+            }
+            return null;
+          })()}
+
+          <div className="pt-1">
+            <Link
+              href={`/dreams?id=${activeDreamInFocus.id}`}
+              className="text-xs font-bold text-accent hover:underline inline-flex items-center gap-1"
+            >
+              <span>Continue Dream</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Today's Events Snippet */}
       <TodayEventsSnippet selectedDate={selectedDate} />
-
-      {/* Linked Dreams Motivation Card */}
-      <div className="glass-card rounded-2xl p-5 space-y-2">
-        <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
-          <Moon className="w-3.5 h-3.5 text-muted" />
-          Connected Dreams
-        </span>
-        <p className="text-xs text-muted leading-relaxed">
-          Every daily action keeps you moving toward your lifelong aspirations.
-        </p>
-        <div className="pt-1">
-          <Link
-            href="/dreams"
-            className="text-xs font-bold text-accent hover:underline inline-flex items-center gap-1"
-          >
-            <span>Browse All Dreams</span>
-            <ArrowRight className="w-3 h-3" />
-          </Link>
-        </div>
-      </div>
     </div>
   );
+
+  const formattedHeaderDate = selectedDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <AppShell title="Today" sidePanel={sidePanelContent}>
       <div className="space-y-6">
-        {/* Page Top Header */}
+        {/* Page Top Header (Section 5.1) */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-primary font-serif-heading leading-tight">
                 Today
               </h1>
-              {isToday && (
-                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-800 dark:text-amber-200 border border-amber-500/20 inline-flex items-center gap-1">
-                  <SunMedium className="w-3 h-3 text-amber-500" />
-                  <span>Present Day</span>
-                </span>
-              )}
+              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-stone-100 dark:bg-white/10 text-secondary border border-stone-200/70 dark:border-white/10">
+                {formattedHeaderDate}
+              </span>
             </div>
             <p className="text-xs sm:text-sm text-secondary">
-              What can I do right now to make my dreams real?
+              Small steps toward the things you want to live.
             </p>
           </div>
 
           {/* Header Action Buttons */}
-          <div className="flex items-center gap-2.5 self-start sm:self-auto shrink-0 flex-wrap">
-            {/* Future Zen Focus spot */}
-            <span
-              title="Zen Focus Mode (Coming Soon)"
-              className="text-xs font-semibold px-3 py-2 rounded-xl glass-card text-muted border border-stone-200/50 dark:border-white/5 opacity-75 hidden sm:inline-flex items-center gap-1.5"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-muted" />
-              <span>Zen Focus</span>
-            </span>
-
+          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0 flex-wrap">
             <Button
               type="button"
               variant="primary"
@@ -267,40 +350,68 @@ export default function TodayPage() {
           onDateChange={(d) => setSelectedDate(d)}
         />
 
-        {/* Overdue rollover alert banner (if user is viewing a past date or has overdue tasks) */}
+        {/* Overdue rollover alert banner (Section 5.5) */}
         {overdueCount > 0 && isToday && (
           <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-2 min-w-0">
               <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-              <span className="text-amber-900 dark:text-amber-200 font-medium truncate">
-                You have {overdueCount} uncompleted task{overdueCount === 1 ? "" : "s"} from past days.
+              <span className="text-amber-950 dark:text-amber-200 font-medium truncate">
+                Carry these forward? You have {overdueCount} uncompleted task{overdueCount === 1 ? "" : "s"} from past days.
               </span>
             </div>
             <button
               type="button"
               onClick={handleMoveAllToToday}
               disabled={isMovingAll}
-              className="font-bold text-amber-800 dark:text-amber-200 hover:underline shrink-0 cursor-pointer"
+              className="font-bold text-amber-900 dark:text-amber-300 hover:underline shrink-0 cursor-pointer"
             >
               {isMovingAll ? "Moving..." : "Move All to Today →"}
             </button>
           </div>
         )}
 
-        {/* Filters bar */}
-        <div className="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar py-1 text-xs">
-          <div className="flex items-center gap-1.5">
-            <span className="text-muted font-semibold uppercase text-[10px] tracking-wider mr-1">
-              Category:
-            </span>
+        {/* Toolbar: Grouping Mode Switcher & Category Filters */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          {/* View Grouping Switcher (Section 5.4) */}
+          <div className="inline-flex p-1 bg-stone-100 dark:bg-white/5 rounded-xl border border-stone-200/60 dark:border-white/10 self-start">
+            <button
+              type="button"
+              onClick={() => setGroupMode("priority")}
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer",
+                groupMode === "priority"
+                  ? "glass-tab-active shadow-2xs font-semibold"
+                  : "text-secondary hover:text-primary"
+              )}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>By Priority</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setGroupMode("dream")}
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer",
+                groupMode === "dream"
+                  ? "glass-tab-active shadow-2xs font-semibold"
+                  : "text-secondary hover:text-primary"
+              )}
+            >
+              <Moon className="w-3.5 h-3.5" />
+              <span>By Dream</span>
+            </button>
+          </div>
+
+          {/* Category Filter Chips */}
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
             <button
               type="button"
               onClick={() => setCategoryFilter("all")}
               className={cn(
-                "px-2.5 py-1 rounded-lg font-medium transition-all shrink-0 cursor-pointer",
+                "px-2.5 py-1 rounded-lg text-xs font-medium transition-all shrink-0 cursor-pointer",
                 categoryFilter === "all"
-                  ? "bg-stone-900 text-white dark:bg-white dark:text-stone-900 font-semibold shadow-2xs"
-                  : "text-secondary hover:text-primary bg-stone-100/80 dark:bg-white/10"
+                  ? "glass-tab-active shadow-2xs font-semibold"
+                  : "text-secondary hover:text-primary"
               )}
             >
               All
@@ -311,10 +422,10 @@ export default function TodayPage() {
                 type="button"
                 onClick={() => setCategoryFilter(cat)}
                 className={cn(
-                  "px-2.5 py-1 rounded-lg font-medium transition-all shrink-0 cursor-pointer",
+                  "px-2.5 py-1 rounded-lg text-xs font-medium transition-all shrink-0 cursor-pointer",
                   categoryFilter === cat
-                    ? "bg-stone-900 text-white dark:bg-white dark:text-stone-900 font-semibold shadow-2xs"
-                    : "text-secondary hover:text-primary bg-stone-100/80 dark:bg-white/10"
+                    ? "glass-tab-active shadow-2xs font-semibold"
+                    : "text-secondary hover:text-primary"
                 )}
               >
                 {cat}
@@ -323,25 +434,25 @@ export default function TodayPage() {
           </div>
         </div>
 
-        {/* Tasks View / Content */}
+        {/* Task List / Empty State (Section 5.9) */}
         {isLoading ? (
-          <div className="py-20 flex flex-col items-center justify-center">
-            <Loader2 className="w-7 h-7 text-muted animate-spin mb-3" />
-            <p className="text-xs text-muted font-medium">Loading tasks for this date...</p>
+          <div className="py-20 text-center">
+            <Loader2 className="w-6 h-6 text-muted animate-spin mx-auto mb-2" />
+            <p className="text-xs text-muted">Gathering today&apos;s actions...</p>
           </div>
         ) : tasks.length === 0 ? (
-          /* Empty State */
+          /* Empty State (Section 5.9) */
           <div className="py-20 text-center space-y-3 max-w-sm mx-auto">
-            <div className="w-14 h-14 rounded-2xl bg-stone-100/80 dark:bg-white/10 text-stone-500 flex items-center justify-center mx-auto border border-stone-200/50 dark:border-white/10 shadow-2xs">
-              <Inbox className="w-7 h-7" />
+            <div className="w-14 h-14 rounded-2xl bg-stone-100 dark:bg-white/5 text-muted flex items-center justify-center mx-auto border border-stone-200/50 dark:border-white/10 shadow-2xs">
+              <Sparkles className="w-7 h-7 text-amber-500" />
             </div>
             <h3 className="text-xl font-bold text-primary font-serif-heading">
-              Nothing pressing today.
+              Nothing you need to chase today.
             </h3>
             <p className="text-xs sm:text-sm text-secondary leading-relaxed">
-              Take a breath, enjoy the moment, or add small steps toward your dreams.
+              Take a quiet breath, or explore your dreams to choose your next step.
             </p>
-            <div className="pt-2 flex items-center justify-center gap-2.5">
+            <div className="pt-2 flex items-center justify-center gap-2">
               <Button
                 variant="primary"
                 size="md"
@@ -352,60 +463,157 @@ export default function TodayPage() {
                 <span>Add Task</span>
               </Button>
               <Link href="/dreams">
-                <Button variant="outline" size="md">
-                  <span>Browse Dreams</span>
+                <Button variant="outline" size="md" className="font-semibold">
+                  <span>Explore Dreams</span>
                 </Button>
               </Link>
             </div>
           </div>
-        ) : (
+        ) : groupMode === "dream" ? (
+          /* View By Dream Grouping (Section 5.4) */
           <div className="space-y-6">
-            {/* Active (Incomplete) Tasks */}
-            <div className="space-y-2.5">
-              {activeTasks.length === 0 ? (
-                <div className="p-5 rounded-2xl glass-card text-center space-y-1">
-                  <p className="text-sm font-bold text-primary">All tasks completed! 🎉</p>
-                  <p className="text-xs text-muted">
-                    You have achieved everything planned for this date.
-                  </p>
+            {dreamGroups.map((group) => (
+              <div key={group.title} className="space-y-2">
+                <div className="flex items-center justify-between pb-1 border-b border-stone-200/40 dark:border-white/10">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-primary flex items-center gap-1.5">
+                      <span>🌙</span>
+                      <span>{group.title}</span>
+                    </span>
+                    <span className="text-[10.5px] text-muted font-medium">
+                      ({group.tasks.length})
+                    </span>
+                  </div>
+                  {group.dreamId && (
+                    <Link
+                      href={`/dreams?id=${group.dreamId}`}
+                      className="text-[11px] font-semibold text-accent hover:underline inline-flex items-center gap-0.5"
+                    >
+                      <span>View Dream</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  )}
                 </div>
-              ) : (
-                activeTasks.map((task) => (
-                  <TodoTaskItem
-                    key={task.id}
-                    task={task}
-                    isPastDate={isPastDate}
-                    onToggleComplete={handleToggleComplete}
-                    onClick={(t) => setSelectedTaskForDetail(t)}
-                    onMoveToToday={handleMoveToToday}
-                  />
-                ))
-              )}
-            </div>
 
-            {/* Collapsible Completed Tasks Section */}
+                <div className="space-y-2">
+                  {group.tasks.map((task) => (
+                    <TodoTaskItem
+                      key={task.id}
+                      task={task}
+                      onToggleComplete={handleToggleComplete}
+                      onClick={(t) => setSelectedTaskForDetail(t)}
+                      onMoveToToday={handleMoveToToday}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Completed Tasks Group */}
             {completedTasks.length > 0 && (
-              <div className="space-y-3 pt-2">
+              <div className="pt-2 border-t border-stone-200/60 dark:border-white/10 space-y-2">
                 <button
                   type="button"
                   onClick={() => setIsCompletedExpanded(!isCompletedExpanded)}
-                  className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted hover:text-primary transition-colors cursor-pointer"
+                  className="flex items-center justify-between w-full text-xs font-bold text-muted hover:text-primary py-1 cursor-pointer"
                 >
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Completed Actions ({completedTasks.length})</span>
+                  </span>
                   {isCompletedExpanded ? (
-                    <ChevronUp className="w-3.5 h-3.5" />
+                    <ChevronDown className="w-4 h-4" />
                   ) : (
-                    <ChevronDown className="w-3.5 h-3.5" />
+                    <ChevronRight className="w-4 h-4" />
                   )}
-                  <span>Completed ({completedTasks.length})</span>
                 </button>
 
                 {isCompletedExpanded && (
-                  <div className="space-y-2">
+                  <div className="space-y-2 pt-1">
                     {completedTasks.map((task) => (
                       <TodoTaskItem
                         key={task.id}
                         task={task}
-                        isPastDate={isPastDate}
+                        onToggleComplete={handleToggleComplete}
+                        onClick={(t) => setSelectedTaskForDetail(t)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        ) : (
+          /* View By Priority (Section 5.2) */
+          <div className="space-y-5">
+            {/* High Priority / Focus Section */}
+            {highPriorityTasks.length > 0 && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">
+                  <Flag className="w-3.5 h-3.5" />
+                  <span>Important Focus ({highPriorityTasks.length})</span>
+                </div>
+                <div className="space-y-2">
+                  {highPriorityTasks.map((task) => (
+                    <TodoTaskItem
+                      key={task.id}
+                      task={task}
+                      onToggleComplete={handleToggleComplete}
+                      onClick={(t) => setSelectedTaskForDetail(t)}
+                      onMoveToToday={handleMoveToToday}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Other Active Actions */}
+            {normalPriorityTasks.length > 0 && (
+              <div className="space-y-2">
+                {highPriorityTasks.length > 0 && (
+                  <div className="text-xs font-bold text-muted uppercase tracking-wider">
+                    Other Actions ({normalPriorityTasks.length})
+                  </div>
+                )}
+                <div className="space-y-2">
+                  {normalPriorityTasks.map((task) => (
+                    <TodoTaskItem
+                      key={task.id}
+                      task={task}
+                      onToggleComplete={handleToggleComplete}
+                      onClick={(t) => setSelectedTaskForDetail(t)}
+                      onMoveToToday={handleMoveToToday}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Completed Tasks Collapsible */}
+            {completedTasks.length > 0 && (
+              <div className="pt-3 border-t border-stone-200/60 dark:border-white/10 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => setIsCompletedExpanded(!isCompletedExpanded)}
+                  className="flex items-center justify-between w-full text-xs font-bold text-muted hover:text-primary py-1 cursor-pointer"
+                >
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Completed Actions ({completedTasks.length})</span>
+                  </span>
+                  {isCompletedExpanded ? (
+                    <ChevronDown className="w-4 h-4" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4" />
+                  )}
+                </button>
+
+                {isCompletedExpanded && (
+                  <div className="space-y-2 pt-1">
+                    {completedTasks.map((task) => (
+                      <TodoTaskItem
+                        key={task.id}
+                        task={task}
                         onToggleComplete={handleToggleComplete}
                         onClick={(t) => setSelectedTaskForDetail(t)}
                       />
@@ -465,7 +673,6 @@ export default function TodayPage() {
         onClose={() => setIsAddTaskModalOpen(false)}
         initialDate={selectedDate}
         onTaskAdded={(newTask) => {
-          // If task date matches current view date, append to list
           if (newTask.date.split("T")[0] === selectedDateKey) {
             setTasks((prev) => [newTask, ...prev]);
           }

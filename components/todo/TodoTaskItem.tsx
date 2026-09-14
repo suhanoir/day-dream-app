@@ -91,7 +91,7 @@ export function TodoTaskItem({
             "w-5 h-5 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer active:scale-95",
             task.completed
               ? "bg-[var(--theme-primary)] border-[var(--theme-primary)] text-white shadow-2xs rotate-0 scale-100"
-              : "border-stone-300/80 bg-white/80 hover:border-[var(--theme-primary)] hover:bg-white"
+              : "border-stone-300/80 bg-white/80 dark:bg-stone-900/80 hover:border-[var(--theme-primary)] hover:bg-white"
           )}
         >
           {task.completed && (
@@ -105,8 +105,8 @@ export function TodoTaskItem({
             className={cn(
               "text-sm font-medium transition-all duration-150 break-words",
               task.completed
-                ? "line-through text-stone-400 font-normal"
-                : "text-stone-900"
+                ? "line-through text-muted font-normal"
+                : "text-primary"
             )}
           >
             {task.title}
@@ -115,18 +115,20 @@ export function TodoTaskItem({
           {/* Sub-tags / Category and Parent Dream in row */}
           <div className="flex items-center gap-1.5 flex-wrap text-xs">
             {task.bucketListItem && (
-              <span
-                title={`Linked Dream: ${task.bucketListItem.title}`}
+              <a
+                href={`/dreams?id=${task.bucketListItem.id}`}
+                onClick={(e) => e.stopPropagation()}
+                title={`Linked Dream: ${task.bucketListItem.title} — Click to open Dream`}
                 className={cn(
-                  "inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border shrink-0 transition-opacity",
+                  "inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border shrink-0 transition-all hover:scale-105 active:scale-95 cursor-pointer",
                   task.completed
-                    ? "opacity-50 grayscale border-stone-200 bg-stone-100 text-stone-500"
-                    : "bg-amber-500/10 text-amber-800 dark:text-amber-200 border-amber-500/25"
+                    ? "opacity-50 grayscale border-stone-200 dark:border-white/10 bg-stone-100 dark:bg-white/5 text-muted"
+                    : "bg-amber-500/10 text-amber-900 dark:text-amber-200 border-amber-500/25 hover:bg-amber-500/15"
                 )}
               >
                 <span>🌙</span>
                 <span className="truncate max-w-[140px]">{task.bucketListItem.title}</span>
-              </span>
+              </a>
             )}
 
             {task.category && categoryStyle && (
