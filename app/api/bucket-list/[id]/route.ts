@@ -29,6 +29,29 @@ export async function GET(
             icon: true,
           },
         },
+        todos: {
+          select: {
+            id: true,
+            title: true,
+            completed: true,
+            date: true,
+            priority: true,
+          },
+          orderBy: [
+            { completed: "asc" },
+            { createdAt: "asc" },
+          ],
+        },
+        events: {
+          select: {
+            id: true,
+            title: true,
+            date: true,
+            startTime: true,
+            location: true,
+          },
+          orderBy: { date: "asc" },
+        },
       },
     });
 

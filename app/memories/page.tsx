@@ -3,8 +3,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { FloatingNav } from "@/components/navigation/FloatingNav";
+import { AppShell } from "@/components/layout/AppShell";
 import { BucketListItemData } from "@/components/bucket-list/BucketListItemCard";
 import { CategoryData } from "@/components/categories/AddCategoryModal";
 import { ScrapbookCard } from "@/components/memory/ScrapbookCard";
@@ -19,8 +18,8 @@ import {
   Compass,
   ArrowRight,
   Loader2,
-  Image as ImageIcon,
-  CheckCircle2,
+  BookOpen,
+  Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -115,44 +114,103 @@ export default function MemoriesPage() {
     }).length;
   }, [items]);
 
-  if (authLoading || (isLoading && items.length === 0)) {
-    return (
-      <div className="min-h-screen bg-stone-50/50 flex flex-col items-center justify-center">
-        <Loader2 className="w-8 h-8 text-muted animate-spin mb-3" />
-        <p className="text-xs text-secondary font-medium">
-          Gathering your memory scrapbook...
+  const reflectionsCount = useMemo(() => {
+    return items.filter((i) => i.reflection && i.reflection.trim().length > 0).length;
+  }, [items]);
+
+  // Contextual side panel for desktop
+  const sidePanelContent = (
+    <div className="space-y-6">
+      {/* Scrapbook Archive Stats */}
+      <div className="glass-card rounded-2xl p-5 space-y-4">
+        <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+          Archive Summary
+        </span>
+        <div className="grid grid-cols-2 gap-2.5">
+          <div className="p-3 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-stone-200/50 dark:border-white/10">
+            <span className="text-[10.5px] text-muted block">Keepsakes</span>
+            <span className="text-lg font-bold text-primary">{items.length}</span>
+          </div>
+          <div className="p-3 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-stone-200/50 dark:border-white/10">
+            <span className="text-[10.5px] text-muted block">Photos</span>
+            <span className="text-lg font-bold text-primary">{photosCount}</span>
+          </div>
+          <div className="p-3 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-stone-200/50 dark:border-white/10 col-span-2">
+            <span className="text-[10.5px] text-muted block">Reflections Written</span>
+            <span className="text-lg font-bold text-primary">{reflectionsCount}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Meaningful Philosophy */}
+      <div className="glass-card rounded-2xl p-5 space-y-2.5">
+        <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+          <Heart className="w-3.5 h-3.5 text-rose-500" />
+          Philosophy
+        </span>
+        <p className="text-xs text-secondary leading-relaxed italic font-serif">
+          &ldquo;One day, your dreams become your memories. Live them fully so you have beautiful stories to look back upon.&rdquo;
         </p>
       </div>
+
+      {/* Dreams Shortcut */}
+      <div className="glass-card rounded-2xl p-5 space-y-2">
+        <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+          <Compass className="w-3.5 h-3.5 text-muted" />
+          Keep Dreaming
+        </span>
+        <p className="text-xs text-muted leading-relaxed">
+          Ready for your next milestone? Return to your active dreams list.
+        </p>
+        <div className="pt-1">
+          <Link
+            href="/dreams"
+            className="text-xs font-bold text-accent hover:underline inline-flex items-center gap-1"
+          >
+            <span>Go to My Dreams</span>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (authLoading || (isLoading && items.length === 0)) {
+    return (
+      <AppShell title="Memories">
+        <div className="py-24 flex flex-col items-center justify-center">
+          <Loader2 className="w-7 h-7 text-muted animate-spin mb-3" />
+          <p className="text-xs text-muted font-medium">Gathering your memory scrapbook...</p>
+        </div>
+      </AppShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-stone-50/50 flex flex-col selection:bg-stone-900 selection:text-stone-50">
-      <DashboardHeader />
-
-      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-32 sm:pb-28 flex-1">
+    <AppShell title="Memories" sidePanel={sidePanelContent}>
+      <div className="space-y-6">
         {/* Page Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2.5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
               <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-primary font-serif-heading leading-tight">
-                Memory Scrapbook
+                Memories & Scrapbook
               </h1>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-900 dark:text-amber-200 border border-amber-500/25 inline-flex items-center gap-1">
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-900 dark:text-amber-200 border border-amber-500/25 inline-flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                 <span>{items.length} {items.length === 1 ? "Keepsake" : "Keepsakes"}</span>
               </span>
             </div>
-            <p className="text-sm text-secondary max-w-xl leading-relaxed">
-              &ldquo;One day, your bucket list becomes your memory.&rdquo; A living
-              gallery of milestones lived, reflections written, and moments preserved.
+            <p className="text-xs sm:text-sm text-secondary">
+              A living gallery of milestones lived, reflections written, and moments preserved.
             </p>
           </div>
 
           <div className="flex items-center gap-2.5 self-start sm:self-auto shrink-0">
-            <Link href="/dashboard">
+            <Link href="/dreams">
               <Button variant="outline" size="md" className="font-semibold gap-1.5">
-                <span>View Bucket List</span>
+                <span>View My Dreams</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
             </Link>
@@ -161,16 +219,16 @@ export default function MemoriesPage() {
 
         {/* Filter & Search Bar if items exist */}
         {items.length > 0 && (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             {/* Search Input */}
             <div className="relative flex-1 max-w-md">
               <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
-                placeholder="Search your memories & reflections..."
+                placeholder="Search memories & reflections..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-9 py-2.5 glass-input rounded-2xl text-sm placeholder:text-stone-400 text-primary focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 transition-all"
+                className="w-full pl-10 pr-9 py-2 glass-input rounded-2xl text-xs sm:text-sm placeholder:text-stone-400 text-primary focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 transition-all"
               />
               {search && (
                 <button
@@ -222,18 +280,18 @@ export default function MemoriesPage() {
         {/* Content View */}
         {items.length === 0 ? (
           /* Empty Scrapbook State */
-          <div className="max-w-md mx-auto py-16 sm:py-24 text-center px-4">
+          <div className="max-w-md mx-auto py-16 sm:py-20 text-center px-4">
             <div className="w-16 h-16 rounded-3xl bg-amber-500/10 text-amber-700 border border-amber-500/20 flex items-center justify-center mx-auto mb-5 shadow-xs">
               <Sparkles className="w-8 h-8 text-amber-600" />
             </div>
             <h3 className="text-2xl font-bold tracking-tight text-primary font-serif-heading mb-2">
               Your scrapbook is waiting.
             </h3>
-            <p className="text-sm text-secondary leading-relaxed mb-6">
+            <p className="text-xs sm:text-sm text-secondary leading-relaxed mb-6">
               Complete your first dream and the memory will live here. Every milestone
               you accomplish becomes an authentic keepsake you can treasure forever.
             </p>
-            <Link href="/dashboard">
+            <Link href="/dreams">
               <Button variant="primary" size="md" className="font-semibold shadow-sm">
                 <span>View My Dreams</span>
                 <ArrowRight className="w-4 h-4 ml-1.5" />
@@ -243,7 +301,7 @@ export default function MemoriesPage() {
         ) : filteredItems.length === 0 ? (
           /* No filter match */
           <div className="py-16 text-center">
-            <p className="text-sm text-muted mb-3">
+            <p className="text-xs sm:text-sm text-muted mb-3">
               No memories match &ldquo;{search}&rdquo;.
             </p>
             <Button
@@ -269,10 +327,7 @@ export default function MemoriesPage() {
             ))}
           </div>
         )}
-      </main>
-
-      {/* Floating Navigation Dock */}
-      <FloatingNav />
+      </div>
 
       {/* Memory Detail Modal */}
       <MemoryDetailModal
@@ -291,6 +346,6 @@ export default function MemoriesPage() {
         item={selectedItemForEditor}
         onSaved={handleItemUpdated}
       />
-    </div>
+    </AppShell>
   );
 }

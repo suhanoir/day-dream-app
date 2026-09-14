@@ -1,24 +1,26 @@
-# 🌟 DayDream v2.15.0 — Full-Stack Web Application
+# 🌟 DayDream v2.16.0 — Personal Dreams, Experiences & Memories App
 
-> **Version 2.15.0** · **"Professional Sound & Audio Experience · Apple-Calm Haptics, Web Audio Engine & Atmospheric Ambience"**
+> **Version 2.16.0** · **"Information Architecture & UX Restructure · One Coherent Life Experience System"**
 
-A production-quality, responsive Full-Stack web application combining lifelong aspirations, calendar planning, daily task execution, and monthly expense tracking into a single unified personal hub. Featuring a timeless, abstract visual identity inspired by *The Threshold* (Day & Dream figure-ground duality) alongside a calm, tactile Liquid Glass design language unified across all four core modules (To-Do, Expenses, BucketList, Calendar).
+A production-quality, responsive Full-Stack web application uniting lifelong dreams, daily execution, personal reflection, and memory preservation into one coherent life journey:
+$$\text{DREAM} \longrightarrow \text{PLAN} \longrightarrow \text{DO} \longrightarrow \text{LIVE} \longrightarrow \text{REMEMBER}$$
 
 Repository: **[https://github.com/suhanoir/day-dream-app.git](https://github.com/suhanoir/day-dream-app.git)**  
 Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-app-two.vercel.app)**
 
 ---
 
-## 🧭 The Core Application Sections
+## 🧭 The 5 Primary Destinations
 
-| Section | Route | Core Purpose | User Mindset |
+| Primary Destination | Route | Core Purpose | User Mindset |
 | :--- | :--- | :--- | :--- |
-| **1. Home / Today** | `/home` | Personal daily snapshot connecting tasks, events, active dreams, and monthly spending. | *"What matters today?"* |
-| **2. BucketList** | `/dashboard` | Long-term bucket-list goals, custom categories, milestones, and personal memory reflections. | *"What do I want to accomplish in life?"* |
-| **3. Calendar** | `/calendar` | Upcoming events, schedules, important dates, and goal target dates with month/week/agenda views. | *"What is coming up?"* |
-| **4. To-Do List** | `/todo` | Daily actionable tasks with date isolation, priority/category filters, checkboxes, and celebration. | *"What do I need to get done today?"* |
-| **5. Expenses** | `/expenses` | Monthly expenditure tracking in Indian Rupees (₹), monthly totals, category breakdowns, and budgets. | *"Where is my money going this month?"* |
-| **6. Memory Scrapbook** | `/memories` | Visual gallery of achieved aspirations, memory postcards, and personal reflections. | *"What memories have I created?"* |
+| **1. Home** | `/home` | Daily life orientation layer connecting active dreams, today's focus, and recent memories. | *"What matters today?"* |
+| **2. Dreams** | `/dreams` | Aspirations container with full lifecycle stages (Dreaming, Planning, In Progress, Completed), linked tasks, and milestones. | *"What do I want to experience in life?"* |
+| **3. Today** | `/today` | Daily action execution hub with strict date isolation, direct dream badge linkage (`🌙 Dream Name`), and celebration. | *"What step am I taking today?"* |
+| **4. Memories** | `/memories` | Living keepsake scrapbook of completed milestones, postcards, reflections, and backward links to dreams. | *"What memories have I created?"* |
+| **5. You** | `/you` | Dedicated personal space uniting profile, appearance/themes, sounds & audio, and account configuration. | *"How is my space configured?"* |
+
+> **Supporting Tools**: **Calendar** (`/calendar`) and **Expenses** (`/expenses`) remain fully integrated supporting planning tools accessible across the application. All legacy routes (`/dashboard` → `/dreams`, `/todo` → `/today`, `/profile` → `/you`) maintain seamless backward compatibility.
 
 ---
 
@@ -255,7 +257,28 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
   - **Sound Effects Toggle**: Instant master toggle for all SFX.
   - **Ambient Sound Toggle**: Independent toggle for the continuous calm background loop.
   - **Master Volume Slider**: Smooth percentage slider (0% to 100%).
-  - **Interactive Sound Library Preview**: 6-item interactive soundboard in Profile Settings to preview the acoustic signatures.
+### 20. Information Architecture & UX Restructure (v2.16.0)
+- **Unified Life Experience Philosophy**:
+  - Unites the entire application around one single journey:
+    $$\text{DREAM} \longrightarrow \text{PLAN} \longrightarrow \text{DO} \longrightarrow \text{LIVE} \longrightarrow \text{REMEMBER}$$
+  - Transforms DayDream from isolated productivity modules into a coherent personal life system.
+- **5 Primary Destinations**:
+  - **1. Home (`/home`)**: Calm orientation layer. Features personalized time-aware greeting, active dreams in progress, today's immediate priorities with inline completion, and recent keepsakes preview.
+  - **2. Dreams (`/dreams`)**: The aspirations hub (replacing "Bucket List"). Displays dream lifecycle status stages (`Dreaming`, `Planning`, `In Progress`, `Completed`), category chips, search, and the full **Dream Container** modal.
+  - **3. Today (`/today`)**: Daily action execution hub (replacing "To-Do"). Strict date isolation, priority filters, progress tracking, and direct parent Dream badge linkage (`🌙 Dream Title`).
+  - **4. Memories (`/memories`)**: First-class scrapbook destination. Living gallery of completed dreams, customizable memory postcards, reflections, and backward links to parent dreams.
+  - **5. You (`/you`)**: Dedicated personal space unifying Profile details, Appearance (12 theme swatches), Sounds & Audio controls (SFX + Ambient soundboard), and Account configuration.
+- **Dream as a Complete Container**:
+  - Dream Detail Modal redesigned into an all-in-one container: Header with Journey Bar (`DREAM → PLAN → DO → LIVE → REMEMBER`), Plan overview, Do section (linked actionable tasks with inline checkoff and progress bar), Dream Fund preview area, and Memory section.
+- **Responsive Layout Shell (`AppShell`)**:
+  - **Desktop (`lg:`)**: Minimal left sidebar (64px) with icons and tooltips for all 5 destinations, with contextual side panels on large screens (`xl:`).
+  - **Mobile (`<lg`)**: Unified top bar and 5-tab liquid-glass bottom dock (`FloatingNav`).
+- **Non-Destructive Database Schema (`TodoTask` ↔ `BucketListItem`)**:
+  - Added optional `bucketListItemId` relation on `TodoTask` without breaking any existing tasks.
+  - Tasks can be linked to any Dream via the task modal, and dreams display their linked tasks with real-time completion progress.
+- **Preserved Supporting Tools & Seamless Backward Compatibility**:
+  - Calendar (`/calendar`) and Expenses (`/expenses`) remain fully integrated supporting planning tools wrapped in `AppShell`.
+  - Server-side middleware redirects for legacy paths (`/dashboard` → `/dreams`, `/todo` → `/today`, `/profile` → `/you`).
 
 ---
 
@@ -278,33 +301,36 @@ DayDream/
 │   │   └── register/page.tsx        # Registration page
 │   ├── api/
 │   │   ├── auth/                    # Auth endpoints (login, register, session)
-│   │   ├── bucket-list/             # Goal CRUD, complete, reflection, postcard
+│   │   ├── bucket-list/             # Dream CRUD, complete, reflection, postcard
 │   │   ├── categories/              # Category CRUD endpoints
 │   │   ├── events/                  # Calendar event CRUD endpoints
 │   │   ├── expenses/                # Expense CRUD, monthly totals, breakdown
 │   │   ├── home/                    # Unified home snapshot endpoint
-│   │   ├── todos/                   # To-Do task CRUD, complete, move-today
-│   │   └── stats/                   # Real-time dashboard statistics
-│   ├── home/page.tsx                # Section 1: Home / Today Dashboard
-│   ├── dashboard/page.tsx           # Section 2: BucketList Dashboard
-│   ├── calendar/page.tsx            # Section 3: Upcoming Events Calendar
-│   ├── todo/page.tsx                # Section 4: Daily To-Do List
-│   ├── expenses/page.tsx            # Section 5: Monthly Expenses Tracker (₹)
-│   ├── memories/page.tsx            # Section 6: Memory Scrapbook & Gallery
+│   │   ├── todos/                   # Today task CRUD, complete, move-today
+│   │   └── stats/                   # Real-time statistics
+│   ├── home/page.tsx                # Primary 1: Home orientation layer
+│   ├── dreams/page.tsx              # Primary 2: Dreams & Dream Container hub
+│   ├── dashboard/page.tsx           # Legacy redirect to /dreams
+│   ├── today/page.tsx               # Primary 3: Today task execution hub
+│   ├── todo/page.tsx                # Legacy redirect to /today
+│   ├── memories/page.tsx            # Primary 4: Memories scrapbook & keepsakes
+│   ├── you/page.tsx                 # Primary 5: You personal space & settings
+│   ├── calendar/page.tsx            # Supporting: Upcoming Events Calendar
+│   ├── expenses/page.tsx            # Supporting: Monthly Expenses Tracker (₹)
 │   ├── maintenance/page.tsx         # Maintenance mode page
 │   ├── globals.css                  # Tailwind styles & animations
 │   ├── layout.tsx                   # App Root Layout with Sound, Toast, Auth & Theme providers
 │   └── page.tsx                     # Landing page
 ├── components/
-│   ├── bucket-list/                 # BucketListItem cards, detail & edit modals
+│   ├── bucket-list/                 # Dream cards, Dream Container detail & edit modals
 │   ├── calendar/                    # MonthView, WeekView, AgendaView, Event modals
 │   ├── categories/                  # CategorySection, category modals
-│   ├── dashboard/                   # DashboardHeader, StatsOverview, FilterBar
 │   ├── expenses/                    # MonthlyTotalCard, MonthNavigator, ExpenseCard, Modals
+│   ├── layout/                      # AppShell (Desktop left sidebar + mobile layout)
 │   ├── memory/                      # MemoryPostcard, PostcardEditor, DetailModal, ScrapbookCard
-│   ├── navigation/                  # FloatingNav (Liquid-glass bottom dock)
+│   ├── navigation/                  # FloatingNav (5-destination liquid-glass bottom dock)
 │   ├── todo/                        # AddTodoTaskModal, TodoTaskItem, DateNavigator
-│   ├── profile/                     # ProfileModal with user settings, sound controls & themes
+│   ├── profile/                     # ProfileModal with user settings & account
 │   ├── providers/                   # SoundProvider, AuthProvider, ToastProvider, ThemeProvider
 │   └── ui/                          # Button, Input, Textarea, Modal, ConfirmDialog, DayDreamLogo
 ├── lib/
@@ -318,7 +344,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.15.0 dependencies and scripts
+├── package.json                     # v2.16.0 dependencies and scripts
 └── README.md
 ```
 

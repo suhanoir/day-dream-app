@@ -272,14 +272,14 @@ export function MemoryDetailModal({
                 </div>
               )}
 
-              {/* Link to view on BucketList Dashboard */}
+              {/* Link to view on Dreams */}
               <div className="pt-2">
                 <Link
-                  href="/dashboard"
+                  href="/dreams"
                   onClick={onClose}
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-accent hover:underline transition-colors cursor-pointer"
                 >
-                  <span>View on Bucket List Dashboard</span>
+                  <span>View Dream in My Dreams</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </Link>
               </div>

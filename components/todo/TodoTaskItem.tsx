@@ -112,9 +112,24 @@ export function TodoTaskItem({
             {task.title}
           </span>
 
-          {/* Sub-tags / Category in row */}
-          {task.category && categoryStyle && (
-            <div className="flex items-center gap-2 flex-wrap text-xs">
+          {/* Sub-tags / Category and Parent Dream in row */}
+          <div className="flex items-center gap-1.5 flex-wrap text-xs">
+            {task.bucketListItem && (
+              <span
+                title={`Linked Dream: ${task.bucketListItem.title}`}
+                className={cn(
+                  "inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border shrink-0 transition-opacity",
+                  task.completed
+                    ? "opacity-50 grayscale border-stone-200 bg-stone-100 text-stone-500"
+                    : "bg-amber-500/10 text-amber-800 dark:text-amber-200 border-amber-500/25"
+                )}
+              >
+                <span>🌙</span>
+                <span className="truncate max-w-[140px]">{task.bucketListItem.title}</span>
+              </span>
+            )}
+
+            {task.category && categoryStyle && (
               <span
                 className={cn(
                   "inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium border",
@@ -125,8 +140,8 @@ export function TodoTaskItem({
               >
                 {categoryStyle.label}
               </span>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 

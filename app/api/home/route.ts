@@ -50,6 +50,8 @@ export async function GET(req: NextRequest) {
       activeGoalsCount,
       completedGoalsCount,
       monthExpenses,
+      activeDreams,
+      recentMemories,
     ] = await Promise.all([
       // 1. Today's Tasks
       (prisma as any).todoTask.findMany({
@@ -129,6 +131,58 @@ export async function GET(req: NextRequest) {
           },
         },
         orderBy: { date: "desc" },
+      }),
+
+      // 7. Active dreams selection (up to 3)
+      prisma.bucketListItem.findMany({
+        where: {
+          userId: session.userId,
+          completed: false,
+        },
+        include: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+              color: true,
+              icon: true,
+            },
+          },
+          todos: {
+            select: {
+              id: true,
+              completed: true,
+            },
+          },
+        },
+        orderBy: [
+          { targetDate: "asc" },
+          { createdAt: "desc" },
+        ],
+        take: 3,
+      }),
+
+      // 8. Recent completed memories preview (up to 3)
+      prisma.bucketListItem.findMany({
+        where: {
+          userId: session.userId,
+          completed: true,
+        },
+        include: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+              color: true,
+              icon: true,
+            },
+          },
+        },
+        orderBy: [
+          { completedAt: "desc" },
+          { updatedAt: "desc" },
+        ],
+        take: 3,
       }),
     ]);
 
@@ -238,6 +292,8 @@ export async function GET(req: NextRequest) {
       },
       focusItems,
       dreamInProgress: activeGoal,
+      activeDreams,
+      recentMemories,
       todayEvents: todayEvents.slice(0, 3), // Preview up to 3 events
       todayTasksSummary: {
         remaining: tasksRemaining,

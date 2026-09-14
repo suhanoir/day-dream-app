@@ -26,10 +26,15 @@ export async function GET(req: NextRequest) {
     const dateParam = searchParams.get("date"); // e.g. "2026-09-04"
     const category = searchParams.get("category");
     const priority = searchParams.get("priority");
+    const bucketListItemId = searchParams.get("bucketListItemId");
 
     const where: any = {
       userId: session.userId,
     };
+
+    if (bucketListItemId) {
+      where.bucketListItemId = bucketListItemId;
+    }
 
     if (dateParam) {
       const cleanDate = dateParam.split("T")[0];
@@ -54,6 +59,14 @@ export async function GET(req: NextRequest) {
 
     const tasks = await (prisma as any).todoTask.findMany({
       where,
+      include: {
+        bucketListItem: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
       orderBy: [
         { completed: "asc" },
         { createdAt: "asc" },
@@ -90,7 +103,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { title, description, date, priority, category } = body;
+    const { title, description, date, priority, category, bucketListItemId } = body;
 
     if (!title || typeof title !== "string" || !title.trim()) {
       return NextResponse.json(
@@ -110,6 +123,15 @@ export async function POST(req: NextRequest) {
         priority: priority || "Medium",
         category: category?.trim() || "Personal",
         completed: false,
+        bucketListItemId: bucketListItemId || null,
+      },
+      include: {
+        bucketListItem: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
       },
     });
 

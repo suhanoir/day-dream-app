@@ -1,2 +1,1 @@
-export { default } from "../todo/page";
-
+export { default } from "../today/page";

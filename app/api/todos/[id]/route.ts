@@ -27,6 +27,14 @@ export async function GET(
     const { id } = await params;
     const task = await (prisma as any).todoTask.findUnique({
       where: { id },
+      include: {
+        bucketListItem: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
     });
 
     if (!task) {
@@ -72,7 +80,7 @@ export async function PUT(
     }
 
     const body = await req.json();
-    const { title, description, date, priority, category, completed } = body;
+    const { title, description, date, priority, category, completed, bucketListItemId } = body;
 
     const dataToUpdate: any = {};
     if (title !== undefined) {
@@ -97,10 +105,21 @@ export async function PUT(
       dataToUpdate.completed = Boolean(completed);
       dataToUpdate.completedAt = completed ? new Date() : null;
     }
+    if (bucketListItemId !== undefined) {
+      dataToUpdate.bucketListItemId = bucketListItemId || null;
+    }
 
     const updatedTask = await (prisma as any).todoTask.update({
       where: { id },
       data: dataToUpdate,
+      include: {
+        bucketListItem: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json({ task: updatedTask });

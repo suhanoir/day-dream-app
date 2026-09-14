@@ -19,6 +19,11 @@ export interface TodoTaskData {
   dueTime?: string | null; // e.g. "5:00 PM"
   priority: TodoPriority;
   category?: TodoCategory | string | null;
+  bucketListItemId?: string | null;
+  bucketListItem?: {
+    id: string;
+    title: string;
+  } | null;
   createdAt: string;
   updatedAt: string;
 }

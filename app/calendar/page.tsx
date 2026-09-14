@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { AppShell } from "@/components/layout/AppShell";
 import { MonthView } from "@/components/calendar/MonthView";
 import { WeekView } from "@/components/calendar/WeekView";
 import { AgendaView } from "@/components/calendar/AgendaView";
@@ -176,32 +176,30 @@ export default function CalendarPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-stone-50/50 flex flex-col items-center justify-center">
-        <Loader2 className="w-8 h-8 text-stone-700 animate-spin mb-3" />
-        <p className="text-xs text-stone-500 font-medium">
-          Loading your calendar...
-        </p>
-      </div>
+      <AppShell title="Calendar">
+        <div className="py-24 flex flex-col items-center justify-center">
+          <Loader2 className="w-7 h-7 text-muted animate-spin mb-3" />
+          <p className="text-xs text-muted font-medium">Loading your calendar...</p>
+        </div>
+      </AppShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-stone-50/50 flex flex-col selection:bg-stone-900 selection:text-stone-50">
-      <DashboardHeader />
-
-      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-28 sm:pb-24 flex-1">
+    <AppShell title="Calendar">
+      <div className="space-y-6">
         {/* Page Top Title & Primary Action */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-stone-900 font-serif-heading leading-tight">
+              <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-primary font-serif-heading leading-tight">
                 Upcoming Events & Plans
               </h1>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200">
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 dark:bg-white/10 text-secondary border border-stone-200/60 dark:border-white/10">
                 Calendar & Schedule
               </span>
             </div>
-            <p className="text-sm text-stone-500">
+            <p className="text-xs sm:text-sm text-secondary">
               Stay organized, remember what matters, and look forward to what&apos;s coming.
             </p>
           </div>
@@ -486,7 +484,7 @@ export default function CalendarPage() {
             />
           </div>
         </div>
-      </main>
+      </div>
 
       {/* Modals */}
       {/* 1. Add Event Modal */}
@@ -513,7 +511,7 @@ export default function CalendarPage() {
         onClose={() => setSelectedEventForEdit(null)}
         onEventUpdated={handleEventUpdated}
       />
-    </div>
+    </AppShell>
   );
 }
 

@@ -65,11 +65,19 @@ export async function middleware(request: NextRequest) {
   // 3. Protected Inner Sections
   const normalizedPath = pathname.replace(/\/$/, "");
   const INNER_SECTIONS = [
+    "/home",
+    "/dreams",
     "/dashboard",
-    "/calendar",
+    "/bucket-list",
+    "/today",
     "/todo",
     "/to-do-list",
+    "/memories",
+    "/reflections",
+    "/calendar",
     "/expenses",
+    "/you",
+    "/profile",
   ];
   const isInnerSection = INNER_SECTIONS.includes(normalizedPath);
 
@@ -77,6 +85,28 @@ export async function middleware(request: NextRequest) {
     if (!isAuthenticated) {
       const url = request.nextUrl.clone();
       url.pathname = "/login";
+      return NextResponse.redirect(url);
+    }
+
+    // Legacy Route Compatibility Redirects
+    if (normalizedPath === "/dashboard" || normalizedPath === "/bucket-list") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/dreams";
+      return NextResponse.redirect(url);
+    }
+    if (normalizedPath === "/todo" || normalizedPath === "/to-do-list") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/today";
+      return NextResponse.redirect(url);
+    }
+    if (normalizedPath === "/profile") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/you";
+      return NextResponse.redirect(url);
+    }
+    if (normalizedPath === "/reflections") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/memories";
       return NextResponse.redirect(url);
     }
 
@@ -100,25 +130,13 @@ export async function middleware(request: NextRequest) {
     searchParams.delete("_rsc");
     const hasDeepLinkQuery = searchParams.toString().length > 0;
 
-    // Fresh application startup/reopen/refresh on an inner section:
+    // Fresh application startup on an inner section without query params:
     // Redirect cleanly to /home before rendering to eliminate visual flash.
-    if (isDocumentNavigation && !isRscRequest && !hasDeepLinkQuery) {
+    if (normalizedPath !== "/home" && isDocumentNavigation && !isRscRequest && !hasDeepLinkQuery) {
       const url = request.nextUrl.clone();
       url.pathname = "/home";
       return NextResponse.redirect(url);
     }
-
-    return NextResponse.next();
-  }
-
-  // 4. Protected Home page
-  if (pathname === "/home") {
-    if (!isAuthenticated) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/login";
-      return NextResponse.redirect(url);
-    }
-    return NextResponse.next();
   }
 
   return NextResponse.next();

@@ -49,6 +49,20 @@ export async function GET(req: NextRequest) {
             icon: true,
           },
         },
+        todos: {
+          select: {
+            id: true,
+            title: true,
+            completed: true,
+          },
+        },
+        events: {
+          select: {
+            id: true,
+            title: true,
+            date: true,
+          },
+        },
       },
       orderBy: [
         { completed: "asc" },

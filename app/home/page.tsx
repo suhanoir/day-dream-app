@@ -5,17 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { useToast } from "@/components/providers/ToastProvider";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { BucketIcon } from "@/components/ui/BucketIcon";
+import { useSound } from "@/components/providers/SoundProvider";
+import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/Button";
 import {
   ListTodo,
-  Calendar as CalendarIcon,
-  Receipt,
   Sparkles,
   ArrowRight,
   Clock,
-  MapPin,
   CheckCircle2,
   Circle,
   Loader2,
@@ -23,20 +20,13 @@ import {
   Target,
   Compass,
   ChevronRight,
+  Moon,
+  Sun,
+  TrendingUp,
+  Receipt,
+  Quote,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
-import { formatTimeForDisplay } from "@/components/todo/types";
-
-interface FocusItem {
-  id: string;
-  type: "task" | "event";
-  title: string;
-  time?: string | null;
-  priority?: string | null;
-  category?: string | null;
-  completed?: boolean;
-  location?: string | null;
-}
 
 interface HomeData {
   overview: {
@@ -50,8 +40,17 @@ interface HomeData {
     monthlyExpenseTotal: number;
     monthlyExpenseCount: number;
   };
-  focusItems: FocusItem[];
-  dreamInProgress: {
+  focusItems: Array<{
+    id: string;
+    type: "task" | "event";
+    title: string;
+    time?: string | null;
+    priority?: string | null;
+    category?: string | null;
+    completed?: boolean;
+    location?: string | null;
+  }>;
+  dreamInProgress?: {
     id: string;
     title: string;
     description?: string | null;
@@ -63,13 +62,26 @@ interface HomeData {
       icon?: string | null;
     } | null;
   } | null;
-  todayEvents: Array<{
+  activeDreams?: Array<{
     id: string;
     title: string;
-    startTime?: string | null;
-    endTime?: string | null;
-    category: string;
-    location?: string | null;
+    targetDate?: string | null;
+    category?: {
+      name: string;
+      color?: string | null;
+    } | null;
+    todos?: Array<{ id: string; completed: boolean }>;
+  }>;
+  recentMemories?: Array<{
+    id: string;
+    title: string;
+    reflection?: string | null;
+    completedAt?: string | null;
+    memoryPhoto?: string | null;
+    category?: {
+      name: string;
+      color?: string | null;
+    } | null;
   }>;
   todayTasksSummary: {
     remaining: number;
@@ -80,8 +92,6 @@ interface HomeData {
   expensesSummary: {
     monthlyTotal: number;
     count: number;
-    topCategory?: string | null;
-    topCategoryAmount?: number;
     monthName: string;
     year: number;
   };
@@ -91,6 +101,7 @@ export default function HomePage() {
   const { user, isLoading: authLoading } = useAuth();
   const router = useRouter();
   const { success, error: toastError } = useToast();
+  const { playSound } = useSound();
 
   const [data, setData] = useState<HomeData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -145,7 +156,7 @@ export default function HomePage() {
     return `Good evening, ${name}.`;
   }, [user?.name]);
 
-  // Handle checking off a task directly in "Today's Focus"
+  // Handle checking off a task directly in Today's Snapshot
   const handleToggleTask = async (taskId: string, currentStatus?: boolean) => {
     if (togglingTaskId) return;
     setTogglingTaskId(taskId);
@@ -195,6 +206,7 @@ export default function HomePage() {
         fetchHomeData();
       } else {
         if (newStatus) {
+          playSound("ui-click");
           success("Task completed!");
         }
       }
@@ -205,17 +217,6 @@ export default function HomePage() {
       setTogglingTaskId(null);
     }
   };
-
-  if (authLoading || (isLoading && !data)) {
-    return (
-      <div className="min-h-screen bg-stone-50/50 flex flex-col items-center justify-center">
-        <Loader2 className="w-8 h-8 text-stone-700 animate-spin mb-3" />
-        <p className="text-xs text-stone-500 font-medium">
-          Loading your day...
-        </p>
-      </div>
-    );
-  }
 
   const overview = data?.overview || {
     tasksRemaining: 0,
@@ -229,546 +230,375 @@ export default function HomePage() {
     monthlyExpenseCount: 0,
   };
 
-  const focusItems = data?.focusItems || [];
-  const dream = data?.dreamInProgress;
-  const todayEvents = data?.todayEvents || [];
-  const expensesSummary = data?.expensesSummary;
+  const focusTasks = (data?.focusItems || []).filter((i) => i.type === "task");
+  const activeDreams = data?.activeDreams || [];
+  const recentMemories = data?.recentMemories || [];
+
+  // Desktop side panel
+  const sidePanelContent = (
+    <div className="space-y-5">
+      {/* Life at a Glance Snapshot */}
+      <div className="glass-card rounded-2xl p-5 space-y-4">
+        <div className="flex items-center justify-between border-b border-stone-200/50 dark:border-white/10 pb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-secondary flex items-center gap-1.5">
+            <TrendingUp className="w-3.5 h-3.5 text-muted" />
+            Your Life at a Glance
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 text-xs">
+          <Link
+            href="/dreams"
+            className="p-3 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-stone-200/50 dark:border-white/10 glass-card-interactive"
+          >
+            <span className="text-[10.5px] text-muted block">Active Dreams</span>
+            <span className="text-lg font-bold text-primary">
+              {overview.activeGoalsCount}
+            </span>
+          </Link>
+          <Link
+            href="/memories"
+            className="p-3 rounded-xl bg-stone-50/60 dark:bg-white/5 border border-stone-200/50 dark:border-white/10 glass-card-interactive"
+          >
+            <span className="text-[10.5px] text-muted block">Memories Lived</span>
+            <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
+              {overview.completedGoalsCount}
+            </span>
+          </Link>
+        </div>
+
+        <div className="pt-2 border-t border-stone-200/50 dark:border-white/10 flex items-center justify-between text-xs">
+          <span className="text-muted">This Month Spend:</span>
+          <Link
+            href="/expenses"
+            className="font-bold text-primary hover:text-accent flex items-center gap-1"
+          >
+            <span>₹{overview.monthlyExpenseTotal.toLocaleString("en-IN")}</span>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+        </div>
+      </div>
+
+      {/* Quick Navigation Shortcuts */}
+      <div className="glass-card rounded-2xl p-5 space-y-2.5 text-xs">
+        <span className="font-bold uppercase tracking-wider text-secondary text-[11px] block">
+          Orientation
+        </span>
+        <div className="space-y-1.5">
+          <Link
+            href="/dreams"
+            className="p-2.5 rounded-xl glass-card-interactive flex items-center justify-between"
+          >
+            <div className="flex items-center gap-2">
+              <Moon className="w-3.5 h-3.5 text-muted" />
+              <span className="font-medium text-primary">My Dreams</span>
+            </div>
+            <ChevronRight className="w-3.5 h-3.5 text-muted" />
+          </Link>
+
+          <Link
+            href="/today"
+            className="p-2.5 rounded-xl glass-card-interactive flex items-center justify-between"
+          >
+            <div className="flex items-center gap-2">
+              <Sun className="w-3.5 h-3.5 text-muted" />
+              <span className="font-medium text-primary">Today Execution</span>
+            </div>
+            <ChevronRight className="w-3.5 h-3.5 text-muted" />
+          </Link>
+
+          <Link
+            href="/memories"
+            className="p-2.5 rounded-xl glass-card-interactive flex items-center justify-between"
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5 text-muted" />
+              <span className="font-medium text-primary">Memory Scrapbook</span>
+            </div>
+            <ChevronRight className="w-3.5 h-3.5 text-muted" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (authLoading || (isLoading && !data)) {
+    return (
+      <AppShell title="Home">
+        <div className="py-24 flex flex-col items-center justify-center">
+          <Loader2 className="w-7 h-7 text-muted animate-spin mb-3" />
+          <p className="text-xs text-muted font-medium">Loading your day...</p>
+        </div>
+      </AppShell>
+    );
+  }
 
   return (
-    <div className="min-h-screen flex flex-col selection:bg-stone-900 selection:text-stone-50">
-      <DashboardHeader />
-
-      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-28 sm:pb-24 flex-1 space-y-8">
-        {/* 1. Header & Greeting */}
-        <div className="space-y-1">
-          <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-normal tracking-tight text-stone-950 font-serif-heading leading-tight">
+    <AppShell title="Home" sidePanel={sidePanelContent}>
+      <div className="space-y-8">
+        {/* 1. Header & Personal Greeting */}
+        <div className="space-y-1.5">
+          <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-normal tracking-tight text-primary font-serif-heading leading-tight">
             {greeting}
           </h1>
-          <p className="text-xs sm:text-sm text-stone-500">
-            Here&apos;s what matters today.
+          <p className="text-xs sm:text-sm text-secondary">
+            Your next memory is waiting. Here is what matters today.
           </p>
         </div>
 
-        {/* 2. Today at a Glance (4 compact, clean liquid-glass overview cards) */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {/* Card 1: Today's Tasks */}
-          <Link
-            href="/todo"
-            className="glass-card-interactive rounded-2xl p-4 sm:p-5 flex flex-col justify-between group cursor-pointer"
-          >
-            <div className="flex items-center justify-between text-stone-400 mb-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
-                Today&apos;s Tasks
-              </span>
-              <ListTodo className="w-4 h-4 text-stone-400 group-hover:text-[var(--theme-primary)] transition-colors" />
-            </div>
-            <div className="text-xl sm:text-2xl font-bold tracking-tight text-stone-900">
-              {overview.tasksRemaining} remaining
-            </div>
-            <p className="text-xs text-stone-400 mt-1">
-              {overview.tasksCompleted} of {overview.tasksTotal} completed
-            </p>
-          </Link>
-
-          {/* Card 2: Today's Events */}
-          <Link
-            href="/calendar"
-            className="glass-card-interactive rounded-2xl p-4 sm:p-5 flex flex-col justify-between group cursor-pointer"
-          >
-            <div className="flex items-center justify-between text-stone-400 mb-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
-                Today&apos;s Events
-              </span>
-              <CalendarIcon className="w-4 h-4 text-stone-400 group-hover:text-[var(--theme-primary)] transition-colors" />
-            </div>
-            <div className="text-xl sm:text-2xl font-bold tracking-tight text-stone-900">
-              {overview.eventsCount} {overview.eventsCount === 1 ? "event" : "events"}
-            </div>
-            <p className="text-xs text-stone-400 mt-1">
-              {overview.eventsCount > 0 ? "Scheduled for today" : "Free schedule"}
-            </p>
-          </Link>
-
-          {/* Card 3: BucketList & Memories */}
-          <Link
-            href="/memories"
-            className="glass-card-interactive rounded-2xl p-4 sm:p-5 flex flex-col justify-between group cursor-pointer"
-          >
-            <div className="flex items-center justify-between text-stone-400 mb-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
-                Memories & Dreams
-              </span>
-              <Sparkles className="w-4 h-4 text-amber-500 group-hover:scale-110 transition-transform" />
-            </div>
-            <div className="text-xl sm:text-2xl font-bold tracking-tight text-stone-900">
-              {overview.completedGoalsCount} {overview.completedGoalsCount === 1 ? "memory" : "memories"}
-            </div>
-            <p className="text-xs text-stone-400 mt-1">
-              {overview.activeGoalsCount} in progress · View Scrapbook →
-            </p>
-          </Link>
-
-          {/* Card 4: Monthly Spending */}
-          <Link
-            href="/expenses"
-            className="glass-card-interactive rounded-2xl p-4 sm:p-5 flex flex-col justify-between group cursor-pointer"
-          >
-            <div className="flex items-center justify-between text-stone-400 mb-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
-                This Month
-              </span>
-              <Receipt className="w-4 h-4 text-stone-400 group-hover:text-[var(--theme-primary)] transition-colors" />
-            </div>
-            <div className="text-xl sm:text-2xl font-bold tracking-tight text-stone-900">
-              ₹{overview.monthlyExpenseTotal.toLocaleString("en-IN")}
-            </div>
-            <p className="text-xs text-stone-400 mt-1">
-              {overview.monthlyExpenseCount} {overview.monthlyExpenseCount === 1 ? "expense" : "expenses"} recorded
-            </p>
-          </Link>
-        </div>
-
-        {/* 3. Today's Focus (Surfaces max 3 top items for today) */}
-        <section className="glass-card rounded-2xl p-5 sm:p-6">
-          <div className="flex items-center justify-between pb-3 border-b border-stone-200/50 mb-4">
+        {/* 2. Your Active Dreams */}
+        <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-200/50 dark:border-white/10">
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
-                Today&apos;s Focus
+              <Moon className="w-4 h-4 text-muted" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-secondary">
+                Active Dreams
               </h2>
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
-                Top Priorities
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 dark:bg-white/10 text-muted">
+                {overview.activeGoalsCount} in progress
               </span>
             </div>
             <Link
-              href="/todo"
-              className="text-xs font-semibold text-[var(--theme-primary)] hover:underline flex items-center gap-1"
+              href="/dreams"
+              className="text-xs font-semibold text-accent hover:underline flex items-center gap-1"
             >
-              View all tasks
+              <span>View all Dreams</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
 
-          {focusItems.length === 0 ? (
-            /* Smart Empty State for Today's Focus */
-            <div className="py-8 text-center space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-500/20 shadow-2xs">
-                <CheckCircle2 className="w-5 h-5" />
+          {activeDreams.length === 0 ? (
+            <div className="py-6 text-center space-y-2">
+              <div className="w-10 h-10 rounded-xl bg-stone-100/80 dark:bg-white/10 text-stone-400 flex items-center justify-center mx-auto border border-stone-200/50 dark:border-white/10 shadow-2xs">
+                <Compass className="w-5 h-5" />
               </div>
-              <h3 className="text-sm font-bold text-stone-900">
-                You&apos;re all caught up.
+              <h3 className="text-sm font-bold text-primary">
+                Your next dream starts here.
               </h3>
-              <p className="text-xs text-stone-500 max-w-sm mx-auto">
-                Nothing waiting for you today. Take a breath, enjoy the calm, or plan your next move.
+              <p className="text-xs text-muted max-w-xs mx-auto">
+                Add something you have always wanted to experience or achieve.
               </p>
+              <div className="pt-1">
+                <Link href="/dreams">
+                  <Button variant="secondary" size="sm" className="text-xs">
+                    Add a Dream
+                  </Button>
+                </Link>
+              </div>
             </div>
           ) : (
-            <div className="space-y-2.5">
-              {focusItems.map((item) => {
-                if (item.type === "task") {
-                  return (
-                    <div
-                      key={`focus-${item.id}`}
-                      className={cn(
-                        "flex items-center justify-between p-3 sm:p-3.5 rounded-xl border transition-all",
-                        item.completed
-                          ? "bg-stone-100/40 border-stone-200/40 text-stone-400"
-                          : "glass-card-interactive text-stone-800"
-                      )}
-                    >
-                      <div className="flex items-center gap-3 min-w-0 pr-3">
-                        {/* Interactive Checkbox */}
-                        <button
-                          type="button"
-                          onClick={() => handleToggleTask(item.id, item.completed)}
-                          disabled={togglingTaskId === item.id}
-                          className={cn(
-                            "w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all cursor-pointer active:scale-95",
-                            item.completed
-                              ? "bg-[var(--theme-primary)] border-[var(--theme-primary)] text-white shadow-2xs"
-                              : "border-stone-300/80 hover:border-[var(--theme-primary)] bg-white/80"
-                          )}
-                          aria-label={item.completed ? "Mark uncompleted" : "Mark completed"}
-                        >
-                          {item.completed && <Check className="w-3.5 h-3.5 stroke-[2.5]" />}
-                        </button>
-
-                        <span
-                          className={cn(
-                            "text-sm font-medium leading-snug truncate",
-                            item.completed && "line-through text-stone-400 font-normal"
-                          )}
-                        >
-                          {item.title}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2 shrink-0 text-xs">
-                        {item.priority && (
-                          <span
-                            className={cn(
-                              "text-[10px] font-semibold px-2 py-0.5 rounded-full border",
-                              item.priority.toLowerCase() === "high" || item.priority.toLowerCase() === "urgent"
-                                ? "bg-rose-500/10 text-rose-600 border-rose-200/80"
-                                : item.priority.toLowerCase() === "medium"
-                                ? "bg-amber-500/10 text-amber-700 border-amber-200/80"
-                                : "bg-stone-100/80 text-stone-600 border-stone-200/70"
-                            )}
-                          >
-                            {item.priority}
-                          </span>
-                        )}
-                        {item.time && (
-                          <span className="text-[11px] text-stone-400 flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {formatTimeForDisplay(item.time)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  );
-                }
-
-                // Event focus item
-                return (
-                  <div
-                    key={`focus-${item.id}`}
-                    className="flex items-center justify-between p-3 sm:p-3.5 rounded-xl glass-card-interactive text-stone-800"
-                  >
-                    <div className="flex items-center gap-3 min-w-0 pr-3">
-                      <div className="w-5 h-5 rounded-md bg-[var(--theme-primary-soft)] text-[var(--theme-primary)] border border-[var(--theme-primary-soft-border)] flex items-center justify-center shrink-0 shadow-2xs">
-                        <CalendarIcon className="w-3 h-3" />
-                      </div>
-                      <span className="text-sm font-medium leading-snug truncate">
-                        {item.title}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2 shrink-0 text-xs">
-                      {item.category && (
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-600 border border-stone-200/70">
-                          {item.category}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {activeDreams.map((dream) => (
+                <Link
+                  key={dream.id}
+                  href="/dreams"
+                  className="p-4 rounded-xl glass-card-interactive flex flex-col justify-between space-y-3 cursor-pointer group"
+                >
+                  <div className="space-y-1 min-w-0">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {dream.category?.name && (
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-stone-200/60 dark:bg-white/10 text-secondary">
+                          {dream.category.name}
                         </span>
                       )}
-                      {item.time && (
-                        <span className="text-[11px] text-stone-500 font-medium flex items-center gap-1">
-                          <Clock className="w-3 h-3 text-stone-400" />
-                          {item.time}
+                      {dream.targetDate && (
+                        <span className="text-[10px] text-muted flex items-center gap-1">
+                          <Target className="w-2.5 h-2.5" />
+                          {new Date(dream.targetDate).toLocaleDateString("en-US", {
+                            month: "short",
+                            year: "numeric",
+                          })}
                         </span>
                       )}
                     </div>
+                    <h3 className="text-sm font-bold text-primary group-hover:text-accent transition-colors truncate">
+                      {dream.title}
+                    </h3>
                   </div>
-                );
-              })}
+
+                  <div className="flex items-center justify-between text-[11px] text-muted pt-1 border-t border-stone-200/40 dark:border-white/5">
+                    <span>
+                      {dream.todos && dream.todos.length > 0
+                        ? `${dream.todos.filter((t) => t.completed).length}/${dream.todos.length} steps`
+                        : "Ready to plan"}
+                    </span>
+                    <span className="font-semibold text-accent flex items-center gap-0.5">
+                      Open <ChevronRight className="w-3 h-3" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
             </div>
           )}
         </section>
 
-        {/* 4. Connected Sections (Two Columns on Desktop) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Column 1: Dream in Progress & Monthly Spending */}
-          <div className="space-y-6">
-            {/* 4A. Dream in Progress (BucketList Connection) */}
-            <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-stone-200/50">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
-                    Dream in Progress
-                  </h2>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
-                    BucketList
-                  </span>
-                </div>
-                <Link
-                  href="/dashboard"
-                  className="text-xs font-semibold text-[var(--theme-primary)] hover:underline flex items-center gap-1"
-                >
-                  View all
-                  <ArrowRight className="w-3 h-3" />
-                </Link>
-              </div>
-
-              {dream ? (
-                <div className="p-4 rounded-xl bg-stone-50/40 backdrop-blur-xs border border-stone-200/60 space-y-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="space-y-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        {dream.category?.name && (
-                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-stone-200/70 text-stone-700">
-                            {dream.category.name}
-                          </span>
-                        )}
-                        {dream.targetDate && (
-                          <span className="text-[10px] text-stone-400 flex items-center gap-1">
-                            <Target className="w-2.5 h-2.5" />
-                            {new Date(dream.targetDate).toLocaleDateString("en-US", {
-                              month: "short",
-                              year: "numeric",
-                            })}
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="text-base font-bold text-stone-900 leading-snug">
-                        {dream.title}
-                      </h3>
-                      {dream.description && (
-                        <p className="text-xs text-stone-500 line-clamp-2">
-                          {dream.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="pt-1 flex items-center justify-between">
-                    <span className="text-[11px] font-medium text-stone-400">
-                      Active Milestone
-                    </span>
-                    <Link
-                      href="/dashboard"
-                      className="text-xs font-semibold text-[var(--theme-primary)] hover:underline inline-flex items-center gap-1"
-                    >
-                      Open Goal Details
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <div className="py-6 text-center space-y-2">
-                  <div className="w-10 h-10 rounded-xl bg-stone-100/80 text-stone-400 flex items-center justify-center mx-auto border border-stone-200/50 shadow-2xs">
-                    <Compass className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-sm font-bold text-stone-900">
-                    Your next dream starts here.
-                  </h3>
-                  <p className="text-xs text-stone-500 max-w-xs mx-auto">
-                    Add something you&apos;ve always wanted to experience or achieve.
-                  </p>
-                  <div className="pt-2">
-                    <Link href="/dashboard">
-                      <Button variant="secondary" size="sm" className="text-xs">
-                        Add a Dream
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </section>
-
-            {/* 4B. This Month's Spending (Expense Connection) */}
-            <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-stone-200/50">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
-                    This Month
-                  </h2>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
-                    Expenses
-                  </span>
-                </div>
-                <Link
-                  href="/expenses"
-                  className="text-xs font-semibold text-[var(--theme-primary)] hover:underline flex items-center gap-1"
-                >
-                  Manage budget
-                  <ArrowRight className="w-3 h-3" />
-                </Link>
-              </div>
-
-              {overview.monthlyExpenseCount > 0 ? (
-                <div className="p-4 rounded-xl bg-stone-50/40 backdrop-blur-xs border border-stone-200/60 space-y-3">
-                  <div className="flex items-baseline justify-between">
-                    <div>
-                      <span className="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900">
-                        ₹{overview.monthlyExpenseTotal.toLocaleString("en-IN")}
-                      </span>
-                      <p className="text-xs text-stone-400 mt-0.5">
-                        Total spent in {expensesSummary?.monthName} {expensesSummary?.year}
-                      </p>
-                    </div>
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-lg glass-card text-stone-700">
-                      {overview.monthlyExpenseCount} {overview.monthlyExpenseCount === 1 ? "expense" : "expenses"}
-                    </span>
-                  </div>
-
-                  {expensesSummary?.topCategory && (
-                    <div className="pt-2 border-t border-stone-200/60 flex items-center justify-between text-xs">
-                      <span className="text-stone-500">Top Spend Category:</span>
-                      <span className="font-semibold text-stone-800">
-                        {expensesSummary.topCategory} (₹{expensesSummary.topCategoryAmount?.toLocaleString("en-IN")})
-                      </span>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="py-6 text-center space-y-2">
-                  <div className="w-10 h-10 rounded-xl bg-stone-100/80 text-stone-400 flex items-center justify-center mx-auto border border-stone-200/50 shadow-2xs">
-                    <Receipt className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-sm font-bold text-stone-900">
-                    No spending recorded this month.
-                  </h3>
-                  <p className="text-xs text-stone-500 max-w-xs mx-auto">
-                    Track your daily expenses and monthly budgets mindfully.
-                  </p>
-                  <div className="pt-2">
-                    <Link href="/expenses">
-                      <Button variant="secondary" size="sm" className="text-xs">
-                        Add an Expense
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </section>
+        {/* 3. Today's Action Snapshot */}
+        <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-200/50 dark:border-white/10">
+            <div className="flex items-center gap-2">
+              <Sun className="w-4 h-4 text-amber-500" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-secondary">
+                Today
+              </h2>
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 dark:bg-white/10 text-muted">
+                {overview.tasksRemaining} remaining
+              </span>
+            </div>
+            <Link
+              href="/today"
+              className="text-xs font-semibold text-accent hover:underline flex items-center gap-1"
+            >
+              <span>Open Today</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
           </div>
 
-          {/* Column 2: Today's Schedule & Today's Tasks Progress */}
-          <div className="space-y-6">
-            {/* 4C. Today's Schedule (Calendar Connection) */}
-            <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-stone-200/50">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
-                    Today&apos;s Schedule
-                  </h2>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
-                    Calendar
-                  </span>
-                </div>
-                <Link
-                  href="/calendar"
-                  className="text-xs font-semibold text-[var(--theme-primary)] hover:underline flex items-center gap-1"
-                >
-                  Full calendar
-                  <ArrowRight className="w-3 h-3" />
+          {focusTasks.length === 0 ? (
+            <div className="py-6 text-center space-y-2">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/20 shadow-2xs">
+                <CheckCircle2 className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-primary">
+                You are all caught up for today.
+              </h3>
+              <p className="text-xs text-muted max-w-sm mx-auto">
+                No pressing tasks waiting. Relax, reflect, or plan your next step.
+              </p>
+              <div className="pt-1">
+                <Link href="/today">
+                  <Button variant="secondary" size="sm" className="text-xs">
+                    Open Action List
+                  </Button>
                 </Link>
               </div>
-
-              {todayEvents.length > 0 ? (
-                <div className="space-y-2.5">
-                  {todayEvents.map((ev) => (
-                    <div
-                      key={ev.id}
-                      className="p-3 sm:p-3.5 rounded-xl glass-card-interactive flex items-center justify-between gap-3"
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {focusTasks.map((task) => (
+                <div
+                  key={task.id}
+                  className={cn(
+                    "flex items-center justify-between p-3 rounded-xl border transition-all text-xs",
+                    task.completed
+                      ? "bg-stone-100/40 dark:bg-white/5 border-stone-200/40 dark:border-white/5 text-muted"
+                      : "glass-card-interactive text-primary"
+                  )}
+                >
+                  <div className="flex items-center gap-3 min-w-0 pr-2">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleTask(task.id, task.completed)}
+                      disabled={togglingTaskId === task.id}
+                      className={cn(
+                        "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all cursor-pointer",
+                        task.completed
+                          ? "bg-[var(--theme-primary)] border-[var(--theme-primary)] text-white"
+                          : "border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900"
+                      )}
+                      aria-label={task.completed ? "Mark incomplete" : "Mark complete"}
                     >
-                      <div className="min-w-0 space-y-0.5">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-semibold text-stone-900 truncate">
-                            {ev.title}
-                          </span>
-                          {ev.category && (
-                            <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-stone-200/60 text-stone-600">
-                              {ev.category}
-                            </span>
-                          )}
-                        </div>
-                        {ev.location && (
-                          <p className="text-[11px] text-stone-400 flex items-center gap-1 truncate">
-                            <MapPin className="w-2.5 h-2.5 shrink-0" />
-                            {ev.location}
-                          </p>
-                        )}
-                      </div>
+                      {task.completed && <Check className="w-3 h-3 stroke-[3]" />}
+                    </button>
+                    <span
+                      className={cn(
+                        "truncate font-medium",
+                        task.completed && "line-through text-muted font-normal"
+                      )}
+                    >
+                      {task.title}
+                    </span>
+                  </div>
 
-                      {ev.startTime && (
-                        <span className="text-xs font-semibold text-stone-600 px-2 py-1 rounded-md glass-card shrink-0">
-                          {ev.startTime}
+                  <div className="flex items-center gap-2 shrink-0">
+                    {task.priority && (
+                      <span className="text-[10px] text-muted px-1.5 py-0.5 rounded bg-stone-100 dark:bg-white/10">
+                        {task.priority}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* 4. Recent Memories */}
+        <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-stone-200/50 dark:border-white/10">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-secondary">
+                Recent Memories
+              </h2>
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 dark:bg-white/10 text-muted">
+                {overview.completedGoalsCount} preserved
+              </span>
+            </div>
+            <Link
+              href="/memories"
+              className="text-xs font-semibold text-accent hover:underline flex items-center gap-1"
+            >
+              <span>View Memories</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
+          {recentMemories.length === 0 ? (
+            <div className="py-6 text-center space-y-2">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto border border-amber-500/20 shadow-2xs">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-primary">
+                Your scrapbook is waiting.
+              </h3>
+              <p className="text-xs text-muted max-w-sm mx-auto">
+                Complete your first dream and the reflection will live here forever.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {recentMemories.map((mem) => (
+                <Link
+                  key={mem.id}
+                  href="/memories"
+                  className="p-4 rounded-xl glass-card-interactive flex flex-col justify-between space-y-3 cursor-pointer group"
+                >
+                  <div className="space-y-1.5 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                        ✓ Achieved
+                      </span>
+                      {mem.completedAt && (
+                        <span className="text-[10px] text-muted">
+                          {new Date(mem.completedAt).toLocaleDateString("en-US", {
+                            month: "short",
+                            year: "numeric",
+                          })}
                         </span>
                       )}
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="py-6 text-center space-y-2">
-                  <div className="w-10 h-10 rounded-xl bg-stone-100/80 text-stone-400 flex items-center justify-center mx-auto border border-stone-200/50 shadow-2xs">
-                    <CalendarIcon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-sm font-bold text-stone-900">
-                    Nothing planned today.
-                  </h3>
-                  <p className="text-xs text-stone-500 max-w-xs mx-auto">
-                    Enjoy the day or schedule something on your calendar.
-                  </p>
-                  <div className="pt-2">
-                    <Link href="/calendar">
-                      <Button variant="secondary" size="sm" className="text-xs">
-                        Add an Event
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </section>
-
-            {/* 4D. Today's Tasks Progress (To-Do Connection) */}
-            <section className="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-stone-200/50">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-stone-900">
-                    Today&apos;s Tasks
-                  </h2>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stone-100/90 text-stone-500 border border-stone-200/70">
-                    To-Do List
-                  </span>
-                </div>
-                <Link
-                  href="/todo"
-                  className="text-xs font-semibold text-[var(--theme-primary)] hover:underline flex items-center gap-1"
-                >
-                  Open To-Do
-                  <ArrowRight className="w-3 h-3" />
-                </Link>
-              </div>
-
-              {overview.tasksTotal > 0 ? (
-                <div className="p-4 rounded-xl bg-stone-50/40 backdrop-blur-xs border border-stone-200/60 space-y-3.5">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-lg font-bold text-stone-900">
-                        {overview.tasksCompleted} of {overview.tasksTotal} done
-                      </span>
-                      <p className="text-xs text-stone-400">
-                        {overview.tasksRemaining === 0
-                           ? "All daily tasks completed! 🎉"
-                          : `${overview.tasksRemaining} task${overview.tasksRemaining === 1 ? "" : "s"} remaining`}
+                    <h3 className="text-sm font-bold text-primary group-hover:text-accent transition-colors truncate">
+                      {mem.title}
+                    </h3>
+                    {mem.reflection && (
+                      <p className="text-xs text-secondary line-clamp-2 italic font-serif">
+                        &ldquo;{mem.reflection}&rdquo;
                       </p>
-                    </div>
-                    <span className="text-sm font-bold text-stone-900 px-2 py-0.5 rounded-md glass-card">
-                      {overview.tasksPercent}%
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between text-[11px] text-muted pt-1 border-t border-stone-200/40 dark:border-white/5">
+                    <span>Keepsake recorded</span>
+                    <span className="font-semibold text-accent flex items-center gap-0.5">
+                      View Postcard <ChevronRight className="w-3 h-3" />
                     </span>
                   </div>
-
-                  {/* Subtle recessed liquid glass progress bar */}
-                  <div className="w-full bg-stone-200/60 rounded-full h-2.5 overflow-hidden shadow-inner p-0.5">
-                    <div
-                      className="bg-linear-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] h-full rounded-full transition-all duration-500 shadow-xs"
-                      style={{ width: `${overview.tasksPercent}%` }}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="py-6 text-center space-y-2">
-                  <div className="w-10 h-10 rounded-xl bg-stone-100/80 text-stone-400 flex items-center justify-center mx-auto border border-stone-200/50 shadow-2xs">
-                    <ListTodo className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-sm font-bold text-stone-900">
-                    No tasks scheduled for today.
-                  </h3>
-                  <p className="text-xs text-stone-500 max-w-xs mx-auto">
-                    Add small actions to keep moving toward your goals.
-                  </p>
-                  <div className="pt-2">
-                    <Link href="/todo">
-                      <Button variant="secondary" size="sm" className="text-xs">
-                        Add a Task
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </section>
-          </div>
-        </div>
-      </main>
-    </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
+    </AppShell>
   );
 }

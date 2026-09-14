@@ -30,6 +30,8 @@ export interface AddTodoTaskModalProps {
   onClose: () => void;
   onTaskAdded: (task: TodoTaskData) => void;
   initialDate?: Date;
+  initialBucketListItemId?: string;
+  initialBucketListTitle?: string;
 }
 
 export function AddTodoTaskModal({
@@ -37,6 +39,8 @@ export function AddTodoTaskModal({
   onClose,
   onTaskAdded,
   initialDate,
+  initialBucketListItemId,
+  initialBucketListTitle,
 }: AddTodoTaskModalProps) {
   const { success, error: toastError } = useToast();
   const { playSound } = useSound();
@@ -46,8 +50,24 @@ export function AddTodoTaskModal({
   const [date, setDate] = useState("");
   const [priority, setPriority] = useState<TodoPriority>("Medium");
   const [category, setCategory] = useState<TodoCategory>("Personal");
+  const [bucketListItemId, setBucketListItemId] = useState<string>("");
+  const [activeDreams, setActiveDreams] = useState<Array<{ id: string; title: string }>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
+
+  // Fetch active dreams for the dropdown
+  useEffect(() => {
+    if (isOpen) {
+      fetch("/api/bucket-list?status=active")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data?.items) {
+            setActiveDreams(data.items.map((i: any) => ({ id: i.id, title: i.title })));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -56,9 +76,10 @@ export function AddTodoTaskModal({
       setDate(formatToDateKey(initialDate || new Date()));
       setPriority("Medium");
       setCategory("Personal");
+      setBucketListItemId(initialBucketListItemId || "");
       setFormError("");
     }
-  }, [isOpen, initialDate]);
+  }, [isOpen, initialDate, initialBucketListItemId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,6 +108,7 @@ export function AddTodoTaskModal({
           priority,
           category,
           description: description.trim() || null,
+          bucketListItemId: bucketListItemId || null,
         }),
       });
 
@@ -139,6 +161,33 @@ export function AddTodoTaskModal({
             placeholder="e.g. Finish quarterly project review"
             className="text-sm font-medium"
           />
+        </div>
+
+        {/* Associated Dream (Optional) */}
+        <div>
+          <label className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
+            <span>🌙</span>
+            Associated Dream (Optional)
+          </label>
+          {initialBucketListItemId && initialBucketListTitle ? (
+            <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs font-semibold text-amber-900 dark:text-amber-200 flex items-center justify-between">
+              <span>{initialBucketListTitle}</span>
+              <span className="text-[10px] uppercase font-bold text-amber-600 dark:text-amber-400">Locked</span>
+            </div>
+          ) : (
+            <select
+              value={bucketListItemId}
+              onChange={(e) => setBucketListItemId(e.target.value)}
+              className="w-full text-xs font-medium px-3 py-2 rounded-xl glass-input text-primary focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 border border-stone-200 dark:border-stone-800"
+            >
+              <option value="">None (Standalone daily task)</option>
+              {activeDreams.map((d) => (
+                <option key={d.id} value={d.id}>
+                  🌙 {d.title}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
 
         {/* Date */}

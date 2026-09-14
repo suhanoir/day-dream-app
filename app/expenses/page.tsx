@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/Button";
 import { MonthNavigator } from "@/components/expenses/MonthNavigator";
 import { MonthlyTotalCard } from "@/components/expenses/MonthlyTotalCard";
@@ -155,22 +155,20 @@ export default function ExpensesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50/50 flex flex-col selection:bg-stone-900 selection:text-stone-50">
-      <DashboardHeader />
-
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-28 sm:pb-24 space-y-6">
+    <AppShell title="Expenses">
+      <div className="space-y-6">
         {/* Page Top Title & Primary Action */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-stone-900 font-serif-heading leading-tight">
+              <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-primary font-serif-heading leading-tight">
                 Expenses
               </h1>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200">
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 dark:bg-white/10 text-secondary border border-stone-200/60 dark:border-white/10">
                 Budget & Tracking
               </span>
             </div>
-            <p className="text-sm text-stone-500">
+            <p className="text-xs sm:text-sm text-secondary">
               Track your spending, manage monthly budgets, and make mindful decisions.
             </p>
           </div>
@@ -260,7 +258,7 @@ export default function ExpensesPage() {
             </div>
           )}
         </div>
-      </main>
+      </div>
 
       {/* Add Expense Modal */}
       <AddExpenseModal
@@ -278,6 +276,6 @@ export default function ExpensesPage() {
         onExpenseUpdated={handleExpenseUpdated}
         onExpenseDeleted={handleExpenseDeleted}
       />
-    </div>
+    </AppShell>
   );
 }
