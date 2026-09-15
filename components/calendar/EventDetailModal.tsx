@@ -88,7 +88,7 @@ export function EventDetailModal({
       <Modal isOpen={isOpen} onClose={onClose} maxWidth="md" showCloseButton={true}>
         <div className="space-y-5">
           {/* Category Pill & Action Buttons */}
-          <div className="flex items-center justify-between gap-2 border-b border-stone-100 pb-3">
+          <div className="flex items-center justify-between gap-2 border-b border-stone-200/40 dark:border-white/10 pb-3">
             <span
               className={cn(
                 "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wider border",
@@ -99,20 +99,20 @@ export function EventDetailModal({
               {event.category}
             </span>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => {
                   onClose();
                   onEditClick(event);
                 }}
-                className="p-1.5 text-stone-400 hover:text-stone-700 rounded-lg hover:bg-stone-100 transition-colors"
+                className="w-8 h-8 flex items-center justify-center text-muted hover:text-primary rounded-lg hover:bg-stone-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
                 title="Edit Event"
               >
                 <Pencil className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setShowDeleteConfirm(true)}
-                className="p-1.5 text-stone-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors"
+                className="w-8 h-8 flex items-center justify-center text-muted hover:text-rose-600 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer"
                 title="Delete Event"
               >
                 <Trash2 className="w-4 h-4" />
@@ -122,29 +122,29 @@ export function EventDetailModal({
 
           {/* Title */}
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-stone-900 leading-snug">
+            <h2 className="text-xl font-bold tracking-tight text-primary leading-snug">
               {event.title}
             </h2>
           </div>
 
           {/* Time, Date, Location Grid */}
-          <div className="grid grid-cols-1 gap-2.5 bg-stone-50/80 p-3.5 rounded-xl border border-stone-200/70 text-xs text-stone-700">
+          <div className="grid grid-cols-1 gap-2.5 glass-card p-3.5 text-xs text-secondary">
             {/* Date */}
             <div className="flex items-center gap-2">
-              <CalendarIcon className="w-4 h-4 text-stone-400 shrink-0" />
-              <span className="font-medium text-stone-800">{formattedDate}</span>
+              <CalendarIcon className="w-4 h-4 text-muted shrink-0" />
+              <span className="font-medium text-primary">{formattedDate}</span>
             </div>
 
             {/* Time */}
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-stone-400 shrink-0" />
+              <Clock className="w-4 h-4 text-muted shrink-0" />
               <span>{timeDisplay}</span>
             </div>
 
             {/* Location */}
             {event.location && (
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-stone-400 shrink-0" />
+                <MapPin className="w-4 h-4 text-muted shrink-0" />
                 <span className="truncate">{event.location}</span>
               </div>
             )}
@@ -153,10 +153,10 @@ export function EventDetailModal({
           {/* Description */}
           {event.description && (
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-1.5">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted mb-1.5">
                 Notes & Agenda
               </h4>
-              <p className="text-sm text-stone-600 leading-relaxed whitespace-pre-wrap bg-white p-3 rounded-xl border border-stone-100">
+              <p className="text-sm text-secondary leading-relaxed whitespace-pre-wrap glass-card p-3 rounded-xl">
                 {event.description}
               </p>
             </div>

@@ -211,8 +211,8 @@ export function EditExpenseModal({
 
           {/* Category Picker */}
           <div>
-            <label className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
-              <Tag className="w-3.5 h-3.5 text-stone-400" />
+            <label className="flex items-center gap-1 text-xs font-semibold text-secondary uppercase tracking-wider mb-1.5">
+              <Tag className="w-3.5 h-3.5 text-muted" />
               Category <span className="text-rose-500">*</span>
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
@@ -225,10 +225,10 @@ export function EditExpenseModal({
                     type="button"
                     onClick={() => setCategory(cat)}
                     className={cn(
-                      "px-2.5 py-2 rounded-xl text-xs font-medium border flex items-center gap-1.5 justify-center transition-all cursor-pointer",
+                      "px-2.5 py-2 rounded-xl text-xs font-medium border flex items-center gap-1.5 justify-center transition-all cursor-pointer active:scale-95",
                       isSelected
-                        ? "bg-stone-900 text-white border-stone-900 shadow-2xs font-semibold"
-                        : "bg-white text-stone-700 border-stone-200/80 hover:bg-stone-50"
+                        ? "glass-tab-active font-semibold shadow-xs text-primary border-[var(--theme-primary)]"
+                        : "glass-card text-secondary hover:text-primary hover:bg-stone-100/60 dark:hover:bg-white/10"
                     )}
                   >
                     <span className={cn("w-1.5 h-1.5 rounded-full", config.dot)} />
@@ -241,8 +241,8 @@ export function EditExpenseModal({
 
           {/* Side Notes */}
           <div>
-            <label className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
-              <FileText className="w-3.5 h-3.5 text-stone-400" />
+            <label className="flex items-center gap-1 text-xs font-semibold text-secondary uppercase tracking-wider mb-1.5">
+              <FileText className="w-3.5 h-3.5 text-muted" />
               Optional Side Notes
             </label>
             <Textarea
@@ -255,7 +255,7 @@ export function EditExpenseModal({
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-between pt-2 border-t border-stone-100">
+          <div className="flex items-center justify-between pt-2 border-t border-stone-200/60 dark:border-white/10">
             <button
               type="button"
               onClick={() => setShowConfirmDelete(true)}

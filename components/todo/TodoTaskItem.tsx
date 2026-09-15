@@ -76,7 +76,7 @@ export function TodoTaskItem({
         "group relative flex items-center justify-between gap-3 p-3.5 sm:px-4 sm:py-3.5 rounded-2xl border transition-all duration-200 cursor-pointer select-none active:scale-98",
         task.completed
           ? "bg-stone-100/40 border-stone-200/40 text-stone-400 hover:bg-stone-100/60"
-          : "glass-card-interactive text-stone-900"
+          : "glass-card-interactive text-primary"
       )}
     >
       {/* Checkbox and Task Info */}
@@ -173,20 +173,20 @@ export function TodoTaskItem({
             onClick={handleMoveToToday}
             disabled={isMoving}
             title="Move to Today"
-            className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200/80 hover:bg-amber-100 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/80 dark:border-amber-500/30 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors cursor-pointer"
           >
             <ArrowRightCircle className="w-3 h-3" />
             <span className="hidden md:inline">Move to Today</span>
           </button>
         )}
 
-        {/* Delete button (hover on desktop, always visible on touch) */}
+        {/* Delete button (visible on touch devices, hover on desktop) */}
         {onDelete && (
           <button
             type="button"
             onClick={handleDelete}
             title="Delete task"
-            className="opacity-0 group-hover:opacity-100 sm:transition-opacity p-1 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 cursor-pointer"
+            className="opacity-70 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 cursor-pointer"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>

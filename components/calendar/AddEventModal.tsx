@@ -217,7 +217,7 @@ export function AddEventModal({
           />
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-stone-700 tracking-wide uppercase">
+            <label className="text-xs font-semibold text-secondary tracking-wide uppercase">
               Category
             </label>
             {!isCustomCategory ? (
@@ -231,14 +231,14 @@ export function AddEventModal({
                       setCategory(e.target.value);
                     }
                   }}
-                  className="w-full px-3.5 py-2.5 bg-white text-stone-900 border border-stone-200/90 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-400/50 cursor-pointer"
+                  className="w-full px-3.5 py-2.5 glass-input text-primary rounded-xl text-base sm:text-sm cursor-pointer"
                 >
                   {EVENT_CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
+                    <option key={cat} value={cat} className="bg-stone-50 dark:bg-stone-900 text-stone-900 dark:text-stone-100">
                       {cat}
                     </option>
                   ))}
-                  <option value="custom">+ Custom Category</option>
+                  <option value="custom" className="bg-stone-50 dark:bg-stone-900 text-stone-900 dark:text-stone-100">+ Custom Category</option>
                 </select>
               </div>
             ) : (
@@ -248,13 +248,13 @@ export function AddEventModal({
                   placeholder="Enter category name..."
                   value={customCategory}
                   onChange={(e) => setCustomCategory(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-white text-stone-900 border border-stone-200/90 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-400/50"
+                  className="w-full px-3.5 py-2.5 glass-input text-primary rounded-xl text-base sm:text-sm placeholder:text-muted"
                   autoFocus
                 />
                 <button
                   type="button"
                   onClick={() => setIsCustomCategory(false)}
-                  className="text-xs text-stone-500 hover:text-stone-800 px-2 underline"
+                  className="text-xs text-muted hover:text-primary px-2 underline cursor-pointer"
                 >
                   Presets
                 </button>
@@ -272,7 +272,7 @@ export function AddEventModal({
           onChange={(e) => setDescription(e.target.value)}
         />
 
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-200/40 dark:border-white/10">
           <Button
             type="button"
             variant="ghost"

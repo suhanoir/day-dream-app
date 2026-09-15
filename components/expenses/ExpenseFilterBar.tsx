@@ -30,12 +30,12 @@ export function ExpenseFilterBar({
           placeholder="Search expenses by name or notes..."
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full pl-10 pr-9 py-2.5 bg-white border border-stone-200/90 rounded-2xl text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-400/50 focus:border-stone-400 transition-all shadow-2xs"
+          className="w-full pl-10 pr-9 py-2.5 glass-input text-primary rounded-2xl text-base sm:text-sm placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 transition-all shadow-2xs"
         />
         {search && (
           <button
             onClick={() => onSearchChange("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-1 cursor-pointer"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-primary p-1 cursor-pointer"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -43,14 +43,14 @@ export function ExpenseFilterBar({
       </div>
 
       {/* Category Pills */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full text-xs scrollbar-none">
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full text-xs no-scrollbar">
         <button
           onClick={() => onCategoryChange("all")}
           className={cn(
-            "px-3 py-1.5 rounded-xl border transition-colors cursor-pointer shrink-0 font-medium",
+            "px-3 py-1.5 rounded-xl border transition-colors cursor-pointer shrink-0 font-medium active:scale-95",
             selectedCategory === "all"
-              ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs"
-              : "bg-white text-stone-600 border-stone-200/80 hover:bg-stone-50"
+              ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs font-semibold"
+              : "glass-card text-secondary hover:text-primary hover:bg-stone-100/60 dark:hover:bg-white/10"
           )}
         >
           All Categories
@@ -66,10 +66,10 @@ export function ExpenseFilterBar({
               key={cat}
               onClick={() => onCategoryChange(cat)}
               className={cn(
-                "px-2.5 py-1.5 rounded-xl border transition-colors cursor-pointer shrink-0 font-medium flex items-center gap-1.5",
+                "px-2.5 py-1.5 rounded-xl border transition-colors cursor-pointer shrink-0 font-medium flex items-center gap-1.5 active:scale-95",
                 isSelected
-                  ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs"
-                  : "bg-white text-stone-600 border-stone-200/80 hover:bg-stone-50"
+                  ? "bg-[var(--theme-primary,#4F5FD7)] text-white border-[var(--theme-primary,#4F5FD7)] shadow-2xs font-semibold"
+                  : "glass-card text-secondary hover:text-primary hover:bg-stone-100/60 dark:hover:bg-white/10"
               )}
             >
               <span className={cn("w-1.5 h-1.5 rounded-full", config.dot)} />
@@ -77,8 +77,8 @@ export function ExpenseFilterBar({
               {hasExpenses && (
                 <span
                   className={cn(
-                    "text-[10px] px-1 rounded-md",
-                    isSelected ? "bg-stone-800 text-stone-200" : "bg-stone-100 text-stone-500"
+                    "text-[10px] px-1.5 py-0.5 rounded-md",
+                    isSelected ? "bg-white/20 text-white font-semibold" : "bg-stone-200/50 dark:bg-white/10 text-muted"
                   )}
                 >
                   ₹{Math.round(categoryBreakdown[cat])}

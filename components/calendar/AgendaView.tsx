@@ -37,9 +37,9 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
   if (sortedDateKeys.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-12 text-center shadow-xs">
-        <CalendarIcon className="w-8 h-8 text-stone-300 mx-auto mb-2" />
-        <h4 className="text-sm font-semibold text-stone-800">No events found</h4>
-        <p className="text-xs text-stone-500 mt-1">
+        <CalendarIcon className="w-8 h-8 text-muted mx-auto mb-2" />
+        <h4 className="text-sm font-semibold text-primary">No events found</h4>
+        <p className="text-xs text-secondary mt-1">
           Try changing your search or filters, or add a new event to your schedule.
         </p>
       </div>
@@ -68,7 +68,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
           <div key={key} className="space-y-3">
             {/* Date Group Header */}
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-stone-500">
+              <span className="text-xs font-bold uppercase tracking-wider text-secondary">
                 {dateHeading}
               </span>
               {dayBadge && (
@@ -88,7 +88,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
                   <div
                     key={event.id}
                     onClick={() => onEventClick(event)}
-                    className="p-4 glass-card-interactive rounded-2xl hover:border-stone-300 transition-all cursor-pointer shadow-2xs hover:shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    className="p-4 glass-card-interactive rounded-2xl hover:border-stone-300 dark:hover:border-white/20 transition-all cursor-pointer shadow-2xs hover:shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                   >
                     <div className="flex items-start gap-3 min-w-0">
                       <span
@@ -99,7 +99,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
                       />
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <h4 className="text-sm font-semibold text-stone-900 truncate">
+                          <h4 className="text-sm font-semibold text-primary truncate">
                             {event.title}
                           </h4>
                           <span
@@ -112,21 +112,21 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-3 text-xs text-stone-500 flex-wrap">
+                        <div className="flex items-center gap-3 text-xs text-secondary flex-wrap">
                           <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5 text-stone-400" />
+                            <Clock className="w-3.5 h-3.5 text-muted" />
                             {timeStr}
                           </span>
                           {event.location && (
                             <span className="flex items-center gap-1 truncate max-w-xs">
-                              <MapPin className="w-3.5 h-3.5 text-stone-400" />
+                              <MapPin className="w-3.5 h-3.5 text-muted" />
                               <span className="truncate">{event.location}</span>
                             </span>
                           )}
                         </div>
 
                         {event.description && (
-                          <p className="text-xs text-stone-500 mt-1.5 line-clamp-1">
+                          <p className="text-xs text-secondary mt-1.5 line-clamp-1">
                             {event.description}
                           </p>
                         )}
@@ -134,7 +134,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
                     </div>
 
                     {event.bucketListItem && (
-                      <div className="flex items-center gap-1 text-[11px] font-medium text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg shrink-0 border border-amber-200/60">
+                      <div className="flex items-center gap-1 text-[11px] font-medium text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 px-2.5 py-1 rounded-lg shrink-0 border border-amber-200/60 dark:border-amber-500/30">
                         <Bookmark className="w-3 h-3" />
                         <span className="truncate max-w-[140px]">
                           {event.bucketListItem.title}

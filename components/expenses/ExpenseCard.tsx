@@ -76,7 +76,7 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
 
           <div className="min-w-0 flex-1 space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-semibold text-stone-900 text-sm tracking-tight truncate">
+              <h3 className="font-semibold text-primary text-sm tracking-tight truncate">
                 {expense.title}
               </h3>
               <span
@@ -90,22 +90,22 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
             </div>
 
             {expense.notes && (
-              <p className="text-xs text-stone-500 line-clamp-2">
+              <p className="text-xs text-secondary line-clamp-2">
                 {expense.notes}
               </p>
             )}
 
-            <div className="flex items-center gap-1.5 text-[11px] text-stone-400">
-              <Calendar className="w-3 h-3 text-stone-400" />
+            <div className="flex items-center gap-1.5 text-[11px] text-muted">
+              <Calendar className="w-3 h-3 text-muted" />
               <span>{formatExpenseDate(expense.date)}</span>
             </div>
           </div>
         </div>
 
         {/* Right: Amount + Action Buttons */}
-        <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-200/50">
+        <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-200/50 dark:border-white/10">
           <div className="text-right">
-            <div className="text-base sm:text-lg font-bold text-stone-900 tracking-tight">
+            <div className="text-base sm:text-lg font-bold text-primary tracking-tight">
               {formatCurrency(expense.amount)}
             </div>
           </div>
@@ -117,7 +117,7 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
                 e.stopPropagation();
                 onEdit(expense);
               }}
-              className="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100/80 transition-colors cursor-pointer active:scale-95"
+              className="p-1.5 rounded-lg text-muted hover:text-primary hover:bg-stone-100/80 dark:hover:bg-white/10 transition-colors cursor-pointer active:scale-95"
               title="Edit Expense"
             >
               <Pencil className="w-3.5 h-3.5" />
@@ -129,7 +129,7 @@ export function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardProps) {
                 e.stopPropagation();
                 setShowConfirmDelete(true);
               }}
-              className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-500/10 transition-colors cursor-pointer active:scale-95"
+              className="p-1.5 rounded-lg text-muted hover:text-rose-600 hover:bg-rose-500/10 transition-colors cursor-pointer active:scale-95"
               title="Delete Expense"
             >
               <Trash2 className="w-3.5 h-3.5" />

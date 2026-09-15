@@ -108,17 +108,17 @@ export function EditBucketListItemModal({
         />
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-stone-700 tracking-wide uppercase">
+          <label className="text-xs font-semibold text-secondary tracking-wide uppercase">
             Category
           </label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-white text-stone-900 border border-stone-200/90 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-400/50 focus:border-stone-400 transition-all cursor-pointer"
+            className="w-full px-3.5 py-2.5 glass-input text-primary rounded-xl text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 transition-all cursor-pointer"
             required
           >
             {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
+              <option key={cat.id} value={cat.id} className="bg-stone-50 dark:bg-stone-900 text-stone-900 dark:text-stone-100">
                 {cat.name}
               </option>
             ))}
@@ -139,7 +139,7 @@ export function EditBucketListItemModal({
           onChange={(e) => setTargetDate(e.target.value)}
         />
 
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-200/40 dark:border-white/10">
           <Button
             type="button"
             variant="ghost"

@@ -218,17 +218,17 @@ export default function ExpensesPage() {
               <p className="text-xs font-medium">Loading expenses...</p>
             </div>
           ) : filteredExpenses.length === 0 ? (
-            <div className="bg-white border border-stone-200/90 rounded-2xl p-8 sm:p-12 text-center space-y-4 shadow-2xs">
-              <div className="w-12 h-12 rounded-2xl bg-stone-100 text-stone-400 flex items-center justify-center mx-auto">
+            <div className="glass-card p-8 sm:p-12 text-center space-y-4 shadow-2xs">
+              <div className="w-12 h-12 rounded-2xl bg-stone-100 dark:bg-white/10 text-muted flex items-center justify-center mx-auto">
                 <Receipt className="w-6 h-6" />
               </div>
               <div className="space-y-1">
-                <h3 className="text-base font-bold text-stone-900">
+                <h3 className="text-base font-bold text-primary">
                   {search || categoryFilter !== "all"
                     ? "No matching expenses found"
                     : `No expenses recorded for ${formatMonthYear(currentDate)}`}
                 </h3>
-                <p className="text-xs text-stone-500 max-w-sm mx-auto">
+                <p className="text-xs text-secondary max-w-sm mx-auto">
                   {search || categoryFilter !== "all"
                     ? "Try adjusting your search query or selecting a different category."
                     : "Keep track of your spending by adding what you bought, the amount, and category."}

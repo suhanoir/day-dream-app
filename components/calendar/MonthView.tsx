@@ -81,11 +81,11 @@ export function MonthView({
   return (
     <div className="glass-card rounded-2xl shadow-xs overflow-hidden">
       {/* Weekday Header */}
-      <div className="grid grid-cols-7 border-b border-stone-200/60 text-center py-2.5 bg-stone-100/40">
+      <div className="grid grid-cols-7 border-b border-stone-200/40 dark:border-white/10 text-center py-2 bg-stone-100/40 dark:bg-white/5">
         {WEEKDAYS.map((day) => (
           <div
             key={day}
-            className="text-xs font-semibold text-stone-500 uppercase tracking-wider"
+            className="text-xs font-semibold text-muted uppercase tracking-wider"
           >
             {day}
           </div>
@@ -93,7 +93,7 @@ export function MonthView({
       </div>
 
       {/* Calendar Grid */}
-      <div className="grid grid-cols-7 auto-rows-fr divide-x divide-y divide-stone-200/50">
+      <div className="grid grid-cols-7 auto-rows-fr divide-x divide-y divide-stone-200/40 dark:divide-white/5">
         {allCalendarDays.map((day, idx) => {
           const isCurrentMonth = day.getMonth() === month;
           const isToday = isSameDay(day, today);
@@ -106,8 +106,8 @@ export function MonthView({
               onClick={() => onSelectDate(day)}
               className={cn(
                 "min-h-[85px] sm:min-h-[110px] p-1 sm:p-2 transition-colors cursor-pointer group relative flex flex-col justify-between",
-                !isCurrentMonth && "bg-stone-100/20 text-stone-400",
-                isCurrentMonth && "hover:bg-stone-100/40",
+                !isCurrentMonth && "bg-stone-100/20 dark:bg-white/[0.02] text-muted",
+                isCurrentMonth && "hover:bg-stone-100/40 dark:hover:bg-white/5",
                 isSelected && "bg-[var(--theme-primary-soft,#EEF0FF)]/60 ring-1 ring-inset ring-[var(--theme-primary,#4F5FD7)]/40"
               )}
             >
@@ -121,8 +121,8 @@ export function MonthView({
                       : isSelected
                       ? "text-[var(--theme-primary,#4F5FD7)] font-bold"
                       : isCurrentMonth
-                      ? "text-stone-700"
-                      : "text-stone-300"
+                      ? "text-primary"
+                      : "text-muted opacity-50"
                   )}
                 >
                   {day.getDate()}
@@ -135,7 +135,7 @@ export function MonthView({
                     e.stopPropagation();
                     onAddEventClick(day);
                   }}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 text-stone-400 hover:text-stone-900 hover:bg-stone-200/60 rounded"
+                  className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 text-muted hover:text-primary hover:bg-stone-200/60 dark:hover:bg-white/10 rounded cursor-pointer"
                   title="Add event on this day"
                 >
                   <Plus className="w-3.5 h-3.5" />
@@ -168,7 +168,7 @@ export function MonthView({
                 })}
 
                 {dayEvents.length > 3 && (
-                  <span className="text-[10px] font-medium text-stone-400 pl-1">
+                  <span className="text-[10px] font-medium text-muted pl-1">
                     +{dayEvents.length - 3} more
                   </span>
                 )}
@@ -186,7 +186,7 @@ export function MonthView({
                   );
                 })}
                 {dayEvents.length > 3 && (
-                  <span className="text-[9px] font-bold text-stone-400">
+                  <span className="text-[9px] font-bold text-muted">
                     +{dayEvents.length - 3}
                   </span>
                 )}

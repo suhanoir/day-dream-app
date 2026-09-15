@@ -129,7 +129,7 @@ export function AddBucketListItemModal({
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-semibold text-stone-700 uppercase tracking-wide">
+            <label className="text-xs font-semibold text-secondary uppercase tracking-wide">
               Category
             </label>
             {onOpenAddCategory && (
@@ -149,11 +149,11 @@ export function AddBucketListItemModal({
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="w-full text-xs font-medium px-3 py-2 rounded-xl glass-input text-primary focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 border border-stone-200 dark:border-stone-800"
+            className="w-full px-3.5 py-2.5 rounded-xl glass-input text-primary text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)]/30 cursor-pointer"
             required
           >
             {categories.map((c) => (
-              <option key={c.id} value={c.id}>
+              <option key={c.id} value={c.id} className="bg-stone-50 dark:bg-stone-900 text-stone-900 dark:text-stone-100">
                 {c.name}
               </option>
             ))}
