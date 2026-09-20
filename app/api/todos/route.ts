@@ -2,15 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth/session";
 import { prisma } from "@/lib/db/prisma";
 
-// Helper to parse "YYYY-MM-DD" or ISO string into a normalized UTC date
+// Helper to parse "YYYY-MM-DD" or "DD-MM-YYYY" or ISO string into a normalized UTC date
 function parseToUtcDate(dateStr: string): Date {
   if (!dateStr) return new Date();
-  const cleanDate = dateStr.split("T")[0];
+  const cleanDate = dateStr.split("T")[0].trim();
   const parts = cleanDate.split("-").map(Number);
   if (parts.length === 3 && !parts.some(isNaN)) {
-    return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0));
+    if (parts[0] > 1000) {
+      // YYYY-MM-DD format
+      return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0));
+    } else if (parts[2] > 1000) {
+      // DD-MM-YYYY format
+      return new Date(Date.UTC(parts[2], parts[1] - 1, parts[0], 0, 0, 0, 0));
+    }
   }
   const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return new Date();
   return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, 0));
 }
 
@@ -23,7 +30,7 @@ export async function GET(req: NextRequest) {
     }
 
     const { searchParams } = new URL(req.url);
-    const dateParam = searchParams.get("date"); // e.g. "2026-09-04"
+    const dateParam = searchParams.get("date"); // e.g. "2026-09-04" or "20-09-2026"
     const category = searchParams.get("category");
     const priority = searchParams.get("priority");
     const bucketListItemId = searchParams.get("bucketListItemId");
@@ -37,11 +44,14 @@ export async function GET(req: NextRequest) {
     }
 
     if (dateParam) {
-      const cleanDate = dateParam.split("T")[0];
+      const cleanDate = dateParam.split("T")[0].trim();
       const parts = cleanDate.split("-").map(Number);
       if (parts.length === 3 && !parts.some(isNaN)) {
-        const startOfDay = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0));
-        const endOfDay = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 23, 59, 59, 999));
+        const y = parts[0] > 1000 ? parts[0] : parts[2];
+        const m = parts[1] - 1;
+        const d = parts[0] > 1000 ? parts[2] : parts[0];
+        const startOfDay = new Date(Date.UTC(y, m, d, 0, 0, 0, 0));
+        const endOfDay = new Date(Date.UTC(y, m, d, 23, 59, 59, 999));
         where.date = {
           gte: startOfDay,
           lte: endOfDay,
@@ -135,7 +145,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ task }, { status: 201 });
+    return NextResponse.json({ task, todo: task }, { status: 201 });
   } catch (error) {
     console.error("Failed to create todo task:", error);
     return NextResponse.json(

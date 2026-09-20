@@ -4,12 +4,19 @@ import { prisma } from "@/lib/db/prisma";
 
 function parseToUtcDate(dateStr: string): Date {
   if (!dateStr) return new Date();
-  const cleanDate = dateStr.split("T")[0];
+  const cleanDate = dateStr.split("T")[0].trim();
   const parts = cleanDate.split("-").map(Number);
   if (parts.length === 3 && !parts.some(isNaN)) {
-    return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0));
+    if (parts[0] > 1000) {
+      // YYYY-MM-DD format
+      return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0));
+    } else if (parts[2] > 1000) {
+      // DD-MM-YYYY format
+      return new Date(Date.UTC(parts[2], parts[1] - 1, parts[0], 0, 0, 0, 0));
+    }
   }
   const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return new Date();
   return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, 0));
 }
 
@@ -122,7 +129,7 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json({ task: updatedTask });
+    return NextResponse.json({ task: updatedTask, todo: updatedTask });
   } catch (error) {
     console.error("Failed to update task:", error);
     return NextResponse.json(

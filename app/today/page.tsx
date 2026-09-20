@@ -173,6 +173,16 @@ export default function TodayPage() {
       )
     );
 
+    setSelectedTaskForDetail((prev) =>
+      prev && prev.id === task.id
+        ? {
+            ...prev,
+            completed: nextCompleted,
+            completedAt: nextCompleted ? new Date().toISOString() : null,
+          }
+        : prev
+    );
+
     try {
       const res = await fetch(`/api/todos/${task.id}/complete`, {
         method: "PATCH",
@@ -183,13 +193,19 @@ export default function TodayPage() {
       if (!res.ok) {
         // Revert on error
         setTasks((prev) => prev.map((t) => (t.id === task.id ? task : t)));
+        setSelectedTaskForDetail((prev) => (prev && prev.id === task.id ? task : prev));
         toastError("Failed to update task status");
       } else {
         const data = await res.json();
-        setTasks((prev) => prev.map((t) => (t.id === task.id ? data.task : t)));
+        const updated = data.task || data.todo;
+        if (updated) {
+          setTasks((prev) => prev.map((t) => (t.id === task.id ? updated : t)));
+          setSelectedTaskForDetail((prev) => (prev && prev.id === task.id ? updated : prev));
+        }
       }
     } catch {
       setTasks((prev) => prev.map((t) => (t.id === task.id ? task : t)));
+      setSelectedTaskForDetail((prev) => (prev && prev.id === task.id ? task : prev));
       toastError("Network error while updating task");
     }
   };
@@ -632,31 +648,46 @@ export default function TodayPage() {
         isOpen={!!selectedTaskForDetail}
         onClose={() => setSelectedTaskForDetail(null)}
         onSave={async (updatedTask) => {
-          try {
-            const res = await fetch(`/api/todos/${updatedTask.id}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(updatedTask),
-            });
-            if (res.ok) {
-              const data = await res.json();
-              setTasks((prev) => prev.map((t) => (t.id === data.todo.id ? data.todo : t)));
-              setSelectedTaskForDetail(null);
-            }
-          } catch (err) {
-            console.error(err);
+          const res = await fetch(`/api/todos/${updatedTask.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedTask),
+          });
+
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            const errMsg = errData.error || "Failed to update task";
+            toastError(errMsg);
+            throw new Error(errMsg);
           }
+
+          const data = await res.json();
+          const savedTask: TodoTaskData = data.task || data.todo || updatedTask;
+
+          // Check if date was changed to a different day
+          const taskDateKey = savedTask.date ? savedTask.date.split("T")[0] : selectedDateKey;
+          if (taskDateKey !== selectedDateKey) {
+            // Task date was moved to another day, remove from current day list
+            setTasks((prev) => prev.filter((t) => t.id !== savedTask.id));
+          } else {
+            // Update in place
+            setTasks((prev) => prev.map((t) => (t.id === savedTask.id ? savedTask : t)));
+          }
+
+          success("Task updated successfully");
+          setSelectedTaskForDetail(null);
         }}
         onDelete={async (taskId) => {
-          try {
-            const res = await fetch(`/api/todos/${taskId}`, { method: "DELETE" });
-            if (res.ok) {
-              setTasks((prev) => prev.filter((t) => t.id !== taskId));
-              setSelectedTaskForDetail(null);
-            }
-          } catch (err) {
-            console.error(err);
+          const res = await fetch(`/api/todos/${taskId}`, { method: "DELETE" });
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            const errMsg = errData.error || "Failed to delete task";
+            toastError(errMsg);
+            throw new Error(errMsg);
           }
+          setTasks((prev) => prev.filter((t) => t.id !== taskId));
+          setSelectedTaskForDetail(null);
+          success("Task deleted");
         }}
         onMoveToToday={async (task) => {
           await handleMoveToToday(task);

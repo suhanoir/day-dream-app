@@ -40,6 +40,23 @@ interface TodoTaskDetailModalProps {
   onToggleComplete: (task: TodoTaskData) => Promise<void>;
 }
 
+function normalizeToDateInput(dateStr?: string | null): string {
+  if (!dateStr) return "";
+  const clean = dateStr.split("T")[0].trim();
+  const parts = clean.split("-");
+  if (parts.length === 3) {
+    if (parts[0].length === 4) {
+      // YYYY-MM-DD
+      return `${parts[0]}-${parts[1].padStart(2, "0")}-${parts[2].padStart(2, "0")}`;
+    }
+    if (parts[2].length === 4) {
+      // DD-MM-YYYY -> YYYY-MM-DD
+      return `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(2, "0")}`;
+    }
+  }
+  return clean;
+}
+
 export function TodoTaskDetailModal({
   task,
   isOpen,
@@ -58,16 +75,17 @@ export function TodoTaskDetailModal({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isMoving, setIsMoving] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     if (task) {
       setTitle(task.title || "");
       setDescription(task.description || "");
-      // Date in YYYY-MM-DD
-      const dateVal = task.date.split("T")[0];
+      const dateVal = normalizeToDateInput(task.date);
       setDate(dateVal);
       setPriority(task.priority || "Medium");
       setCategory((task.category as TodoCategory) || "Personal");
+      setSaveError(null);
     }
   }, [task]);
 
@@ -82,15 +100,23 @@ export function TodoTaskDetailModal({
 
     try {
       setIsSaving(true);
+      setSaveError(null);
+
+      const normalizedDate = normalizeToDateInput(date);
+      const isoDate = normalizedDate ? `${normalizedDate}T00:00:00.000Z` : task.date;
+
       await onSave({
         ...task,
         title: title.trim(),
         description: description.trim() || null,
-        date: date ? `${date}T00:00:00.000Z` : task.date,
+        date: isoDate,
         priority,
         category,
       });
       onClose();
+    } catch (err: any) {
+      console.error("Failed to save task:", err);
+      setSaveError(err?.message || "Couldn't save this task. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -128,6 +154,21 @@ export function TodoTaskDetailModal({
         maxWidth="md"
       >
         <form onSubmit={handleSave} className="space-y-4">
+          {/* Error Message Alert */}
+          {saveError && (
+            <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200/80 dark:border-rose-800/40 text-rose-700 dark:text-rose-300 text-xs font-medium flex items-center justify-between animate-fade-in">
+              <span>{saveError}</span>
+              <button
+                type="button"
+                onClick={() => setSaveError(null)}
+                className="text-rose-500 hover:text-rose-700 dark:text-rose-400 font-bold ml-2 text-sm leading-none cursor-pointer"
+                title="Dismiss"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
           {/* Completion status bar */}
           <div
             className={cn(
@@ -335,9 +376,10 @@ export function TodoTaskDetailModal({
                 variant="primary"
                 size="sm"
                 isLoading={isSaving}
+                disabled={isSaving || !title.trim()}
               >
                 <Save className="w-3.5 h-3.5 mr-1.5" />
-                Save Changes
+                {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </div>
