@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   Home as HomeIcon,
   Moon,
-  Sun,
+  ListTodo,
   Receipt,
   Calendar as CalendarIcon,
   Sparkles,
@@ -38,9 +38,9 @@ export const PRIMARY_NAV_ITEMS: NavItemConfig[] = [
       pathname.startsWith("/dreams/"),
   },
   {
-    name: "Today",
-    href: "/today",
-    icon: Sun,
+    name: "To-Do",
+    href: "/todo",
+    icon: ListTodo,
     isActive: (pathname: string) =>
       pathname === "/today" ||
       pathname === "/todo" ||

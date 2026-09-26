@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.21.0 — Personal Dreams, Experiences & Memories App
+# 🌟 DayDream v2.22.0 — Personal Dreams, Experiences & Memories App
 
-> **Version 2.21.0** · **"Deep UX Refinement • Final Product Refinement (Phases 3 & 7)"**
+> **Version 2.22.0** · **"Complete To-Do Section Revamp • Clean, Fast, Prioritized Task Execution"**
 
 A production-quality, responsive Full-Stack web application uniting lifelong dreams, daily execution, personal reflection, and memory preservation into one coherent life journey:
 $$\text{DREAM} \longrightarrow \text{PLAN} \longrightarrow \text{DO} \longrightarrow \text{LIVE} \longrightarrow \text{REMEMBER}$$
@@ -16,11 +16,11 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 | :--- | :--- | :--- | :--- |
 | **1. Home** | `/home` | Daily life orientation layer connecting active dreams, today's focus, and recent memories. | *"What matters today?"* |
 | **2. Dreams** | `/dreams` | Aspirations container with full lifecycle stages (Dreaming, Planning, In Progress, Completed), linked tasks, and milestones. | *"What do I want to experience in life?"* |
-| **3. Today** | `/today` | Daily action execution hub with strict date isolation, direct dream badge linkage (`🌙 Dream Name`), and celebration. | *"What step am I taking today?"* |
+| **3. To-Do** | `/todo` | Clean, comprehensive task-management hub with intelligent priority ordering, description preview, and right-aligned dates. | *"What do I need to get done?"* |
 | **4. Memories** | `/memories` | Living keepsake scrapbook of completed milestones, postcards, reflections, and backward links to dreams. | *"What memories have I created?"* |
 | **5. You** | `/you` | Dedicated personal space uniting profile, appearance/themes, sounds & audio, and account configuration. | *"How is my space configured?"* |
 
-> **Supporting Tools**: **Calendar** (`/calendar`) and **Expenses** (`/expenses`) remain fully integrated supporting planning tools accessible across the application. All legacy routes (`/dashboard` → `/dreams`, `/todo` → `/today`, `/profile` → `/you`) maintain seamless backward compatibility.
+> **Supporting Tools**: **Calendar** (`/calendar`) and **Expenses** (`/expenses`) remain fully integrated supporting planning tools accessible across the application. All legacy routes (`/dashboard` → `/dreams`, `/today` → `/todo`, `/to-do-list` → `/todo`, `/profile` → `/you`) maintain seamless backward compatibility.
 
 ---
 
@@ -50,12 +50,23 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Today's Schedule & Upcoming List**: Side panel displaying today's agenda or upcoming dates.
 - **Bucket List Linkage**: Milestone events linked back to original goals.
 
-### 4. To-Do List — Daily Task Execution
-- **Strict Date Isolation**: Tasks are assigned strictly to specific dates (`← Previous Day`, `Today`, `Next Day →`) and never bleed across days.
-- **Add Task Action**: Prominent "Add Task" header button opening a dedicated task modal with Task Name, Date, Due Time, Priority, and Category.
-- **Always-Visible Checkboxes**: Checkbox is always visible. Ticking applies smooth strikethrough styling and moves tasks to a collapsible `COMPLETED` section.
-- **Daily Progress & Confetti**: Tracks daily progress with a progress bar and celebratory confetti when all tasks for the day are finished.
-- **Task Details & Helpers**: Full editing support, individual 1-click **"Move to Today"**, and a batch **"Move All to Today"** button to instantly roll over uncompleted past tasks.
+### 4. To-Do — Clean & Unified Task Management
+- **Single Comprehensive Task Hub**: Untangled daily tasks from calendar dashboard widgets into one unified, comfortable task view (`/todo`) representing all active and completed work.
+- **Intelligent Priority-First Default Order**:
+  1. Overdue High
+  2. High priority (not overdue)
+  3. Overdue Medium
+  4. Medium priority (not overdue)
+  5. Overdue Low
+  6. Low priority (not overdue)
+  7. Tasks without due date
+  - Within each rank: earlier due date first, with stable creation order.
+- **User-Controlled Sorts**: Compact dropdown with instant client-side sorting by `Priority`, `Due Date`, `Created`, or `Alphabetical (A-Z)`.
+- **Inline Description Preview**: Tasks with descriptions show a readable, muted 2-line preview directly in the list. Tasks without descriptions take up zero empty space.
+- **Right-Aligned Human Due Dates**: Calendar icon and human-friendly dates (`Today`, `Tomorrow`, `21 Sep`, `Overdue · 21 Sep`) clearly aligned on the right on desktop, with calm non-aggressive warning accents for overdue items. No timestamps or notifications.
+- **Fast Checkbox Completion**: 1-click completion with instant optimistic update, audio feedback, and seamless movement into a quieter, collapsible `COMPLETED` section.
+- **Responsive Layout**: Wide comfortable desktop width (1200–1400px) that eliminates large empty margins, with graceful metadata wrapping on mobile (360px–430px).
+- **Crash-Resistant Save Flow**: Robust editing for task title, description, date, priority, and category with in-modal error recovery and zero full-page reloads.
 
 ### 5. Expenses — Monthly Budget & Spend Tracking
 - **Indian Rupees (₹ / INR)**: All amounts, daily averages, and category badges formatted with Indian numerical grouping (`₹1,450.50`).
@@ -317,6 +328,25 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
   - **Zero Gamification & Strict Calm UX**: Preserved the sacred mental model of a personal, emotional journal without streaks, leaderboards, bells, or unsolicited reminder notifications.
   - **Zero Regressions & Full Multi-Tenant Security**: 100% data compatibility preserved; every query strictly scoped to `userId: session.userId`.
 
+### 23. Complete To-Do Section Revamp (v2.22.0)
+- **Primary Section Transformation**: Completely refined the daily dashboard experience into a unified, dedicated **To-Do** hub (`/todo`) representing the user's complete active and completed tasks.
+- **Intelligent Priority-First Default Sorting**:
+  1. Overdue High
+  2. High priority (not overdue)
+  3. Overdue Medium
+  4. Medium priority (not overdue)
+  5. Overdue Low
+  6. Low priority (not overdue)
+  7. Tasks without due date
+  - Earlier due dates sorted first within each rank, with stable creation ordering.
+- **User-Controlled Sorts**: Compact dropdown with instant sorting by `Priority`, `Due Date`, `Created`, or `Alphabetical (A-Z)`.
+- **Inline Description Preview**: Tasks with descriptions show a readable, muted 2-line preview directly in the list. Tasks without descriptions take up zero empty space.
+- **Right-Aligned Due Dates**: Calendar icon and human-friendly dates (`Today`, `Tomorrow`, `21 Sep`, `Overdue · 21 Sep`) aligned to the right on desktop, with calm non-aggressive warning accents for overdue items. No timestamps or notifications.
+- **Responsive Layout**: Wide comfortable desktop width (1200–1400px) eliminating large empty side margins, with graceful wrapping and touch targets on mobile (360px–430px).
+- **Fast Checkbox Completion**: Direct 1-tap completion with optimistic UI update, audio feedback, and seamless movement into a quieter, collapsible `COMPLETED` section.
+- **Crash-Resistant Save Changes**: Full field editing (title, description, date, priority, category) with graceful error handling and instant in-memory list updates without full-page reloads.
+- **Full Backward Compatibility**: Preserved all existing task data and database schemas, with seamless redirects from `/today` and `/to-do-list` to `/todo`.
+
 ---
 
 ## 🛠️ Tech Stack
@@ -343,13 +373,14 @@ DayDream/
 │   │   ├── events/                  # Calendar event CRUD endpoints
 │   │   ├── expenses/                # Expense CRUD, monthly totals, breakdown
 │   │   ├── home/                    # Unified home snapshot endpoint
-│   │   ├── todos/                   # Today task CRUD, complete, move-today
+│   │   ├── todos/                   # To-Do task CRUD, complete, move-today
 │   │   └── stats/                   # Real-time statistics
 │   ├── home/page.tsx                # Primary 1: Home orientation layer
 │   ├── dreams/page.tsx              # Primary 2: Dreams & Dream Container hub
 │   ├── dashboard/page.tsx           # Legacy redirect to /dreams
-│   ├── today/page.tsx               # Primary 3: Today task execution hub
-│   ├── todo/page.tsx                # Legacy redirect to /today
+│   ├── today/page.tsx               # Backward-compatible redirect to /todo
+│   ├── todo/page.tsx                # Primary 3: To-Do task management hub
+│   ├── to-do-list/page.tsx          # Backward-compatible redirect to /todo
 │   ├── memories/page.tsx            # Primary 4: Memories scrapbook & keepsakes
 │   ├── you/page.tsx                 # Primary 5: You personal space & settings
 │   ├── calendar/page.tsx            # Supporting: Upcoming Events Calendar
@@ -366,7 +397,7 @@ DayDream/
 │   ├── layout/                      # AppShell (Desktop left sidebar + mobile layout)
 │   ├── memory/                      # MemoryPostcard, PostcardEditor, DetailModal, ScrapbookCard
 │   ├── navigation/                  # FloatingNav (5-destination liquid-glass bottom dock)
-│   ├── todo/                        # AddTodoTaskModal, TodoTaskItem, DateNavigator
+│   ├── todo/                        # AddTodoTaskModal, TodoTaskItem, TodoTaskDetailModal
 │   ├── profile/                     # ProfileModal with user settings & account
 │   ├── providers/                   # SoundProvider, AuthProvider, ToastProvider, ThemeProvider
 │   └── ui/                          # Button, Input, Textarea, Modal, ConfirmDialog, DayDreamLogo
@@ -381,7 +412,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.21.0 dependencies and scripts
+├── package.json                     # v2.22.0 dependencies and scripts
 └── README.md
 ```
 

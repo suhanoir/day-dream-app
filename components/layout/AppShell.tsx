@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   Home as HomeIcon,
   Moon,
-  Sun,
+  ListTodo,
   Sparkles,
   Calendar as CalendarIcon,
   Receipt,
@@ -83,14 +83,14 @@ export function AppShell({ children, title, sidePanel }: AppShellProps) {
       description: "Aspirations & milestones",
     },
     {
-      name: "Today",
-      href: "/today",
-      icon: Sun,
+      name: "To-Do",
+      href: "/todo",
+      icon: ListTodo,
       active:
         pathname === "/today" ||
         pathname === "/todo" ||
         pathname === "/to-do-list",
-      description: "Actionable tasks",
+      description: "Keep track of tasks",
     },
     {
       name: "Memories",

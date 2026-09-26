@@ -36,7 +36,7 @@ interface TodoTaskDetailModalProps {
   onClose: () => void;
   onSave: (updatedTask: TodoTaskData) => Promise<void>;
   onDelete: (taskId: string) => Promise<void>;
-  onMoveToToday: (task: TodoTaskData) => Promise<void>;
+  onMoveToToday?: (task: TodoTaskData) => Promise<void>;
   onToggleComplete: (task: TodoTaskData) => Promise<void>;
 }
 
@@ -126,7 +126,9 @@ export function TodoTaskDetailModal({
     if (isMoving) return;
     try {
       setIsMoving(true);
-      await onMoveToToday(task);
+      if (onMoveToToday) {
+        await onMoveToToday(task);
+      }
       setDate(todayKey);
     } finally {
       setIsMoving(false);

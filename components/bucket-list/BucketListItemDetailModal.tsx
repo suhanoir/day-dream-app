@@ -186,12 +186,12 @@ export function BucketListItemDetailModal({
       });
 
       if (!res.ok) {
-        toastError("Failed to add task to Today.");
+        toastError("Failed to add task to To-Do.");
         return;
       }
 
       playSound("success");
-      success("Task added to your Today execution list!");
+      success("Task added to your To-Do list!");
       setIsAddToTodoOpen(false);
       setTodoTaskTitle("");
       fetchDreamTasks();
@@ -679,11 +679,11 @@ export function BucketListItemDetailModal({
                   </span>
                   {nextActionTask && (
                     <Link
-                      href="/today"
+                      href="/todo"
                       onClick={onClose}
                       className="text-xs font-semibold text-accent hover:underline inline-flex items-center gap-1"
                     >
-                      <span>Open in Today</span>
+                      <span>Open in To-Do</span>
                       <ArrowRight className="w-3 h-3" />
                     </Link>
                   )}
@@ -921,14 +921,14 @@ export function BucketListItemDetailModal({
 
             <div className="pt-1 flex items-center justify-between text-xs">
               <span className="text-[11px] text-muted">
-                Daily actions synchronize with Today
+                Action steps synchronize with To-Do
               </span>
               <Link
-                href="/today"
+                href="/todo"
                 onClick={onClose}
                 className="font-semibold text-accent hover:underline inline-flex items-center gap-1"
               >
-                <span>Open in Today</span>
+                <span>Open in To-Do</span>
                 <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
@@ -999,7 +999,7 @@ export function BucketListItemDetailModal({
         isOpen={isAddToTodoOpen}
         onClose={() => setIsAddToTodoOpen(false)}
         title={`Add Step for: ${item.title}`}
-        subtitle="This action step will appear in Today and link directly to this Dream"
+        subtitle="This action step will appear in To-Do and link directly to this Dream"
         maxWidth="sm"
       >
         <form onSubmit={handleCreateTodoFromGoal} className="space-y-4">

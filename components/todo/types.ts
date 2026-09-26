@@ -230,3 +230,120 @@ export function formatTimeForDisplay(timeStr?: string | null): string {
   return clean;
 }
 
+export type TaskSortMode = "priority" | "date" | "created" | "alphabetical";
+export type TaskStatusFilter = "all" | "active" | "completed";
+
+/**
+ * Safely parses any date string format ("YYYY-MM-DD", "DD-MM-YYYY", ISO string)
+ * into numeric year, 0-indexed month, and day.
+ */
+export function parseTaskDateParts(dateStr?: string | null): {
+  year: number;
+  month: number;
+  day: number;
+} | null {
+  if (!dateStr || typeof dateStr !== "string") return null;
+  const clean = dateStr.split("T")[0].trim();
+  const parts = clean.split("-").map(Number);
+  if (parts.length === 3 && !parts.some(isNaN)) {
+    if (parts[0] > 1000) {
+      // YYYY-MM-DD
+      return { year: parts[0], month: parts[1] - 1, day: parts[2] };
+    } else if (parts[2] > 1000) {
+      // DD-MM-YYYY
+      return { year: parts[2], month: parts[1] - 1, day: parts[0] };
+    }
+  }
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return null;
+  return { year: d.getFullYear(), month: d.getMonth(), day: d.getDate() };
+}
+
+/**
+ * Formats a task due date into human-friendly representation:
+ * "Today", "Tomorrow", "21 Sep", or "Overdue · 21 Sep" (if past due date).
+ * Timestamp / hours / minutes are intentionally omitted.
+ */
+export function formatTaskDueDate(
+  dateStr?: string | null,
+  isCompleted: boolean = false
+): { label: string; isOverdue: boolean; isToday: boolean } | null {
+  if (!dateStr) return null;
+  const parts = parseTaskDateParts(dateStr);
+  if (!parts) return null;
+
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const targetDate = new Date(parts.year, parts.month, parts.day);
+
+  const diffMs = targetDate.getTime() - todayStart.getTime();
+  const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+  const monthNames = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+  const dayStr = String(parts.day).padStart(2, "0");
+  const monthStr = monthNames[parts.month] || "";
+  const currentYear = now.getFullYear();
+  const yearSuffix = parts.year !== currentYear ? ` ${parts.year}` : "";
+  const standardDate = `${dayStr} ${monthStr}${yearSuffix}`;
+
+  if (isCompleted) {
+    if (diffDays === 0) return { label: "Today", isOverdue: false, isToday: true };
+    if (diffDays === 1) return { label: "Tomorrow", isOverdue: false, isToday: false };
+    return { label: standardDate, isOverdue: false, isToday: false };
+  }
+
+  if (diffDays < 0) {
+    return {
+      label: `Overdue · ${dayStr} ${monthStr}`,
+      isOverdue: true,
+      isToday: false,
+    };
+  } else if (diffDays === 0) {
+    return { label: "Today", isOverdue: false, isToday: true };
+  } else if (diffDays === 1) {
+    return { label: "Tomorrow", isOverdue: false, isToday: false };
+  } else {
+    return { label: standardDate, isOverdue: false, isToday: false };
+  }
+}
+
+/**
+ * Calculates priority rank (1 through 7) for intelligent default ordering:
+ * 1. Overdue High
+ * 2. High priority (not overdue)
+ * 3. Overdue Medium
+ * 4. Medium priority (not overdue)
+ * 5. Overdue Low
+ * 6. Low priority (not overdue)
+ * 7. Tasks without a due date
+ */
+export function getTaskPriorityRank(
+  task: TodoTaskData,
+  todayStart: Date
+): number {
+  const priority = task.priority || "Medium";
+  const hasDate = Boolean(task.date);
+
+  if (!hasDate) {
+    return 7;
+  }
+
+  const parts = parseTaskDateParts(task.date);
+  if (!parts) return 7;
+
+  const targetDate = new Date(parts.year, parts.month, parts.day);
+  const isOverdue = targetDate.getTime() < todayStart.getTime();
+
+  if (priority === "High") {
+    return isOverdue ? 1 : 2;
+  }
+  if (priority === "Medium") {
+    return isOverdue ? 3 : 4;
+  }
+  // Low priority
+  return isOverdue ? 5 : 6;
+}
+

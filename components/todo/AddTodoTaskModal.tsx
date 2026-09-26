@@ -137,7 +137,7 @@ export function AddTodoTaskModal({
       isOpen={isOpen}
       onClose={onClose}
       title="Add New Task"
-      subtitle="Create a task for your daily to-do list"
+      subtitle="Create a task for your to-do list"
       maxWidth="md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">

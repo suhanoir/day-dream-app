@@ -94,9 +94,9 @@ export async function middleware(request: NextRequest) {
       url.pathname = "/dreams";
       return NextResponse.redirect(url);
     }
-    if (normalizedPath === "/todo" || normalizedPath === "/to-do-list") {
+    if (normalizedPath === "/today" || normalizedPath === "/to-do-list") {
       const url = request.nextUrl.clone();
-      url.pathname = "/today";
+      url.pathname = "/todo";
       return NextResponse.redirect(url);
     }
     if (normalizedPath === "/profile") {
