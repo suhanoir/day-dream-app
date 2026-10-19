@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   STANDARD_ACCENT_PALETTE,
   PaletteColor,
@@ -8,7 +8,7 @@ import {
 } from "@/lib/utils/categoryColors";
 import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 import { useSound } from "@/components/providers/SoundProvider";
-import { Check, Sparkles, RotateCcw } from "lucide-react";
+import { Check, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 export interface ColorPickerProps {
@@ -58,6 +58,7 @@ export function ColorPicker({
 }: ColorPickerProps) {
   const { playSound } = useSound();
   const { getCategoryColor } = useCategoryColors();
+  const [hoveredSwatch, setHoveredSwatch] = useState<PaletteColor | null>(null);
 
   // If value is null, empty, or 'auto', item uses category color
   const isAuto = !value || value.trim() === "" || value.toLowerCase() === "auto";
@@ -85,18 +86,27 @@ export function ColorPicker({
             <span>{label}</span>
           </label>
           <div className="flex items-center gap-1.5 text-[11px] text-muted">
-            {isAuto ? (
+            {hoveredSwatch ? (
+              <span className="flex items-center gap-1.5 font-medium text-primary transition-colors">
+                <span
+                  className="w-2.5 h-2.5 rounded-full inline-block border border-black/10 dark:border-white/20 shadow-2xs shrink-0"
+                  style={{ backgroundColor: hoveredSwatch.hex }}
+                />
+                <span>{hoveredSwatch.name}</span>
+                <span className="font-mono text-[10px] text-muted">({hoveredSwatch.hex})</span>
+              </span>
+            ) : isAuto ? (
               <span className="flex items-center gap-1 font-medium">
                 <span
-                  className="w-2.5 h-2.5 rounded-full inline-block border border-black/10 dark:border-white/20 shadow-2xs"
+                  className="w-2.5 h-2.5 rounded-full inline-block border border-black/10 dark:border-white/20 shadow-2xs shrink-0"
                   style={{ backgroundColor: inheritedCategoryColor }}
                 />
                 Auto ({autoLabel})
               </span>
             ) : (
-              <span className="flex items-center gap-1 font-mono font-medium">
+              <span className="flex items-center gap-1 font-mono font-medium text-primary">
                 <span
-                  className="w-2.5 h-2.5 rounded-full inline-block border border-black/10 dark:border-white/20 shadow-2xs"
+                  className="w-2.5 h-2.5 rounded-full inline-block border border-black/10 dark:border-white/20 shadow-2xs shrink-0"
                   style={{ backgroundColor: activeColorHex || undefined }}
                 />
                 {activeColorHex}
@@ -112,7 +122,10 @@ export function ColorPicker({
         <div
           role="radiogroup"
           aria-label={label || "Color Palette"}
-          className="grid grid-cols-6 gap-1.5 sm:gap-2"
+          className={cn(
+            "grid grid-cols-6 gap-2",
+            compact && "gap-1.5"
+          )}
         >
           {STANDARD_ACCENT_PALETTE.map((swatch: PaletteColor) => {
             const isSelected =
@@ -128,12 +141,15 @@ export function ColorPicker({
                 aria-label={`${swatch.name} (${swatch.hex})`}
                 title={`${swatch.name} (${swatch.hex})`}
                 onClick={() => handleSelectColor(swatch.hex)}
+                onMouseEnter={() => setHoveredSwatch(swatch)}
+                onMouseLeave={() => setHoveredSwatch(null)}
+                onFocus={() => setHoveredSwatch(swatch)}
+                onBlur={() => setHoveredSwatch(null)}
                 className={cn(
-                  "relative group aspect-square rounded-xl transition-all cursor-pointer flex items-center justify-center p-1",
-                  compact ? "h-8 sm:h-9" : "h-9 sm:h-10",
+                  "group relative w-full aspect-square rounded-xl p-1 flex items-center justify-center transition-all cursor-pointer border select-none",
                   isSelected
-                    ? "ring-2 ring-[var(--theme-primary)] scale-105 shadow-sm"
-                    : "hover:scale-105 hover:shadow-xs active:scale-95"
+                    ? "ring-2 ring-[var(--theme-primary)] scale-105 shadow-sm border-transparent"
+                    : "border-stone-200/70 dark:border-white/10 hover:scale-105 hover:border-stone-300 dark:hover:border-white/20 active:scale-95"
                 )}
               >
                 <span
@@ -143,10 +159,6 @@ export function ColorPicker({
                   {isSelected && (
                     <Check className="w-3.5 h-3.5 text-white stroke-[3] drop-shadow-xs" />
                   )}
-                </span>
-                {/* Tooltip on hover */}
-                <span className="sr-only sm:not-sr-only pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-[10px] font-medium px-2 py-0.5 rounded-md whitespace-nowrap shadow-md z-30">
-                  {swatch.name}
                 </span>
               </button>
             );
