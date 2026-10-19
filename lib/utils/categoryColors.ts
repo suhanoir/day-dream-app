@@ -385,4 +385,179 @@ export function resolveItemColor(
   return getDefaultColorForCategory(cat);
 }
 
+export interface ResolvedTaskCardStyle {
+  color: string; // The resolved hex color (e.g. "#E85D75")
+  contrastTextColor: string; // High contrast text color derived from task color
+  cardStyle: React.CSSProperties & {
+    hoverBg?: string;
+    hoverBorder?: string;
+    hoverShadow?: string;
+  };
+  cssVars: Record<string, string>;
+  checkboxStyle: React.CSSProperties;
+  checkboxCheckColor: string;
+  categoryChipStyle: React.CSSProperties;
+  categoryChipTextStyle: React.CSSProperties;
+  categoryDotStyle: React.CSSProperties;
+  badgeStyle: React.CSSProperties;
+  isDark: boolean;
+  isCompleted: boolean;
+}
+
+/**
+ * Resolves theme-aware, full-card tinted styling for task cards.
+ * Follows the strict color hierarchy:
+ * 1. Explicit task-specific color override (itemColorOverride)
+ * 2. User-customized category color (customColorsMap[category])
+ * 3. Default category color (getDefaultColorForCategory)
+ */
+export function resolveTaskCardStyle(
+  category?: string | null,
+  itemColorOverride?: string | null,
+  isDark: boolean = false,
+  isCompleted: boolean = false,
+  customColorsMap?: Record<string, string> | null
+): ResolvedTaskCardStyle {
+  const color = resolveItemColor(category, itemColorOverride, customColorsMap);
+  const normalized = normalizeHexColor(color);
+  const rgb = hexToRgb(normalized) || { r: 113, g: 128, b: 150 };
+  const contrastText = getContrastTextColor(normalized, isDark);
+
+  if (!isDark) {
+    // ☀️ LIGHT THEMES (Soft, luscious pastel tint with dark contrast text)
+    const bgAlpha = isCompleted ? 0.04 : 0.09;
+    const hoverBgAlpha = isCompleted ? 0.07 : 0.14;
+    const borderAlpha = isCompleted ? 0.14 : 0.24;
+    const hoverBorderAlpha = isCompleted ? 0.20 : 0.38;
+
+    const bgRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${bgAlpha})`;
+    const hoverBgRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${hoverBgAlpha})`;
+    const borderRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${borderAlpha})`;
+    const hoverBorderRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${hoverBorderAlpha})`;
+    const shadowVal = isCompleted
+      ? "none"
+      : `0 1px 3px 0 rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.08)`;
+    const hoverShadowVal = isCompleted
+      ? "none"
+      : `0 3px 8px 0 rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.12)`;
+
+    const cssVars: Record<string, string> = {
+      "--task-color": normalized,
+      "--task-bg": bgRgba,
+      "--task-border": borderRgba,
+      "--task-hover-bg": hoverBgRgba,
+      "--task-hover-border": hoverBorderRgba,
+      "--task-shadow": shadowVal,
+      "--task-hover-shadow": hoverShadowVal,
+      "--task-cb-border": `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.40)`,
+      "--task-cb-bg": `rgba(255, 255, 255, 0.90)`,
+    };
+
+    return {
+      color: normalized,
+      contrastTextColor: contrastText,
+      cardStyle: {
+        backgroundColor: bgRgba,
+        borderColor: borderRgba,
+        boxShadow: shadowVal,
+        ...cssVars,
+        hoverBg: hoverBgRgba,
+        hoverBorder: hoverBorderRgba,
+        hoverShadow: hoverShadowVal,
+      },
+      cssVars,
+      checkboxStyle: {
+        borderColor: isCompleted ? normalized : `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.40)`,
+        backgroundColor: isCompleted ? normalized : `rgba(255, 255, 255, 0.90)`,
+      },
+      checkboxCheckColor: "#FFFFFF",
+      categoryChipStyle: {
+        backgroundColor: isCompleted
+          ? `rgba(255, 255, 255, 0.5)`
+          : `rgba(255, 255, 255, 0.75)`,
+        borderColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.26)`,
+        color: contrastText,
+      },
+      categoryChipTextStyle: {
+        color: contrastText,
+      },
+      categoryDotStyle: {
+        backgroundColor: normalized,
+      },
+      badgeStyle: {
+        backgroundColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.12)`,
+        borderColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.26)`,
+        color: contrastText,
+      },
+      isDark: false,
+      isCompleted,
+    };
+  } else {
+    // 🌙 DARK THEMES (Deep, rich jewel-tone nocturnal infusion)
+    const bgAlpha = isCompleted ? 0.055 : 0.13;
+    const hoverBgAlpha = isCompleted ? 0.085 : 0.19;
+    const borderAlpha = isCompleted ? 0.15 : 0.28;
+    const hoverBorderAlpha = isCompleted ? 0.22 : 0.42;
+
+    const bgRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${bgAlpha})`;
+    const hoverBgRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${hoverBgAlpha})`;
+    const borderRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${borderAlpha})`;
+    const hoverBorderRgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${hoverBorderAlpha})`;
+    const shadowVal = isCompleted ? "none" : `0 1px 4px 0 rgba(0, 0, 0, 0.25)`;
+    const hoverShadowVal = isCompleted ? "none" : `0 3px 10px 0 rgba(0, 0, 0, 0.35)`;
+
+    const cssVars: Record<string, string> = {
+      "--task-color": normalized,
+      "--task-bg": bgRgba,
+      "--task-border": borderRgba,
+      "--task-hover-bg": hoverBgRgba,
+      "--task-hover-border": hoverBorderRgba,
+      "--task-shadow": shadowVal,
+      "--task-hover-shadow": hoverShadowVal,
+      "--task-cb-border": `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.40)`,
+      "--task-cb-bg": `rgba(0, 0, 0, 0.45)`,
+    };
+
+    return {
+      color: normalized,
+      contrastTextColor: contrastText,
+      cardStyle: {
+        backgroundColor: bgRgba,
+        borderColor: borderRgba,
+        boxShadow: shadowVal,
+        ...cssVars,
+        hoverBg: hoverBgRgba,
+        hoverBorder: hoverBorderRgba,
+        hoverShadow: hoverShadowVal,
+      },
+      cssVars,
+      checkboxStyle: {
+        borderColor: isCompleted ? normalized : `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.40)`,
+        backgroundColor: isCompleted ? normalized : `rgba(0, 0, 0, 0.45)`,
+      },
+      checkboxCheckColor: "#FFFFFF",
+      categoryChipStyle: {
+        backgroundColor: isCompleted
+          ? `rgba(0, 0, 0, 0.25)`
+          : `rgba(0, 0, 0, 0.35)`,
+        borderColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.30)`,
+        color: contrastText,
+      },
+      categoryChipTextStyle: {
+        color: contrastText,
+      },
+      categoryDotStyle: {
+        backgroundColor: normalized,
+      },
+      badgeStyle: {
+        backgroundColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.18)`,
+        borderColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.32)`,
+        color: contrastText,
+      },
+      isDark: true,
+      isCompleted,
+    };
+  }
+}
+
 

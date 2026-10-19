@@ -14,9 +14,11 @@ import {
   DEFAULT_CATEGORY_COLORS,
   CORE_TODO_CATEGORIES,
   ResolvedCategoryStyle,
+  ResolvedTaskCardStyle,
   getCategoryStyle as resolveCategoryStyle,
   resolveItemStyle,
   resolveItemColor,
+  resolveTaskCardStyle,
   getDefaultColorForCategory,
   normalizeHexColor,
 } from "@/lib/utils/categoryColors";
@@ -32,6 +34,11 @@ interface CategoryColorContextType {
     category?: string | null,
     itemColorOverride?: string | null
   ) => ResolvedCategoryStyle;
+  getTaskCardStyle: (
+    category?: string | null,
+    itemColorOverride?: string | null,
+    isCompleted?: boolean
+  ) => ResolvedTaskCardStyle;
   getCategoryColor: (categoryName: string) => string;
   getItemColor: (
     category?: string | null,
@@ -229,6 +236,24 @@ export function CategoryColorProvider({
     [colors]
   );
 
+  // Get full-card theme-aware styling for an individual task
+  const getTaskCardStyle = useCallback(
+    (
+      category?: string | null,
+      itemColorOverride?: string | null,
+      isCompleted?: boolean
+    ): ResolvedTaskCardStyle => {
+      return resolveTaskCardStyle(
+        category,
+        itemColorOverride,
+        isDark,
+        Boolean(isCompleted),
+        colors
+      );
+    },
+    [isDark, colors]
+  );
+
   // Ordered list of all categories
   const allCategories = useMemo(() => {
     const list: string[] = [...CORE_TODO_CATEGORIES];
@@ -246,6 +271,7 @@ export function CategoryColorProvider({
       isLoading,
       getCategoryStyle,
       getItemStyle,
+      getTaskCardStyle,
       getCategoryColor,
       getItemColor,
       setCategoryColor,
@@ -258,6 +284,7 @@ export function CategoryColorProvider({
       isLoading,
       getCategoryStyle,
       getItemStyle,
+      getTaskCardStyle,
       getCategoryColor,
       getItemColor,
       setCategoryColor,
@@ -286,6 +313,8 @@ export function useCategoryColors(): CategoryColorContextType {
         resolveCategoryStyle(categoryName, false, DEFAULT_CATEGORY_COLORS),
       getItemStyle: (category?: string | null, itemColorOverride?: string | null) =>
         resolveItemStyle(category, itemColorOverride, false, DEFAULT_CATEGORY_COLORS),
+      getTaskCardStyle: (category?: string | null, itemColorOverride?: string | null, isCompleted?: boolean) =>
+        resolveTaskCardStyle(category, itemColorOverride, false, Boolean(isCompleted), DEFAULT_CATEGORY_COLORS),
       getCategoryColor: (categoryName: string) =>
         getDefaultColorForCategory(categoryName),
       getItemColor: (category?: string | null, itemColorOverride?: string | null) =>

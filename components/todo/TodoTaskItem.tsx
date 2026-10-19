@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import {
   TodoTaskData,
   PRIORITY_STYLES,
-  CATEGORY_STYLES,
   formatTaskDueDate,
 } from "./types";
 import { Check, Calendar, Trash2 } from "lucide-react";
@@ -28,7 +27,9 @@ export function TodoTaskItem({
   onDelete,
 }: TodoTaskItemProps) {
   const [isToggling, setIsToggling] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const { playSound } = useSound();
+  const { getTaskCardStyle } = useCategoryColors();
 
   const handleCheckboxClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -53,11 +54,12 @@ export function TodoTaskItem({
     await onDelete(task);
   };
 
-  const { getCategoryStyle, getItemStyle } = useCategoryColors();
+  // Derive theme-aware, full-card tinted styling with strict precedence:
+  // 1. task.color override
+  // 2. customized category color
+  // 3. default category color
+  const cardStyle = getTaskCardStyle(task.category, task.color, task.completed);
   const priorityStyle = PRIORITY_STYLES[task.priority] || PRIORITY_STYLES.Medium;
-  const categoryStyle = (task.category || task.color)
-    ? (getItemStyle ? getItemStyle(task.category, task.color) : getCategoryStyle(task.category || "General", task.color))
-    : null;
   const dueInfo = formatTaskDueDate(task.date, task.completed);
   const hasDescription = Boolean(task.description && task.description.trim().length > 0);
 
@@ -72,11 +74,28 @@ export function TodoTaskItem({
           onClick(task);
         }
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        backgroundColor: isHovered
+          ? cardStyle.cardStyle.hoverBg
+          : cardStyle.cardStyle.backgroundColor,
+        borderColor: isHovered
+          ? cardStyle.cardStyle.hoverBorder
+          : cardStyle.cardStyle.borderColor,
+        boxShadow: isHovered
+          ? cardStyle.cardStyle.hoverShadow
+          : cardStyle.cardStyle.boxShadow,
+        ...(cardStyle.cssVars as React.CSSProperties),
+      }}
       className={cn(
         "group relative flex items-start justify-between gap-3.5 p-3.5 sm:px-4 sm:py-3.5 rounded-2xl border transition-all duration-150 cursor-pointer select-none active:scale-[0.995]",
+        "hover:bg-[var(--task-hover-bg)] hover:border-[var(--task-hover-border)]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-primary)] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-stone-900",
+        "motion-reduce:transition-none motion-reduce:transform-none",
         task.completed
-          ? "bg-stone-100/40 dark:bg-white/[0.02] border-stone-200/50 dark:border-white/5 text-muted hover:bg-stone-100/60 dark:hover:bg-white/[0.04]"
-          : "glass-card-interactive text-primary"
+          ? "text-muted"
+          : "text-primary"
       )}
     >
       {/* Left side: Checkbox + Content */}
@@ -87,15 +106,28 @@ export function TodoTaskItem({
           onClick={handleCheckboxClick}
           disabled={isToggling}
           aria-label={task.completed ? "Mark as incomplete" : "Mark as complete"}
-          className={cn(
-            "w-5 h-5 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-200 cursor-pointer mt-0.5 active:scale-90",
+          style={
             task.completed
-              ? "bg-[var(--theme-primary)] border-[var(--theme-primary)] text-white shadow-2xs rotate-0 scale-100"
-              : "border-stone-300/80 dark:border-white/20 bg-white/80 dark:bg-stone-900/80 hover:border-[var(--theme-primary)] hover:bg-white dark:hover:bg-stone-800"
+              ? {
+                  backgroundColor: cardStyle.color,
+                  borderColor: cardStyle.color,
+                }
+              : {
+                  borderColor: isHovered
+                    ? cardStyle.color
+                    : (cardStyle.checkboxStyle.borderColor as string),
+                  backgroundColor: cardStyle.checkboxStyle.backgroundColor as string,
+                }
+          }
+          className={cn(
+            "w-5 h-5 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-150 cursor-pointer mt-0.5 active:scale-90",
+            task.completed
+              ? "text-white shadow-2xs rotate-0 scale-100"
+              : "hover:border-[var(--task-color)]"
           )}
         >
           {task.completed && (
-            <Check className="w-3.5 h-3.5 stroke-[2.5] animate-scale-in" />
+            <Check className="w-3.5 h-3.5 stroke-[2.5] text-white animate-scale-in" />
           )}
         </button>
 
@@ -106,7 +138,7 @@ export function TodoTaskItem({
             className={cn(
               "text-sm font-semibold transition-all duration-150 break-words leading-snug",
               task.completed
-                ? "line-through text-muted font-normal"
+                ? "line-through text-muted/70 font-normal"
                 : "text-primary"
             )}
           >
@@ -119,8 +151,8 @@ export function TodoTaskItem({
               className={cn(
                 "text-xs leading-relaxed break-words line-clamp-2",
                 task.completed
-                  ? "text-muted/60"
-                  : "text-secondary/80 dark:text-secondary/70"
+                  ? "text-muted/50"
+                  : "text-secondary/85"
               )}
             >
               {task.description}
@@ -129,18 +161,24 @@ export function TodoTaskItem({
 
           {/* Metadata Row: Category & Linked Dream (and on mobile: Priority & Due Date wrap here) */}
           <div className="flex items-center gap-1.5 flex-wrap pt-0.5 text-xs">
-            {/* Category Chip */}
-            {task.category && categoryStyle && (
+            {/* Category Chip: Coordinated with the card's color family */}
+            {task.category && (
               <span
-                style={!task.completed ? categoryStyle.badgeStyle : undefined}
+                style={!task.completed ? cardStyle.categoryChipStyle : undefined}
                 className={cn(
-                  "inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium border",
+                  "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-medium border transition-colors",
                   task.completed
-                    ? "opacity-50 grayscale border-stone-200/50 dark:border-white/5"
-                    : categoryStyle.badge
+                    ? "opacity-60 grayscale border-stone-200/50 dark:border-white/5 bg-stone-100/50 dark:bg-white/5 text-muted"
+                    : "shadow-2xs"
                 )}
               >
-                {categoryStyle.label}
+                <span
+                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={!task.completed ? cardStyle.categoryDotStyle : undefined}
+                />
+                <span style={!task.completed ? cardStyle.categoryChipTextStyle : undefined}>
+                  {task.category}
+                </span>
               </span>
             )}
 
@@ -167,7 +205,7 @@ export function TodoTaskItem({
             {/* Mobile Only: Priority Badge (visible on small screens) */}
             <span
               className={cn(
-                "sm:hidden inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border",
+                "sm:hidden inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border bg-white/80 dark:bg-black/35 backdrop-blur-2xs",
                 task.completed ? "opacity-40 grayscale" : priorityStyle.badge
               )}
             >
@@ -183,8 +221,8 @@ export function TodoTaskItem({
                   task.completed
                     ? "text-muted/70 border-stone-200/40 dark:border-white/5 bg-transparent"
                     : dueInfo.isOverdue
-                    ? "text-amber-900 dark:text-amber-300 bg-amber-500/10 border-amber-500/25 font-semibold"
-                    : "text-secondary border-stone-200/70 dark:border-white/10 bg-stone-100/70 dark:bg-white/5"
+                    ? "text-rose-800 dark:text-rose-300 bg-rose-500/15 border-rose-500/30 font-semibold"
+                    : "text-secondary border-stone-200/70 dark:border-white/10 bg-white/70 dark:bg-black/25 backdrop-blur-2xs"
                 )}
               >
                 <Calendar className="w-3 h-3 shrink-0" />
@@ -200,7 +238,7 @@ export function TodoTaskItem({
         {/* Priority Badge */}
         <span
           className={cn(
-            "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium border transition-colors",
+            "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium border transition-colors bg-white/80 dark:bg-black/35 backdrop-blur-2xs",
             task.completed ? "opacity-40 grayscale" : priorityStyle.badge
           )}
         >
@@ -214,10 +252,10 @@ export function TodoTaskItem({
             className={cn(
               "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium border transition-colors",
               task.completed
-                ? "text-muted border-stone-200/40 dark:border-white/5 bg-transparent"
+                ? "text-muted/70 border-stone-200/40 dark:border-white/5 bg-transparent"
                 : dueInfo.isOverdue
-                ? "text-amber-900 dark:text-amber-300 bg-amber-500/10 border-amber-500/25 font-semibold"
-                : "text-secondary border-stone-200/70 dark:border-white/10 bg-stone-100/70 dark:bg-white/5"
+                ? "text-rose-800 dark:text-rose-300 bg-rose-500/15 border-rose-500/30 font-semibold"
+                : "text-secondary border-stone-200/70 dark:border-white/10 bg-white/70 dark:bg-black/25 backdrop-blur-2xs"
             )}
           >
             <Calendar className="w-3.5 h-3.5 shrink-0" />

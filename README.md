@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.22.3 — Personal Dreams, Experiences & Memories App
+# 🌟 DayDream v2.22.4 — Personal Dreams, Experiences & Memories App
 
-> **Version 2.22.3** · **"Distraction-Free To-Do • Hidden-by-Default Completed Tasks & Active Focus"**
+> **Version 2.22.4** · **"Premium Color-Tinted Task Cards • Unified 12-Color Identity Across Light & Dark Themes"**
 
 A production-quality, responsive Full-Stack web application uniting lifelong dreams, daily execution, personal reflection, and memory preservation into one coherent life journey:
 $$\text{DREAM} \longrightarrow \text{PLAN} \longrightarrow \text{DO} \longrightarrow \text{LIVE} \longrightarrow \text{REMEMBER}$$
@@ -52,7 +52,14 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 
 ### 4. To-Do — Clean & Unified Task Management
 - **Single Comprehensive Task Hub**: Untangled daily tasks from calendar dashboard widgets into one unified, comfortable task view (`/todo`) representing all active and completed work.
-- **Active-First Distraction-Free Default View (v2.22.3)**: Opens directly into incomplete/active tasks with zero completed cards, no bottom clutter, and a clean header free of completed task ratios.
+- **Premium Color-Tinted Task Cards (v2.22.4)**: Entire task card background is softly and visibly tinted with its resolved color (Rose, Tangerine, Marigold, Mint, Lagoon, Sky, Indigo, Orchid, Blossom, Terracotta, Slate, Dusty Blush).
+  - **Light Themes**: Gentle 9% pastel color wash (`rgba(r,g,b,0.09)`) with a coordinated 24% border (`rgba(r,g,b,0.24)`), deep dark text contrast (>12:1), and soft elevation on hover.
+  - **Dark Themes**: Deep 13% jewel-tone nocturnal infusion (`rgba(r,g,b,0.13)`) with a crisp 28% structural border (`rgba(r,g,b,0.28)`), luminous light text, and zero neon glare.
+  - **Strict Color Hierarchy**: 1. Task-specific color override (`task.color`) → 2. User-customized category color (`colors[category]`) → 3. Default category color.
+  - **Integrated Category Chips**: Frosted crystal pills with matching border, high-contrast category text, and a solid 6px color dot harmoniously layered inside the card.
+  - **Theme-Aware Checkboxes**: Checkbox borders coordinate with the card's accent tint when unchecked, and fill with the task's true color and a white checkmark when completed.
+  - **Subdued Completed Cards**: Completed tasks retain a subtle 4–5% tint so their color identity is never lost, paired with calm strikethrough, quiet borders, and distinct completed styling.
+- **Active-First Distraction-Free Default View**: Opens directly into incomplete/active tasks with zero completed cards, no bottom clutter, and a clean header free of completed task ratios.
 - **Immediate In-Memory Removal & Restoral**: Ticking a task's checkbox immediately removes it from the active list without page reloads. Marking a task incomplete in the completed view moves it right back to active. Server persistence is strictly verified.
 - **Discreet Completed Tasks Access**: Access completed items via a subtle `Completed (count)` toolbar tab or a non-intrusive link at the foot of the active list.
 - **Dedicated Completed View**: Features a prominent `← Back to Active tasks` navigation button, item count, and full support for category colors, priorities, and descriptions.
@@ -463,7 +470,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.22.3 dependencies and scripts
+├── package.json                     # v2.22.4 dependencies and scripts
 └── README.md
 ```
 

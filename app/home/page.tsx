@@ -27,6 +27,7 @@ import {
   Quote,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 interface HomeData {
   overview: {
@@ -102,6 +103,7 @@ export default function HomePage() {
   const router = useRouter();
   const { success, error: toastError } = useToast();
   const { playSound } = useSound();
+  const { getTaskCardStyle } = useCategoryColors();
 
   const [data, setData] = useState<HomeData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -474,50 +476,73 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="space-y-2">
-              {focusTasks.map((task) => (
-                <div
-                  key={task.id}
-                  className={cn(
-                    "flex items-center justify-between p-3 rounded-xl border transition-all text-xs",
-                    task.completed
-                      ? "bg-stone-100/40 dark:bg-white/5 border-stone-200/40 dark:border-white/5 text-muted"
-                      : "glass-card-interactive text-primary"
-                  )}
-                >
-                  <div className="flex items-center gap-3 min-w-0 pr-2">
-                    <button
-                      type="button"
-                      onClick={() => handleToggleTask(task.id, task.completed)}
-                      disabled={togglingTaskId === task.id}
-                      className={cn(
-                        "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all cursor-pointer",
-                        task.completed
-                          ? "bg-[var(--theme-primary)] border-[var(--theme-primary)] text-white"
-                          : "border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900"
-                      )}
-                      aria-label={task.completed ? "Mark incomplete" : "Mark complete"}
-                    >
-                      {task.completed && <Check className="w-3 h-3 stroke-[3]" />}
-                    </button>
-                    <span
-                      className={cn(
-                        "truncate font-medium",
-                        task.completed && "line-through text-muted font-normal"
-                      )}
-                    >
-                      {task.title}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    {task.priority && (
-                      <span className="text-[10px] text-muted px-1.5 py-0.5 rounded bg-stone-100 dark:bg-white/10">
-                        {task.priority}
-                      </span>
+              {focusTasks.map((task) => {
+                const taskCardStyle = getTaskCardStyle(task.category, null, task.completed);
+                return (
+                  <div
+                    key={task.id}
+                    style={taskCardStyle.cardStyle}
+                    className={cn(
+                      "flex items-center justify-between p-3 rounded-xl border transition-all text-xs",
+                      task.completed
+                        ? "text-muted"
+                        : "text-primary"
                     )}
+                  >
+                    <div className="flex items-center gap-3 min-w-0 pr-2">
+                      <button
+                        type="button"
+                        onClick={() => handleToggleTask(task.id, task.completed)}
+                        disabled={togglingTaskId === task.id}
+                        style={
+                          task.completed
+                            ? {
+                                backgroundColor: taskCardStyle.color,
+                                borderColor: taskCardStyle.color,
+                              }
+                            : {
+                                borderColor: taskCardStyle.checkboxStyle.borderColor as string,
+                                backgroundColor: taskCardStyle.checkboxStyle.backgroundColor as string,
+                              }
+                        }
+                        className={cn(
+                          "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all cursor-pointer",
+                          task.completed
+                            ? "text-white"
+                            : "hover:border-[var(--task-color)]"
+                        )}
+                        aria-label={task.completed ? "Mark incomplete" : "Mark complete"}
+                      >
+                        {task.completed && <Check className="w-3 h-3 stroke-[3] text-white" />}
+                      </button>
+                      <span
+                        className={cn(
+                          "truncate font-medium",
+                          task.completed && "line-through text-muted font-normal"
+                        )}
+                      >
+                        {task.title}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      {task.category && (
+                        <span
+                          style={!task.completed ? taskCardStyle.categoryChipStyle : undefined}
+                          className="text-[10px] px-2 py-0.5 rounded border font-medium"
+                        >
+                          {task.category}
+                        </span>
+                      )}
+                      {task.priority && (
+                        <span className="text-[10px] text-muted px-1.5 py-0.5 rounded bg-white/70 dark:bg-black/25 border border-stone-200/50 dark:border-white/10">
+                          {task.priority}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>
