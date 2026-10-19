@@ -53,9 +53,11 @@ export function TodoTaskItem({
     await onDelete(task);
   };
 
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
   const priorityStyle = PRIORITY_STYLES[task.priority] || PRIORITY_STYLES.Medium;
-  const categoryStyle = task.category ? getCategoryStyle(task.category) : null;
+  const categoryStyle = (task.category || task.color)
+    ? (getItemStyle ? getItemStyle(task.category, task.color) : getCategoryStyle(task.category || "General", task.color))
+    : null;
   const dueInfo = formatTaskDueDate(task.date, task.completed);
   const hasDescription = Boolean(task.description && task.description.trim().length > 0);
 

@@ -113,6 +113,7 @@ export async function POST(req: NextRequest) {
       endTime,
       location,
       category,
+      color,
       description,
       bucketListItemId,
     } = body;
@@ -161,6 +162,7 @@ export async function POST(req: NextRequest) {
         endTime: endTime ? endTime.trim() : null,
         location: location ? location.trim() : null,
         category: category ? category.trim() : "Personal",
+        color: color ? color.trim() : null,
         description: description ? description.trim() : null,
         reminder: "none",
         bucketListItemId: bucketListItemId || null,

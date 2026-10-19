@@ -40,13 +40,13 @@ export function EventDetailModal({
 }: EventDetailModalProps) {
   const { playSound } = useSound();
   const { error: toastError, success } = useToast();
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (!event) return null;
 
-  const categoryStyle = getCategoryStyle(event.category);
+  const categoryStyle = getItemStyle(event.category, event.color);
   const timeDisplay = formatEventTime(event.startTime, event.endTime);
 
   const eventDate = new Date(event.date);

@@ -19,7 +19,7 @@ export function WeekView({
   onEventClick,
   onAddEventClick,
 }: WeekViewProps) {
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
   // Get start of week (Monday)
   const dayOfWeek = currentDate.getDay(); // 0 is Sun, 1 is Mon...
   const distanceToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
@@ -91,7 +91,7 @@ export function WeekView({
                 {/* Day's Event Cards */}
                 <div className="space-y-2">
                   {dayEvents.map((event) => {
-                    const style = getCategoryStyle(event.category);
+                    const style = getItemStyle(event.category, event.color);
                     const timeStr = formatEventTime(event.startTime, event.endTime);
 
                     return (

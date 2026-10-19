@@ -5,6 +5,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
+import { ColorPicker } from "@/components/ui/ColorPicker";
 import { useToast } from "@/components/providers/ToastProvider";
 import { useSound } from "@/components/providers/SoundProvider";
 import {
@@ -45,13 +46,14 @@ export function AddTodoTaskModal({
 }: AddTodoTaskModalProps) {
   const { success, error: toastError } = useToast();
   const { playSound } = useSound();
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [priority, setPriority] = useState<TodoPriority>("Medium");
   const [category, setCategory] = useState<TodoCategory>("Personal");
+  const [color, setColor] = useState<string | null>(null);
   const [bucketListItemId, setBucketListItemId] = useState<string>("");
   const [activeDreams, setActiveDreams] = useState<Array<{ id: string; title: string }>>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,6 +80,7 @@ export function AddTodoTaskModal({
       setDate(formatToDateKey(initialDate || new Date()));
       setPriority("Medium");
       setCategory("Personal");
+      setColor(null);
       setBucketListItemId(initialBucketListItemId || "");
       setFormError("");
     }
@@ -109,6 +112,7 @@ export function AddTodoTaskModal({
           date: `${date}T00:00:00.000Z`,
           priority,
           category,
+          color: color ? color.trim() : null,
           description: description.trim() || null,
           bucketListItemId: bucketListItemId || null,
         }),
@@ -273,6 +277,16 @@ export function AddTodoTaskModal({
             })}
           </div>
         </div>
+
+        {/* Accent Color Selection (12 Unified Palette Colors or Category Default) */}
+        <ColorPicker
+          value={color}
+          onChange={setColor}
+          categoryName={category}
+          allowAuto={true}
+          autoLabel="Category Color"
+          label="Accent Color"
+        />
 
         {/* Description */}
         <div>

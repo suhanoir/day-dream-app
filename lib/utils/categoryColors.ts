@@ -6,41 +6,39 @@ export interface PaletteColor {
   hex: string;
 }
 
-export const PRESET_PALETTE: PaletteColor[] = [
-  { id: "blue", name: "Blue", hex: "#3B82F6" },
-  { id: "cyan", name: "Cyan", hex: "#06B6D4" },
-  { id: "teal", name: "Teal", hex: "#14B8A6" },
-  { id: "green", name: "Green", hex: "#10B981" },
-  { id: "lime", name: "Lime", hex: "#84CC16" },
-  { id: "yellow", name: "Yellow", hex: "#EAB308" },
-  { id: "orange", name: "Orange", hex: "#F97316" },
-  { id: "coral", name: "Coral", hex: "#FB7185" },
-  { id: "red", name: "Red", hex: "#EF4444" },
-  { id: "rose", name: "Rose", hex: "#F43F5E" },
-  { id: "pink", name: "Pink", hex: "#EC4899" },
-  { id: "purple", name: "Purple", hex: "#A855F7" },
-  { id: "violet", name: "Violet", hex: "#8B5CF6" },
-  { id: "indigo", name: "Indigo", hex: "#6366F1" },
-  { id: "slate", name: "Slate", hex: "#64748B" },
-  { id: "neutral", name: "Neutral Gray", hex: "#78716C" },
+export const STANDARD_ACCENT_PALETTE: PaletteColor[] = [
+  { id: "rose", name: "Rose", hex: "#E85D75" },
+  { id: "tangerine", name: "Tangerine", hex: "#F28C45" },
+  { id: "marigold", name: "Marigold", hex: "#E6B93F" },
+  { id: "mint", name: "Mint", hex: "#43A987" },
+  { id: "lagoon", name: "Lagoon", hex: "#269FAD" },
+  { id: "sky", name: "Sky", hex: "#4387E8" },
+  { id: "indigo", name: "Indigo", hex: "#6467D9" },
+  { id: "orchid", name: "Orchid", hex: "#9868D9" },
+  { id: "blossom", name: "Blossom", hex: "#D96CB1" },
+  { id: "terracotta", name: "Terracotta", hex: "#B76E4D" },
+  { id: "slate", name: "Slate", hex: "#718096" },
+  { id: "dusty-blush", name: "Dusty Blush", hex: "#C9A9A6" },
 ];
 
+export const PRESET_PALETTE = STANDARD_ACCENT_PALETTE;
+
 export const DEFAULT_CATEGORY_COLORS: Record<string, string> = {
-  Personal: "#8B5CF6", // Violet
-  College: "#0EA5E9", // Sky / Blue
-  Work: "#10B981", // Emerald
-  Health: "#14B8A6", // Teal
-  Study: "#6366F1", // Indigo
-  Other: "#78716C", // Neutral Gray
-  Travel: "#F59E0B", // Amber
-  Important: "#F43F5E", // Rose
-  Social: "#14B8A6", // Teal
-  Experiences: "#F59E0B",
-  Life: "#F43F5E",
-  Skills: "#6366F1",
-  Career: "#10B981",
-  Fitness: "#14B8A6",
-  Money: "#EAB308",
+  Personal: "#6467D9", // Indigo
+  College: "#4387E8", // Sky
+  Work: "#43A987", // Mint
+  Health: "#269FAD", // Lagoon
+  Study: "#9868D9", // Orchid
+  Other: "#718096", // Slate
+  Travel: "#F28C45", // Tangerine
+  Important: "#E85D75", // Rose
+  Social: "#269FAD", // Lagoon
+  Experiences: "#E6B93F", // Marigold
+  Life: "#D96CB1", // Blossom
+  Skills: "#6467D9", // Indigo
+  Career: "#43A987", // Mint
+  Fitness: "#269FAD", // Lagoon
+  Money: "#E6B93F", // Marigold
 };
 
 export const CORE_TODO_CATEGORIES = [
@@ -53,26 +51,37 @@ export const CORE_TODO_CATEGORIES = [
 ] as const;
 
 export const NAMED_COLORS: Record<string, string> = {
-  emerald: "#10B981",
-  sky: "#0EA5E9",
-  amber: "#F59E0B",
-  rose: "#F43F5E",
-  indigo: "#6366F1",
-  violet: "#8B5CF6",
-  teal: "#14B8A6",
-  yellow: "#EAB308",
-  purple: "#A855F7",
-  blue: "#3B82F6",
-  cyan: "#06B6D4",
-  lime: "#84CC16",
-  orange: "#F97316",
-  coral: "#FB7185",
-  red: "#EF4444",
-  pink: "#EC4899",
-  slate: "#64748B",
-  stone: "#78716C",
-  neutral: "#78716C",
-  gray: "#6B7280",
+  rose: "#E85D75",
+  tangerine: "#F28C45",
+  marigold: "#E6B93F",
+  mint: "#43A987",
+  lagoon: "#269FAD",
+  sky: "#4387E8",
+  indigo: "#6467D9",
+  orchid: "#9868D9",
+  blossom: "#D96CB1",
+  terracotta: "#B76E4D",
+  slate: "#718096",
+  "dusty-blush": "#C9A9A6",
+  "dusty blush": "#C9A9A6",
+  dustyblush: "#C9A9A6",
+  // Legacy aliases
+  emerald: "#43A987",
+  amber: "#F28C45",
+  violet: "#6467D9",
+  teal: "#269FAD",
+  yellow: "#E6B93F",
+  purple: "#9868D9",
+  blue: "#4387E8",
+  cyan: "#269FAD",
+  lime: "#43A987",
+  orange: "#F28C45",
+  coral: "#E85D75",
+  red: "#E85D75",
+  pink: "#D96CB1",
+  stone: "#718096",
+  neutral: "#718096",
+  gray: "#718096",
 };
 
 export interface ResolvedCategoryStyle {
@@ -338,4 +347,42 @@ export function getCategoryStyle(
       : "bg-stone-100/90 text-stone-800 border-stone-200/80",
   };
 }
+
+/**
+ * Resolves styles for an individual item (event, task, etc.).
+ * If an itemColorOverride is provided and non-empty, it overrides the category color.
+ * Otherwise, falls back to the category's customized or default color.
+ */
+export function resolveItemStyle(
+  category?: string | null,
+  itemColorOverride?: string | null,
+  isDark: boolean = false,
+  customColorsMap?: Record<string, string> | null
+): ResolvedCategoryStyle {
+  const cat = category || "General";
+  if (itemColorOverride && itemColorOverride.trim()) {
+    const hex = normalizeHexColor(itemColorOverride);
+    return getCategoryStyle(cat, isDark, { [cat]: hex });
+  }
+  return getCategoryStyle(cat, isDark, customColorsMap);
+}
+
+/**
+ * Resolves active hex color for an individual item.
+ */
+export function resolveItemColor(
+  category?: string | null,
+  itemColorOverride?: string | null,
+  customColorsMap?: Record<string, string> | null
+): string {
+  if (itemColorOverride && itemColorOverride.trim()) {
+    return normalizeHexColor(itemColorOverride);
+  }
+  const cat = category || "General";
+  if (customColorsMap && customColorsMap[cat]) {
+    return normalizeHexColor(customColorsMap[cat]);
+  }
+  return getDefaultColorForCategory(cat);
+}
+
 

@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { title, description, date, priority, category, bucketListItemId } = body;
+    const { title, description, date, priority, category, color, bucketListItemId } = body;
 
     if (!title || typeof title !== "string" || !title.trim()) {
       return NextResponse.json(
@@ -132,6 +132,7 @@ export async function POST(req: NextRequest) {
         date: normalizedDate,
         priority: priority || "Medium",
         category: category?.trim() || "Personal",
+        color: color ? color.trim() : null,
         completed: false,
         bucketListItemId: bucketListItemId || null,
       },

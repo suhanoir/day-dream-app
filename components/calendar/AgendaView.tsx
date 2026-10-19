@@ -12,7 +12,7 @@ export interface AgendaViewProps {
 }
 
 export function AgendaView({ events, onEventClick }: AgendaViewProps) {
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
@@ -83,7 +83,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
             {/* List of Events on this date */}
             <div className="space-y-2">
               {items.map((event) => {
-                const style = getCategoryStyle(event.category);
+                const style = getItemStyle(event.category, event.color);
                 const timeStr = formatEventTime(event.startTime, event.endTime);
 
                 return (

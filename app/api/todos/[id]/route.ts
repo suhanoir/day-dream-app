@@ -87,7 +87,7 @@ export async function PUT(
     }
 
     const body = await req.json();
-    const { title, description, date, priority, category, completed, bucketListItemId } = body;
+    const { title, description, date, priority, category, color, completed, bucketListItemId } = body;
 
     const dataToUpdate: any = {};
     if (title !== undefined) {
@@ -107,6 +107,9 @@ export async function PUT(
     }
     if (category !== undefined) {
       dataToUpdate.category = category?.trim() || "Personal";
+    }
+    if (color !== undefined) {
+      dataToUpdate.color = color ? color.trim() : null;
     }
     if (completed !== undefined) {
       dataToUpdate.completed = Boolean(completed);

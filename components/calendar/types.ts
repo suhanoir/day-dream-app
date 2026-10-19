@@ -9,6 +9,7 @@ export interface EventData {
   endTime?: string | null;
   location?: string | null;
   category: string;
+  color?: string | null;
   reminder?: string | null;
   createdAt: string;
   updatedAt: string;

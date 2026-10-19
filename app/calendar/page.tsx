@@ -42,7 +42,7 @@ export type EventTimelineFilter = "all" | "today" | "upcoming" | "past";
 export default function CalendarPage() {
   const { user, isLoading: authLoading } = useAuth();
   const { error: toastError } = useToast();
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -419,7 +419,7 @@ export default function CalendarPage() {
                 {selectedDayEvents.length > 0 ? (
                   <div className="space-y-2.5">
                     {selectedDayEvents.map((event) => {
-                      const style = getCategoryStyle(event.category);
+                      const style = getItemStyle(event.category, event.color);
                       const timeStr = formatEventTime(event.startTime, event.endTime);
 
                       return (
@@ -453,6 +453,7 @@ export default function CalendarPage() {
                           </div>
 
                           <span
+                            style={style.badgeStyle}
                             className={cn(
                               "text-[10px] font-semibold px-2 py-0.5 rounded-md border shrink-0",
                               style.badge

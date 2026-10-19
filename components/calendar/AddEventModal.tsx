@@ -5,6 +5,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
+import { ColorPicker } from "@/components/ui/ColorPicker";
 import { useToast } from "@/components/providers/ToastProvider";
 import { useSound } from "@/components/providers/SoundProvider";
 import {
@@ -41,7 +42,7 @@ export function AddEventModal({
 }: AddEventModalProps) {
   const { success, error: toastError } = useToast();
   const { playSound } = useSound();
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -49,6 +50,7 @@ export function AddEventModal({
   const [endTime, setEndTime] = useState("");
   const [location, setLocation] = useState("");
   const [category, setCategory] = useState("Personal");
+  const [color, setColor] = useState<string | null>(null);
   const [customCategory, setCustomCategory] = useState("");
   const [isCustomCategory, setIsCustomCategory] = useState(false);
   const [description, setDescription] = useState("");
@@ -80,6 +82,7 @@ export function AddEventModal({
       setEndTime("");
       setLocation("");
       setCategory("Personal");
+      setColor(null);
       setCustomCategory("");
       setIsCustomCategory(false);
       setDescription("");
@@ -118,6 +121,7 @@ export function AddEventModal({
           endTime: endTime.trim() || null,
           location: location.trim() || null,
           category: finalCategory,
+          color: color ? color.trim() : null,
           description: description.trim() || null,
           bucketListItemId: initialBucketListItem?.id || null,
         }),
@@ -225,20 +229,22 @@ export function AddEventModal({
               </label>
               <span
                 style={
-                  getCategoryStyle(
+                  getItemStyle(
                     isCustomCategory
                       ? customCategory.trim() || "Custom"
-                      : category
+                      : category,
+                    color
                   ).badgeStyle
                 }
                 className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-semibold border select-none"
               >
                 <span
                   style={
-                    getCategoryStyle(
+                    getItemStyle(
                       isCustomCategory
                         ? customCategory.trim() || "Custom"
-                        : category
+                        : category,
+                      color
                     ).dotStyle
                   }
                   className="w-1.5 h-1.5 rounded-full"
@@ -290,6 +296,16 @@ export function AddEventModal({
             )}
           </div>
         </div>
+
+        {/* Accent Color Selection (12 Unified Palette Colors or Category Default) */}
+        <ColorPicker
+          value={color}
+          onChange={setColor}
+          categoryName={isCustomCategory ? customCategory.trim() || "Custom" : category}
+          allowAuto={true}
+          autoLabel="Category Color"
+          label="Accent Color"
+        />
 
         {/* Description */}
         <Textarea

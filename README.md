@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.22.1 — Personal Dreams, Experiences & Memories App
+# 🌟 DayDream v2.22.2 — Personal Dreams, Experiences & Memories App
 
-> **Version 2.22.1** · **"Custom Category Colors Across the Application • Choose Once, Use Everywhere"**
+> **Version 2.22.2** · **"Unified 12-Color Accent System • Color Picker for Tasks, Events & Categories"**
 
 A production-quality, responsive Full-Stack web application uniting lifelong dreams, daily execution, personal reflection, and memory preservation into one coherent life journey:
 $$\text{DREAM} \longrightarrow \text{PLAN} \longrightarrow \text{DO} \longrightarrow \text{LIVE} \longrightarrow \text{REMEMBER}$$
@@ -357,6 +357,42 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Form Color Indicators**: Visual color dots displayed alongside category options in task and event creation and editing dialogs.
 - **Server-Side Persistence**: Synchronized to `prisma.category.color` per user via `/api/categories/colors` with optimistic client caching.
 
+### 25. Unified 12-Color Accent System (v2.22.2)
+- **Standard 12-Color Palette**: Standardized DayDream around a single, cohesive, hand-balanced 12-color accent system:
+  1. **Rose** (`#E85D75`)
+  2. **Tangerine** (`#F28C45`)
+  3. **Marigold** (`#E6B93F`)
+  4. **Mint** (`#43A987`)
+  5. **Lagoon** (`#269FAD`)
+  6. **Sky** (`#4387E8`)
+  7. **Indigo** (`#6467D9`)
+  8. **Orchid** (`#9868D9`)
+  9. **Blossom** (`#D96CB1`)
+  10. **Terracotta** (`#B76E4D`)
+  11. **Slate** (`#718096`)
+  12. **Dusty Blush** (`#C9A9A6`)
+- **Reusable `<ColorPicker />` Component (`components/ui/ColorPicker.tsx`)**:
+  - Distinguishable swatches rendered in a compact 6-column grid on desktop (2 rows of 6) and responsive mobile grid.
+  - Hover tooltips with color names and HEX values.
+  - Visible selected-state indicators (distinct ring, contrast checkmark).
+  - Accessible via keyboard navigation and touch-friendly targets.
+  - Integrated "Use Category Color" / "Automatic" toggle allowing items to inherit or reset back to their category color.
+- **Item-Level Accent Customization for Events & To-Do Tasks**:
+  - **Add Event Modal (`AddEventModal.tsx`)**: New Accent Color picker with live preview chip dynamically reflecting individual event color or category default.
+  - **Edit Event Modal (`EditEventModal.tsx`)**: Seamless update of existing event colors or reset back to category color.
+  - **Add Task Modal (`AddTodoTaskModal.tsx`)**: Direct accent color selection for tasks.
+  - **Task Detail Modal (`TodoTaskDetailModal.tsx`)**: In-place editing of task accent colors.
+  - **Calendar Views (`MonthView`, `WeekView`, `AgendaView`, `UpcomingEventsList`, `TodayEventsWidget`, `EventDetailModal`, `app/calendar/page.tsx`)**: Updated to respect item accent color overrides on pills, dots, borders, and badges.
+  - **To-Do Task Items (`TodoTaskItem.tsx`)**: Custom accent badge colors dynamically resolved taking item color override into account.
+- **Three-Tier Precedence Hierarchy**:
+  1. Explicit individual item accent color (`event.color`, `task.color`).
+  2. Configured user category color (`Category.color`).
+  3. Default category color fallback.
+  - Strictly preserves theme system (12 app themes) and priority systems (High/Medium/Low) without confusing them with item accents.
+- **Database & API Persistence**:
+  - Persisted in Neon PostgreSQL with `color String?` on `Event` and `TodoTask` models.
+  - Updated API route handlers (`/api/events`, `/api/events/[id]`, `/api/todos`, `/api/todos/[id]`) with strict validation and ownership checks.
+
 ---
 
 ## 🛠️ Tech Stack
@@ -409,20 +445,20 @@ DayDream/
 │   ├── navigation/                  # FloatingNav (5-destination liquid-glass bottom dock)
 │   ├── todo/                        # AddTodoTaskModal, TodoTaskItem, TodoTaskDetailModal
 │   ├── profile/                     # ProfileModal with user settings & account
-│   ├── providers/                   # SoundProvider, AuthProvider, ToastProvider, ThemeProvider
-│   └── ui/                          # Button, Input, Textarea, Modal, ConfirmDialog, DayDreamLogo
+│   ├── providers/                   # SoundProvider, AuthProvider, ToastProvider, ThemeProvider, CategoryColorProvider
+│   └── ui/                          # Button, Input, Textarea, Modal, ConfirmDialog, DayDreamLogo, ColorPicker
 ├── lib/
 │   ├── auth/                        # JWT & Session verification utilities
 │   ├── config/                      # version.ts, maintenance.ts
 │   ├── db/                          # Prisma Client singleton
 │   ├── sound/                       # soundConfig.ts (types, paths, weights)
-│   └── utils/                       # cn helper, imageExport.ts
+│   └── utils/                       # cn helper, imageExport.ts, categoryColors.ts
 ├── public/
 │   └── sounds/                      # Handcrafted audio assets
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.22.1 dependencies and scripts
+├── package.json                     # v2.22.2 dependencies and scripts
 └── README.md
 ```
 

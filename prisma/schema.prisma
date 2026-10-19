@@ -94,6 +94,7 @@ model Event {
   endTime          String?
   location         String?
   category         String          @default("Personal")
+  color            String?
   reminder         String?         @default("none")
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
@@ -119,6 +120,7 @@ model TodoTask {
   dueTime          String?
   priority         String          @default("Medium")
   category         String?         @default("Personal")
+  color            String?
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   reminder         String?         @default("none")

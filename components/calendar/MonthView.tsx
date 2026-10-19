@@ -25,7 +25,7 @@ export function MonthView({
   onEventClick,
   onAddEventClick,
 }: MonthViewProps) {
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -147,7 +147,7 @@ export function MonthView({
               {/* Event Pills (Desktop) */}
               <div className="hidden sm:flex flex-col gap-1 flex-1 overflow-hidden">
                 {dayEvents.slice(0, 3).map((event) => {
-                  const style = getCategoryStyle(event.category);
+                  const style = getItemStyle(event.category, event.color);
                   return (
                     <div
                       key={event.id}
@@ -183,7 +183,7 @@ export function MonthView({
               {/* Event Indicator Dots (Mobile) */}
               <div className="sm:hidden flex items-center justify-center gap-1 mt-1 flex-wrap">
                 {dayEvents.slice(0, 3).map((event) => {
-                  const style = getCategoryStyle(event.category);
+                  const style = getItemStyle(event.category, event.color);
                   return (
                     <span
                       key={event.id}

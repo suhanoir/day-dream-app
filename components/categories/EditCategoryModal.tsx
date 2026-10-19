@@ -5,10 +5,12 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
+import { ColorPicker } from "@/components/ui/ColorPicker";
 import { useToast } from "@/components/providers/ToastProvider";
 import { useSound } from "@/components/providers/SoundProvider";
 import { cn } from "@/lib/utils/cn";
 import { CategoryData } from "./AddCategoryModal";
+import { STANDARD_ACCENT_PALETTE } from "@/lib/utils/categoryColors";
 
 export interface EditCategoryModalProps {
   category: CategoryData | null;
@@ -16,8 +18,6 @@ export interface EditCategoryModalProps {
   onClose: () => void;
   onCategoryUpdated: (category: CategoryData) => void;
 }
-
-import { PRESET_PALETTE } from "@/lib/utils/categoryColors";
 
 export function EditCategoryModal({
   category,
@@ -114,28 +114,12 @@ export function EditCategoryModal({
           onChange={(e) => setDescription(e.target.value)}
         />
 
-        <div>
-          <label className="text-xs font-semibold text-stone-700 tracking-wide uppercase block mb-2">
-            Color Accent
-          </label>
-          <div className="flex items-center gap-2 flex-wrap">
-            {PRESET_PALETTE.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                onClick={() => setColor(c.hex)}
-                style={{ backgroundColor: c.hex }}
-                className={cn(
-                  "w-7 h-7 rounded-full transition-transform cursor-pointer relative flex items-center justify-center shadow-2xs",
-                  color.toLowerCase() === c.hex.toLowerCase() || color === c.id
-                    ? "ring-2 ring-[var(--theme-primary)] ring-offset-2 scale-110"
-                    : "opacity-80 hover:opacity-100 hover:scale-105"
-                )}
-                title={c.name}
-              />
-            ))}
-          </div>
-        </div>
+        <ColorPicker
+          value={color}
+          onChange={(newColor) => setColor(newColor || STANDARD_ACCENT_PALETTE[0].hex)}
+          allowAuto={false}
+          label="Color Accent"
+        />
 
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
           <Button

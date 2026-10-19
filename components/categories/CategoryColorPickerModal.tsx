@@ -176,9 +176,9 @@ export function CategoryColorPickerModal({
         {/* Preset Palette Grid */}
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-wider text-secondary block">
-            Curated Palette (16 Colors)
+            Standard Palette (12 Colors)
           </label>
-          <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+          <div className="grid grid-cols-6 gap-2">
             {PRESET_PALETTE.map((swatch) => {
               const isSelected =
                 selectedColor.toLowerCase() === swatch.hex.toLowerCase();

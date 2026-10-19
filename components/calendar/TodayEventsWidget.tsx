@@ -18,7 +18,7 @@ export function TodayEventsWidget({
   onEventClick,
   onAddEventClick,
 }: TodayEventsWidgetProps) {
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
   const today = new Date();
   const isSameDay = (d1: Date, d2: Date) =>
     d1.getFullYear() === d2.getFullYear() &&
@@ -44,7 +44,7 @@ export function TodayEventsWidget({
       {todayEvents.length > 0 ? (
         <div className="space-y-2.5">
           {todayEvents.map((event) => {
-            const style = getCategoryStyle(event.category);
+            const style = getItemStyle(event.category, event.color);
             const timeStr = formatEventTime(event.startTime, event.endTime);
 
             return (
@@ -77,6 +77,7 @@ export function TodayEventsWidget({
                 </div>
 
                 <span
+                  style={style.badgeStyle}
                   className={cn(
                     "text-[10px] font-semibold px-2 py-0.5 rounded-md border shrink-0",
                     style.badge

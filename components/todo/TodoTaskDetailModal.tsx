@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { ColorPicker } from "@/components/ui/ColorPicker";
 import {
   TodoTaskData,
   TodoPriority,
@@ -67,12 +68,13 @@ export function TodoTaskDetailModal({
   onMoveToToday,
   onToggleComplete,
 }: TodoTaskDetailModalProps) {
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [priority, setPriority] = useState<TodoPriority>("Medium");
   const [category, setCategory] = useState<TodoCategory>("Personal");
+  const [color, setColor] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isMoving, setIsMoving] = useState(false);
@@ -87,6 +89,7 @@ export function TodoTaskDetailModal({
       setDate(dateVal);
       setPriority(task.priority || "Medium");
       setCategory((task.category as TodoCategory) || "Personal");
+      setColor(task.color || null);
       setSaveError(null);
     }
   }, [task]);
@@ -114,6 +117,7 @@ export function TodoTaskDetailModal({
         date: isoDate,
         priority,
         category,
+        color: color ? color.trim() : null,
       });
       onClose();
     } catch (err: any) {
@@ -341,6 +345,16 @@ export function TodoTaskDetailModal({
               })}
             </div>
           </div>
+
+          {/* Accent Color Selection (12 Unified Palette Colors or Category Default) */}
+          <ColorPicker
+            value={color}
+            onChange={setColor}
+            categoryName={category}
+            allowAuto={true}
+            autoLabel="Category Color"
+            label="Accent Color"
+          />
 
           {/* Action buttons */}
           <div className="pt-3 border-t border-stone-100 flex flex-wrap items-center justify-between gap-2">

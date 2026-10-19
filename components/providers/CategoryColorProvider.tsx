@@ -15,6 +15,8 @@ import {
   CORE_TODO_CATEGORIES,
   ResolvedCategoryStyle,
   getCategoryStyle as resolveCategoryStyle,
+  resolveItemStyle,
+  resolveItemColor,
   getDefaultColorForCategory,
   normalizeHexColor,
 } from "@/lib/utils/categoryColors";
@@ -26,7 +28,15 @@ interface CategoryColorContextType {
     categoryName: string,
     customColorOverride?: string | null
   ) => ResolvedCategoryStyle;
+  getItemStyle: (
+    category?: string | null,
+    itemColorOverride?: string | null
+  ) => ResolvedCategoryStyle;
   getCategoryColor: (categoryName: string) => string;
+  getItemColor: (
+    category?: string | null,
+    itemColorOverride?: string | null
+  ) => string;
   setCategoryColor: (categoryName: string, color: string) => Promise<boolean>;
   resetCategoryColor: (categoryName: string) => Promise<boolean>;
   refreshColors: () => Promise<void>;
@@ -197,6 +207,28 @@ export function CategoryColorProvider({
     [isDark, colors]
   );
 
+  // Get style object for an individual item (with optional color override)
+  const getItemStyle = useCallback(
+    (
+      category?: string | null,
+      itemColorOverride?: string | null
+    ): ResolvedCategoryStyle => {
+      return resolveItemStyle(category, itemColorOverride, isDark, colors);
+    },
+    [isDark, colors]
+  );
+
+  // Get active hex color for an individual item
+  const getItemColor = useCallback(
+    (
+      category?: string | null,
+      itemColorOverride?: string | null
+    ): string => {
+      return resolveItemColor(category, itemColorOverride, colors);
+    },
+    [colors]
+  );
+
   // Ordered list of all categories
   const allCategories = useMemo(() => {
     const list: string[] = [...CORE_TODO_CATEGORIES];
@@ -213,7 +245,9 @@ export function CategoryColorProvider({
       colors,
       isLoading,
       getCategoryStyle,
+      getItemStyle,
       getCategoryColor,
+      getItemColor,
       setCategoryColor,
       resetCategoryColor,
       refreshColors,
@@ -223,7 +257,9 @@ export function CategoryColorProvider({
       colors,
       isLoading,
       getCategoryStyle,
+      getItemStyle,
       getCategoryColor,
+      getItemColor,
       setCategoryColor,
       resetCategoryColor,
       refreshColors,
@@ -248,8 +284,12 @@ export function useCategoryColors(): CategoryColorContextType {
       isLoading: false,
       getCategoryStyle: (categoryName: string) =>
         resolveCategoryStyle(categoryName, false, DEFAULT_CATEGORY_COLORS),
+      getItemStyle: (category?: string | null, itemColorOverride?: string | null) =>
+        resolveItemStyle(category, itemColorOverride, false, DEFAULT_CATEGORY_COLORS),
       getCategoryColor: (categoryName: string) =>
         getDefaultColorForCategory(categoryName),
+      getItemColor: (category?: string | null, itemColorOverride?: string | null) =>
+        resolveItemColor(category, itemColorOverride, DEFAULT_CATEGORY_COLORS),
       setCategoryColor: async () => false,
       resetCategoryColor: async () => false,
       refreshColors: async () => {},

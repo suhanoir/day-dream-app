@@ -62,6 +62,7 @@ export async function PUT(
       endTime,
       location,
       category,
+      color,
       description,
       bucketListItemId,
     } = body;
@@ -117,6 +118,7 @@ export async function PUT(
         endTime: endTime !== undefined ? (endTime ? endTime.trim() : null) : existing.endTime,
         location: location !== undefined ? (location ? location.trim() : null) : existing.location,
         category: category || existing.category,
+        color: color !== undefined ? (color ? color.trim() : null) : existing.color,
         description: description !== undefined ? (description ? description.trim() : null) : existing.description,
         bucketListItemId: bucketListItemId !== undefined ? bucketListItemId : existing.bucketListItemId,
       },

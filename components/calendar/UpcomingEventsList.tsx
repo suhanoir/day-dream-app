@@ -17,7 +17,7 @@ export function UpcomingEventsList({
   onEventClick,
   maxItems = 8,
 }: UpcomingEventsListProps) {
-  const { getCategoryStyle } = useCategoryColors();
+  const { getCategoryStyle, getItemStyle } = useCategoryColors();
   const now = new Date();
   const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
@@ -51,7 +51,7 @@ export function UpcomingEventsList({
         <div className="space-y-3">
           {upcomingEvents.map((event) => {
             const eventDate = new Date(event.date);
-            const style = getCategoryStyle(event.category);
+            const style = getItemStyle(event.category, event.color);
             const timeStr = formatEventTime(event.startTime, event.endTime);
 
             let dateLabel = eventDate.toLocaleDateString("en-US", {
