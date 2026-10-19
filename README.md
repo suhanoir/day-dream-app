@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.22.2 — Personal Dreams, Experiences & Memories App
+# 🌟 DayDream v2.22.3 — Personal Dreams, Experiences & Memories App
 
-> **Version 2.22.2** · **"Unified 12-Color Accent System • Color Picker for Tasks, Events & Categories"**
+> **Version 2.22.3** · **"Distraction-Free To-Do • Hidden-by-Default Completed Tasks & Active Focus"**
 
 A production-quality, responsive Full-Stack web application uniting lifelong dreams, daily execution, personal reflection, and memory preservation into one coherent life journey:
 $$\text{DREAM} \longrightarrow \text{PLAN} \longrightarrow \text{DO} \longrightarrow \text{LIVE} \longrightarrow \text{REMEMBER}$$
@@ -52,6 +52,11 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 
 ### 4. To-Do — Clean & Unified Task Management
 - **Single Comprehensive Task Hub**: Untangled daily tasks from calendar dashboard widgets into one unified, comfortable task view (`/todo`) representing all active and completed work.
+- **Active-First Distraction-Free Default View (v2.22.3)**: Opens directly into incomplete/active tasks with zero completed cards, no bottom clutter, and a clean header free of completed task ratios.
+- **Immediate In-Memory Removal & Restoral**: Ticking a task's checkbox immediately removes it from the active list without page reloads. Marking a task incomplete in the completed view moves it right back to active. Server persistence is strictly verified.
+- **Discreet Completed Tasks Access**: Access completed items via a subtle `Completed (count)` toolbar tab or a non-intrusive link at the foot of the active list.
+- **Dedicated Completed View**: Features a prominent `← Back to Active tasks` navigation button, item count, and full support for category colors, priorities, and descriptions.
+- **Encouraging Empty States**: Displays "All caught up!" with quick-actions (`+ Add Task`, `View completed`) when all tasks are finished, and clean empty states for new users and empty completed lists.
 - **Intelligent Priority-First Default Order**:
   1. Overdue High
   2. High priority (not overdue)
@@ -64,9 +69,9 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **User-Controlled Sorts**: Compact dropdown with instant client-side sorting by `Priority`, `Due Date`, `Created`, or `Alphabetical (A-Z)`.
 - **Inline Description Preview**: Tasks with descriptions show a readable, muted 2-line preview directly in the list. Tasks without descriptions take up zero empty space.
 - **Right-Aligned Human Due Dates**: Calendar icon and human-friendly dates (`Today`, `Tomorrow`, `21 Sep`, `Overdue · 21 Sep`) clearly aligned on the right on desktop, with calm non-aggressive warning accents for overdue items. No timestamps or notifications.
-- **Fast Checkbox Completion**: 1-click completion with instant optimistic update, audio feedback, and seamless movement into a quieter, collapsible `COMPLETED` section.
+- **Fast Checkbox Completion**: 1-click completion with instant optimistic update and audio feedback.
 - **Responsive Layout**: Wide comfortable desktop width (1200–1400px) that eliminates large empty margins, with graceful metadata wrapping on mobile (360px–430px).
-- **Crash-Resistant Save Flow**: Robust editing for task title, description, date, priority, and category with in-modal error recovery and zero full-page reloads.
+- **Crash-Resistant Save Flow**: Robust editing for task title, description, date, priority, category, and 12-color accents with in-modal error recovery and zero full-page reloads.
 
 ### 5. Expenses — Monthly Budget & Spend Tracking
 - **Indian Rupees (₹ / INR)**: All amounts, daily averages, and category badges formatted with Indian numerical grouping (`₹1,450.50`).
@@ -458,7 +463,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.22.2 dependencies and scripts
+├── package.json                     # v2.22.3 dependencies and scripts
 └── README.md
 ```
 

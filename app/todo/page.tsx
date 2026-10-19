@@ -26,6 +26,7 @@ import {
   ArrowUpDown,
   Tag,
   ListTodo,
+  ArrowLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -36,11 +37,11 @@ export default function TodoPage() {
   const [tasks, setTasks] = useState<TodoTaskData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Filter & Sort state
-  const [statusFilter, setStatusFilter] = useState<TaskStatusFilter>("all");
+  // Filter & Sort state: default to 'active' view without clutter
+  const [statusFilter, setStatusFilter] = useState<TaskStatusFilter>("active");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [sortBy, setSortBy] = useState<TaskSortMode>("priority");
-  const [isCompletedExpanded, setIsCompletedExpanded] = useState(true);
+  const [isCompletedExpanded, setIsCompletedExpanded] = useState(false);
 
   // Modal State
   const [selectedTaskForDetail, setSelectedTaskForDetail] =
@@ -291,11 +292,6 @@ export default function TodoPage() {
             </h1>
             <p className="text-xs sm:text-sm text-secondary">
               Keep track of what needs to get done.
-              {totalCount > 0 && (
-                <span className="text-muted ml-1.5 font-medium">
-                  · {totalCompletedCount} of {totalCount} completed
-                </span>
-              )}
             </p>
           </div>
 
@@ -317,8 +313,42 @@ export default function TodoPage() {
         {/* 2. TASK CONTROLS & TOOLBAR                                    */}
         {/* ============================================================= */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
-          {/* Status Tabs: [ All ] [ Active ] [ Completed ] */}
+          {/* Status Tabs: [ Active ] [ Completed ] [ All ] */}
           <div className="inline-flex p-1 bg-stone-100 dark:bg-white/5 rounded-xl border border-stone-200/60 dark:border-white/10 self-start">
+            <button
+              type="button"
+              onClick={() => setStatusFilter("active")}
+              className={cn(
+                "px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1",
+                statusFilter === "active"
+                  ? "glass-tab-active shadow-2xs font-semibold"
+                  : "text-secondary hover:text-primary"
+              )}
+            >
+              <span>Active</span>
+              {filteredActiveTasks.length > 0 && (
+                <span className="text-[10px] opacity-75 font-semibold">
+                  ({filteredActiveTasks.length})
+                </span>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => setStatusFilter("completed")}
+              className={cn(
+                "px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1",
+                statusFilter === "completed"
+                  ? "glass-tab-active shadow-2xs font-semibold"
+                  : "text-secondary hover:text-primary"
+              )}
+            >
+              <span>Completed</span>
+              {totalCompletedCount > 0 && (
+                <span className="text-[10px] px-1.5 py-0.2 bg-stone-200/70 dark:bg-white/10 rounded-full font-semibold">
+                  {categoryFilter === "all" ? totalCompletedCount : filteredCompletedTasks.length}
+                </span>
+              )}
+            </button>
             <button
               type="button"
               onClick={() => setStatusFilter("all")}
@@ -330,40 +360,6 @@ export default function TodoPage() {
               )}
             >
               All
-            </button>
-            <button
-              type="button"
-              onClick={() => setStatusFilter("active")}
-              className={cn(
-                "px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer",
-                statusFilter === "active"
-                  ? "glass-tab-active shadow-2xs font-semibold"
-                  : "text-secondary hover:text-primary"
-              )}
-            >
-              Active
-              {filteredActiveTasks.length > 0 && (
-                <span className="ml-1 text-[10px] opacity-70">
-                  ({filteredActiveTasks.length})
-                </span>
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={() => setStatusFilter("completed")}
-              className={cn(
-                "px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer",
-                statusFilter === "completed"
-                  ? "glass-tab-active shadow-2xs font-semibold"
-                  : "text-secondary hover:text-primary"
-              )}
-            >
-              Completed
-              {filteredCompletedTasks.length > 0 && (
-                <span className="ml-1 text-[10px] opacity-70">
-                  ({filteredCompletedTasks.length})
-                </span>
-              )}
             </button>
           </div>
 
@@ -450,48 +446,191 @@ export default function TodoPage() {
               Show all categories
             </button>
           </div>
-        ) : (
-          <div className="space-y-6">
-            {/* ACTIVE TASKS SECTION */}
-            {(statusFilter === "all" || statusFilter === "active") && (
-              <section className="space-y-2.5">
-                {/* Active Section Header */}
-                <div className="flex items-center justify-between pb-1 border-b border-stone-200/40 dark:border-white/10">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-muted">
-                      Active Tasks
-                    </span>
-                    <span className="text-[11px] font-semibold text-muted">
-                      ({sortedActiveTasks.length})
-                    </span>
-                  </div>
+        ) : statusFilter === "completed" ? (
+          /* ============================================================= */
+          /* COMPLETED TASKS VIEW (EXPLICIT USER SELECTION)                 */
+          /* ============================================================= */
+          <div className="space-y-4">
+            {/* Header with clear Return to Active control */}
+            <div className="flex items-center justify-between pb-2 border-b border-stone-200/50 dark:border-white/10">
+              <button
+                type="button"
+                onClick={() => setStatusFilter("active")}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--theme-primary)] hover:underline cursor-pointer group"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+                <span>Back to Active tasks</span>
+              </button>
+              <span className="text-xs font-medium text-muted">
+                {sortedCompletedTasks.length} completed {sortedCompletedTasks.length === 1 ? "task" : "tasks"}
+              </span>
+            </div>
+
+            {sortedCompletedTasks.length === 0 ? (
+              <div className="py-16 text-center space-y-3 max-w-sm mx-auto">
+                <div className="w-12 h-12 rounded-2xl bg-stone-100 dark:bg-white/5 text-muted flex items-center justify-center mx-auto border border-stone-200/50 dark:border-white/10">
+                  <CheckCircle2 className="w-6 h-6 text-muted opacity-60" />
+                </div>
+                <h3 className="text-lg font-bold text-primary font-serif-heading">
+                  No completed tasks yet.
+                </h3>
+                <p className="text-xs text-muted">
+                  Tasks you complete will appear here.
+                </p>
+                <div className="pt-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setStatusFilter("active")}
+                    className="text-xs font-semibold cursor-pointer"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+                    <span>Back to Active tasks</span>
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {sortedCompletedTasks.map((task) => (
+                  <TodoTaskItem
+                    key={task.id}
+                    task={task}
+                    onToggleComplete={handleToggleComplete}
+                    onClick={(t) => setSelectedTaskForDetail(t)}
+                    onDelete={async (t) => handleDeleteTask(t.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        ) : statusFilter === "active" ? (
+          /* ============================================================= */
+          /* ACTIVE TASKS VIEW (DEFAULT & PRIMARY)                          */
+          /* ============================================================= */
+          <div className="space-y-4">
+            {sortedActiveTasks.length === 0 ? (
+              /* All active tasks completed */
+              <div className="py-16 text-center space-y-3 max-w-sm mx-auto">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/20 shadow-2xs">
+                  <CheckCircle2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-primary font-serif-heading">
+                  All caught up!
+                </h3>
+                <p className="text-xs sm:text-sm text-secondary leading-relaxed">
+                  Everything on your active list is complete.
+                </p>
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => setIsAddTaskModalOpen(true)}
+                    className="font-semibold shadow-sm text-xs cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4 mr-1.5" />
+                    <span>Add Task</span>
+                  </Button>
+                  {totalCompletedCount > 0 && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setStatusFilter("completed")}
+                      className="text-xs font-semibold cursor-pointer"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 mr-1.5 text-emerald-500" />
+                      <span>
+                        View completed ({categoryFilter === "all" ? totalCompletedCount : filteredCompletedTasks.length})
+                      </span>
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  {sortedActiveTasks.map((task) => (
+                    <TodoTaskItem
+                      key={task.id}
+                      task={task}
+                      onToggleComplete={handleToggleComplete}
+                      onClick={(t) => setSelectedTaskForDetail(t)}
+                      onDelete={async (t) => handleDeleteTask(t.id)}
+                    />
+                  ))}
                 </div>
 
-                {sortedActiveTasks.length === 0 ? (
-                  /* User completed all tasks */
-                  <div className="p-6 rounded-2xl glass-card text-center space-y-2">
-                    <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/20">
-                      <CheckCircle2 className="w-5 h-5" />
-                    </div>
-                    <p className="text-sm font-bold text-primary">
-                      You&apos;re all caught up.
-                    </p>
-                    <p className="text-xs text-muted">
-                      Everything on your list is complete.
-                    </p>
-                    {filteredCompletedTasks.length > 0 && !isCompletedExpanded && statusFilter === "all" && (
-                      <button
-                        type="button"
-                        onClick={() => setIsCompletedExpanded(true)}
-                        className="text-xs font-semibold text-[var(--theme-primary)] hover:underline pt-1 cursor-pointer"
-                      >
-                        View Completed ({filteredCompletedTasks.length})
-                      </button>
-                    )}
+                {/* Subtle, non-intrusive link to completed tasks */}
+                {totalCompletedCount > 0 && (
+                  <div className="pt-4 pb-2 flex justify-center">
+                    <button
+                      type="button"
+                      onClick={() => setStatusFilter("completed")}
+                      className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-primary transition-colors py-1.5 px-3 rounded-xl hover:bg-stone-100 dark:hover:bg-white/5 cursor-pointer font-medium"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500/80" />
+                      <span>
+                        View completed tasks ({categoryFilter === "all" ? totalCompletedCount : filteredCompletedTasks.length})
+                      </span>
+                    </button>
                   </div>
-                ) : (
-                  <div className="space-y-2">
-                    {sortedActiveTasks.map((task) => (
+                )}
+              </>
+            )}
+          </div>
+        ) : (
+          /* ============================================================= */
+          /* ALL VIEW (ACTIVE + OPTIONAL COLLAPSIBLE COMPLETED)             */
+          /* ============================================================= */
+          <div className="space-y-6">
+            {/* Active section in All view */}
+            <section className="space-y-2.5">
+              <div className="flex items-center justify-between pb-1 border-b border-stone-200/40 dark:border-white/10">
+                <span className="text-xs font-bold uppercase tracking-wider text-muted">
+                  Active Tasks ({sortedActiveTasks.length})
+                </span>
+              </div>
+
+              {sortedActiveTasks.length === 0 ? (
+                <div className="p-4 rounded-xl glass-card text-center text-xs text-muted">
+                  No active tasks.
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {sortedActiveTasks.map((task) => (
+                    <TodoTaskItem
+                      key={task.id}
+                      task={task}
+                      onToggleComplete={handleToggleComplete}
+                      onClick={(t) => setSelectedTaskForDetail(t)}
+                      onDelete={async (t) => handleDeleteTask(t.id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </section>
+
+            {/* Collapsible Completed section in All view (collapsed by default) */}
+            {filteredCompletedTasks.length > 0 && (
+              <section className="pt-2 border-t border-stone-200/60 dark:border-white/10 space-y-2.5">
+                <button
+                  type="button"
+                  onClick={() => setIsCompletedExpanded(!isCompletedExpanded)}
+                  className="flex items-center justify-between w-full text-xs font-bold text-muted hover:text-primary py-1 cursor-pointer select-none"
+                >
+                  <span className="flex items-center gap-1.5 uppercase tracking-wider">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Completed ({sortedCompletedTasks.length})</span>
+                  </span>
+                  {isCompletedExpanded ? (
+                    <ChevronDown className="w-4 h-4" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4" />
+                  )}
+                </button>
+
+                {isCompletedExpanded && (
+                  <div className="space-y-2 pt-1">
+                    {sortedCompletedTasks.map((task) => (
                       <TodoTaskItem
                         key={task.id}
                         task={task}
@@ -504,42 +643,6 @@ export default function TodoPage() {
                 )}
               </section>
             )}
-
-            {/* COMPLETED TASKS SECTION */}
-            {(statusFilter === "all" || statusFilter === "completed") &&
-              filteredCompletedTasks.length > 0 && (
-                <section className="pt-2 border-t border-stone-200/60 dark:border-white/10 space-y-2.5">
-                  <button
-                    type="button"
-                    onClick={() => setIsCompletedExpanded(!isCompletedExpanded)}
-                    className="flex items-center justify-between w-full text-xs font-bold text-muted hover:text-primary py-1 cursor-pointer select-none"
-                  >
-                    <span className="flex items-center gap-1.5 uppercase tracking-wider">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                      <span>Completed ({sortedCompletedTasks.length})</span>
-                    </span>
-                    {isCompletedExpanded ? (
-                      <ChevronDown className="w-4 h-4" />
-                    ) : (
-                      <ChevronRight className="w-4 h-4" />
-                    )}
-                  </button>
-
-                  {isCompletedExpanded && (
-                    <div className="space-y-2 pt-1">
-                      {sortedCompletedTasks.map((task) => (
-                        <TodoTaskItem
-                          key={task.id}
-                          task={task}
-                          onToggleComplete={handleToggleComplete}
-                          onClick={(t) => setSelectedTaskForDetail(t)}
-                          onDelete={async (t) => handleDeleteTask(t.id)}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </section>
-              )}
           </div>
         )}
       </div>
@@ -561,6 +664,9 @@ export default function TodoPage() {
         initialDate={new Date()}
         onTaskAdded={(newTask) => {
           setTasks((prev) => [newTask, ...prev]);
+          if (statusFilter === "completed") {
+            setStatusFilter("active");
+          }
         }}
       />
     </AppShell>
