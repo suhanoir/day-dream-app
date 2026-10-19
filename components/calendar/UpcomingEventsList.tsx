@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { EventData, getCategoryStyle, formatEventTime } from "./types";
+import { EventData, formatEventTime } from "./types";
 import { cn } from "@/lib/utils/cn";
 import { Calendar, Clock, MapPin, ChevronRight, Bookmark } from "lucide-react";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 export interface UpcomingEventsListProps {
   events: EventData[];
@@ -16,6 +17,7 @@ export function UpcomingEventsList({
   onEventClick,
   maxItems = 8,
 }: UpcomingEventsListProps) {
+  const { getCategoryStyle } = useCategoryColors();
   const now = new Date();
   const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
@@ -85,6 +87,7 @@ export function UpcomingEventsList({
                   </span>
 
                   <span
+                    style={style.badgeStyle}
                     className={cn(
                       "text-[9px] font-semibold px-1.5 py-0.5 rounded border",
                       style.badge

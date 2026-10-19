@@ -25,8 +25,10 @@ import {
   Info,
   Shield,
   Loader2,
+  Tag,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { CategoryColorsSettings } from "@/components/categories/CategoryColorsSettings";
 
 export default function YouPage() {
   const { user, logout, isLoading: authLoading } = useAuth();
@@ -42,7 +44,9 @@ export default function YouPage() {
     playSound,
   } = useSound();
 
-  const [activeTab, setActiveTab] = useState<"profile" | "themes" | "sounds" | "about">("profile");
+  const [activeTab, setActiveTab] = useState<
+    "profile" | "categories" | "themes" | "sounds" | "about"
+  >("profile");
 
   const [stats, setStats] = useState<{
     totalGoals: number;
@@ -111,6 +115,7 @@ export default function YouPage() {
           {(
             [
               { key: "profile", label: "Profile", icon: User },
+              { key: "categories", label: "Category Colors", icon: Tag },
               { key: "themes", label: "Appearance", icon: Palette },
               { key: "sounds", label: "Audio & Sounds", icon: Volume2 },
               { key: "about", label: "About", icon: Info },
@@ -211,6 +216,11 @@ export default function YouPage() {
               </Button>
             </div>
           </div>
+        )}
+
+        {/* TAB: CATEGORY COLORS */}
+        {activeTab === "categories" && (
+          <CategoryColorsSettings />
         )}
 
         {/* TAB 2: APPEARANCE / THEMES */}

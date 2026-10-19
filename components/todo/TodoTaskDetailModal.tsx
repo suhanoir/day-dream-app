@@ -29,6 +29,7 @@ import {
   Circle,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 interface TodoTaskDetailModalProps {
   task: TodoTaskData | null;
@@ -66,6 +67,7 @@ export function TodoTaskDetailModal({
   onMoveToToday,
   onToggleComplete,
 }: TodoTaskDetailModalProps) {
+  const { getCategoryStyle } = useCategoryColors();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
@@ -314,21 +316,26 @@ export function TodoTaskDetailModal({
             </label>
             <div className="flex flex-wrap gap-1.5">
               {TODO_CATEGORIES.map((cat) => {
-                const style = CATEGORY_STYLES[cat];
+                const style = getCategoryStyle(cat);
                 const isSelected = category === cat;
                 return (
                   <button
                     key={cat}
                     type="button"
                     onClick={() => setCategory(cat)}
+                    style={isSelected ? style.badgeStyle : undefined}
                     className={cn(
-                      "py-1 px-2.5 rounded-lg text-xs font-medium border transition-all cursor-pointer",
+                      "py-1 px-2.5 rounded-lg text-xs font-medium border transition-all cursor-pointer flex items-center gap-1.5",
                       isSelected
-                        ? cn(style.badge, "ring-1 ring-current font-semibold")
-                        : "border-stone-200 text-stone-600 hover:bg-stone-50"
+                        ? "ring-1 ring-current font-semibold border-current shadow-2xs"
+                        : "border-stone-200 dark:border-white/10 text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/5"
                     )}
                   >
-                    {style.label}
+                    <span
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={style.dotStyle}
+                    />
+                    <span>{cat}</span>
                   </button>
                 );
               })}

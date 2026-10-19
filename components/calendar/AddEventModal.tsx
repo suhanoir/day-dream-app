@@ -19,6 +19,7 @@ import {
   Sparkles,
   Bookmark,
 } from "lucide-react";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 export interface AddEventModalProps {
   isOpen: boolean;
@@ -40,6 +41,7 @@ export function AddEventModal({
 }: AddEventModalProps) {
   const { success, error: toastError } = useToast();
   const { playSound } = useSound();
+  const { getCategoryStyle } = useCategoryColors();
 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -217,9 +219,35 @@ export function AddEventModal({
           />
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-secondary tracking-wide uppercase">
-              Category
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-secondary tracking-wide uppercase">
+                Category
+              </label>
+              <span
+                style={
+                  getCategoryStyle(
+                    isCustomCategory
+                      ? customCategory.trim() || "Custom"
+                      : category
+                  ).badgeStyle
+                }
+                className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-semibold border select-none"
+              >
+                <span
+                  style={
+                    getCategoryStyle(
+                      isCustomCategory
+                        ? customCategory.trim() || "Custom"
+                        : category
+                    ).dotStyle
+                  }
+                  className="w-1.5 h-1.5 rounded-full"
+                />
+                {isCustomCategory
+                  ? customCategory.trim() || "Custom"
+                  : category}
+              </span>
+            </div>
             {!isCustomCategory ? (
               <div className="flex gap-2">
                 <select

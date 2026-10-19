@@ -1,6 +1,6 @@
-# 🌟 DayDream v2.22.0 — Personal Dreams, Experiences & Memories App
+# 🌟 DayDream v2.22.1 — Personal Dreams, Experiences & Memories App
 
-> **Version 2.22.0** · **"Complete To-Do Section Revamp • Clean, Fast, Prioritized Task Execution"**
+> **Version 2.22.1** · **"Custom Category Colors Across the Application • Choose Once, Use Everywhere"**
 
 A production-quality, responsive Full-Stack web application uniting lifelong dreams, daily execution, personal reflection, and memory preservation into one coherent life journey:
 $$\text{DREAM} \longrightarrow \text{PLAN} \longrightarrow \text{DO} \longrightarrow \text{LIVE} \longrightarrow \text{REMEMBER}$$
@@ -347,6 +347,16 @@ Live on Vercel: **[https://bucket-list-app-two.vercel.app](https://bucket-list-a
 - **Crash-Resistant Save Changes**: Full field editing (title, description, date, priority, category) with graceful error handling and instant in-memory list updates without full-page reloads.
 - **Full Backward Compatibility**: Preserved all existing task data and database schemas, with seamless redirects from `/today` and `/to-do-list` to `/todo`.
 
+### 24. Custom Category Colors Across the Application (v2.22.1)
+- **Choose Once, Use Everywhere**: Unified centralized category color resolver (`CategoryColorProvider` & `lib/utils/categoryColors.ts`) ensuring consistent colors across To-Do tasks, Calendar event pills/dots, detail modals, and memory postcards.
+- **Dedicated Settings in You (`/you`)**: New **Category Colors** tab presenting all core categories (`Personal`, `College`, `Work`, `Health`, `Study`, `Other`) and custom user categories in a compact, organized list with live swatches, "Change", and "Reset to Default" actions.
+- **16-Color Curated Preset Palette**: Fast 1-click selection from a harmonious palette (Blue, Cyan, Teal, Green, Lime, Yellow, Orange, Coral, Red, Rose, Pink, Purple, Violet, Indigo, Slate, Neutral Gray).
+- **Custom Color & Native Wheel**: Direct support for standard HEX codes (`#3B82F6`) with real-time validation and a native system color picker.
+- **Live Multi-Surface Preview**: Real-time preview showing exactly how the chosen color appears on a Category Chip, Calendar Event Pill, and To-Do Task badge before saving.
+- **12-Theme Adaptive Readability**: Automatic lightness and contrast computation across all 6 light and 6 dark themes, maintaining optimal WCAG text contrast on light/dark surfaces with soft translucent backgrounds and solid vibrant dots.
+- **Form Color Indicators**: Visual color dots displayed alongside category options in task and event creation and editing dialogs.
+- **Server-Side Persistence**: Synchronized to `prisma.category.color` per user via `/api/categories/colors` with optimistic client caching.
+
 ---
 
 ## 🛠️ Tech Stack
@@ -412,7 +422,7 @@ DayDream/
 ├── middleware.ts                    # Maintenance mode & route middleware
 ├── prisma/
 │   └── schema.prisma                # PostgreSQL schema (User, Goal, Event, Todo, Expense)
-├── package.json                     # v2.22.0 dependencies and scripts
+├── package.json                     # v2.22.1 dependencies and scripts
 └── README.md
 ```
 

@@ -14,11 +14,11 @@ import { EventDetailModal } from "@/components/calendar/EventDetailModal";
 import {
   EventData,
   EVENT_CATEGORIES,
-  getCategoryStyle,
   formatEventTime,
 } from "@/components/calendar/types";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/providers/ToastProvider";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 import {
   ChevronLeft,
   ChevronRight,
@@ -42,6 +42,7 @@ export type EventTimelineFilter = "all" | "today" | "upcoming" | "past";
 export default function CalendarPage() {
   const { user, isLoading: authLoading } = useAuth();
   const { error: toastError } = useToast();
+  const { getCategoryStyle } = useCategoryColors();
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -428,7 +429,10 @@ export default function CalendarPage() {
                           className="p-3.5 rounded-xl glass-card hover:border-stone-300 dark:hover:border-white/20 transition-all cursor-pointer flex items-center justify-between gap-3 text-xs"
                         >
                           <div className="flex items-center gap-3 min-w-0">
-                            <span className={cn("w-2 h-2 rounded-full shrink-0", style.dot)} />
+                            <span
+                              style={style.dotStyle}
+                              className={cn("w-2 h-2 rounded-full shrink-0", style.dot)}
+                            />
                             <div className="min-w-0">
                               <h4 className="font-semibold text-primary truncate">
                                 {event.title}

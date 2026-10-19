@@ -24,6 +24,7 @@ import {
   Tag,
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 export interface AddTodoTaskModalProps {
   isOpen: boolean;
@@ -44,6 +45,7 @@ export function AddTodoTaskModal({
 }: AddTodoTaskModalProps) {
   const { success, error: toastError } = useToast();
   const { playSound } = useSound();
+  const { getCategoryStyle } = useCategoryColors();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -240,30 +242,32 @@ export function AddTodoTaskModal({
 
         {/* Category Selection */}
         <div>
-          <label className="flex items-center gap-1 text-xs font-semibold text-stone-700 uppercase tracking-wider mb-1.5">
+          <label className="flex items-center gap-1 text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
             <Tag className="w-3.5 h-3.5 text-stone-400" />
             Category
           </label>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
             {TODO_CATEGORIES.map((cat) => {
               const isSelected = category === cat;
-              const catStyle = CATEGORY_STYLES[cat];
+              const catStyle = getCategoryStyle(cat);
               return (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setCategory(cat)}
+                  style={isSelected ? catStyle.badgeStyle : undefined}
                   className={cn(
-                    "py-1.5 px-2 rounded-xl text-xs font-medium border transition-all text-center cursor-pointer",
+                    "py-1.5 px-2 rounded-xl text-xs font-medium border transition-all text-center cursor-pointer flex items-center justify-center gap-1.5",
                     isSelected
-                      ? cn(
-                          catStyle?.badge || "bg-stone-900 text-white",
-                          "border-current shadow-2xs font-semibold ring-1 ring-current"
-                        )
-                      : "border-stone-200/80 text-stone-600 hover:bg-stone-50"
+                      ? "border-current shadow-2xs font-semibold ring-1 ring-current"
+                      : "border-stone-200/80 dark:border-white/10 text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/5"
                   )}
                 >
-                  {cat}
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0"
+                    style={catStyle.dotStyle}
+                  />
+                  <span className="truncate">{cat}</span>
                 </button>
               );
             })}

@@ -17,16 +17,7 @@ export interface EditCategoryModalProps {
   onCategoryUpdated: (category: CategoryData) => void;
 }
 
-const COLOR_OPTIONS = [
-  { id: "emerald", label: "Emerald", class: "bg-emerald-500" },
-  { id: "sky", label: "Sky Blue", class: "bg-sky-500" },
-  { id: "amber", label: "Amber", class: "bg-amber-500" },
-  { id: "rose", label: "Rose", class: "bg-rose-500" },
-  { id: "indigo", label: "Indigo", class: "bg-indigo-500" },
-  { id: "violet", label: "Violet", class: "bg-violet-500" },
-  { id: "teal", label: "Teal", class: "bg-teal-500" },
-  { id: "yellow", label: "Gold", class: "bg-yellow-500" },
-];
+import { PRESET_PALETTE } from "@/lib/utils/categoryColors";
 
 export function EditCategoryModal({
   category,
@@ -127,20 +118,20 @@ export function EditCategoryModal({
           <label className="text-xs font-semibold text-stone-700 tracking-wide uppercase block mb-2">
             Color Accent
           </label>
-          <div className="flex items-center gap-2.5 flex-wrap">
-            {COLOR_OPTIONS.map((c) => (
+          <div className="flex items-center gap-2 flex-wrap">
+            {PRESET_PALETTE.map((c) => (
               <button
                 key={c.id}
                 type="button"
-                onClick={() => setColor(c.id)}
+                onClick={() => setColor(c.hex)}
+                style={{ backgroundColor: c.hex }}
                 className={cn(
-                  "w-7 h-7 rounded-full transition-transform cursor-pointer relative flex items-center justify-center",
-                  c.class,
-                  color === c.id
-                    ? "ring-2 ring-stone-900 ring-offset-2 scale-110"
+                  "w-7 h-7 rounded-full transition-transform cursor-pointer relative flex items-center justify-center shadow-2xs",
+                  color.toLowerCase() === c.hex.toLowerCase() || color === c.id
+                    ? "ring-2 ring-[var(--theme-primary)] ring-offset-2 scale-110"
                     : "opacity-80 hover:opacity-100 hover:scale-105"
                 )}
-                title={c.label}
+                title={c.name}
               />
             ))}
           </div>

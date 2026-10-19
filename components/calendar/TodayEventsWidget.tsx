@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import { EventData, getCategoryStyle, formatEventTime } from "./types";
+import { EventData, formatEventTime } from "./types";
 import { cn } from "@/lib/utils/cn";
 import { Calendar, Clock, MapPin, Plus, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 export interface TodayEventsWidgetProps {
   events: EventData[];
@@ -17,6 +18,7 @@ export function TodayEventsWidget({
   onEventClick,
   onAddEventClick,
 }: TodayEventsWidgetProps) {
+  const { getCategoryStyle } = useCategoryColors();
   const today = new Date();
   const isSameDay = (d1: Date, d2: Date) =>
     d1.getFullYear() === d2.getFullYear() &&
@@ -53,7 +55,10 @@ export function TodayEventsWidget({
               >
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5 mb-1">
-                    <span className={cn("w-1.5 h-1.5 rounded-full shrink-0", style.dot)} />
+                    <span
+                      style={style.dotStyle}
+                      className={cn("w-1.5 h-1.5 rounded-full shrink-0", style.dot)}
+                    />
                     <span className="font-semibold text-primary truncate">
                       {event.title}
                     </span>

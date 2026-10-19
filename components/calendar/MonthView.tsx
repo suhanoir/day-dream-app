@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { EventData, getCategoryStyle, formatEventTime } from "./types";
+import { EventData, formatEventTime } from "./types";
 import { cn } from "@/lib/utils/cn";
 import { Plus } from "lucide-react";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 export interface MonthViewProps {
   currentDate: Date;
@@ -24,6 +25,7 @@ export function MonthView({
   onEventClick,
   onAddEventClick,
 }: MonthViewProps) {
+  const { getCategoryStyle } = useCategoryColors();
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -153,6 +155,7 @@ export function MonthView({
                         e.stopPropagation();
                         onEventClick(event);
                       }}
+                      style={style.style}
                       className={cn(
                         "px-1.5 py-0.5 rounded text-[11px] font-medium truncate flex items-center gap-1 border transition-all cursor-pointer hover:shadow-2xs",
                         style.bg,
@@ -161,7 +164,10 @@ export function MonthView({
                       )}
                       title={`${event.title} (${event.startTime || "All Day"})`}
                     >
-                      <span className={cn("w-1.5 h-1.5 rounded-full shrink-0", style.dot)} />
+                      <span
+                        className={cn("w-1.5 h-1.5 rounded-full shrink-0", style.dot)}
+                        style={style.dotStyle}
+                      />
                       <span className="truncate">{event.title}</span>
                     </div>
                   );
@@ -181,6 +187,7 @@ export function MonthView({
                   return (
                     <span
                       key={event.id}
+                      style={style.dotStyle}
                       className={cn("w-1.5 h-1.5 rounded-full", style.dot)}
                     />
                   );

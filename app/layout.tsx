@@ -4,6 +4,7 @@ import { ToastProvider } from "@/components/providers/ToastProvider";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SoundProvider } from "@/components/providers/SoundProvider";
+import { CategoryColorProvider } from "@/components/providers/CategoryColorProvider";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -59,9 +60,11 @@ export default function RootLayout({
           <SoundProvider>
             <ToastProvider>
               <AuthProvider>
-                <div className="relative z-10 min-h-screen flex flex-col">
-                  {children}
-                </div>
+                <CategoryColorProvider>
+                  <div className="relative z-10 min-h-screen flex flex-col">
+                    {children}
+                  </div>
+                </CategoryColorProvider>
               </AuthProvider>
             </ToastProvider>
           </SoundProvider>

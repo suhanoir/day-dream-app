@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { EventData, getCategoryStyle, formatEventTime } from "./types";
+import { EventData, formatEventTime } from "./types";
 import { cn } from "@/lib/utils/cn";
 import { Clock, MapPin, Plus } from "lucide-react";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 export interface WeekViewProps {
   currentDate: Date;
@@ -18,6 +19,7 @@ export function WeekView({
   onEventClick,
   onAddEventClick,
 }: WeekViewProps) {
+  const { getCategoryStyle } = useCategoryColors();
   // Get start of week (Monday)
   const dayOfWeek = currentDate.getDay(); // 0 is Sun, 1 is Mon...
   const distanceToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
@@ -96,6 +98,7 @@ export function WeekView({
                       <div
                         key={event.id}
                         onClick={() => onEventClick(event)}
+                        style={style.style}
                         className={cn(
                           "p-2 rounded-xl border text-xs cursor-pointer transition-all hover:shadow-xs",
                           style.bg,
@@ -103,8 +106,14 @@ export function WeekView({
                         )}
                       >
                         <div className="flex items-center gap-1.5 mb-1">
-                          <span className={cn("w-1.5 h-1.5 rounded-full shrink-0", style.dot)} />
-                          <span className={cn("font-semibold truncate", style.text)}>
+                          <span
+                            className={cn("w-1.5 h-1.5 rounded-full shrink-0", style.dot)}
+                            style={style.dotStyle}
+                          />
+                          <span
+                            style={style.textStyle}
+                            className={cn("font-semibold truncate", style.text)}
+                          >
                             {event.title}
                           </span>
                         </div>

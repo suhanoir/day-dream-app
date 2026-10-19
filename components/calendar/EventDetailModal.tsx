@@ -7,9 +7,9 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { useToast } from "@/components/providers/ToastProvider";
 import {
   EventData,
-  getCategoryStyle,
   formatEventTime,
 } from "./types";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 import {
   Calendar as CalendarIcon,
   Clock,
@@ -40,6 +40,7 @@ export function EventDetailModal({
 }: EventDetailModalProps) {
   const { playSound } = useSound();
   const { error: toastError, success } = useToast();
+  const { getCategoryStyle } = useCategoryColors();
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -90,12 +91,16 @@ export function EventDetailModal({
           {/* Category Pill & Action Buttons */}
           <div className="flex items-center justify-between gap-2 border-b border-stone-200/40 dark:border-white/10 pb-3">
             <span
+              style={categoryStyle.badgeStyle}
               className={cn(
                 "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wider border",
                 categoryStyle.badge
               )}
             >
-              <span className={cn("w-2 h-2 rounded-full", categoryStyle.dot)} />
+              <span
+                style={categoryStyle.dotStyle}
+                className={cn("w-2 h-2 rounded-full", categoryStyle.dot)}
+              />
               {event.category}
             </span>
 

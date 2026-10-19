@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { EventData, getCategoryStyle, formatEventTime } from "./types";
+import { EventData, formatEventTime } from "./types";
 import { cn } from "@/lib/utils/cn";
 import { Calendar as CalendarIcon, Clock, MapPin, Bookmark } from "lucide-react";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 export interface AgendaViewProps {
   events: EventData[];
@@ -11,6 +12,7 @@ export interface AgendaViewProps {
 }
 
 export function AgendaView({ events, onEventClick }: AgendaViewProps) {
+  const { getCategoryStyle } = useCategoryColors();
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
@@ -92,6 +94,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
                   >
                     <div className="flex items-start gap-3 min-w-0">
                       <span
+                        style={style.dotStyle}
                         className={cn(
                           "w-2.5 h-2.5 rounded-full mt-1.5 shrink-0",
                           style.dot
@@ -103,6 +106,7 @@ export function AgendaView({ events, onEventClick }: AgendaViewProps) {
                             {event.title}
                           </h4>
                           <span
+                            style={style.badgeStyle}
                             className={cn(
                               "text-[10px] font-semibold px-2 py-0.5 rounded-md border",
                               style.badge

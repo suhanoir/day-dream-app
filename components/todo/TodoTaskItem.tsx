@@ -10,6 +10,7 @@ import {
 import { Check, Calendar, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { useSound } from "@/components/providers/SoundProvider";
+import { useCategoryColors } from "@/components/providers/CategoryColorProvider";
 
 export interface TodoTaskItemProps {
   task: TodoTaskData;
@@ -52,8 +53,9 @@ export function TodoTaskItem({
     await onDelete(task);
   };
 
+  const { getCategoryStyle } = useCategoryColors();
   const priorityStyle = PRIORITY_STYLES[task.priority] || PRIORITY_STYLES.Medium;
-  const categoryStyle = task.category ? CATEGORY_STYLES[task.category] : null;
+  const categoryStyle = task.category ? getCategoryStyle(task.category) : null;
   const dueInfo = formatTaskDueDate(task.date, task.completed);
   const hasDescription = Boolean(task.description && task.description.trim().length > 0);
 
@@ -128,6 +130,7 @@ export function TodoTaskItem({
             {/* Category Chip */}
             {task.category && categoryStyle && (
               <span
+                style={!task.completed ? categoryStyle.badgeStyle : undefined}
                 className={cn(
                   "inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium border",
                   task.completed

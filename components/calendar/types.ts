@@ -19,6 +19,12 @@ export interface EventData {
   } | null;
 }
 
+import React from "react";
+import {
+  getCategoryStyle as resolveCategoryStyle,
+  DEFAULT_CATEGORY_COLORS,
+} from "@/lib/utils/categoryColors";
+
 export interface EventCategoryStyle {
   label: string;
   bg: string;
@@ -26,6 +32,10 @@ export interface EventCategoryStyle {
   border: string;
   dot: string;
   badge: string;
+  style?: React.CSSProperties;
+  dotStyle?: React.CSSProperties;
+  badgeStyle?: React.CSSProperties;
+  textStyle?: React.CSSProperties;
 }
 
 export const EVENT_CATEGORIES = [
@@ -88,17 +98,23 @@ export const CATEGORY_STYLES: Record<string, EventCategoryStyle> = {
   },
 };
 
-export function getCategoryStyle(category: string): EventCategoryStyle {
-  if (CATEGORY_STYLES[category]) {
-    return CATEGORY_STYLES[category];
-  }
+export function getCategoryStyle(category: string, isDark: boolean = false, customColor?: string): EventCategoryStyle {
+  const resolved = resolveCategoryStyle(
+    category,
+    isDark,
+    customColor ? { [category]: customColor } : undefined
+  );
   return {
-    label: category,
-    bg: "bg-stone-100/80",
-    text: "text-stone-700",
-    border: "border-stone-200/80",
-    dot: "bg-stone-500",
-    badge: "bg-stone-100 text-stone-800 border-stone-200",
+    label: resolved.label,
+    bg: resolved.bg,
+    text: resolved.text,
+    border: resolved.border,
+    dot: resolved.dot,
+    badge: resolved.badge,
+    style: resolved.style,
+    dotStyle: resolved.dotStyle,
+    badgeStyle: resolved.badgeStyle,
+    textStyle: resolved.textStyle,
   };
 }
 
